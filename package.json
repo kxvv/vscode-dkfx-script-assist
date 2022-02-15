@@ -1,0 +1,71 @@
+{
+    "name": "vscode-dk-scripting-assist",
+    "displayName": "Dungeon Keeper's Scripting Assistant",
+    "description": "Provides code completion, formatting, map browser and more.",
+    "version": "0.1.0",
+    "publisher": "kxvv",
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.63.0",
+        "@types/glob": "^7.1.4",
+        "@types/mocha": "^9.0.0",
+        "@types/node": "14.x",
+        "@typescript-eslint/eslint-plugin": "^5.1.0",
+        "@typescript-eslint/parser": "^5.1.0",
+        "eslint": "^8.1.0",
+        "glob": "^7.1.7",
+        "mocha": "^9.1.3",
+        "typescript": "^4.4.4"
+    },
+    "engines": {
+        "vscode": "^1.63.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:dks"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "languages": [
+            {
+                "id": "dks",
+                "aliases": [
+                    "Dungeon Keeper scripting language",
+                    "dks"
+                ],
+                "configuration": "./language-configuration.json",
+                "filenamePatterns": [
+                    "map\\d+\\.txt",
+                    "map*.txt"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "dks",
+                "scopeName": "source.dks",
+                "path": "./syntaxes/dks.tmLanguage.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "dks.browse",
+                "title": "DK: Browse DK maps in current folder"
+            }
+        ]
+    },
+    "dependencies": {
+        "yaml": "^1.10.2"
+    },
+    "icon": "icon.png"
+}
