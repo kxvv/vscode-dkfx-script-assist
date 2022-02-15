@@ -205,11 +205,10 @@
 - cmd: ADD_GOLD_TO_PLAYER(player:PLAYER,gold:NUMBER)
   doc: Allows to add some off-map gold as a reward to a player.
 
-- cmd: ADD_TO_CAMPAIGN_FLAG(player:PLAYER,campaign flag:CAMPAIGN_FLAG,amount added::NUMBER)
+- cmd: ADD_TO_CAMPAIGN_FLAG(player:PLAYER,campaign flag:CAMPAIGN_FLAG,amount added:NUMBER)
   doc: Adds a numeric value to the current campaign_flag value. Function has been completely absorbed by ADD_TO_FLAG command which accepts all Flag types, including campaign flags.
 
-- cmd: ADD_TO_FLAG(player:PLAYER,flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX,amount added::NUMBER)
-  signChanges: [IF 1 IN FLAG SET 2 BYTE, IF 1 IN CAMPAIGN_FLAG SET 2 NUMBER]
+- cmd: ADD_TO_FLAG(player:PLAYER,flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX,amount added:NUMBER)
   flagWriteAt: [0,1]
   doc: Adds a numeric value to the current flag value.
 

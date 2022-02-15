@@ -66,4 +66,5 @@ export enum ParamType {
     DisplayVarTargetType = "DISPLAY_VAR_TARGET_TYPE",
     Object = "OBJECT",
     SacrificeCmd = "SACRIFICE_CMD",
+    CreatureGlobal = "CREATURE_GLOBAL",
 }

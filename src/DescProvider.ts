@@ -51,7 +51,7 @@ export const AVAIL_COMPARISON_PARAMS: CommandParam[] = [
 export const CONTROL_COMPARISON_PARAMS: CommandParam[] = [
     {
         optional: false,
-        allowedTypes: [ParamType.Creature]
+        allowedTypes: [ParamType.Creature, ParamType.CreatureGlobal]
     },
     {
         optional: false,

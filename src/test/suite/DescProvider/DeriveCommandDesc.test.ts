@@ -19,7 +19,7 @@ suite("Suite for DescProvider::" + DescProvider.deriveCommandDesc.name, () => {
                 },
                 {
                     optional: false,
-                    allowedTypes: [ParamType.Number, ParamType.Byte]
+                    allowedTypes: [ParamType.Number]
                 },
             ],
         };

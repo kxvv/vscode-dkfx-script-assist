@@ -435,7 +435,7 @@ suite("Suite for Analyzer::" + Analyzer.evalExp.name, () => {
                 start: 19,
                 end: 23,
                 line: 1,
-                msg: ErrMsgUtils.getTypeMismatchMsg([ParamType.Number, ParamType.Byte], "TIMER4"),
+                msg: ErrMsgUtils.getTypeMismatchMsg([ParamType.Number], "TIMER4"),
                 severity: ErrSeverity.Error
             }]
         };
@@ -543,7 +543,7 @@ suite("Suite for Analyzer::" + Analyzer.evalExp.name, () => {
                     start: 6,
                     end: 8,
                     line: 1,
-                    msg: ErrMsgUtils.getTypeMismatchMsg([ParamType.Number, ParamType.Byte], "~"),
+                    msg: ErrMsgUtils.getTypeMismatchMsg([ParamType.Number], "~"),
                     severity: ErrSeverity.Error
                 }
             ]

@@ -162,18 +162,22 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         {
             val: "TOTAL_DIGGERS",
             doc: "The number of special diggers (Imps) that player has got",
+            creature: true
         },
         {
             val: "TOTAL_CREATURES",
             doc: "The number of creatures that player has got",
+            creature: true
         },
         {
             val: "EVIL_CREATURES",
             doc: "The number of evil creatures that player has got",
+            creature: true
         },
         {
             val: "GOOD_CREATURES",
             doc: "The number of heroes that player has got",
+            creature: true
         },
         {
             val: "TOTAL_RESEARCH",

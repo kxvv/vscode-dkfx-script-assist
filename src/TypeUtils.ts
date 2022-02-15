@@ -659,6 +659,15 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
             return DK_ENTITIES[ParamType.Global].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
+    [ParamType.CreatureGlobal]: {
+        entities: DK_ENTITIES[ParamType.Global].filter(e => e.creature).map(c => c.val),
+        check(pdp: ParamDiagProps) {
+            return this.entities.includes(pdp.arg.value.toUpperCase());
+        },
+        suggest(state: ScriptAnalysis) {
+            return DK_ENTITIES[ParamType.Global].filter(e => e.creature).map(e => MappersDk.entityToDkSuggestion(e));
+        }
+    },
     [ParamType.DisplayVarTargetType]: {
         entities: DK_ENTITIES[ParamType.DisplayVarTargetType].map(c => c.val),
         check(pdp: ParamDiagProps) {
