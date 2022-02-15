@@ -67,5 +67,6 @@
     "dependencies": {
         "yaml": "^1.10.2"
     },
-    "icon": "icon.png"
+    "icon": "icon.png",
+    "repository": "https://github.com/kxvv/vscode-dkfx-script-assist/"
 }
