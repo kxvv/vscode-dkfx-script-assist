@@ -25,7 +25,8 @@ export const COMPARISON_PARAMS: CommandParam[] = [
         allowedTypes: [
             ParamType.Flag, ParamType.Timer, ParamType.Global,
             ParamType.Creature, ParamType.Room, ParamType.Power,
-            ParamType.Trap, ParamType.Door, ParamType.CustomBox
+            ParamType.Trap, ParamType.Door, ParamType.CustomBox,
+            ParamType.CampaignFlag
         ]
     },
     {
@@ -185,7 +186,7 @@ function getSignChangedCommandDesc(exp: Exp, desc: CommandDesc, changes: SignCha
         replace = false;
         inValue = exp.args[sc.in]?.value.toUpperCase();
         if (inValue) {
-            if (sc.check === "EQ" && inValue === sc.arg) {
+            if (sc.check === "EQ" && inValue === sc.arg?.toUpperCase()) {
                 replace = true;
             } else if (sc.check === "IN" && sc.typeArgs) {
                 const targetEntitites = sc.typeArgs.map(t => DK_ENTITIES[t]).flat().map(e => e.val);

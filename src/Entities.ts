@@ -594,6 +594,10 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             doc: "Creature on friendly tile",
         },
         {
+            val: "ON_NEUTRAL_GROUND",
+            doc: "Creature on neutral tile",
+        },
+        {
             val: "ANYWHERE",
             doc: "Creature anywhere on the level",
         },
@@ -951,21 +955,27 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         },
     ],
     [ParamType.TrapConfig]: [
-        {
-            val: "Shots",
-        },
-        {
-            val: "TimeBetweenShots",
-        },
-        {
-            val: "TriggerType",
-        },
-        {
-            val: "ActivationType",
-        },
-        {
-            val: "EffectType",
-        },
+        { val: "NameTextID" },
+        { val: "TooltipTextID" },
+        { val: "SymbolSprites" },
+        { val: "PointerSprites" },
+        { val: "PanelTabIndex" },
+        { val: "Crate" },
+        { val: "ManufactureLevel" },
+        { val: "ManufactureRequired" },
+        { val: "Shots" },
+        { val: "TimeBetweenShots" },
+        { val: "SellingValue" },
+        { val: "Model" },
+        { val: "ModelSize" },
+        { val: "AnimationSpeed" },
+        { val: "TriggerType" },
+        { val: "ActivationType" },
+        { val: "EffectType" },
+        { val: "Hidden" },
+        { val: "TriggerAlarm" },
+        { val: "Slappable" },
+        { val: "Unanimated" },
     ],
     [ParamType.PowerLvl]: new Array(9).fill(0).map((e, i) => ({
         val: `${i + 1}`

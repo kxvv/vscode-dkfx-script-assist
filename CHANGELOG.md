@@ -1,0 +1,23 @@
+# Change Log
+
+All notable changes to this extension will be documented in this file.
+
+Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+
+## [0.1.2] - 2022-02-16
+### Added
+- more trap config properties
+- signChanges for SET_TRAP_CONFIGURATION
+- ON_NEUTRAL_GROUND criterion
+### Fixed
+- IF not accepting campaign flags
+
+## [0.1.1] - 2022-02-15
+### Added
+- initialCreatureGlobal param type
+### Fixed
+- commands.yaml :: typos
+
+## [0.1.0] - 2022-02-15
+### Added
+- initial commit

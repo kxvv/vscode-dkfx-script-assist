@@ -425,6 +425,14 @@
 
 - cmd: SET_TRAP_CONFIGURATION(trap name:TRAP,property:TRAP_CONFIG,value:UNKNOWN,second value:UNKNOWN)
   opts: 1
+  signChanges: [
+    IF 1 EQ TriggerType SET 2 TRAP_TRIGGER_TYPE,
+    IF 1 EQ ActivationType SET 2 TRAP_ACTIVATION_TYPE,
+    IF 1 EQ Hidden SET 2 BINARY,
+    IF 1 EQ Slappable SET 2 BINARY,
+    IF 1 EQ TriggerAlarm SET 2 BINARY,
+    IF 1 EQ Unanimated SET 2 BINARY
+  ]
   doc: Allows you to make changes to trap values set in trapdoor.cfg.
 
 - cmd: USE_POWER(player:PLAYER,power:POWER,free:BINARY)

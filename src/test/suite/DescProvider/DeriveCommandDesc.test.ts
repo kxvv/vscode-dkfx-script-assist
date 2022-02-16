@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { DescProvider } from "../../../DescProvider";
+import { COMPARISON_PARAMS, DescProvider } from "../../../DescProvider";
 import { CommandDesc } from "../../../model/CommandDesc";
 import { Exp } from "../../../model/Exp";
 import { ParamType } from "../../../model/ParamType";
@@ -11,11 +11,7 @@ suite("Suite for DescProvider::" + DescProvider.deriveCommandDesc.name, () => {
             params: [
                 {
                     optional: false,
-                    allowedTypes: [
-                        ParamType.Flag, ParamType.Timer, ParamType.Global,
-                        ParamType.Creature, ParamType.Room, ParamType.Power,
-                        ParamType.Trap, ParamType.Door, ParamType.CustomBox
-                    ]
+                    allowedTypes: COMPARISON_PARAMS[0].allowedTypes
                 },
                 {
                     optional: false,
