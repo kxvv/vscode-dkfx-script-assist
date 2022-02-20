@@ -4,6 +4,12 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.3] - 2022-02-20
+### Added
+- more computer events
+- more computer checks
+- more computer player behaviors
+
 ## [0.1.2] - 2022-02-16
 ### Added
 - more trap config properties
