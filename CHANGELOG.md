@@ -20,9 +20,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.1.1] - 2022-02-15
 ### Added
-- initialCreatureGlobal param type
+- CreatureGlobal param type
 ### Fixed
-- commands.yaml :: typos
+- commands.yaml '::' typos
 
 ## [0.1.0] - 2022-02-15
 ### Added
