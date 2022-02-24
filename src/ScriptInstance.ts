@@ -70,6 +70,9 @@ export class ScriptInstance {
                     Analyzer.getParamTypesForPosition(s, pos)
                 );
             } else {
+                if (s.comment && (!s.exp || (s.exp && pos > s.exp.end))) {
+                    return [];
+                }
                 return SuggestionHelper.suggestCommand(this.lineMap, line);
             }
         }

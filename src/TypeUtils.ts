@@ -290,7 +290,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
             return /^".*"$/i.test(pdp.arg.value) && (pdp.arg.value.length - 2) <= CONSTRAINTS.maxTextLen;
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities([`""`]);
+            return suggestEntities([`"`]);
         }
     },
     [ParamType.Number]: {
@@ -326,7 +326,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
             return /^\D[_a-zA-Z\d]*$/.test(pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities(state.parties.map(p => p.name));
+            return [];
         }
     },
     [ParamType.Comparison]: {
