@@ -10,6 +10,7 @@ import { OperatorType } from "./model/OperatorType";
 import { ParamDiagProps } from "./model/ParamDiagProps";
 import { ParamType } from "./model/ParamType";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
+import { SuggestionKind } from "./model/SuggestionKind";
 import { Utils } from "./Utils";
 
 export const CONSTRAINTS = {
@@ -290,7 +291,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
             return /^".*"$/i.test(pdp.arg.value) && (pdp.arg.value.length - 2) <= CONSTRAINTS.maxTextLen;
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities([`"`]);
+            return [MappersDk.entityToDkSuggestion({ val: `""` }, "", SuggestionKind.Text)];
         }
     },
     [ParamType.Number]: {
@@ -409,7 +410,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
             return /^\d+$/.test(pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities(this.entities);
+            return this.entities.map(e => MappersDk.entityToDkSuggestion({ val: e}, "", SuggestionKind.Value));
         }
     },
     [ParamType.Computer]: {
@@ -474,7 +475,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CustomBox]
                 .slice(0, 5) // suggest just the first five
-                .map(e => MappersDk.entityToDkSuggestion(e));
+                .map(e => MappersDk.entityToDkSuggestion(e, "", SuggestionKind.Value));
         }
     },
     [ParamType.Objective]: {
@@ -675,6 +676,15 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.DisplayVarTargetType].map(e => MappersDk.entityToDkSuggestion(e));
+        }
+    },
+    [ParamType.FillType]: {
+        entities: DK_ENTITIES[ParamType.FillType].map(c => c.val),
+        check(pdp: ParamDiagProps) {
+            return this.entities.includes(pdp.arg.value);
+        },
+        suggest(state: ScriptAnalysis) {
+            return DK_ENTITIES[ParamType.FillType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Range]: {

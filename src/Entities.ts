@@ -1332,4 +1332,22 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "CUSTOMREWARD" },
         { val: "CUSTOMPUNISH" },
     ],
+    [ParamType.FillType]: [
+        {
+            val: "NONE",
+            doc: "No fill"
+        },
+        {
+            val: "MATCH",
+            doc: "Replace only slabs of same type"
+        },
+        {
+            val: "FLOOR",
+            doc: "Replace all slabs of the same type, and all adjacent attached floor slabs"
+        },
+        {
+            val: "BRIDGE",
+            doc: "Replace all slabs of the same type, and all adjacent attached floor slabs, include bridges and floor attached by the bridges"
+        },
+    ],
 };

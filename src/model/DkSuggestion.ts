@@ -1,8 +1,10 @@
+import { SuggestionKind } from "./SuggestionKind";
+
 export interface DkSuggestion {
     label: string;
     preselect?: boolean;
     description?: string;
-    kind?: number; 
+    kind?: SuggestionKind | number;
     documentation?: string;
     insertText?: string;
 }
