@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.5] - 2022-03-07
+### Added
+- fill params, -1 for reveal_location
+
 ## [0.1.4] - 2022-02-24
 ### Fixed
 - providing suggestions while typing comments
