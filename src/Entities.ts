@@ -723,6 +723,22 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             val: "ONE_OF_KIND",
             doc: "Only one creature of that kind may exist on a specific map. Creature name is set to kind name.",
         },
+        {
+            val: "NO_IMPRISONMENT",
+            doc: "Creature cannot be stunned for prison.",
+        },
+        {
+            val: "IMMUNE_TO_DISEASE",
+            doc: "Creature cannot get diseased.",
+        },
+        {
+            val: "ILLUMINATED",
+            doc: "A bright light will shine from the Creature.",
+        },
+        {
+            val: "ALLURING_SCVNGR",
+            doc: "When scavenging will give the keeper a portal boost compared to rival keepers.",
+        },
     ],
     [ParamType.CreatureTendency]: [
         {
