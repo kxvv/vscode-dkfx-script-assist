@@ -482,3 +482,6 @@
 
 - cmd: SET_CREATURE_TENDENCIES(player:KEEPER,tendency:CREATURE_TENDENCY,enable:BINARY)
   doc: Allows to set flee/imprison tendencies.
+
+- cmd: SET_DOOR(state:LOCK_STATE,slab X coordinate:SLAB,slab Y coordinate:SLAB)
+  doc: Allows you to lock or unlock a door on a particular slab.

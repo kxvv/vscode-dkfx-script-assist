@@ -1366,4 +1366,8 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             doc: "Replace all slabs of the same type, and all adjacent attached floor slabs, include bridges and floor attached by the bridges"
         },
     ],
+    [ParamType.LockState]: [
+        { val: "LOCKED" },
+        { val: "UNLOCKED" },
+    ],
 };

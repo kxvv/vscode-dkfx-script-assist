@@ -687,6 +687,15 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
             return DK_ENTITIES[ParamType.FillType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
+    [ParamType.LockState]: {
+        entities: DK_ENTITIES[ParamType.LockState].map(c => c.val),
+        check(pdp: ParamDiagProps) {
+            return this.entities.includes(pdp.arg.value);
+        },
+        suggest(state: ScriptAnalysis) {
+            return DK_ENTITIES[ParamType.LockState].map(e => MappersDk.entityToDkSuggestion(e));
+        }
+    },
     [ParamType.Range]: {
         entities: [
             Operators.Rng,

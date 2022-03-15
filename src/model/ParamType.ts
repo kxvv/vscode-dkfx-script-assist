@@ -68,4 +68,5 @@ export enum ParamType {
     SacrificeCmd = "SACRIFICE_CMD",
     CreatureGlobal = "CREATURE_GLOBAL",
     FillType = "FILL_TYPE",
+    LockState = "LOCK_STATE",
 }

@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.6] - 2022-03-15
+### Added
+- SET_DOOR command
+- some creature properties
+
 ## [0.1.5] - 2022-03-07
 ### Added
 - fill params, -1 for reveal_location
