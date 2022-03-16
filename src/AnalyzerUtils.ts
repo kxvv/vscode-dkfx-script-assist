@@ -1,4 +1,5 @@
 import { EvalProps } from "./Analyzer";
+import { DK_ENTITIES } from "./Entities";
 import { ErrMsgUtils } from "./ErrMsgUtils";
 import { CommandDesc } from "./model/CommandDesc";
 import { DkDiag } from "./model/DkDiag";
@@ -303,7 +304,7 @@ export class AnalyzerUtils {
             let playerParam = exp.args[desc.timerReadAt[0]];
             let varParam = exp.args[desc.timerReadAt[1]];
             if (varParam?.args[0] && desc.params[desc.timerReadAt[1]]?.allowedTypes.includes(ParamType.Comparison)) {
-                if (DK_TYPES[ParamType.Timer].entities.includes(varParam.args[0].value.toUpperCase())) {
+                if (DK_ENTITIES[ParamType.Timer].some(e => e.val === varParam.args[0].value.toUpperCase())) {
                     varParam = varParam.args[0];
                 }
             }
@@ -352,7 +353,7 @@ export class AnalyzerUtils {
             if (
                 playerParam?.args.length === 0
                 && varParam?.args.length === 0
-                && DK_TYPES[ParamType.Flag].entities.includes(varParam.value.toUpperCase())
+                && DK_ENTITIES[ParamType.Flag].some(e => e.val === varParam.value.toUpperCase())
             ) {
                 state.flagWrites.push({
                     line,
@@ -367,14 +368,14 @@ export class AnalyzerUtils {
             let playerParam = exp.args[desc.flagReadAt[0]];
             let varParam = exp.args[desc.flagReadAt[1]];
             if (varParam?.args[0] && desc.params[desc.flagReadAt[1]]?.allowedTypes.includes(ParamType.Comparison)) {
-                if (DK_TYPES[ParamType.Flag].entities.includes(varParam.args[0].value.toUpperCase())) {
+                if (DK_ENTITIES[ParamType.Flag].some(e => e.val === varParam.args[0].value.toUpperCase())) {
                     varParam = varParam.args[0];
                 }
             }
             if (
                 playerParam?.args.length === 0
                 && varParam?.args.length === 0
-                && DK_TYPES[ParamType.Flag].entities.includes(varParam.value.toUpperCase())
+                && DK_ENTITIES[ParamType.Flag].some(e => e.val === varParam.value.toUpperCase())
             ) {
                 state.flagReads.push({
                     line,

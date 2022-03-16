@@ -2,7 +2,7 @@
     "name": "vscode-dk-scripting-assist",
     "displayName": "Dungeon Keeper's Scripting Assistant",
     "description": "Provides code completion, formatting, map browser and more.",
-    "version": "0.1.6",
+    "version": "0.2.0",
     "publisher": "kxvv",
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -50,6 +50,24 @@
                 ]
             }
         ],
+        "configuration": {
+            "title": "Dungeon Keeper scripting assistant",
+            "properties": {
+                "diagEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable diagnostics"
+                },
+                "customTraps": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Enter custom trap names for type checking and completion hints",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "grammars": [
             {
                 "language": "dks",

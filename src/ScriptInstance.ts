@@ -1,4 +1,5 @@
 import { Analyzer } from "./Analyzer";
+import { ConfigProvider } from "./ConfigProvider";
 import { HoverHelper } from "./HoverHelper";
 import { DkDiag } from "./model/DkDiag";
 import { DkSuggestion } from "./model/DkSuggestion";
@@ -55,10 +56,13 @@ export class ScriptInstance {
 
     collectDiagnostics(): DkDiag[] {
         const anl = this.performAnalysis();
-        if (anl.diagIgnoreLines.length) {
-            return anl.diags.filter(diag => !anl.diagIgnoreLines.includes(diag.line));
+        if (ConfigProvider.getConfig().diagEnabled) {
+            if (anl.diagIgnoreLines.length) {
+                return anl.diags.filter(diag => !anl.diagIgnoreLines.includes(diag.line));
+            }
+            return anl.diags;
         }
-        return anl.diags;
+        return [];
     }
 
     suggest(line: number, pos: number): DkSuggestion[] {

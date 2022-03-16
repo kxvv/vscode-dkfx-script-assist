@@ -2,6 +2,9 @@ import { DkEntity } from "./model/DkEntity";
 import { ParamType } from "./model/ParamType";
 
 export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
+    [ParamType.Version]: [
+        { val: "1" },
+    ],
     [ParamType.Player]: [
         { val: "PLAYER0", doc: "The RED player", keeper: true },
         { val: "PLAYER1", doc: "The BLUE player", keeper: true },
@@ -777,6 +780,16 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "DamageToBoulder" },
         { val: "ThingSize" },
         { val: "Properties" },
+    ],
+    [ParamType.Rule]: [
+        { val: "RULE0" },
+        { val: "RULE1" },
+        { val: "RULE2" },
+        { val: "RULE3" },
+        { val: "RULE4" },
+        { val: "RULE5" },
+        { val: "RULE6" },
+        { val: "RULE7" },
     ],
     [ParamType.GameRule]: [
         {

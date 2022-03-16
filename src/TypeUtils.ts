@@ -31,7 +31,6 @@ export const CONSTRAINTS = {
 const CUSTOM_ENTITY_PREFIX = "CUSTOM_";
 
 interface TypeProps {
-    entities: string[];
     suggest(state: ScriptAnalysis): DkSuggestion[],
     check(props: ParamDiagProps): boolean;
 }
@@ -48,88 +47,79 @@ export const OPERATOR_TYPES: { [key: string | Operators]: OperatorType } = {
 
 export const DK_TYPES: { [key: string]: TypeProps } = {
     [ParamType.Gold]: {
-        entities: ["100", "500", "1000", "5000", "15000"],
         check(pdp: ParamDiagProps) {
             return /^\d+$/.test(pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities(this.entities, this.entities[0]);
+            return suggestEntities(["100", "500", "1000", "5000", "15000"]);
         }
     },
     [ParamType.Player]: {
-        entities: DK_ENTITIES[ParamType.Player].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Player].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Player].map(e => MappersDk.entityToDkSuggestion(e, "PLAYER0"));
         }
     },
     [ParamType.PlayerGood]: {
-        entities: DK_ENTITIES[ParamType.PlayerGood].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.PlayerGood].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.PlayerGood].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.SlabType]: {
-        entities: DK_ENTITIES[ParamType.SlabType].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.SlabType].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.SlabType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Keeper]: {
-        entities: DK_ENTITIES[ParamType.Player].filter(e => e.keeper).map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Player].filter(e => e.keeper).map(e => e.val)
+                .includes(pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities(this.entities, this.entities[0]);
+            return suggestEntities(DK_ENTITIES[ParamType.Player].filter(e => e.keeper).map(e => e.val), "PLAYER0");
         }
     },
     [ParamType.Object]: {
-        entities: DK_ENTITIES[ParamType.Object].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Object].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Object].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CreatureConfig]: {
-        entities: DK_ENTITIES[ParamType.CreatureConfig].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.CreatureConfig].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CreatureConfig].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.ResearchType]: {
-        entities: DK_ENTITIES[ParamType.ResearchType].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.ResearchType].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities(this.entities, this.entities[0]);
+            return DK_ENTITIES[ParamType.ResearchType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Version]: {
-        entities: ["1"],
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Version].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities(this.entities, this.entities[0]);
+            return DK_ENTITIES[ParamType.Version].map(e => MappersDk.entityToDkSuggestion(e), "1");
         }
     },
     [ParamType.MsgNumber]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^\d+$/.test(pdp.arg.value);
         },
@@ -142,133 +132,120 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Timer]: {
-        entities: DK_ENTITIES[ParamType.Timer].map(t => t.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Timer].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Timer].map(e => MappersDk.entityToDkSuggestion(e, "TIMER0"));
         }
     },
     [ParamType.Flag]: {
-        entities: DK_ENTITIES[ParamType.Flag].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Flag].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Flag].map(e => MappersDk.entityToDkSuggestion(e, "FLAG0"));
         }
     },
     [ParamType.Room]: {
-        entities: DK_ENTITIES[ParamType.Room].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Room].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Room].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.RoomAvailability]: {
-        entities: DK_ENTITIES[ParamType.RoomAvailability].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.RoomAvailability].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.RoomAvailability].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Power]: {
-        entities: DK_ENTITIES[ParamType.Power].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Power].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Power].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Lvl]: {
-        entities: DK_ENTITIES[ParamType.Lvl].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Lvl].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Lvl].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Button]: {
-        entities: DK_ENTITIES[ParamType.Button].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Button].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Button].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.AnyCreature]: {
-        entities: DK_ENTITIES[ParamType.AnyCreature].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.AnyCreature].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.AnyCreature].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Binary]: {
-        entities: DK_ENTITIES[ParamType.Binary].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Binary].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Binary].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Zero]: {
-        entities: DK_ENTITIES[ParamType.Zero].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Zero].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Zero].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.KeeperIndex]: {
-        entities: DK_ENTITIES[ParamType.KeeperIndex].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.KeeperIndex].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.KeeperIndex].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Door]: {
-        entities: DK_ENTITIES[ParamType.Door].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase()) || pdp.arg.value.startsWith(CUSTOM_ENTITY_PREFIX);
+            return DK_ENTITIES[ParamType.Door].some(e => e.val === pdp.arg.value.toUpperCase())
+                || pdp.arg.value.startsWith(CUSTOM_ENTITY_PREFIX);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Door].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Trap]: {
-        entities: DK_ENTITIES[ParamType.Trap].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase()) || pdp.arg.value.startsWith(CUSTOM_ENTITY_PREFIX);
+            return DK_ENTITIES[ParamType.Trap].some(e => e.val === pdp.arg.value.toUpperCase())
+                || pdp.arg.value.startsWith(CUSTOM_ENTITY_PREFIX);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Trap].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CampaignFlag]: {
-        entities: DK_ENTITIES[ParamType.CampaignFlag].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.CampaignFlag].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CampaignFlag].map(e => MappersDk.entityToDkSuggestion(e, "CAMPAIGN_FLAG0"));
         }
     },
     [ParamType.Byte]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^\d+$/.test(pdp.arg.value) && Math.abs(parseInt(pdp.arg.value)) <= CONSTRAINTS.maxByte;
         },
@@ -277,16 +254,14 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Rule]: {
-        entities: generateNumbered("RULE", 8),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Rule].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
-            return suggestEntities(this.entities, this.entities[0]);
+            return DK_ENTITIES[ParamType.Rule].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Text]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^".*"$/i.test(pdp.arg.value) && (pdp.arg.value.length - 2) <= CONSTRAINTS.maxTextLen;
         },
@@ -295,7 +270,6 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Number]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^-?\d+$/.test(pdp.arg.value);
         },
@@ -304,7 +278,6 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.NonNegNumber]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^\d+$/.test(pdp.arg.value);
         },
@@ -313,7 +286,6 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Party]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return pdp.state.parties.some(p => p.name === pdp.arg.value);
         },
@@ -322,7 +294,6 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.NewParty]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^\D[_a-zA-Z\d]*$/.test(pdp.arg.value);
         },
@@ -331,43 +302,39 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Comparison]: {
-        entities: [
-            Operators.Eq, Operators.Neq, Operators.Gt,
-            Operators.Gte, Operators.Lt, Operators.Lte,
-        ],
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return [
+                Operators.Eq, Operators.Neq, Operators.Gt,
+                Operators.Gte, Operators.Lt, Operators.Lte,
+            ].includes(pdp.arg.value as Operators);
         },
         suggest(state: ScriptAnalysis) {
             return COMPARISON_PARAMS[0].allowedTypes.map(at => DK_TYPES[at].suggest(state)).flat();
         }
     },
     [ParamType.AvailabilityComparison]: {
-        entities: [
-            Operators.Eq, Operators.Neq, Operators.Gt,
-            Operators.Gte, Operators.Lt, Operators.Lte,
-        ],
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return [
+                Operators.Eq, Operators.Neq, Operators.Gt,
+                Operators.Gte, Operators.Lt, Operators.Lte,
+            ].includes(pdp.arg.value as Operators);
         },
         suggest(state: ScriptAnalysis) {
             return AVAIL_COMPARISON_PARAMS[0].allowedTypes.map(at => DK_TYPES[at].suggest(state)).flat();
         }
     },
     [ParamType.ControlComparison]: {
-        entities: [
-            Operators.Eq, Operators.Neq, Operators.Gt,
-            Operators.Gte, Operators.Lt, Operators.Lte,
-        ],
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return [
+                Operators.Eq, Operators.Neq, Operators.Gt,
+                Operators.Gte, Operators.Lt, Operators.Lte,
+            ].includes(pdp.arg.value as Operators);
         },
         suggest(state: ScriptAnalysis) {
             return CONTROL_COMPARISON_PARAMS[0].allowedTypes.map(at => DK_TYPES[at].suggest(state)).flat();
         }
     },
     [ParamType.ActionPoint]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             if (pdp.arg.value === Operators.Rng && !pdp.state.diags.some(d => d.msg === ErrMsg.TypeRangeNonConsecutive)) {
                 pdp.state.diags.push({
@@ -386,7 +353,6 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.HeroGate]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             if (pdp.arg.value === Operators.Rng && !pdp.state.diags.some(d => d.msg === ErrMsg.TypeRangeNonConsecutive)) {
                 pdp.state.diags.push({
@@ -405,72 +371,65 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Time]: {
-        entities: ["150", "300", "450", "600", "900", "1200", "2400", "3600", "12000"],
         check(pdp: ParamDiagProps) {
             return /^\d+$/.test(pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
-            return this.entities.map(e => MappersDk.entityToDkSuggestion({ val: e}, "", SuggestionKind.Value));
+            return ["150", "300", "450", "600", "900", "1200", "2400", "3600", "12000"]
+                .map(e => MappersDk.entityToDkSuggestion({ val: e}, "", SuggestionKind.Value));
         }
     },
     [ParamType.Computer]: {
-        entities: DK_ENTITIES[ParamType.Computer].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Computer].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Computer].map(e => MappersDk.entityToDkSuggestion(e, "0"));
         }
     },
     [ParamType.Operation]: {
-        entities: DK_ENTITIES[ParamType.Operation].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Operation].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Operation].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CompProcess]: {
-        entities: DK_ENTITIES[ParamType.CompProcess].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.CompProcess].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CompProcess].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CompCheck]: {
-        entities: DK_ENTITIES[ParamType.CompCheck].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.CompCheck].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CompCheck].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CompEvent]: {
-        entities: DK_ENTITIES[ParamType.CompEvent].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.CompEvent].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CompEvent].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CompGlobal]: {
-        entities: DK_ENTITIES[ParamType.CompGlobal].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.CompGlobal].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CompGlobal].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CustomBox]: {
-        entities: DK_ENTITIES[ParamType.CustomBox].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.CustomBox].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CustomBox]
@@ -479,142 +438,126 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Objective]: {
-        entities: DK_ENTITIES[ParamType.Objective].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Objective].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Objective].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Lvl]: {
-        entities: DK_ENTITIES[ParamType.Lvl].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Lvl].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Lvl].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CreatureProperty]: {
-        entities: DK_ENTITIES[ParamType.CreatureProperty].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.CreatureProperty].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CreatureProperty].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CreatureTendency]: {
-        entities: DK_ENTITIES[ParamType.CreatureTendency].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.CreatureTendency].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.CreatureTendency].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.DoorConfig]: {
-        entities: DK_ENTITIES[ParamType.DoorConfig].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.DoorConfig].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.DoorConfig].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.ObjectConfig]: {
-        entities: DK_ENTITIES[ParamType.ObjectConfig].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.ObjectConfig].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.ObjectConfig].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.TrapConfig]: {
-        entities: DK_ENTITIES[ParamType.TrapConfig].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.TrapConfig].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.TrapConfig].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.SacrificeCmd]: {
-        entities: DK_ENTITIES[ParamType.SacrificeCmd].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.SacrificeCmd].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.SacrificeCmd].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.PowerLvl]: {
-        entities: DK_ENTITIES[ParamType.PowerLvl].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.PowerLvl].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.PowerLvl].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Spell]: {
-        entities: DK_ENTITIES[ParamType.Spell].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.Spell].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Spell].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.GameRule]: {
-        entities: DK_ENTITIES[ParamType.GameRule].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.GameRule].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.GameRule].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.TrapTriggerType]: {
-        entities: DK_ENTITIES[ParamType.TrapTriggerType].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.TrapTriggerType].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.TrapTriggerType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.TrapActivationType]: {
-        entities: DK_ENTITIES[ParamType.TrapActivationType].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.TrapActivationType].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.TrapActivationType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Criterion]: {
-        entities: DK_ENTITIES[ParamType.Criterion].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Criterion].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Criterion].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.AudioType]: {
-        entities: DK_ENTITIES[ParamType.AudioType].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.AudioType].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.AudioType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Subtile]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^\d+$/.test(pdp.arg.value)
                 && Utils.isBetween(parseInt(pdp.arg.value), CONSTRAINTS.minSubtile, CONSTRAINTS.maxSubtile);
@@ -624,7 +567,6 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.Slab]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return /^\d+$/.test(pdp.arg.value)
                 && Utils.isBetween(parseInt(pdp.arg.value), CONSTRAINTS.minSlab, CONSTRAINTS.maxSlab);
@@ -634,81 +576,73 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         }
     },
     [ParamType.HeadFor]: {
-        entities: DK_ENTITIES[ParamType.HeadFor].map(e => e.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.HeadFor].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.HeadFor].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Creature]: {
-        entities: DK_ENTITIES[ParamType.Creature].map(c => c.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Creature].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Creature].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Global]: {
-        entities: DK_ENTITIES[ParamType.Global].map(c => c.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Global].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Global].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.CreatureGlobal]: {
-        entities: DK_ENTITIES[ParamType.Global].filter(e => e.creature).map(c => c.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value.toUpperCase());
+            return DK_ENTITIES[ParamType.Global].filter(e => e.creature)
+                .some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Global].filter(e => e.creature).map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.DisplayVarTargetType]: {
-        entities: DK_ENTITIES[ParamType.DisplayVarTargetType].map(c => c.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.DisplayVarTargetType].some(e => e.val === pdp.arg.value);
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.DisplayVarTargetType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.FillType]: {
-        entities: DK_ENTITIES[ParamType.FillType].map(c => c.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.FillType].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.FillType].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.LockState]: {
-        entities: DK_ENTITIES[ParamType.LockState].map(c => c.val),
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return DK_ENTITIES[ParamType.LockState].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.LockState].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
     [ParamType.Range]: {
-        entities: [
-            Operators.Rng,
-        ],
         check(pdp: ParamDiagProps) {
-            return this.entities.includes(pdp.arg.value);
+            return [
+                Operators.Rng,
+            ].includes(pdp.arg.value as Operators);
         },
         suggest(state: ScriptAnalysis) {
             return suggestEntities([]);
         }
     },
     [ParamType.Unknown]: {
-        entities: [],
         check(pdp: ParamDiagProps) {
             return true;
         },
