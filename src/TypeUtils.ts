@@ -511,7 +511,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
     },
     [ParamType.Spell]: {
         check(pdp: ParamDiagProps) {
-            return DK_ENTITIES[ParamType.Spell].some(e => e.val === pdp.arg.value);
+            return DK_ENTITIES[ParamType.Spell].some(e => e.val === pdp.arg.value.toUpperCase());
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.Spell].map(e => MappersDk.entityToDkSuggestion(e));
