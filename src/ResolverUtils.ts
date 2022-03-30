@@ -1,7 +1,9 @@
 import * as vscode from "vscode";
 import { LANGUAGE_ID } from "./extension";
+import { Formatter } from "./Formatter";
 import { MappersVs } from "./MappersVs";
 import { Resolver } from "./Resolver";
+import { ScriptInstance } from "./ScriptInstance";
 
 export class ResolverUtils {
     static registerOnTextChangeListener(context: vscode.ExtensionContext, resolver: Resolver) {
@@ -74,6 +76,33 @@ export class ResolverUtils {
                     return new vscode.Hover(hover);
                 }
                 return null;
+            }
+        });
+    }
+
+    static registerFormattingProvider(resolver: Resolver) {
+        vscode.languages.registerDocumentFormattingEditProvider(LANGUAGE_ID, {
+            provideDocumentFormattingEdits(
+                document: vscode.TextDocument,
+                options: vscode.FormattingOptions,
+            ): vscode.TextEdit[] {
+                const uri = document.uri.toString();
+                const instance: ScriptInstance = resolver.instances[uri];
+                if (instance) {
+                    const lines: string[] = [];
+                    for (let i = 0; i < document.lineCount; i++) {
+                        lines.push(document.lineAt(i).text);
+                    }
+                    return Formatter.formatTextLines(lines)
+                        .map((line, rowNum) => (new vscode.TextEdit(
+                            new vscode.Range(
+                                new vscode.Position(rowNum, 0),
+                                new vscode.Position(rowNum, Number.MAX_SAFE_INTEGER)
+                            ),
+                            line
+                        )));
+                }
+                return [];
             }
         });
     }

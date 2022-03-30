@@ -24,7 +24,7 @@ export const CONSTRAINTS = {
     minSlab: 0,
     maxSlab: 85,
     minSubtile: 0,
-    maxSubtile: 254,
+    maxSubtile: 255,
     maxTextLen: 1024,
 };
 

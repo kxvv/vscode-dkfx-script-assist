@@ -1,4 +1,9 @@
 {
     "diagEnabled": true,
-    "customTraps": []
+    "customTraps": [],
+    "formatter": {
+        "spaceAfterSeparator": false,
+        "spacesAroundOperator": false,
+        "indentationString": "Tab"
+    }
 }

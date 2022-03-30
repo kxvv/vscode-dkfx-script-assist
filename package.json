@@ -2,7 +2,7 @@
     "name": "vscode-dk-scripting-assist",
     "displayName": "Dungeon Keeper's Scripting Assistant",
     "description": "Provides code completion, formatting, map browser and more.",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "publisher": "kxvv",
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -65,6 +65,22 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "formatter.spaceAfterSeparator": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Insert spaces after separators when auto-formatting."
+                },
+                "formatter.spacesAroundOperator": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Insert spaces before and after operators when auto-formatting."
+                },
+                "formatter.indentationString": {
+                    "type": "string",
+                    "enum": ["Tab", "2 spaces", "4 spaces"],
+                    "default": "Tab",
+                    "description": "Set the indentation characters."
                 }
             }
         },

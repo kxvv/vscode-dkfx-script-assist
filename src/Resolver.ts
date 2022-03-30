@@ -85,6 +85,7 @@ export class Resolver {
         ResolverUtils.registerCompletionProvider(this);
         ResolverUtils.registerSignHelpProvider(this);
         ResolverUtils.registerHoverProvider(this);
+        ResolverUtils.registerFormattingProvider(this);
 
         if (vscode.window.activeTextEditor?.document?.languageId === LANGUAGE_ID) {
             this.rebuild(vscode.window.activeTextEditor.document);
