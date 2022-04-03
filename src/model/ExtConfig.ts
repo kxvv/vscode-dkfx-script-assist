@@ -1,6 +1,7 @@
 export interface ExtConfig {
     diagEnabled: boolean;
     customTraps: string[];
+    customObjects: string[];
     formatter: ExtConfigFormatter;
 }
 

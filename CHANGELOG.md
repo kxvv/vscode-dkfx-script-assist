@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.1] - 2022-04-03
+### Added
+- custom object setting
+### Fixed
+- object config typos
+- 4 spaces is now default indent
+
 ## [0.3.0] - 2022-03-30
 ### Added
 - autoformatter

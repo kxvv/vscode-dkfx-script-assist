@@ -2,7 +2,7 @@
     "name": "vscode-dk-scripting-assist",
     "displayName": "Dungeon Keeper's Scripting Assistant",
     "description": "Provides code completion, formatting, map browser and more.",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "publisher": "kxvv",
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -62,6 +62,14 @@
                     "type": "array",
                     "default": [],
                     "description": "Enter custom trap names for type checking and completion hints",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "customObjects": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Enter custom object names for type checking and completion hints",
                     "items": {
                         "type": "string"
                     }

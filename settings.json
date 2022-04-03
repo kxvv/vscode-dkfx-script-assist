@@ -1,6 +1,7 @@
 {
     "diagEnabled": true,
     "customTraps": [],
+    "customObjects": [],
     "formatter": {
         "spaceAfterSeparator": false,
         "spacesAroundOperator": false,

@@ -7,6 +7,7 @@ export class ConfigProvider {
     private static conf: ExtConfig = {
         diagEnabled: true,
         customTraps: [],
+        customObjects: [],
         formatter: {
             spaceAfterSeparator: false,
             spacesAroundOperator: false,
@@ -31,8 +32,14 @@ export class ConfigProvider {
             indentationString: this.toIndentationChars(this.conf.formatter.indentationString)
         };
         DK_ENTITIES[ParamType.Trap] = DK_ENTITIES[ParamType.Trap]
-            .concat(config.customTraps.map(ct => ({
-                val: ct.toUpperCase()
+            .concat(config.customTraps.map(custom => ({
+                val: custom.toUpperCase(),
+                doc: "Custom trap"
+            })));
+        DK_ENTITIES[ParamType.Object] = DK_ENTITIES[ParamType.Object]
+            .concat(config.customObjects.map(custom => ({
+                val: custom.toUpperCase(),
+                doc: "Custom object"
             })));
     }
 
