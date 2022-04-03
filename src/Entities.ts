@@ -980,7 +980,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             val: "AnimationSpeed",
         },
         {
-            val: "Size_XY ",
+            val: "Size_XY",
         },
         {
             val: "Size_YZ",

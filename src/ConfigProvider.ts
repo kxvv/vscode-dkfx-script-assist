@@ -1,5 +1,6 @@
 import { DK_ENTITIES } from "./Entities";
 import { ExtConfig } from "./model/ExtConfig";
+import { Indentations } from "./model/Indentations";
 import { ParamType } from "./model/ParamType";
 
 export class ConfigProvider {
@@ -9,18 +10,18 @@ export class ConfigProvider {
         formatter: {
             spaceAfterSeparator: false,
             spacesAroundOperator: false,
-            indentationString: "\t",
+            indentationString: Indentations.Tab,
         }
     };
 
     private static toIndentationChars(setting: string): string {
         if (/2\s+space/i.test(setting)) {
-            return "  ";
+            return Indentations.TwoSpaces;
         }
         if (/4\s+space/i.test(setting)) {
-            return "    ";
+            return Indentations.FourSpaces;
         }
-        return "\t";
+        return Indentations.Tab;
     }
 
     static setConfig(config: ExtConfig) {

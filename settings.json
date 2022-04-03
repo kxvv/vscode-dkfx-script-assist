@@ -4,6 +4,6 @@
     "formatter": {
         "spaceAfterSeparator": false,
         "spacesAroundOperator": false,
-        "indentationString": "Tab"
+        "indentationString": "4 spaces"
     }
 }

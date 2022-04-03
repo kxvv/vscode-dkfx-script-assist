@@ -79,7 +79,7 @@
                 "formatter.indentationString": {
                     "type": "string",
                     "enum": ["Tab", "2 spaces", "4 spaces"],
-                    "default": "Tab",
+                    "default": "4 spaces",
                     "description": "Set the indentation characters."
                 }
             }
