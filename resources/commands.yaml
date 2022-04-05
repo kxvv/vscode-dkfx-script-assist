@@ -112,10 +112,10 @@
   doc: Adjusts the research value for individual rooms or spells and even for a specific player.
   rootLvl: ENFORCE
 
-- cmd: ADD_CREATURE_TO_LEVEL(owner player:PLAYER,creature:CREATURE,target location:ACTION_POINT/HERO_GATE/PLAYER,creatures amount:BYTE,levels:LVL,gold carried:GOLD)
+- cmd: ADD_CREATURE_TO_LEVEL(owner player:PLAYER,creature:CREATURE,spawn location:LOCATION,creatures amount:BYTE,levels:LVL,gold carried:GOLD)
   doc: This command will add a number of new creatures to the level at the co-ordinates of a specifies Action Point. You cannot set where the creatures head for so you may need to use a party instead.
 
-- cmd: ADD_TUNNELLER_TO_LEVEL(owner player:PLAYER,target location:ACTION_POINT/HERO_GATE,head for:HEAD_FOR,target:BYTE,tunneler level:LVL,gold carried:GOLD)
+- cmd: ADD_TUNNELLER_TO_LEVEL(owner player:PLAYER,spawn location:LOCATION,head for:HEAD_FOR,target:BYTE,tunneler level:LVL,gold carried:GOLD)
   signChanges: [IF 2 EQ ACTION_POINT SET 3 ACTION_POINT/HERO_GATE, IF 2 EQ DUNGEON SET 3 KEEPER_INDEX, IF 2 EQ DUNGEON_HEART SET 3 KEEPER_INDEX, IF 2 EQ APPROPIATE_DUNGEON SET 3 NUMBER]
   doc: This commands adds a number of Tunneller Dwarves to the level. They will immediately start digging towards their target. Tunneller Dwarves are the only creatures that can tunnel towards a target.
 
@@ -127,32 +127,32 @@
   partyAddAt: 0
   doc: This command adds a number of creatures to a party (maximum seven).
 
-- cmd: ADD_TUNNELLER_PARTY_TO_LEVEL(owner player:PLAYER,party:PARTY,target location:ACTION_POINT/HERO_GATE/PLAYER,head for:HEAD_FOR,target:ACTION_POINT/HERO_GATE/BYTE,tunneler level:LVL,gold carried:GOLD)
+- cmd: ADD_TUNNELLER_PARTY_TO_LEVEL(owner player:PLAYER,party:PARTY,spawn location:LOCATION,head for:HEAD_FOR,target:ACTION_POINT/HERO_GATE/BYTE,tunneler level:LVL,gold carried:GOLD)
   signChanges: [IF 3 EQ ACTION_POINT SET 4 ACTION_POINT/HERO_GATE, IF 3 EQ DUNGEON SET 4 KEEPER_INDEX, IF 3 EQ DUNGEON_HEART SET 4 KEEPER_INDEX, IF 3 EQ APPROPIATE_DUNGEON SET 4 NUMBER]
   partyReadAt: 1
   doc: This adds a specified party of creatures to the level with a Tunneller Dwarf as it's leader. The Tunneller will immediately dig to it's target and the other creatures will follow.
 
-- cmd: ADD_PARTY_TO_LEVEL(owner player:PLAYER,party:PARTY,target location:ACTION_POINT/HERO_GATE/PLAYER,party copies:BYTE)
+- cmd: ADD_PARTY_TO_LEVEL(owner player:PLAYER,party:PARTY,spawn location:LOCATION,party copies:BYTE)
   partyReadAt: 1
   doc: Adds a party to the level.
 
-- cmd: DISPLAY_OBJECTIVE(message number:NUMBER+,zoom target:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: DISPLAY_OBJECTIVE(message number:NUMBER+,zoom target:LOCATION)
   doc: Displays one of the text messages stored in TEXT.DAT file (if used in Dungeon Keeper) or DD1TEXT.DAT (if used in Deeper Dungeons) in an Objective Box. This file comes in various language version, so messages from it are always in the language selected during installation of Dungeon Keeper.
 
 - cmd: DISPLAY_OBJECTIVE_WITH_POS(message number:NUMBER+,zoom X coordinate:SUBTILE,zoom Y coordinate:SUBTILE)
   doc: Displays one of the text messages stored in TEXT.DAT file (if used in Dungeon Keeper) or DD1TEXT.DAT (if used in Deeper Dungeons) in an Objective Box. Allows to enter map coordinates of an area which is shown when the eye icon is clicked on the message.
 
-- cmd: DISPLAY_INFORMATION(message number:NUMBER+,zoom target:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: DISPLAY_INFORMATION(message number:NUMBER+,zoom target:LOCATION/ALL_PLAYERS)
   opts: 1
   doc: Creates a text box with Information Pop-up Icon. Works identical (except of the icon) as DISPLAY_OBJECTIVE.
 
-- cmd: DISPLAY_INFORMATION_WITH_POS(message number:NUMBER+,zoom target:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: DISPLAY_INFORMATION_WITH_POS(message number:NUMBER+,zoom target:LOCATION/ALL_PLAYERS)
   doc: Creates a text box with Information Pop-up Icon. Works identical (except of the icon) as DISPLAY_OBJECTIVE_WITH_POS.
 
-- cmd: QUICK_OBJECTIVE(message number:MSG_NUMBER,message:TEXT,zoom target:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: QUICK_OBJECTIVE(message number:MSG_NUMBER,message:TEXT,zoom target:LOCATION/ALL_PLAYERS)
   doc: Works like DISPLAY_OBJECTIVE, but instead of using a string from translations, allows to type it directly.
 
-- cmd: QUICK_INFORMATION(message number:MSG_NUMBER,message:TEXT,zoom target:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: QUICK_INFORMATION(message number:MSG_NUMBER,message:TEXT,zoom target:LOCATION/ALL_PLAYERS)
   doc: Works like DISPLAY_INFORMATION, but instead of using a string from translations, allows to type it directly.
 
 - cmd: TUTORIAL_FLASH_BUTTON(button:BUTTON,time:NUMBER)
@@ -260,7 +260,7 @@
 - cmd: RESEARCH_ORDER(player:PLAYER,research type:RESEARCH_TYPE,room or spell:ROOM/POWER,research value:NUMBER+)
   doc: When this command is first called, the research list for specified players is cleared. Using it you may create a research list from beginning. Note that if you won't place an item on the list, it will not be possible to research it. So if you're using this command, you must add all items available on the level to the research list.
 
-- cmd: REVEAL_MAP_LOCATION(player:PLAYER,target location:ACTION_POINT/HERO_GATE,range:SUBTILE/NUMBER)
+- cmd: REVEAL_MAP_LOCATION(player:PLAYER,target location:LOCATION,range:SUBTILE/NUMBER)
   doc: Reveals square area of subtiles around given location. Use -1 for range to reveal the entire reachable area.
 
 - cmd: REVEAL_MAP_RECT(player:PLAYER,subtile X coord:SUBTILE,subtile Y coord:SUBTILE,reveal width:SUBTILE,reveal height:SUBTILE)
@@ -294,7 +294,7 @@
 - cmd: ADD_HEART_HEALTH(player:PLAYER,health:NUMBER,mentor warn:BINARY)
   doc: Restores or drains health from a players Dungeon Heart. Can't exceed the standard max health value. Full heart has 30000 hitpoints.
 
-- cmd: ADD_OBJECT_TO_LEVEL(object:OBJECT,location:ACTION_POINT/HERO_GATE,property:NUMBER)
+- cmd: ADD_OBJECT_TO_LEVEL(object:OBJECT,location:LOCATION,property:NUMBER)
   doc: Place any object at a specific place on the map.
 
 - cmd: ADD_TO_TIMER(player:PLAYER,timer:TIMER,turns:TIME)
@@ -323,20 +323,20 @@
 
     [alt] - If set to 1, creature flags will be interpreted as in IF_CONTROLS and rooms/doors/traps as in IF_AVAILABLE. Set it to 0 and it takes the value as IF uses it.
 
-- cmd: COMPUTER_DIG_TO_LOCATION(player:PLAYER,origin:PLAYER/ACTION_POINT/HERO_GATE,destination:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: COMPUTER_DIG_TO_LOCATION(player:PLAYER,origin:LOCATION,destination:LOCATION)
   doc: Makes a computer player dig somewhere.
 
 - cmd: CONCEAL_MAP_RECT(player:PLAYER,subtile X coord:SUBTILE,subtile Y coord:SUBTILE,width:SUBTILE,height:SUBTILE,hide revealed:BINARY)
   opts: 1
   doc: Conceals part of the map with fog of war, opposite to REVEAL_MAP_RECT
 
-- cmd: CREATE_EFFECT(effect:NUMBER,location:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: CREATE_EFFECT(effect:NUMBER,location:LOCATION)
   doc: Create an Effect at a location. Can be any effect or effect element that is in game, like the hearts that appear when healing, or the red smoke when claiming a room.
 
 - cmd: CREATE_EFFECT_AT_POS(effect:NUMBER,subtile X coord:SUBTILE,subtile Y coord:SUBTILE)
   doc: Create an Effect at a subtile. Can be any effect or effect element that is in game, like the hearts that appear when healing, or the red smoke when claiming a room.
 
-- cmd: CREATE_EFFECTS_LINE(origin:PLAYER/ACTION_POINT/HERO_GATE,destination:PLAYER/ACTION_POINT/HERO_GATE,curvature:BYTE,distance:BYTE,speed:BYTE,effect:NUMBER)
+- cmd: CREATE_EFFECTS_LINE(origin:LOCATION,destination:LOCATION,curvature:NUMBER,distance:BYTE,speed:BYTE,effect:NUMBER)
   doc: |
     Spawns an effect multiple times, forming a line.
 
@@ -366,10 +366,10 @@
 - cmd: DISPLAY_MESSAGE(message number:NUMBER,icon:PLAYER/CREATURE/UNKNOWN)
   doc: Displays one of the text messages from language-specific strings banks as a chat message, with a specific unit or player shown as the sender. It disappears automatically after some time.
 
-- cmd: HEART_LOST_OBJECTIVE(message number:NUMBER,zoom location:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: HEART_LOST_OBJECTIVE(message number:NUMBER,zoom location:LOCATION/ALL_PLAYERS)
   doc: Displays an Objective message when the player lost his Dungeon Heart. Works like DISPLAY_OBJECTIVE.
 
-- cmd: HEART_LOST_QUICK_OBJECTIVE(message number:MSG_NUMBER,message:TEXT,zoom location:PLAYER/ACTION_POINT/HERO_GATE)
+- cmd: HEART_LOST_QUICK_OBJECTIVE(message number:MSG_NUMBER,message:TEXT,zoom location:LOCATION/ALL_PLAYERS)
   doc: Displays an Objective message when the player lost his Dungeon Heart. Works like QUICK_OBJECTIVE.
 
 - cmd: HIDE_TIMER()
@@ -440,7 +440,7 @@
 - cmd: USE_POWER(player:PLAYER,power:POWER,free:BINARY)
   doc: Casts an untargeted keeper power through the level script.
 
-- cmd: USE_POWER_AT_LOCATION(player:PLAYER,location:ACTION_POINT/HERO_GATE,power:POWER,power lvl:POWER_LVL,free:BINARY)
+- cmd: USE_POWER_AT_LOCATION(player:PLAYER,location:LOCATION,power:POWER,power lvl:POWER_LVL,free:BINARY)
   doc: Casts a keeper power at specific map location through the level script.
 
 - cmd: USE_POWER_AT_POS(player:PLAYER,subtile X coord:SUBTILE,subtile Y coord:SUBTILE,power:POWER,power lvl:POWER_LVL,free:BINARY)
@@ -463,10 +463,6 @@
 
 - cmd: USE_SPELL_ON_CREATURE(player:PLAYER,creature:CREATURE/ANY_CREATURE,criterion:CRITERION,spell:SPELL,spell lvl:LVL/ZERO)
   doc: Casts a unit spell on a specific creature. Only abilities with actual spell effects can be used.
-
-- cmd: LAST_EVENT()
-  returns: ACTION_POINT
-  doc: Returns location of the last triggered Custom Mystery box or sacrificed unit.
 
 - cmd: SACRIFICED[creature:CREATURE]
   returns: GLOBAL/FLAG

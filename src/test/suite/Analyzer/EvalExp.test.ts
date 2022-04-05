@@ -198,7 +198,7 @@ suite("Suite for Analyzer::" + Analyzer.evalExp.name, () => {
                     start: 27,
                     end: 34,
                     line: 1,
-                    msg: ErrMsgUtils.getTypeMismatchMsg([ParamType.ActionPoint, ParamType.HeroGate, ParamType.Player], "TIMER5"),
+                    msg: ErrMsgUtils.getTypeMismatchMsg([ParamType.AllPlayers, ParamType.Location], "TIMER5"),
                     severity: ErrSeverity.Error
                 }
             ]

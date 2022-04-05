@@ -48,7 +48,7 @@ suite("Suite for DescProvider::" + DescProvider.getCommandDesc.name, () => {
                     name: "message",
                 },
                 {
-                    allowedTypes: [ParamType.ActionPoint, ParamType.HeroGate, ParamType.Player],
+                    allowedTypes: [ParamType.AllPlayers, ParamType.Location],
                     optional: false,
                     name: "zoom target",
                 },

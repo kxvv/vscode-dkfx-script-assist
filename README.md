@@ -2,4 +2,4 @@
 
 Visual Studio Code extension for Dungeon Keeper's scripting language.
 
-Syntax checker & highlighter, completion provider and more.
+Syntax checker & highlighter, completion provider, formatter and more.

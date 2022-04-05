@@ -31,7 +31,7 @@ export const CONSTRAINTS = {
 const CUSTOM_ENTITY_PREFIX = "CUSTOM_";
 
 interface TypeProps {
-    suggest(state: ScriptAnalysis): DkSuggestion[],
+    suggest(state: ScriptAnalysis): DkSuggestion[];
     check(props: ParamDiagProps): boolean;
 }
 
@@ -376,7 +376,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         },
         suggest(state: ScriptAnalysis) {
             return ["150", "300", "450", "600", "900", "1200", "2400", "3600", "12000"]
-                .map(e => MappersDk.entityToDkSuggestion({ val: e}, "", SuggestionKind.Value));
+                .map(e => MappersDk.entityToDkSuggestion({ val: e }, "", SuggestionKind.Value));
         }
     },
     [ParamType.Computer]: {
@@ -630,6 +630,31 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
         },
         suggest(state: ScriptAnalysis) {
             return DK_ENTITIES[ParamType.LockState].map(e => MappersDk.entityToDkSuggestion(e));
+        }
+    },
+    [ParamType.AllPlayers]: {
+        check(pdp: ParamDiagProps) {
+            return DK_ENTITIES[ParamType.AllPlayers].some(e => e.val === pdp.arg.value.toUpperCase());
+        },
+        suggest(state: ScriptAnalysis) {
+            return DK_ENTITIES[ParamType.AllPlayers].map(e => MappersDk.entityToDkSuggestion(e));
+        }
+    },
+    [ParamType.Location]: {
+        check(pdp: ParamDiagProps) {
+            return DK_ENTITIES[ParamType.Location].some(e => e.val === pdp.arg.value.toUpperCase())
+                || DK_TYPES[ParamType.Keeper].check(pdp)
+                || DK_TYPES[ParamType.PlayerGood].check(pdp)
+                || DK_TYPES[ParamType.ActionPoint].check(pdp)
+                || DK_TYPES[ParamType.HeroGate].check(pdp);
+        },
+        suggest(state: ScriptAnalysis) {
+            return DK_TYPES[ParamType.Keeper].suggest(state)
+                .concat(
+                    DK_TYPES[ParamType.PlayerGood].suggest(state)
+                ).concat(
+                    DK_ENTITIES[ParamType.Location].map(e => MappersDk.entityToDkSuggestion(e))
+                );
         }
     },
     [ParamType.Range]: {

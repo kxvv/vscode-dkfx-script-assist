@@ -23,6 +23,9 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "PLAYER_GOOD", doc: "The heroes" },
         { val: "WHITE", doc: "Heroes/PLAYER_GOOD's equivalent" },
     ],
+    [ParamType.AllPlayers]: [
+        { val: "ALL_PLAYERS" },
+    ],
     [ParamType.Timer]: new Array(8).fill(0).map((e, i) => ({
         val: "TIMER" + i,
         doc: `The timer number ${i}. Each player has their own timer sets.`
@@ -1382,5 +1385,15 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
     [ParamType.LockState]: [
         { val: "LOCKED" },
         { val: "UNLOCKED" },
+    ],
+    [ParamType.Location]: [
+        {
+            val: "LAST_EVENT",
+            doc: "Location of the last triggered Custom Mystery box or sacrificed unit"
+        },
+        {
+            val: "COMBAT",
+            doc: "Location of the last battle"
+        },
     ],
 };

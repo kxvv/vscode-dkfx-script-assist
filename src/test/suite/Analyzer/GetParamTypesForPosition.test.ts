@@ -189,7 +189,7 @@ suite("Suite for Analyzer::" + Analyzer.getParamTypesForPosition.name, () => {
         };
         assert.deepStrictEqual(
             Analyzer.getParamTypesForPosition({ exp: e }, 40),
-            [ParamType.ActionPoint, ParamType.HeroGate, ParamType.Player]
+            [ParamType.AllPlayers, ParamType.Location]
         );
     });
 });

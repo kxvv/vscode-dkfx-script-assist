@@ -69,4 +69,6 @@ export enum ParamType {
     CreatureGlobal = "CREATURE_GLOBAL",
     FillType = "FILL_TYPE",
     LockState = "LOCK_STATE",
+    Location = "LOCATION",
+    AllPlayers = "ALL_PLAYERS",
 }
