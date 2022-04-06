@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
+import { ConfigProvider } from "./ConfigProvider";
 import { LANGUAGE_ID } from "./extension";
 import { MappersVs } from "./MappersVs";
+import { ExtConfig } from "./model/ExtConfig";
 import { Statement } from "./model/Statement";
 import { Parser } from "./Parser";
 import { ResolverUtils } from "./ResolverUtils";
@@ -79,6 +81,10 @@ export class Resolver {
         this.queueDiagnostics(document);
     }
 
+    setConfig() {
+        ConfigProvider.setConfig(vscode.workspace.getConfiguration() as unknown as ExtConfig);
+    }
+
     subscribe(context: vscode.ExtensionContext) {
         ResolverUtils.registerOnTextChangeListener(context, this);
         ResolverUtils.registerOnActiveEditorChangeListener(context, this);
@@ -86,6 +92,13 @@ export class Resolver {
         ResolverUtils.registerSignHelpProvider(this);
         ResolverUtils.registerHoverProvider(this);
         ResolverUtils.registerFormattingProvider(this);
+        this.setConfig();
+
+        vscode.window.onDidChangeActiveTextEditor(() => {
+            if (vscode.window.activeTextEditor?.document?.languageId === LANGUAGE_ID) {
+                this.setConfig();
+            }
+        });
 
         if (vscode.window.activeTextEditor?.document?.languageId === LANGUAGE_ID) {
             this.rebuild(vscode.window.activeTextEditor.document);

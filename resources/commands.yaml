@@ -136,7 +136,7 @@
   partyReadAt: 1
   doc: Adds a party to the level.
 
-- cmd: DISPLAY_OBJECTIVE(message number:NUMBER+,zoom target:LOCATION)
+- cmd: DISPLAY_OBJECTIVE(message number:NUMBER+,zoom target:LOCATION/ALL_PLAYERS)
   doc: Displays one of the text messages stored in TEXT.DAT file (if used in Dungeon Keeper) or DD1TEXT.DAT (if used in Deeper Dungeons) in an Objective Box. This file comes in various language version, so messages from it are always in the language selected during installation of Dungeon Keeper.
 
 - cmd: DISPLAY_OBJECTIVE_WITH_POS(message number:NUMBER+,zoom X coordinate:SUBTILE,zoom Y coordinate:SUBTILE)

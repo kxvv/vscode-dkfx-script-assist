@@ -4,6 +4,12 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.3] - 2022-04-06
+### Added
+- restarts no longer required after changing settings
+### Fixed
+- DISPLAY_OBJECTIVE not accepting ALL_PLAYERS
+
 ## [0.3.2] - 2022-04-05
 ### Fixed
 - some commands not accepting COMBAT or LAST_EVENT
