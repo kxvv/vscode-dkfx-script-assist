@@ -136,7 +136,7 @@ suite("Suite for Analyzer::" + Analyzer.evalExp.name, () => {
                 end: exp.start + exp.value.length,
                 line: 1,
                 severity: ErrSeverity.Error,
-                msg: ErrMsgUtils.getMissingParamsMsg(3, 3)
+                msg: ErrMsgUtils.getMissingParamsMsg(2, 3)
             }],
         };
         const anl: ScriptAnalysis = {

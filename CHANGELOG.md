@@ -4,9 +4,14 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.4] - 2022-04-13
+### Added
+- objective/info commands' zoom location is now optional
+
 ## [0.3.3] - 2022-04-06
 ### Added
 - restarts no longer required after changing settings
+
 ### Fixed
 - DISPLAY_OBJECTIVE not accepting ALL_PLAYERS
 
@@ -17,6 +22,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.3.1] - 2022-04-03
 ### Added
 - custom object setting
+
 ### Fixed
 - object config typos
 - 4 spaces is now default indent
@@ -61,12 +67,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - more trap config properties
 - signChanges for SET_TRAP_CONFIGURATION
 - ON_NEUTRAL_GROUND criterion
+
 ### Fixed
 - IF not accepting campaign flags
 
 ## [0.1.1] - 2022-02-15
 ### Added
 - CreatureGlobal param type
+
 ### Fixed
 - commands.yaml '::' typos
 

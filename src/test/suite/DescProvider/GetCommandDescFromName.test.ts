@@ -34,7 +34,7 @@ suite("Suite for DescProvider::" + DescProvider.getCommandDesc.name, () => {
     test("2 + an alternative", () => {
         const res: CommandDesc = {
             msgSlotAt: 0,
-            opts: 0,
+            opts: 1,
             doc: "Works like DISPLAY_OBJECTIVE, but instead of using a string from translations, allows to type it directly.",
             params: [
                 {
@@ -49,7 +49,7 @@ suite("Suite for DescProvider::" + DescProvider.getCommandDesc.name, () => {
                 },
                 {
                     allowedTypes: [ParamType.AllPlayers, ParamType.Location],
-                    optional: false,
+                    optional: true,
                     name: "zoom target",
                 },
             ]
