@@ -1,4 +1,5 @@
 import { DK_ENTITIES } from "./Entities";
+import { DkEntity } from "./model/DkEntity";
 import { ExtConfig } from "./model/ExtConfig";
 import { Indentations } from "./model/Indentations";
 import { ParamType } from "./model/ParamType";
@@ -14,6 +15,8 @@ export class ConfigProvider {
             indentationString: Indentations.Tab,
         }
     };
+    private static origTraps: DkEntity[] = DK_ENTITIES[ParamType.Trap];
+    private static origObjects: DkEntity[] = DK_ENTITIES[ParamType.Object];
 
     private static toIndentationChars(setting: string): string {
         if (/2\s+space/i.test(setting)) {
@@ -31,16 +34,16 @@ export class ConfigProvider {
             ...this.conf.formatter,
             indentationString: this.toIndentationChars(this.conf.formatter.indentationString)
         };
-        DK_ENTITIES[ParamType.Trap] = DK_ENTITIES[ParamType.Trap]
-            .concat(config.customTraps.map(custom => ({
-                val: custom.toUpperCase(),
-                doc: "Custom trap"
-            })));
-        DK_ENTITIES[ParamType.Object] = DK_ENTITIES[ParamType.Object]
-            .concat(config.customObjects.map(custom => ({
-                val: custom.toUpperCase(),
-                doc: "Custom object"
-            })));
+        const customTraps = config.customTraps.map(custom => ({
+            val: custom.toUpperCase(),
+            doc: "Custom trap"
+        }));
+        const customObjects = config.customObjects.map(custom => ({
+            val: custom.toUpperCase(),
+            doc: "Custom object"
+        }));
+        DK_ENTITIES[ParamType.Trap] = this.origTraps.concat(customTraps);
+        DK_ENTITIES[ParamType.Object] = this.origObjects.concat(customObjects);
     }
 
     static getConfig(): ExtConfig {

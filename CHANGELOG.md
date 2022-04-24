@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.5] - 2022-04-24
+### Fixed
+- duplicate custom entities showing
+- slab entities
+
 ## [0.3.4] - 2022-04-13
 ### Added
 - objective/info commands' zoom location is now optional
