@@ -640,6 +640,22 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
             return DK_ENTITIES[ParamType.AllPlayers].map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
+    [ParamType.OneToTen]: {
+        check(pdp: ParamDiagProps) {
+            return DK_ENTITIES[ParamType.OneToTen].some(e => e.val === pdp.arg.value);
+        },
+        suggest(state: ScriptAnalysis) {
+            return DK_ENTITIES[ParamType.OneToTen].map(e => MappersDk.entityToDkSuggestion(e));
+        }
+    },
+    [ParamType.CreatureSpell]: {
+        check(pdp: ParamDiagProps) {
+            return DK_ENTITIES[ParamType.CreatureSpell].some(e => e.val === pdp.arg.value.toUpperCase());
+        },
+        suggest(state: ScriptAnalysis) {
+            return DK_ENTITIES[ParamType.CreatureSpell].map(e => MappersDk.entityToDkSuggestion(e));
+        }
+    },
     [ParamType.Location]: {
         check(pdp: ParamDiagProps) {
             return DK_ENTITIES[ParamType.Location].some(e => e.val === pdp.arg.value.toUpperCase())

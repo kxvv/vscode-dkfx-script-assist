@@ -16,7 +16,7 @@ const LOADED_COMMANDS: LoadedCommands = ResourcesLoader.loadCommands();
 
 const CONSECUTIVE_NUM_TYPES = [
     ParamType.Number, ParamType.NonNegNumber, ParamType.Gold, ParamType.Lvl, ParamType.PowerLvl,
-    ParamType.RoomAvailability, ParamType.Slab, ParamType.Subtile, ParamType.Time, ParamType.Byte
+    ParamType.RoomAvailability, ParamType.Slab, ParamType.Subtile, ParamType.Time, ParamType.Byte, ParamType.OneToTen
 ];
 
 export const COMPARISON_PARAMS: CommandParam[] = [

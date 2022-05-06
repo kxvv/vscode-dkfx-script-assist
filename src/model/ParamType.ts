@@ -71,4 +71,6 @@ export enum ParamType {
     LockState = "LOCK_STATE",
     Location = "LOCATION",
     AllPlayers = "ALL_PLAYERS",
+    OneToTen = "1-10",
+    CreatureSpell = "CREATURE_SPELL",
 }

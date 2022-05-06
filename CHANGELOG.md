@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.6] - 2022-05-06
+### Added
+- SET_CREATURE_INSTANCE command
+
 ## [0.3.5] - 2022-04-24
 ### Fixed
 - duplicate custom entities showing

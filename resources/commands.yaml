@@ -92,7 +92,7 @@
 - cmd: DEAD_CREATURES_RETURN_TO_POOL(return:BINARY)
   doc: Normally, when a creature dies, and its body vanishes, it is added to the creature pool again. This command allows you to ensure that all dead creatures are dead forever.
 
-- cmd: SET_CREATURE_MAX_LEVEL(player:PLAYER,creature type:CREATURE,creature level:LVL)
+- cmd: SET_CREATURE_MAX_LEVEL(player:PLAYER,creature type:CREATURE,creature level:1-10)
   doc: This command sets the maximum experience level the creature can train to. You can use this to stop certain creatures from becoming too powerful.
 
 - cmd: SET_CREATURE_STRENGTH(creature:CREATURE,strength:BYTE)
@@ -112,10 +112,10 @@
   doc: Adjusts the research value for individual rooms or spells and even for a specific player.
   rootLvl: ENFORCE
 
-- cmd: ADD_CREATURE_TO_LEVEL(owner player:PLAYER,creature:CREATURE,spawn location:LOCATION,creatures amount:BYTE,levels:LVL,gold carried:GOLD)
+- cmd: ADD_CREATURE_TO_LEVEL(owner player:PLAYER,creature:CREATURE,spawn location:LOCATION,creatures amount:BYTE,levels:1-10,gold carried:GOLD)
   doc: This command will add a number of new creatures to the level at the co-ordinates of a specifies Action Point. You cannot set where the creatures head for so you may need to use a party instead.
 
-- cmd: ADD_TUNNELLER_TO_LEVEL(owner player:PLAYER,spawn location:LOCATION,head for:HEAD_FOR,target:BYTE,tunneler level:LVL,gold carried:GOLD)
+- cmd: ADD_TUNNELLER_TO_LEVEL(owner player:PLAYER,spawn location:LOCATION,head for:HEAD_FOR,target:BYTE,tunneler level:1-10,gold carried:GOLD)
   signChanges: [IF 2 EQ ACTION_POINT SET 3 ACTION_POINT/HERO_GATE, IF 2 EQ DUNGEON SET 3 KEEPER_INDEX, IF 2 EQ DUNGEON_HEART SET 3 KEEPER_INDEX, IF 2 EQ APPROPIATE_DUNGEON SET 3 NUMBER]
   doc: This commands adds a number of Tunneller Dwarves to the level. They will immediately start digging towards their target. Tunneller Dwarves are the only creatures that can tunnel towards a target.
 
@@ -123,11 +123,11 @@
   rootLvl: ENFORCE
   doc: This command tells the game to expect a party with a specific name.
 
-- cmd: ADD_TO_PARTY(party:PARTY,creature:CREATURE,level:LVL,gold carried:GOLD,objective:OBJECTIVE,delay:TIME)
+- cmd: ADD_TO_PARTY(party:PARTY,creature:CREATURE,level:1-10,gold carried:GOLD,objective:OBJECTIVE,delay:TIME)
   partyAddAt: 0
   doc: This command adds a number of creatures to a party (maximum seven).
 
-- cmd: ADD_TUNNELLER_PARTY_TO_LEVEL(owner player:PLAYER,party:PARTY,spawn location:LOCATION,head for:HEAD_FOR,target:ACTION_POINT/HERO_GATE/BYTE,tunneler level:LVL,gold carried:GOLD)
+- cmd: ADD_TUNNELLER_PARTY_TO_LEVEL(owner player:PLAYER,party:PARTY,spawn location:LOCATION,head for:HEAD_FOR,target:ACTION_POINT/HERO_GATE/BYTE,tunneler level:1-10,gold carried:GOLD)
   signChanges: [IF 3 EQ ACTION_POINT SET 4 ACTION_POINT/HERO_GATE, IF 3 EQ DUNGEON SET 4 KEEPER_INDEX, IF 3 EQ DUNGEON_HEART SET 4 KEEPER_INDEX, IF 3 EQ APPROPIATE_DUNGEON SET 4 NUMBER]
   partyReadAt: 1
   doc: This adds a specified party of creatures to the level with a Tunneller Dwarf as it's leader. The Tunneller will immediately dig to it's target and the other creatures will follow.
@@ -254,7 +254,7 @@
 - cmd: KILL_CREATURE(player:PLAYER,creature:CREATURE/ANY_CREATURE,criterion:CRITERION,amount:NUMBER+)
   doc: Kills given amount of creatures based on given criterion.
 
-- cmd: LEVEL_UP_CREATURE(player:PLAYER,creature:CREATURE/ANY_CREATURE,criterion:CRITERION,levels:LVL)
+- cmd: LEVEL_UP_CREATURE(player:PLAYER,creature:CREATURE/ANY_CREATURE,criterion:CRITERION,levels:1-10)
   doc: Levels up given creature based on given criterion.
 
 - cmd: PLAY_MESSAGE(player:KEEPER,audio type:AUDIO_TYPE,sound number:NUMBER+)
@@ -359,10 +359,10 @@
 
 
 
-- cmd: CREATURE_ENTRANCE_LEVEL(player:PLAYER,level:LVL)
+- cmd: CREATURE_ENTRANCE_LEVEL(player:PLAYER,level:1-10)
   doc: Sets the level at which units come from the portal.
 
-- cmd: DELETE_FROM_PARTY(party:PARTY,creature:CREATURE,level:LVL)
+- cmd: DELETE_FROM_PARTY(party:PARTY,creature:CREATURE,level:1-10)
   partyDeleteAt: 0
   doc: Removes a unit from a defined party. Use it before the party is added to the level. When two equal units are in the party, the one that was first added will be deleted.
 
@@ -464,7 +464,7 @@
 - cmd: USE_SPECIAL_LOCATE_HIDDEN_WORLD()
   doc: Actives the effect of an 'Locate Hidden World' dungeon special.
 
-- cmd: USE_SPELL_ON_CREATURE(player:PLAYER,creature:CREATURE/ANY_CREATURE,criterion:CRITERION,spell:SPELL,spell lvl:LVL/ZERO)
+- cmd: USE_SPELL_ON_CREATURE(player:PLAYER,creature:CREATURE/ANY_CREATURE,criterion:CRITERION,spell:SPELL,spell lvl:1-10/ZERO)
   doc: Casts a unit spell on a specific creature. Only abilities with actual spell effects can be used.
 
 - cmd: SACRIFICED[creature:CREATURE]
@@ -484,3 +484,6 @@
 
 - cmd: SET_DOOR(state:LOCK_STATE,slab X coordinate:SLAB,slab Y coordinate:SLAB)
   doc: Allows you to lock or unlock a door on a particular slab.
+
+- cmd: SET_CREATURE_INSTANCE(creature:CREATURE,spell slot:1-10,creature spell:CREATURE_SPELL,spell lvl:1-10)
+  doc: Allows you to change which spell instances creatures learn at which levels.
