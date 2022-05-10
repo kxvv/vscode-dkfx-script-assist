@@ -296,6 +296,7 @@
 
 - cmd: ADD_HEART_HEALTH(player:PLAYER,health:NUMBER,mentor warn:BINARY)
   doc: Restores or drains health from a players Dungeon Heart. Can't exceed the standard max health value. Full heart has 30000 hitpoints.
+  opts: 1
 
 - cmd: ADD_OBJECT_TO_LEVEL(object:OBJECT,location:LOCATION,property:NUMBER)
   doc: Place any object at a specific place on the map.
@@ -306,7 +307,7 @@
 - cmd: CHANGE_CREATURES_ANNOYANCE(player:PLAYER,creature:CREATURE/ANY_CREATURE,operation:OPERATION,annoyance:NUMBER+)
   doc: Can set, increase or decrease the happiness level of units.
 
-- cmd: COMPUTE_FLAG(set player:PLAYER,set flag:FLAG/CUSTOM_BOX,operation:OPERATION,src player:PLAYER,src flag:FLAG/CUSTOM_BOX/GLOBAL/CREATURE/TRAP/DOOR,alt:BINARY)
+- cmd: COMPUTE_FLAG(set player:PLAYER,set flag:FLAG/CUSTOM_BOX,operation:OPERATION,src player:PLAYER,src flag:FLAG/CUSTOM_BOX/GLOBAL/CREATURE/TRAP/DOOR/ROOM,alt:BINARY)
   flagWriteAt: [0,1]
   flagReadAt: [3,4]
   doc: |

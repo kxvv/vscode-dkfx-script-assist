@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.7] - 2022-05-10
+### Fixed
+- ADD_HEART_HEALTH, COMPUTE_FLAG command params
+
 ## [0.3.6] - 2022-05-06
 ### Added
 - SET_CREATURE_INSTANCE command
