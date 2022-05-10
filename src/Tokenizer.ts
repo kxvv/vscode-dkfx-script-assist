@@ -10,6 +10,8 @@ export enum SyntaxToken {
     ArgSep = ",",
 };
 
+export type SyntaxTokenOpt = SyntaxToken | "";
+
 const REGEXPS = {
     words: /[-\w]+/g,
     operators: /(>=|<=|==|!=)|(=|!|>|<|~)/g, // TODO construct this regexp using enums

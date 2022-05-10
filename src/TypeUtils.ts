@@ -5,7 +5,7 @@ import { MappersDk } from "./MappersDk";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { ErrMsg } from "./model/ErrMsg";
 import { ErrSeverity } from "./model/ErrSeverity";
-import { Operators } from "./model/Operators";
+import { Operator } from "./model/Operators";
 import { OperatorType } from "./model/OperatorType";
 import { ParamDiagProps } from "./model/ParamDiagProps";
 import { ParamType } from "./model/ParamType";
@@ -35,14 +35,14 @@ interface TypeProps {
     check(props: ParamDiagProps): boolean;
 }
 
-export const OPERATOR_TYPES: { [key: string | Operators]: OperatorType } = {
-    [Operators.Eq]: OperatorType.Relational,
-    [Operators.Neq]: OperatorType.Relational,
-    [Operators.Lt]: OperatorType.Relational,
-    [Operators.Lte]: OperatorType.Relational,
-    [Operators.Gt]: OperatorType.Relational,
-    [Operators.Gte]: OperatorType.Relational,
-    [Operators.Rng]: OperatorType.Arithmetic,
+export const OPERATOR_TYPES: { [key: string | Operator]: OperatorType } = {
+    [Operator.Eq]: OperatorType.Relational,
+    [Operator.Neq]: OperatorType.Relational,
+    [Operator.Lt]: OperatorType.Relational,
+    [Operator.Lte]: OperatorType.Relational,
+    [Operator.Gt]: OperatorType.Relational,
+    [Operator.Gte]: OperatorType.Relational,
+    [Operator.Rng]: OperatorType.Arithmetic,
 };
 
 export const DK_TYPES: { [key: string]: TypeProps } = {
@@ -304,9 +304,9 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
     [ParamType.Comparison]: {
         check(pdp: ParamDiagProps) {
             return [
-                Operators.Eq, Operators.Neq, Operators.Gt,
-                Operators.Gte, Operators.Lt, Operators.Lte,
-            ].includes(pdp.arg.value as Operators);
+                Operator.Eq, Operator.Neq, Operator.Gt,
+                Operator.Gte, Operator.Lt, Operator.Lte,
+            ].includes(pdp.arg.value as Operator);
         },
         suggest(state: ScriptAnalysis) {
             return COMPARISON_PARAMS[0].allowedTypes.map(at => DK_TYPES[at].suggest(state)).flat();
@@ -315,9 +315,9 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
     [ParamType.AvailabilityComparison]: {
         check(pdp: ParamDiagProps) {
             return [
-                Operators.Eq, Operators.Neq, Operators.Gt,
-                Operators.Gte, Operators.Lt, Operators.Lte,
-            ].includes(pdp.arg.value as Operators);
+                Operator.Eq, Operator.Neq, Operator.Gt,
+                Operator.Gte, Operator.Lt, Operator.Lte,
+            ].includes(pdp.arg.value as Operator);
         },
         suggest(state: ScriptAnalysis) {
             return AVAIL_COMPARISON_PARAMS[0].allowedTypes.map(at => DK_TYPES[at].suggest(state)).flat();
@@ -326,9 +326,9 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
     [ParamType.ControlComparison]: {
         check(pdp: ParamDiagProps) {
             return [
-                Operators.Eq, Operators.Neq, Operators.Gt,
-                Operators.Gte, Operators.Lt, Operators.Lte,
-            ].includes(pdp.arg.value as Operators);
+                Operator.Eq, Operator.Neq, Operator.Gt,
+                Operator.Gte, Operator.Lt, Operator.Lte,
+            ].includes(pdp.arg.value as Operator);
         },
         suggest(state: ScriptAnalysis) {
             return CONTROL_COMPARISON_PARAMS[0].allowedTypes.map(at => DK_TYPES[at].suggest(state)).flat();
@@ -336,7 +336,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
     },
     [ParamType.ActionPoint]: {
         check(pdp: ParamDiagProps) {
-            if (pdp.arg.value === Operators.Rng && !pdp.state.diags.some(d => d.msg === ErrMsg.TypeRangeNonConsecutive)) {
+            if (pdp.arg.value === Operator.Rng && !pdp.state.diags.some(d => d.msg === ErrMsg.TypeRangeNonConsecutive)) {
                 pdp.state.diags.push({
                     start: pdp.arg.start,
                     end: pdp.arg.end,
@@ -354,7 +354,7 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
     },
     [ParamType.HeroGate]: {
         check(pdp: ParamDiagProps) {
-            if (pdp.arg.value === Operators.Rng && !pdp.state.diags.some(d => d.msg === ErrMsg.TypeRangeNonConsecutive)) {
+            if (pdp.arg.value === Operator.Rng && !pdp.state.diags.some(d => d.msg === ErrMsg.TypeRangeNonConsecutive)) {
                 pdp.state.diags.push({
                     start: pdp.arg.start,
                     end: pdp.arg.end,
@@ -676,8 +676,8 @@ export const DK_TYPES: { [key: string]: TypeProps } = {
     [ParamType.Range]: {
         check(pdp: ParamDiagProps) {
             return [
-                Operators.Rng,
-            ].includes(pdp.arg.value as Operators);
+                Operator.Rng,
+            ].includes(pdp.arg.value as Operator);
         },
         suggest(state: ScriptAnalysis) {
             return suggestEntities([]);

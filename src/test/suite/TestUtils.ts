@@ -1,3 +1,4 @@
+import { XToken } from "../../interpreter/model/XToken";
 import { Exp } from "../../model/Exp";
 import { ScriptAnalysis } from "../../model/ScriptAnalysis";
 import { Token } from "../../model/Token";
@@ -48,4 +49,8 @@ export class TestUtils {
             diagIgnoreLines: [],
         };
     }
+
+    static createXToken(val: string, start: number, type = TokenType.Syntactic): XToken {
+        return new XToken(val, start, type);
+    };
 }

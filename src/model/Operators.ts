@@ -1,4 +1,4 @@
-export enum Operators {
+export enum Operator {
     Lt = "<",
     Gt = ">",
     Lte = "<=",
@@ -7,3 +7,13 @@ export enum Operators {
     Neq = "!=",
     Rng = "~",
 }
+
+export const OPERATORS = [
+    Operator.Lt,
+    Operator.Gt,
+    Operator.Lte,
+    Operator.Gte,
+    Operator.Eq,
+    Operator.Neq,
+    Operator.Rng,
+];

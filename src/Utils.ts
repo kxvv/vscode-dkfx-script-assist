@@ -1,6 +1,10 @@
 import { SyntaxToken } from "./Tokenizer";
 
 export class Utils {
+    static arrayPeek<T>(arg: Array<T>): T | undefined {
+        return arg[arg.length-1];
+    }
+
     static isBetween(val: number, lw: number, hi: number): boolean {
         return val >= lw && val <= hi;
     }
