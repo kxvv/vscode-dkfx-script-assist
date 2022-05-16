@@ -381,6 +381,10 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             val: "TRAPS_SOLD",
             doc: "How many traps the player sold",
         },
+        {
+            val: "CREATURES_TRANSFERRED",
+            doc: "How many creatures have been send to the next realm",
+        },
     ],
     [ParamType.Objective]: [
         {
@@ -878,6 +882,26 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         {
             val: "TrapSellValuePercent",
             doc: "The percentage of gold the player gets for selling traps",
+        },
+        {
+            val: "HungerHealthLoss",
+            doc: "How much health units lose when hungry",
+        },
+        {
+            val: "GameTurnsPerHungerHealthLoss",
+            doc: "How often units lose health when hungry",
+        },
+        {
+            val: "FoodHealthGain",
+            doc: "How much health is gained from eating",
+        },
+        {
+            val: "TortureHealthLoss",
+            doc: "How much health is lost from torture",
+        },
+        {
+            val: "GameTurnsPerTortureHealthLoss",
+            doc: "How often health is lost from torture",
         },
     ],
     [ParamType.TrapTriggerType]: [

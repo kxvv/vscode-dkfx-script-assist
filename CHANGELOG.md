@@ -4,6 +4,14 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.8] - 2022-05-16
+### Added
+- flag values now are not limited to 0-255
+- USE_SPECIAL_TRANSFER_CREATURE command
+- TRANSFER_CREATURE command
+- CREATURES_TRANSFERRED global
+- some game rules
+
 ## [0.3.7] - 2022-05-10
 ### Fixed
 - ADD_HEART_HEALTH, COMPUTE_FLAG command params

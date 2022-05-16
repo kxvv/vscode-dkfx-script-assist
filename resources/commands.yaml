@@ -14,9 +14,8 @@
 
     This command does not always need to be included as you will automatically lose the level if you Dungeon Heart is destroyed. You should include it if there is a strict goal the player needs to attain.
 
-- cmd: SET_FLAG(player:PLAYER,flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX,value:BYTE)
+- cmd: SET_FLAG(player:PLAYER,flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX,value:NUMBER)
   flagWriteAt: [0,1]
-  signChanges: [IF 1 IN FLAG SET 2 BYTE, IF 1 IN CAMPAIGN_FLAG SET 2 NUMBER]
   doc: Sets up a flag that is assigned a number.
 
 - cmd: SET_TIMER(player:PLAYER,timer:TIMER)
@@ -385,8 +384,7 @@
 - cmd: QUICK_MESSAGE(message number:MSG_NUMBER,message:TEXT,icon:PLAYER/CREATURE/UNKNOWN)
   doc: Works like DISPLAY_MESSAGE, but instead of using a string from translations, allows to type it directly.
 
-- cmd: RANDOMISE_FLAG(player:PLAYER,flag:FLAG/CAMPAIGN_FLAG,max value:BYTE)
-  signChanges: [IF 1 IN FLAG SET 2 BYTE, IF 1 IN CAMPAIGN_FLAG SET 2 NUMBER]
+- cmd: RANDOMISE_FLAG(player:PLAYER,flag:FLAG/CAMPAIGN_FLAG,max value:NUMBER)
   doc: Gives a flag a true random value. Can be used to get truly random level scripts.
 
 - cmd: REMOVE_SACRIFICE_RECIPE(CREATURE,CREATURE,CREATURE,CREATURE,CREATURE)  
@@ -488,3 +486,9 @@
 
 - cmd: SET_CREATURE_INSTANCE(creature:CREATURE,spell slot:1-10,creature spell:CREATURE_SPELL,spell lvl:1-10)
   doc: Allows you to change which spell instances creatures learn at which levels.
+
+- cmd: USE_SPECIAL_TRANSFER_CREATURE(player:PLAYER)
+  doc: Actives the effect of an 'Transfer Creature' dungeon special.
+
+- cmd: TRANSFER_CREATURE(player:PLAYER,creature:CREATURE/ANY_CREATURE,criterion:CRITERION,count:BYTE)
+  doc: Transfers creatures as dungeon special would.
