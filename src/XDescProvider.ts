@@ -1,20 +1,16 @@
 import { DK_ENTITIES } from "./Entities";
 import { XSyntaxToken } from "./interpreter/model/XToken";
 import { CommandDesc } from "./model/CommandDesc";
-import { CommandParam } from "./model/CommandParam";
 import { Exp } from "./model/Exp";
 import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
-import { OperatorType } from "./model/OperatorType";
 import { ParamType } from "./model/ParamType";
-import { RootLvl } from "./model/RootLvl";
 import { SignChange } from "./model/SignChange";
-import { CommandEffects, XCommandDesc } from "./model/XCommandDesc";
-import { CommandEffectFactory } from "./model/XCommandEffect";
+import { XCommandDesc } from "./model/XCommandDesc";
+import { CommandEffect, CommandEffectFactory } from "./model/XCommandEffect";
 import { XDescParam } from "./model/XDescParam";
 import { ResourcesLoader } from "./ResourcesLoader";
-import { OPERATOR_TYPES } from "./TypeUtils";
 
-let dkCmdParamsMap: Map<string, CommandDesc> | undefined;
+let dkCmdParamsMap: Map<string, XCommandDesc> | undefined;
 
 const LOADED_COMMANDS: LoadedCommands = ResourcesLoader.loadCommands();
 
@@ -23,49 +19,9 @@ const CONSECUTIVE_NUM_TYPES = [
     ParamType.RoomAvailability, ParamType.Slab, ParamType.Subtile, ParamType.Time, ParamType.Byte, ParamType.OneToTen
 ];
 
-export const COMPARISON_PARAMS: CommandParam[] = [
-    {
-        optional: false,
-        allowedTypes: [
-            ParamType.Flag, ParamType.Timer, ParamType.Global,
-            ParamType.Creature, ParamType.Room, ParamType.Power,
-            ParamType.Trap, ParamType.Door, ParamType.CustomBox,
-            ParamType.CampaignFlag
-        ]
-    },
-    {
-        optional: false,
-        allowedTypes: [ParamType.Number]
-    },
-];
 
-export const AVAIL_COMPARISON_PARAMS: CommandParam[] = [
-    {
-        optional: false,
-        allowedTypes: [
-            ParamType.Creature, ParamType.Room, ParamType.Power,
-            ParamType.Trap, ParamType.Door,
-        ]
-    },
-    {
-        optional: false,
-        allowedTypes: [ParamType.Number]
-    },
-];
-
-export const CONTROL_COMPARISON_PARAMS: CommandParam[] = [
-    {
-        optional: false,
-        allowedTypes: [ParamType.Creature, ParamType.CreatureGlobal]
-    },
-    {
-        optional: false,
-        allowedTypes: [ParamType.Number]
-    },
-];
-
-function initCmdParamsMap(loaded: LoadedCommands): Map<string, CommandDesc> {
-    const result: Map<string, CommandDesc> = new Map;
+function initCmdParamsMap(loaded: LoadedCommands): Map<string, XCommandDesc> {
+    const result: Map<string, XCommandDesc> = new Map;
     loaded.values.forEach(lv => {
         const openSymbolIndex = lv.cmd.match(/[([]/)?.index || 0;
         const name = lv.cmd.substring(0, openSymbolIndex).toUpperCase();
@@ -116,8 +72,8 @@ function getCmdDocMarkDown(loadCmd: LoadedCommand, name: string): string {
     return loadCmd.doc || "";
 }
 
-function getCommandsEffects(loadCmd: LoadedCommand): CommandEffects {
-    const result: CommandEffects = [];
+function getCommandsEffects(loadCmd: LoadedCommand): CommandEffect[] {
+    const result: CommandEffect[] = [];
     const F = CommandEffectFactory;
     (loadCmd.condition === "PUSH" && result.push(F.conditionPush()));
     (loadCmd.condition === "POP" && result.push(F.conditionPop()));
@@ -136,13 +92,34 @@ function getCommandsEffects(loadCmd: LoadedCommand): CommandEffects {
 
 function decideOptionalStartingIndex(signParts: string[], optParam: number | undefined): number {
     if (optParam != null) {
-        const referencedStrings = signParts.map(part => ({value: part}));
+        const referencedStrings = signParts.map(part => ({ value: part }));
         const firstOptionalRef = referencedStrings
             .filter(part => part.value !== XSyntaxToken.ArgSep)
             .find((val, idx) => idx >= optParam);
         return referencedStrings.findIndex(refString => refString === firstOptionalRef);
     }
     return Number.MAX_SAFE_INTEGER;
+}
+
+interface NonSepSignPart {
+    signPart: string;
+    expectsSep: boolean;
+}
+
+function signToNonSepSignParts(sign: string): NonSepSignPart[] {
+    const result: NonSepSignPart[] = [];
+    const partArray = sign.replace(/[\[\]]+/g, "&").split("&").map(c => c.trim()).filter(Boolean);
+    let part: string;
+    for (let i = 0; i < partArray.length; i++) {
+        part = partArray[i];
+        if (part !== XSyntaxToken.ArgSep) {
+            result.push({
+                signPart: part,
+                expectsSep: partArray[i + 1] === XSyntaxToken.ArgSep
+            });
+        }
+    }
+    return result;
 }
 
 
@@ -155,36 +132,37 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
     const openSymbol = parts[1];
     const sign = parts[2];
 
-    const partArray = sign.replace(/[\[\]]+/g, "&").split("&").map(c => c.trim()).filter(Boolean);
-    
+
     result.opts = loadCmd.opts || 0;
     result.bracketed = openSymbol === XSyntaxToken.BOpen;
+
     
-    const optFromNonSepIndex = decideOptionalStartingIndex(partArray, loadCmd.opts);
+    const nonSepSignParts: NonSepSignPart[] = signToNonSepSignParts(sign);
+    const optFromNonSepIndex = nonSepSignParts.length - result.opts;
     
-    let nonSepArgIndex = - 1;
-    for (let i = 0; partArray.length; i++) {
-        nonSepArgIndex += (partArray[i] === XSyntaxToken.ArgSep) ? 0 : 1;
-        const { name, params } = interpretSignParam(partArray[i]);
-        const cmdParam: XDescParam = {
+    for (let i = 0; i < nonSepSignParts.length; i++) {
+        const { name, params } = interpretSignParam(nonSepSignParts[i].signPart);
+        const cmdParam: XDescParam = new XDescParam({
             allowedTypes: interpretParamTypes(params),
             optional: i >= optFromNonSepIndex,
-            name: name || getDefaultCmdParamName(i)
-        };
-        result.pushPart(cmdParam);
-        if (result.getParts().some(p => p instanceof XDescParam && p.allowedTypes.includes(ParamType.Auto))) {
+            name: name || getDefaultCmdParamName(i),
+            expectsSep: nonSepSignParts[i].expectsSep
+        });
+        result.parts.push(cmdParam);
+        if (result.parts.some(p => p instanceof XDescParam && p.allowedTypes.includes(ParamType.Auto))) {
             result.autoTypes = true;
         }
-        const msgSlotPos = result.getParts().findIndex(p => p.allowedTypes.includes(ParamType.MsgNumber));
-        if (msgSlotPos > -1) { result.msgSlotAt = msgSlotPos; }
-        const newPartyPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.NewParty));
-        if (newPartyPos > -1) { result.partyPutAt = newPartyPos; }
-        const versionPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.Version));
-        if (versionPos > -1) { result.versionPutAt = versionPos; }
+        const msgSlotPos = result.parts.findIndex(p => p.allowedTypes.includes(ParamType.MsgNumber));
+        if (msgSlotPos > -1) { result.effects.push(CommandEffectFactory.msgSlot()); }
+        const newPartyPos = result.parts.findIndex(p => p.allowedTypes.includes(ParamType.NewParty));
+        if (newPartyPos > -1) { result.effects.push(CommandEffectFactory.partyAdd()); }
+        const versionPos = result.parts.findIndex(p => p.allowedTypes.includes(ParamType.Version));
+        if (versionPos > -1) { result.effects.push(CommandEffectFactory.version()); }
     }
-    if (loadCmd.signChanges) {
-        result.signChanges = loadCmd.signChanges.map(interpretSignChangeString);
-    }
+    // TODO sign changes
+    // if (loadCmd.signChanges) {
+    //     result.signChanges = loadCmd.signChanges.map(interpretSignChangeString);
+    // }
     return result;
 }
 
@@ -236,71 +214,75 @@ function getSignChangedCommandDesc(exp: Exp, desc: CommandDesc, changes: SignCha
 }
 
 
-export class DescProvider {
-    static getCommandDescMap(): Map<string, CommandDesc> {
+export class XDescProvider {
+    static getCommandDescMap(): Map<string, XCommandDesc> {
         if (!dkCmdParamsMap) {
             dkCmdParamsMap = initCmdParamsMap(LOADED_COMMANDS);
         }
         return dkCmdParamsMap;
     }
 
-    static getCommandDesc(exp: string | Exp): CommandDesc | null {
-        if (typeof exp === "string") {
-            return DescProvider.getCommandDescMap().get(exp.toUpperCase()) || null;
-        } else {
-            const result = DescProvider.getCommandDescMap().get(exp.value.toUpperCase());
-            if (result && result.signChanges) {
-                return getSignChangedCommandDesc(exp, result, result.signChanges);
-            }
-            return result || null;
-        }
+    static getCommandDesc(name: string): XCommandDesc | null {
+        return XDescProvider.getCommandDescMap().get(name.toUpperCase()) || null;
     }
 
-    static deriveCommandDesc(exp: Exp, allowedTypes: ParamType[]): CommandDesc | null {
-        const operatorType = OPERATOR_TYPES[exp.value];
-        if (operatorType === OperatorType.Relational) {
-            if (allowedTypes.length === 1 && allowedTypes[0] === ParamType.Comparison) {
-                return {
-                    params: COMPARISON_PARAMS
-                };
-            }
-            if (allowedTypes.length === 1 && allowedTypes[0] === ParamType.AvailabilityComparison) {
-                return {
-                    params: AVAIL_COMPARISON_PARAMS
-                };
-            }
-            if (allowedTypes.length === 1 && allowedTypes[0] === ParamType.ControlComparison) {
-                return {
-                    params: CONTROL_COMPARISON_PARAMS
-                };
-            }
-        } else if (operatorType === OperatorType.Arithmetic) {
-            return {
-                params: [
-                    {
-                        optional: false,
-                        allowedTypes: [ParamType.Number]
-                    },
-                    {
-                        optional: false,
-                        allowedTypes: [ParamType.Number]
-                    },
-                ]
-            };
-        }
-        if (!operatorType) {
-            const cmdDesc: CommandDesc | null = DescProvider.getCommandDesc(exp);
-            if (cmdDesc && cmdDesc.autoTypes) {
-                return {
-                    ...cmdDesc,
-                    returns: allowedTypes,
-                    params: cmdDesc.params.map(p => ({
-                        ...p,
-                        allowedTypes: autoToAllowedTypes(p.allowedTypes, allowedTypes)
-                    }))
-                };
-            }
-        }
-        return null;
-    }
+    // static getCommandDesc(exp: string | Exp): CommandDesc | null {
+    //     if (typeof exp === "string") {
+    //         return DescProvider.getCommandDescMap().get(exp.toUpperCase()) || null;
+    //     } else {
+    //         const result = DescProvider.getCommandDescMap().get(exp.value.toUpperCase());
+    //         if (result && result.signChanges) {
+    //             return getSignChangedCommandDesc(exp, result, result.signChanges);
+    //         }
+    //         return result || null;
+    //     }
+    // }
+
+    // static deriveCommandDesc(exp: Exp, allowedTypes: ParamType[]): CommandDesc | null {
+    //     const operatorType = OPERATOR_TYPES[exp.value];
+    //     if (operatorType === OperatorType.Relational) {
+    //         if (allowedTypes.length === 1 && allowedTypes[0] === ParamType.Comparison) {
+    //             return {
+    //                 params: COMPARISON_PARAMS
+    //             };
+    //         }
+    //         if (allowedTypes.length === 1 && allowedTypes[0] === ParamType.AvailabilityComparison) {
+    //             return {
+    //                 params: AVAIL_COMPARISON_PARAMS
+    //             };
+    //         }
+    //         if (allowedTypes.length === 1 && allowedTypes[0] === ParamType.ControlComparison) {
+    //             return {
+    //                 params: CONTROL_COMPARISON_PARAMS
+    //             };
+    //         }
+    //     } else if (operatorType === OperatorType.Arithmetic) {
+    //         return {
+    //             params: [
+    //                 {
+    //                     optional: false,
+    //                     allowedTypes: [ParamType.Number]
+    //                 },
+    //                 {
+    //                     optional: false,
+    //                     allowedTypes: [ParamType.Number]
+    //                 },
+    //             ]
+    //         };
+    //     }
+    //     if (!operatorType) {
+    //         const cmdDesc: CommandDesc | null = DescProvider.getCommandDesc(exp);
+    //         if (cmdDesc && cmdDesc.autoTypes) {
+    //             return {
+    //                 ...cmdDesc,
+    //                 returns: allowedTypes,
+    //                 params: cmdDesc.params.map(p => ({
+    //                     ...p,
+    //                     allowedTypes: autoToAllowedTypes(p.allowedTypes, allowedTypes)
+    //                 }))
+    //             };
+    //         }
+    //     }
+    //     return null;
+    // }
 }

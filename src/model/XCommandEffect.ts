@@ -100,4 +100,18 @@ export class CommandEffectFactory {
             // TODO
         };
     }
+
+    static msgSlot
+        (): CommandEffect {
+        return (arg: XTempArg) => {
+            // TODO
+        };
+    }
+
+    static version
+        (): CommandEffect {
+        return (arg: XTempArg) => {
+            // TODO
+        };
+    }
 }

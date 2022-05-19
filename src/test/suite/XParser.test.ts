@@ -12,7 +12,7 @@ import { Operator } from "../../model/Operators";
 import { TokenType } from "../../model/TokenType";
 import { TestUtils } from "./TestUtils";
 
-suite.only("Suite for XParser::" + XParser.parse.name, () => {
+suite("Suite for XParser::" + XParser.parse.name, () => {
     test("f( four ) rem hi", () => {
         const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
         const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);

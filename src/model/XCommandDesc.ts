@@ -30,17 +30,10 @@ import { XDescParam } from "./XDescParam";
 // }
 
 export class XCommandDesc {
-    private parts: (XSyntaxToken.ArgSep | Operator | XDescParam)[] = [];
+    parts: XDescParam[] = [];
     effects: CommandEffect[] = [];
     opts: number = 0;
     bracketed: boolean = false;
     doc: string = "";
-
-    pushPart(part: XSyntaxToken.ArgSep | Operator | XDescParam) {
-        this.parts.push(part);
-    }
-
-    getParts() {
-        return this.parts;
-    }
+    autoTypes: boolean = false;
 }

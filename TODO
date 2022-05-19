@@ -1,0 +1,3 @@
+- SETTABLE/READABLE var, then flagwriteat:n would check if a var is at that position
+- !! can unexpect sep even if opt!
+- ParamType.Void. in IF if rightA!=player, then rightB.type = void ==== signature modifiers

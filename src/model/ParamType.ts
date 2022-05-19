@@ -73,4 +73,7 @@ export enum ParamType {
     AllPlayers = "ALL_PLAYERS",
     OneToTen = "1-10",
     CreatureSpell = "CREATURE_SPELL",
+    ReadVar = "READABLE_VAR",
+    SetVar = "SETTABLE_VAR",
+    CompareOperator = "COMPARE_OPERATOR",
 }
