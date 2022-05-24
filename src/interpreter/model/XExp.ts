@@ -3,7 +3,7 @@
 // import { TokenType } from "../model/TokenType";
 // import { XToken } from "./XToken";
 
-import { SyntaxToken, SyntaxTokenOpt } from "../../Tokenizer";
+import { SyntaxToken } from "../../Tokenizer";
 import { XToken } from "./XToken";
 import { XArgSlot } from "./XArgSlot";
 import { XArgSep } from "./XArgSep";
@@ -15,7 +15,7 @@ export class XExp {
     end: number;
     opener: XToken;
     closer: XToken | null;
-    parent: XArgSlot | null;
+    parent: XArgSlot | null = null;
 
     constructor(caller: XToken, opener: XToken, closer: XToken | null = null) {
         this.caller = caller;
@@ -33,6 +33,11 @@ export class XExp {
 
     public getSlotSep() {
         return this.slotSep;
+    }
+
+    public getSlot(index: number): XArgSlot | undefined {
+        // @ts-ignore
+        return this.slotSep.filter(s => s instanceof XArgSlot)[index];
     }
 }
 

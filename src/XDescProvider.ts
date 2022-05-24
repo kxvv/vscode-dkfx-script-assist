@@ -1,4 +1,6 @@
 import { DK_ENTITIES } from "./Entities";
+import { XConst } from "./interpreter/model/XConst";
+import { XExp } from "./interpreter/model/XExp";
 import { XSyntaxToken } from "./interpreter/model/XToken";
 import { CommandDesc } from "./model/CommandDesc";
 import { Exp } from "./model/Exp";
@@ -180,33 +182,32 @@ function autoToAllowedTypes(mappedTypes: ParamType[], targetTypes: ParamType[]):
     return mappedTypes.filter(mt => mt !== ParamType.Auto).concat(targetTypes);
 }
 
-function getSignChangedCommandDesc(exp: Exp, desc: CommandDesc, changes: SignChange[]): CommandDesc {
-    let result: CommandDesc = desc;
+function getSignChangedCommandDesc(exp: XExp, desc: XCommandDesc, changes: SignChange[]): XCommandDesc {
+    let result: XCommandDesc = desc;
     let replace: boolean;
-    let inValue: string;
+    let inValue: XConst | XExp | null | undefined;
     for (const sc of changes) {
         replace = false;
-        inValue = exp.args[sc.in]?.value.toUpperCase();
-        if (inValue) {
-            if (sc.check === "EQ" && inValue === sc.arg?.toUpperCase()) {
+        inValue = exp.getSlot(sc.in)?.arg;
+        if (inValue && inValue instanceof XConst) {
+            if (sc.check === "EQ" && inValue.val === sc.arg?.toUpperCase()) {
                 replace = true;
             } else if (sc.check === "IN" && sc.typeArgs) {
                 const targetEntitites = sc.typeArgs.map(t => DK_ENTITIES[t]).flat().map(e => e.val);
-                replace = targetEntitites.includes(inValue);
+                replace = targetEntitites.includes(inValue.val);
             }
             if (replace) {
-                result = {
-                    ...desc,
-                    params: desc.params.map((p, i) => {
-                        if (i === sc.out) {
-                            return {
-                                ...p,
-                                allowedTypes: sc.outTypes
-                            };
-                        }
-                        return p;
-                    })
-                };
+                result = new XCommandDesc;
+                Object.assign(result, desc);
+                result.parts = desc.parts.map((p, i) => {
+                    if (i === sc.out) {
+                        return {
+                            ...p,
+                            allowedTypes: sc.outTypes
+                        };
+                    }
+                    return p;
+                });
             }
         }
     }

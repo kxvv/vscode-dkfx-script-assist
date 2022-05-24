@@ -3,8 +3,8 @@ import { XConst } from "./XConst";
 import { XExp } from "./XExp";
 
 export class XArgSlot {
-    parent: XExp | null;
-    arg: XExp | XConst | null;
+    parent: XExp | null = null;
+    arg: XExp | XConst | null = null;
     start: number;
     end: number;
     trailing?: (XExp | XConst)[];

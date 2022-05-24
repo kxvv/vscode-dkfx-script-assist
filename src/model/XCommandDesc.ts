@@ -1,5 +1,4 @@
 import { XSyntaxToken } from "../interpreter/model/XToken";
-import { Operator } from "./Operators";
 import { ParamType } from "./ParamType";
 import { RootLvl } from "./RootLvl";
 import { SignChange } from "./SignChange";
