@@ -1,8 +1,8 @@
 import { Operator } from "../model/Operators";
 import { TokenType } from "../model/TokenType";
 import { TokenGroup } from "./model/TokenGroup";
-import { XArgSep } from "./model/XArgSep";
-import { XArgSlot } from "./model/XArgSlot";
+import { XExpChildSep } from "./model/XExpChildSep";
+import { XExpChildSlot } from "./model/XExpChildSlot";
 import { ErrorInvalidStatement, ErrorOpeningAndClosingTokensMismatch, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "./model/XError";
 import { XExp } from "./model/XExp";
 import { XParsedLine } from "./model/XParsedLine";
@@ -46,7 +46,7 @@ export class XParser {
         let i = 0;
         let token: XToken | TokenGroup;
         let nextToken: XToken | TokenGroup;
-        let argSlot: XArgSlot = new XArgSlot(group.opener.end);
+        let argSlot: XExpChildSlot = new XExpChildSlot(group.opener.end);
 
         while (i < group.tokens.length) {
             token = group.tokens[i];
@@ -59,9 +59,9 @@ export class XParser {
                 } else {
                     if (token.isSeparating()) {
                         argSlot.end = token.start;
-                        result.pushToExpSlot(argSlot);
-                        result.pushToExpSlot(new XArgSep(token.val as (Operator | ","), token.start));
-                        argSlot = new XArgSlot(token.end);
+                        result.pushChild(argSlot);
+                        result.pushChild(new XExpChildSep(token.val as (Operator | ","), token.start));
+                        argSlot = new XExpChildSlot(token.end);
                     } else {
                         argSlot.pushToSlot(token);
                     }
@@ -79,7 +79,7 @@ export class XParser {
         } else {
             futureLine.pushError(new ErrorUnterminatedExpression(caller));
         }
-        result.pushToExpSlot(argSlot);
+        result.pushChild(argSlot);
 
         return result;
     }

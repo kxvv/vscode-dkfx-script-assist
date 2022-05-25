@@ -2,7 +2,7 @@ import { XToken } from "./XToken";
 import { XConst } from "./XConst";
 import { XExp } from "./XExp";
 
-export class XArgSlot {
+export class XExpChildSlot {
     parent: XExp | null = null;
     arg: XExp | XConst | null = null;
     start: number;

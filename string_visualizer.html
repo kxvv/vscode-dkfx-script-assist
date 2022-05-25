@@ -64,19 +64,22 @@
                         ins = txt.substring(i, i + 1);
                         post = txt.substring(i + 1, txt.length);
                     }
+                    pre = pre.replace(/\s/gi, "&nbsp;");
+                    ins = ins.replace(/\s/gi, "&nbsp;");
+                    post = post.replace(/\s/gi, "&nbsp;");
                     listItem = document.createElement("li");
 
                     tempElem = document.createElement("span");
-                    tempElem.innerText = pre;
+                    tempElem.innerHTML = pre;
                     listItem.appendChild(tempElem);
 
                     tempElem = document.createElement("span");
-                    tempElem.innerText = ins;
+                    tempElem.innerHTML = ins;
                     tempElem.classList.add(before ? "marked-before" : "marked");
                     listItem.appendChild(tempElem);
 
                     tempElem = document.createElement("span");
-                    tempElem.innerText = post;
+                    tempElem.innerHTML = post;
                     listItem.appendChild(tempElem);
 
                     fragment.appendChild(listItem);

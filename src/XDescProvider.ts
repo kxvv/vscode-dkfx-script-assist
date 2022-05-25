@@ -188,7 +188,7 @@ function getSignChangedCommandDesc(exp: XExp, desc: XCommandDesc, changes: SignC
     let inValue: XConst | XExp | null | undefined;
     for (const sc of changes) {
         replace = false;
-        inValue = exp.getSlot(sc.in)?.arg;
+        inValue = exp.getChildByIndex(sc.in)?.arg;
         if (inValue && inValue instanceof XConst) {
             if (sc.check === "EQ" && inValue.val === sc.arg?.toUpperCase()) {
                 replace = true;

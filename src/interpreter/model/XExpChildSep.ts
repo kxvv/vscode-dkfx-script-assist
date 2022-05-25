@@ -1,7 +1,7 @@
 import { Operator } from "../../model/Operators";
 import { XExp } from "./XExp";
 
-export class XArgSep {
+export class XExpChildSep {
     parent: XExp | null = null;
     val: Operator | ",";
     start: number;

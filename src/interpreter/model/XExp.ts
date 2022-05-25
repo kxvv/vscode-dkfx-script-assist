@@ -5,17 +5,17 @@
 
 import { SyntaxToken } from "../../Tokenizer";
 import { XToken } from "./XToken";
-import { XArgSlot } from "./XArgSlot";
-import { XArgSep } from "./XArgSep";
+import { XExpChildSlot } from "./XExpChildSlot";
+import { XExpChildSep } from "./XExpChildSep";
 
 export class XExp {
-    private slotSep: (XArgSlot | XArgSep)[] = [];
+    private children: (XExpChildSlot | XExpChildSep)[] = [];
     caller: XToken;
     start: number;
     end: number;
     opener: XToken;
     closer: XToken | null;
-    parent: XArgSlot | null = null;
+    parent: XExpChildSlot | null = null;
 
     constructor(caller: XToken, opener: XToken, closer: XToken | null = null) {
         this.caller = caller;
@@ -25,19 +25,19 @@ export class XExp {
         this.closer = closer;
     }
 
-    public pushToExpSlot(arg: XArgSlot | XArgSep) {
-        this.slotSep.push(arg);
+    public pushChild(arg: XExpChildSlot | XExpChildSep) {
+        this.children.push(arg);
         arg.parent = this;
         return this;
     }
 
-    public getSlotSep() {
-        return this.slotSep;
+    public getChildren() {
+        return this.children;
     }
 
-    public getSlot(index: number): XArgSlot | undefined {
+    public getChildByIndex(index: number): XExpChildSlot | undefined {
         // @ts-ignore
-        return this.slotSep.filter(s => s instanceof XArgSlot)[index];
+        return this.children.filter(s => s instanceof XExpChildSlot)[index];
     }
 }
 

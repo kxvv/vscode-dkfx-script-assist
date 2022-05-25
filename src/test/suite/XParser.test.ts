@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { TokenGroup } from "../../interpreter/model/TokenGroup";
-import { XArgSep } from "../../interpreter/model/XArgSep";
-import { XArgSlot } from "../../interpreter/model/XArgSlot";
+import { XExpChildSep } from "../../interpreter/model/XExpChildSep";
+import { XExpChildSlot } from "../../interpreter/model/XExpChildSlot";
 import { ErrorInvalidStatement, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "../../interpreter/model/XError";
 import { XExp } from "../../interpreter/model/XExp";
 import { XParsedLine } from "../../interpreter/model/XParsedLine";
@@ -35,9 +35,9 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            const argSlot: XArgSlot = new XArgSlot(2, 8);
+            const argSlot: XExpChildSlot = new XExpChildSlot(2, 8);
             argSlot.pushToSlot(arg);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
             expected.exp = exp;
             expected.comment = comment;
         }
@@ -66,17 +66,17 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XArgSlot;
+            let argSlot: XExpChildSlot;
 
-            argSlot = new XArgSlot(2, 8);
+            argSlot = new XExpChildSlot(2, 8);
             argSlot.pushToSlot(arg1);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
 
-            exp.pushToExpSlot(new XArgSep(Operator.Gt, 8));
+            exp.pushChild(new XExpChildSep(Operator.Gt, 8));
 
-            argSlot = new XArgSlot(9, 14);
+            argSlot = new XExpChildSlot(9, 14);
             argSlot.pushToSlot(arg2);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
 
             expected.exp = exp;
         }
@@ -102,10 +102,10 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XArgSlot;
+            let argSlot: XExpChildSlot;
 
-            argSlot = new XArgSlot(2, 4);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(2, 4);
+            exp.pushChild(argSlot);
 
             expected.exp = exp;
         }
@@ -135,26 +135,26 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XArgSlot;
+            let argSlot: XExpChildSlot;
 
-            argSlot = new XArgSlot(2, 2);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(2, 2);
+            exp.pushChild(argSlot);
 
-            exp.pushToExpSlot(new XArgSep(argSep1.val as Operator, argSep1.start));
+            exp.pushChild(new XExpChildSep(argSep1.val as Operator, argSep1.start));
 
-            argSlot = new XArgSlot(3, 3);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(3, 3);
+            exp.pushChild(argSlot);
 
-            exp.pushToExpSlot(new XArgSep(argSep2.val as Operator, argSep2.start));
+            exp.pushChild(new XExpChildSep(argSep2.val as Operator, argSep2.start));
 
-            argSlot = new XArgSlot(4, 9);
+            argSlot = new XExpChildSlot(4, 9);
             argSlot.pushToSlot(arg);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
 
-            exp.pushToExpSlot(new XArgSep(argSep3.val as Operator, argSep3.start));
+            exp.pushChild(new XExpChildSep(argSep3.val as Operator, argSep3.start));
 
-            argSlot = new XArgSlot(10, 10);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(10, 10);
+            exp.pushChild(argSlot);
 
             expected.exp = exp;
         }
@@ -180,15 +180,15 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken);
-            let argSlot: XArgSlot;
+            let argSlot: XExpChildSlot;
 
-            argSlot = new XArgSlot(2, 2);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(2, 2);
+            exp.pushChild(argSlot);
 
-            exp.pushToExpSlot(new XArgSep(argSep.val as Operator, argSep.start));
+            exp.pushChild(new XExpChildSep(argSep.val as Operator, argSep.start));
 
-            argSlot = new XArgSlot(3, Number.MAX_SAFE_INTEGER);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(3, Number.MAX_SAFE_INTEGER);
+            exp.pushChild(argSlot);
 
             expected.exp = exp;
         }
@@ -239,37 +239,37 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerTokenF, openerTokenF, closerTokenF);
-            let argSlot: XArgSlot;
+            let argSlot: XExpChildSlot;
 
-            argSlot = new XArgSlot(2, 2);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(2, 2);
+            exp.pushChild(argSlot);
 
-            exp.pushToExpSlot(new XArgSep(argSep1.val as Operator, argSep1.start));
+            exp.pushChild(new XExpChildSep(argSep1.val as Operator, argSep1.start));
 
-            argSlot = new XArgSlot(3, 10);
+            argSlot = new XExpChildSlot(3, 10);
             {
                 const exp2: XExp = new XExp(callerTokenG, openerTokenG, closerTokenG);
-                let argSlot2: XArgSlot;
+                let argSlot2: XExpChildSlot;
 
-                argSlot2 = new XArgSlot(5, 6);
-                exp2.pushToExpSlot(argSlot2);
+                argSlot2 = new XExpChildSlot(5, 6);
+                exp2.pushChild(argSlot2);
                 argSlot2.pushToSlot(arg1);
 
-                exp2.pushToExpSlot(new XArgSep(argSep2.val as Operator, argSep2.start));
+                exp2.pushChild(new XExpChildSep(argSep2.val as Operator, argSep2.start));
 
-                argSlot2 = new XArgSlot(7, 9);
-                exp2.pushToExpSlot(argSlot2);
+                argSlot2 = new XExpChildSlot(7, 9);
+                exp2.pushChild(argSlot2);
                 argSlot2.pushToSlot(arg2);
 
                 argSlot.pushToSlot(exp2);
             }
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
 
-            exp.pushToExpSlot(new XArgSep(argSep3.val as Operator, argSep3.start));
+            exp.pushChild(new XExpChildSep(argSep3.val as Operator, argSep3.start));
 
-            argSlot = new XArgSlot(11, 12);
+            argSlot = new XExpChildSlot(11, 12);
             argSlot.pushToSlot(arg3);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
 
             expected.exp = exp;
         }
@@ -301,11 +301,11 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XArgSlot;
+            let argSlot: XExpChildSlot;
 
-            argSlot = new XArgSlot(2, 3);
+            argSlot = new XExpChildSlot(2, 3);
             argSlot.pushToSlot(x);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
 
             expected.exp = exp;
         }
@@ -346,13 +346,13 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerTokenF, openerToken1);
-            let argSlot: XArgSlot;
+            let argSlot: XExpChildSlot;
 
-            argSlot = new XArgSlot(2);
-            exp.pushToExpSlot(argSlot);
+            argSlot = new XExpChildSlot(2);
+            exp.pushChild(argSlot);
 
             const exp2 = new XExp(callerTokenG, openerToken2);
-            exp2.pushToExpSlot(new XArgSlot(4));
+            exp2.pushChild(new XExpChildSlot(4));
             argSlot.pushToSlot(exp2);
 
             expected.exp = exp;
@@ -381,11 +381,11 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken1);
-            const argSlot: XArgSlot = new XArgSlot(2);
+            const argSlot: XExpChildSlot = new XExpChildSlot(2);
             const exp2 = new XExp(openerToken2, openerToken2);
-            exp2.pushToExpSlot(new XArgSlot(3));
+            exp2.pushChild(new XExpChildSlot(3));
             argSlot.pushToSlot(exp2);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
             expected.exp = exp;
         }
         expected.pushError(new ErrorUnterminatedExpression(openerToken2));
@@ -409,8 +409,8 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken);
-            const argSlot: XArgSlot = new XArgSlot(2);
-            exp.pushToExpSlot(argSlot);
+            const argSlot: XExpChildSlot = new XExpChildSlot(2);
+            exp.pushChild(argSlot);
             expected.exp = exp;
         }
         expected.pushError(new ErrorUnterminatedExpression(callerToken));
@@ -457,9 +457,9 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const expected: XParsedLine = new XParsedLine;
         {
             const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            const argSlot: XArgSlot = new XArgSlot(2, 8);
+            const argSlot: XExpChildSlot = new XExpChildSlot(2, 8);
             argSlot.pushToSlot(arg);
-            exp.pushToExpSlot(argSlot);
+            exp.pushChild(argSlot);
             expected.exp = exp;
         }
         expected.pushError(new ErrorInvalidStatement(last));

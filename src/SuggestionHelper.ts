@@ -1,10 +1,14 @@
 import { DescProvider } from "./DescProvider";
+import { XExp } from "./interpreter/model/XExp";
+import { XExpChildSlot } from "./interpreter/model/XExpChildSlot";
 import { MappersDk } from "./MappersDk";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { ParamType } from "./model/ParamType";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
+import { Statement } from "./model/Statement";
 import { LineMap } from "./ScriptInstance";
 import { TypeUtils } from "./TypeUtils";
+import { Utils } from "./Utils";
 
 export class SuggestionHelper {
     private static cachedCommands: DkSuggestion[] = [];
@@ -22,5 +26,12 @@ export class SuggestionHelper {
         }
         // TODO do not suggest non if-able commands while in if
         return this.cachedCommands;
+    }
+
+    static getExpChildSlotByPos(exp: XExp, pos: number): XExpChildSlot | null {
+        if (Utils.isBetween(pos, exp.start, exp.end)) {
+            
+        }
+        return null;
     }
 }
