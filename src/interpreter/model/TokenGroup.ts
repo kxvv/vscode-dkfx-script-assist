@@ -12,8 +12,8 @@ export class TokenGroup {
         this.tokens = tokens;
         this.opener = opener;
         this.closer = closer;
-        this.start = opener.start;
-        this.end = closer?.end || this.end;
+        this.start = opener.end;
+        this.end = closer?.start || this.start;
     }
 
     isParensMatching() {

@@ -7,6 +7,7 @@ import { SyntaxToken } from "../../Tokenizer";
 import { XToken } from "./XToken";
 import { XExpChildSlot } from "./XExpChildSlot";
 import { XExpChildSep } from "./XExpChildSep";
+import { Utils } from "../../Utils";
 
 export class XExp {
     private children: (XExpChildSlot | XExpChildSep)[] = [];
@@ -38,6 +39,35 @@ export class XExp {
     public getChildByIndex(index: number): XExpChildSlot | undefined {
         // @ts-ignore
         return this.children.filter(s => s instanceof XExpChildSlot)[index];
+    }
+
+    public isPosInCall(pos: number): boolean {
+        if (this.children.length) {
+            return Utils.isBetween(pos, this.children[0].start, Utils.arrayPeek(this.children)!.end);
+        }
+        return false;
+    }
+
+    public getLeafExp(pos: number): XExp | null {
+        const stack: XExp[] = [this];
+        let result: XExp | null = null;
+        while (stack.length) {
+            result = stack.pop() || null;
+            if (result && result.isPosInCall(pos)) {
+                for (const child of result.getChildren()) {
+                    // TODO also consider trailing?
+                    if (child instanceof XExpChildSlot && child.arg instanceof XExp) {
+                        if (child.arg.isPosInCall(pos)) {
+                            stack.push(child.arg);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                result = null;
+            }
+        }
+        return result;
     }
 }
 

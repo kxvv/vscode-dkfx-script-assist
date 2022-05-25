@@ -3,7 +3,7 @@ import { XToken } from "../../interpreter/model/XToken";
 import { XTokenizer } from "../../interpreter/XTokenizer";
 import { TokenType } from "../../model/TokenType";
 
-suite("Suite for XTokenizer::" + XTokenizer.tokenize.name, () => {
+suite.only("Suite for XTokenizer::" + XTokenizer.tokenize.name, () => {
 
     test(`fun(-32)`, () => {
         const res = XTokenizer.tokenize(`fun(-32)`);

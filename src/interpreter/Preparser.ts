@@ -45,6 +45,7 @@ export class Preparser {
                 } else if (tkn.val === XSyntaxToken.BClose || tkn.val === XSyntaxToken.PClose) {
                     if (topGroup) {
                         topGroup.closer = tkn;
+                        topGroup.end = tkn.start;
                         tokenGroupStack.pop();
                     } else {
                         result.tokens.push(tkn);

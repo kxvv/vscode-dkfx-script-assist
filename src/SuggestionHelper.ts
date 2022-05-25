@@ -27,11 +27,4 @@ export class SuggestionHelper {
         // TODO do not suggest non if-able commands while in if
         return this.cachedCommands;
     }
-
-    static getExpChildSlotByPos(exp: XExp, pos: number): XExpChildSlot | null {
-        if (Utils.isBetween(pos, exp.start, exp.end)) {
-            
-        }
-        return null;
-    }
 }
