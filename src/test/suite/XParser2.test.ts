@@ -1,18 +1,18 @@
 import * as assert from "assert";
 import { TokenGroup } from "../../interpreter/model/TokenGroup";
-import { XExpChildSep } from "../../interpreter/model/XExpChildSep";
-import { XExpChildSlot } from "../../interpreter/model/XExpChildSlot";
 import { ErrorInvalidStatement, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "../../interpreter/model/XError";
-import { XExp } from "../../interpreter/model/XExp";
-import { XParsedLine } from "../../interpreter/model/XParsedLine";
 import { XSyntaxToken, XToken } from "../../interpreter/model/XToken";
 import { PreparsedStatement } from "../../interpreter/Preparser";
-import { XParser } from "../../interpreter/XParser";
 import { Operator } from "../../model/Operators";
 import { TokenType } from "../../model/TokenType";
 import { TestUtils } from "./TestUtils";
+import { XParser2 } from "../../interpreter/XParser2";
+import { XExp2 } from "../../interpreter/model/XExp2";
+import { XParsedLine2 } from "../../interpreter/model/XParsedLine";
+import { XExpChild } from "../../interpreter/model/XExpChild";
+import { XConst2 } from "../../interpreter/model/XConst2";
 
-suite("Suite for XParser::" + XParser.parse.name, () => {
+suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
     test("f( four ) rem hi", () => {
         const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
         const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);
@@ -31,13 +31,18 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
             ],
         );
         st.comment = comment;
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            const argSlot: XExpChildSlot = new XExpChildSlot(2, 8);
-            argSlot.pushToSlot(arg);
-            exp.pushChild(argSlot);
+            const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
+            exp.getChildren().pop();
+            const children = exp.getChildren();
+            let child: XExpChild;
+
+            child = new XExpChild(exp, 2, 8);
+            child.val = new XConst2(child, arg.val, arg.start);
+
+            children.push(child);
             expected.exp = exp;
             expected.comment = comment;
         }
@@ -62,24 +67,25 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 )
             ]
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XExpChildSlot;
+            const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
+            exp.getChildren().pop();
+            let child: XExpChild;
 
-            argSlot = new XExpChildSlot(2, 8);
-            argSlot.pushToSlot(arg1);
-            exp.pushChild(argSlot);
-
-            exp.pushChild(new XExpChildSep(Operator.Gt, 8));
-
-            argSlot = new XExpChildSlot(9, 14);
-            argSlot.pushToSlot(arg2);
-            exp.pushChild(argSlot);
-
+            child = new XExpChild(exp, 2, 6);
+            child.val = new XConst2(child, arg1.val, arg1.start);
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 6, 9);
+            child.val = new XConst2(child, argSep.val, argSep.start);
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 9, 14);
+            child.val = new XConst2(child, arg2.val, arg2.start);
+            exp.getChildren().push(child);
             expected.exp = exp;
         }
+
         assert.deepStrictEqual(result, expected);
     });
 
@@ -98,15 +104,14 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 )
             ]
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XExpChildSlot;
-
-            argSlot = new XExpChildSlot(2, 4);
-            exp.pushChild(argSlot);
-
+            const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
+            exp.getChildren().pop();
+            let child: XExpChild;
+            child = new XExpChild(exp, 2, 4);
+            exp.getChildren().push(child);
             expected.exp = exp;
         }
         assert.deepStrictEqual(result, expected);
@@ -131,30 +136,25 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 )
             ]
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XExpChildSlot;
+            const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
+            exp.getChildren().pop();
+            let child: XExpChild;
 
-            argSlot = new XExpChildSlot(2, 2);
-            exp.pushChild(argSlot);
-
-            exp.pushChild(new XExpChildSep(argSep1.val as Operator, argSep1.start));
-
-            argSlot = new XExpChildSlot(3, 3);
-            exp.pushChild(argSlot);
-
-            exp.pushChild(new XExpChildSep(argSep2.val as Operator, argSep2.start));
-
-            argSlot = new XExpChildSlot(4, 9);
-            argSlot.pushToSlot(arg);
-            exp.pushChild(argSlot);
-
-            exp.pushChild(new XExpChildSep(argSep3.val as Operator, argSep3.start));
-
-            argSlot = new XExpChildSlot(10, 10);
-            exp.pushChild(argSlot);
+            child = new XExpChild(exp, 2, 2);
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 3, 3);
+            child.preSep = argSep1;
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 4, 9);
+            child.val = new XConst2(child, arg.val, arg.start);
+            child.preSep = argSep2;
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 10, 10);
+            child.preSep = argSep3;
+            exp.getChildren().push(child);
 
             expected.exp = exp;
         }
@@ -176,19 +176,18 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 )
             ]
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken);
-            let argSlot: XExpChildSlot;
+            const exp: XExp2 = new XExp2(callerToken, openerToken);
+            exp.getChildren().pop();
+            let child: XExpChild;
 
-            argSlot = new XExpChildSlot(2, 2);
-            exp.pushChild(argSlot);
-
-            exp.pushChild(new XExpChildSep(argSep.val as Operator, argSep.start));
-
-            argSlot = new XExpChildSlot(3, Number.MAX_SAFE_INTEGER);
-            exp.pushChild(argSlot);
+            child = new XExpChild(exp, 2, 2);
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 3);
+            child.preSep = argSep;
+            exp.getChildren().push(child);
 
             expected.exp = exp;
         }
@@ -235,41 +234,38 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 )
             ]
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerTokenF, openerTokenF, closerTokenF);
-            let argSlot: XExpChildSlot;
+            const exp: XExp2 = new XExp2(callerTokenF, openerTokenF, closerTokenF);
+            exp.getChildren().pop();
+            let child: XExpChild;
 
-            argSlot = new XExpChildSlot(2, 2);
-            exp.pushChild(argSlot);
+            child = new XExpChild(exp, 2, 2);
+            exp.getChildren().push(child);
 
-            exp.pushChild(new XExpChildSep(argSep1.val as Operator, argSep1.start));
-
-            argSlot = new XExpChildSlot(3, 10);
+            child = new XExpChild(exp, 3, 10);
             {
-                const exp2: XExp = new XExp(callerTokenG, openerTokenG, closerTokenG);
-                let argSlot2: XExpChildSlot;
+                const exp2: XExp2 = new XExp2(callerTokenG, openerTokenG, closerTokenG);
+                exp2.parent = child;
+                exp2.getChildren().pop();
+                let childG: XExpChild = new XExpChild(exp2, 5, 6);
+                childG.val = new XConst2(childG, arg1.val, arg1.start);
+                exp2.getChildren().push(childG);
 
-                argSlot2 = new XExpChildSlot(5, 6);
-                exp2.pushChild(argSlot2);
-                argSlot2.pushToSlot(arg1);
-
-                exp2.pushChild(new XExpChildSep(argSep2.val as Operator, argSep2.start));
-
-                argSlot2 = new XExpChildSlot(7, 9);
-                exp2.pushChild(argSlot2);
-                argSlot2.pushToSlot(arg2);
-
-                argSlot.pushToSlot(exp2);
+                childG = new XExpChild(exp2, 7, 9);
+                childG.preSep = argSep2;
+                childG.val = new XConst2(childG, arg2.val, arg2.start);
+                exp2.getChildren().push(childG);
+                child.val = exp2;
             }
-            exp.pushChild(argSlot);
+            child.preSep = argSep1;
+            exp.getChildren().push(child);
 
-            exp.pushChild(new XExpChildSep(argSep3.val as Operator, argSep3.start));
-
-            argSlot = new XExpChildSlot(11, 12);
-            argSlot.pushToSlot(arg3);
-            exp.pushChild(argSlot);
+            child = new XExpChild(exp, 11, 12);
+            child.val = new XConst2(child, arg3.val, arg3.start);
+            child.preSep = argSep3;
+            exp.getChildren().push(child);
 
             expected.exp = exp;
         }
@@ -297,16 +293,14 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 z,
             ]
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            let argSlot: XExpChildSlot;
-
-            argSlot = new XExpChildSlot(2, 3);
-            argSlot.pushToSlot(x);
-            exp.pushChild(argSlot);
-
+            const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
+            exp.getChildren().pop();
+            let child: XExpChild = new XExpChild(exp, 2, 3);
+            child.val = new XConst2(child, x.val, x.start);
+            exp.getChildren().push(child);
             expected.exp = exp;
         }
         expected.pushError(new ErrorInvalidStatement(y));
@@ -320,8 +314,8 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
         const tknGroup = new TokenGroup([], openerToken);
 
         const st: PreparsedStatement = new PreparsedStatement([tknGroup]);
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         expected.pushError(new ErrorInvalidStatement(tknGroup));
 
         assert.deepStrictEqual(result, expected);
@@ -342,19 +336,21 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 )
             ]
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerTokenF, openerToken1);
-            let argSlot: XExpChildSlot;
-
-            argSlot = new XExpChildSlot(2);
-            exp.pushChild(argSlot);
-
-            const exp2 = new XExp(callerTokenG, openerToken2);
-            exp2.pushChild(new XExpChildSlot(4));
-            argSlot.pushToSlot(exp2);
-
+            const exp: XExp2 = new XExp2(callerTokenF, openerToken1);
+            exp.getChildren().pop();
+            let child: XExpChild;
+            child = new XExpChild(exp, 2);
+            {
+                const exp2: XExp2 = new XExp2(callerTokenG, openerToken2);
+                exp2.getChildren().pop();
+                exp2.getChildren().push(new XExpChild(exp2, 4));
+                child.val = exp2;
+                exp2.parent = child;
+            }
+            exp.getChildren().push(child);
             expected.exp = exp;
         }
         expected.pushError(new ErrorUnterminatedExpression(callerTokenG));
@@ -377,15 +373,20 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 )
             ],
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken1);
-            const argSlot: XExpChildSlot = new XExpChildSlot(2);
-            const exp2 = new XExp(openerToken2, openerToken2);
-            exp2.pushChild(new XExpChildSlot(3));
-            argSlot.pushToSlot(exp2);
-            exp.pushChild(argSlot);
+            const exp: XExp2 = new XExp2(callerToken, openerToken1);
+            exp.getChildren().pop();
+            const child: XExpChild = new XExpChild(exp, 2);
+            {
+                const exp2 = new XExp2(openerToken2, openerToken2);
+                exp2.getChildren().pop();
+                exp2.getChildren().push(new XExpChild(exp2, 3));
+                exp2.parent = child;
+                child.val = exp2;
+            }
+            exp.getChildren().push(child);
             expected.exp = exp;
         }
         expected.pushError(new ErrorUnterminatedExpression(openerToken2));
@@ -405,12 +406,13 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 new TokenGroup([], openerToken)
             ],
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken);
-            const argSlot: XExpChildSlot = new XExpChildSlot(2);
-            exp.pushChild(argSlot);
+            const exp: XExp2 = new XExp2(callerToken, openerToken);
+            exp.getChildren().pop();
+            const child: XExpChild = new XExpChild(exp, 2);
+            exp.getChildren().push(child);
             expected.exp = exp;
         }
         expected.pushError(new ErrorUnterminatedExpression(callerToken));
@@ -428,8 +430,8 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 closerToken
             ],
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         expected.pushError(new ErrorInvalidStatement(closerToken));
 
         assert.deepStrictEqual(result, expected);
@@ -453,13 +455,14 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
                 last
             ],
         );
-        const result: XParsedLine = XParser.parse(st);
-        const expected: XParsedLine = new XParsedLine;
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
         {
-            const exp: XExp = new XExp(callerToken, openerToken, closerToken);
-            const argSlot: XExpChildSlot = new XExpChildSlot(2, 8);
-            argSlot.pushToSlot(arg);
-            exp.pushChild(argSlot);
+            const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
+            exp.getChildren().pop();
+            const child: XExpChild = new XExpChild(exp, 2, 8);
+            child.val = new XConst2(child, arg.val, arg.start);
+            exp.getChildren().push(child);
             expected.exp = exp;
         }
         expected.pushError(new ErrorInvalidStatement(last));

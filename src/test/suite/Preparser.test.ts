@@ -6,7 +6,7 @@ import { TokenType } from "../../model/TokenType";
 import { Utils } from "../../Utils";
 import { TestUtils } from "./TestUtils";
 
-suite.only("Suite for Preparser::" + Preparser.preparse.name, () => {
+suite("Suite for Preparser::" + Preparser.preparse.name, () => {
     test("simple call with trailing closing token", () => {
         const tokens: XToken[] = [
             TestUtils.createXToken("foo", 2, TokenType.Word),

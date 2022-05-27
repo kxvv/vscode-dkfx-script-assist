@@ -5,7 +5,7 @@ import { Preparser } from "../../../interpreter/Preparser";
 import { XParser } from "../../../interpreter/XParser";
 import { XTokenizer } from "../../../interpreter/XTokenizer";
 
-suite.only("Suite for XExp::" + XExp.prototype.getLeafExp.name, () => {
+suite("Suite for XExp::" + XExp.prototype.getLeafExp.name, () => {
 
     test(`5 @ abc(a,x,55,`, () => {
         const input = "abc(a,x,55,";

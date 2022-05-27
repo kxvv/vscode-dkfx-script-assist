@@ -28,6 +28,6 @@ export class XToken {
     }
 
     isSeparating() {
-        return this.val === "," || OPERATORS.includes(this.val as Operator);
+        return this.val === ","; // TODO remove this || OPERATORS.includes(this.val as Operator);
     }
 }
