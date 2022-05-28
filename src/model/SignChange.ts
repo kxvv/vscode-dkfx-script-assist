@@ -2,7 +2,6 @@ import { DK_ENTITIES } from "../Entities";
 import { XConst2 } from "../interpreter/model/XConst2";
 import { XExp2 } from "../interpreter/model/XExp2";
 import { XExpChild } from "../interpreter/model/XExpChild";
-import { DK_TYPES, TypeUtils } from "../TypeUtils";
 import { ParamType } from "./ParamType";
 import { XDescParam } from "./XDescParam";
 
@@ -21,7 +20,7 @@ interface IXSignChange {
     out: number;
     arg?: string;
     typeArgs?: ParamType[];
-    change: ParamType[] | "MAKE_OPTIONAL";
+    change: ParamType[] | "MAKE_OPTIONAL"; // TODO
 }
 
 
@@ -31,7 +30,7 @@ export class XSignChange implements IXSignChange {
     out: number;
     arg?: string;
     typeArgs?: ParamType[];
-    change: ParamType[] | "MAKE_OPTIONAL";
+    change: ParamType[] | "MAKE_OPTIONAL"; // TODO
 
     constructor(arg: IXSignChange) {
         Object.assign(this, arg);

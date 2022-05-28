@@ -3,6 +3,8 @@ import { Exp } from "../../model/Exp";
 import { ScriptAnalysis } from "../../model/ScriptAnalysis";
 import { Token } from "../../model/Token";
 import { TokenType } from "../../model/TokenType";
+import { XCommandDesc } from "../../model/XCommandDesc";
+import { XScriptAnalysis } from "../../model/XScriptAnalysis";
 import { SyntaxToken } from "../../Tokenizer";
 
 export const DUMMY_EXP_PARTS: Pick<Exp, "bgnPos" | "endPos" | "opens"> = {
@@ -49,8 +51,35 @@ export class TestUtils {
             diagIgnoreLines: [],
         };
     }
+    
+    static createScriptXAnl(): XScriptAnalysis {
+        return {
+            diags: [],
+            parties: [],
+            timerWrites: [],
+            timerReads: [],
+            flagWrites: [],
+            flagReads: [],
+            msgSlots: {},
+            versionWrites: [],
+            apReads: [],
+            apWrites: [],
+            winsCount: 0,
+            diagIgnoreLines: [],
+        };
+    }
 
     static createXToken(val: string, start: number, type = TokenType.Syntactic): XToken {
         return new XToken(val, start, type);
     };
+
+    static createDesc(): XCommandDesc {
+        return {
+            autoTypes: false,
+            bracketed: false,
+            doc: "",
+            effects: [],
+            params: [],
+        };
+    }
 }

@@ -29,23 +29,11 @@ import { XDescParam } from "./XDescParam";
 //     partyDeleteAt?: number;
 // }
 
-export class XCommandDesc {
-    params: XDescParam[] = [];
-    effects: CommandEffect[] = [];
-    opts: number = 0;
-    bracketed: boolean = false;
-    doc: string = "";
-    autoTypes: boolean = false;
+export interface XCommandDesc {
+    params: XDescParam[];
+    effects: CommandEffect[];
+    bracketed: boolean;
+    doc: string;
+    autoTypes: boolean;
     signChanges?: XSignChange[];
-
-    public getParams(exp?: XExp2): XDescParam[] {
-        if (!exp || !this.signChanges) {
-            return this.params;
-        }
-        let paramsCopy: XDescParam[] = [...this.params];
-        for (const change of this.signChanges) {
-            paramsCopy = change.applySignParamsChange(exp, paramsCopy);
-        }
-        return paramsCopy;
-    }
 }

@@ -2,15 +2,13 @@ import * as assert from "assert";
 import { ParamType } from "../../model/ParamType";
 import { XCommandDesc } from "../../model/XCommandDesc";
 import { CommandEffectFactory } from "../../model/XCommandEffect";
-import { XDescParam } from "../../model/XDescParam";
 import { XDescProvider } from "../../XDescProvider";
-
-const TEST_DOC = "test_doc";
+import { TestUtils } from "./TestUtils";
 
 suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
     test("SET_FLAg", () => {
         const result: XCommandDesc | null = XDescProvider.getCommandDesc("SET_FLAg")!;
-        const expected: XCommandDesc = new XCommandDesc;
+        const expected: XCommandDesc = TestUtils.createDesc();
         expected.params.push({
             allowedTypes: [ParamType.Player],
             preSep: false,
@@ -29,11 +27,7 @@ suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () =
             name: "value",
             optional: false,
         });
-        expected.opts = 0;
         expected.effects.push(CommandEffectFactory.flagWrite());
-        
-        result.doc = TEST_DOC;
-        expected.doc = TEST_DOC;
 
         assert.deepStrictEqual(result.effects.length, expected.effects.length);
         // TODO 
@@ -44,7 +38,7 @@ suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () =
 
     test("IF", () => {
         const result: XCommandDesc | null = XDescProvider.getCommandDesc("IF")!;
-        const expected: XCommandDesc = new XCommandDesc;
+        const expected: XCommandDesc = TestUtils.createDesc();
         expected.params.push({
             allowedTypes: [ParamType.Player],
             preSep: false,
@@ -75,11 +69,7 @@ suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () =
             name: "right B",
             optional: true,
         });
-        expected.opts = 1;
         expected.effects.push(CommandEffectFactory.conditionPush());
-        
-        result.doc = TEST_DOC;
-        expected.doc = TEST_DOC;
 
         assert.deepStrictEqual(result.effects.length, expected.effects.length);
         // TODO 

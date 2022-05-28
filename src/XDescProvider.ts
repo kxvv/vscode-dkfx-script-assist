@@ -1,6 +1,7 @@
 import { DK_ENTITIES } from "./Entities";
 import { XConst } from "./interpreter/model/XConst";
 import { XExp } from "./interpreter/model/XExp";
+import { XExp2 } from "./interpreter/model/XExp2";
 import { XSyntaxToken } from "./interpreter/model/XToken";
 import { CommandDesc } from "./model/CommandDesc";
 import { Exp } from "./model/Exp";
@@ -129,19 +130,23 @@ function signToNonSepSignParts(sign: string): NonSepSignPart[] {
 function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XCommandDesc {
     // ...(loadCmd.doc && { doc: getCmdDocMarkDown(loadCmd, name) }),
 
-    const result: XCommandDesc = new XCommandDesc;
-    result.effects = getCommandsEffects(loadCmd);
+    const result: XCommandDesc = {
+        effects: getCommandsEffects(loadCmd),
+        bracketed: false,
+        params: [],
+        autoTypes: false,
+        doc: "",
+    };
+    
     const parts = [...(loadCmd.cmd.matchAll(/([([])(.*)([)\]])/g))][0];
     const openSymbol = parts[1];
     const sign = parts[2];
 
-
-    result.opts = loadCmd.opts || 0;
     result.bracketed = openSymbol === XSyntaxToken.BOpen;
 
     
     const nonSepSignParts: NonSepSignPart[] = signToNonSepSignParts(sign);
-    const optFromNonSepIndex = nonSepSignParts.length - result.opts;
+    const optFromNonSepIndex = nonSepSignParts.length - (loadCmd.opts || 0);
     
     for (let i = 0; i < nonSepSignParts.length; i++) {
         const { name, params } = interpretSignParam(nonSepSignParts[i].signPart);
@@ -223,8 +228,24 @@ export class XDescProvider {
         return dkCmdParamsMap;
     }
 
-    static getCommandDesc(name: string): XCommandDesc | null {
-        return XDescProvider.getCommandDescMap().get(name.toUpperCase()) || null;
+    static getCommandDesc(arg: string): XCommandDesc | undefined {
+        return XDescProvider.getCommandDescMap().get(arg.toUpperCase());
+    }
+
+    static getCommandDescForExp(exp: XExp2): XCommandDesc | undefined {
+        const desc = XDescProvider.getCommandDescMap().get(exp.caller.val.toUpperCase());
+        if (desc?.signChanges) {
+            let paramsCopy: XDescParam[] = [...desc.params];
+            for (const change of desc.signChanges) {
+                paramsCopy = change.applySignParamsChange(exp, paramsCopy);
+            }
+            return {
+                ...desc,
+                params: paramsCopy,
+            };
+        }
+        return desc;
+        // return XDescProvider.getCommandDescMap().get(name.toUpperCase()) || null;
     }
 
     // static getCommandDesc(exp: string | Exp): CommandDesc | null {

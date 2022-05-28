@@ -6,6 +6,8 @@ import { XToken } from "./XToken";
 import { Utils } from "../../Utils";
 import { XExpChild } from "./XExpChild";
 import { XConst2 } from "./XConst2";
+import { XCommandDesc } from "../../model/XCommandDesc";
+import { XDescProvider } from "../../XDescProvider";
 
 export class XExp2 {
     private children: (XExpChild)[];
@@ -15,6 +17,7 @@ export class XExp2 {
     opener: XToken;
     closer: XToken | null;
     parent: XExpChild | null = null;
+    desc?: XCommandDesc;
 
     constructor(caller: XToken, opener: XToken, closer: XToken | null = null) {
         this.caller = caller;
@@ -65,11 +68,12 @@ export class XExp2 {
         return this.children;
     }
 
+    public getDesc(): XCommandDesc | undefined {
+        return this.desc || (this.desc = XDescProvider.getCommandDescForExp(this));
+    }
+
     public isPosInCall(pos: number): boolean {
-        if (this.children.length) {
-            return Utils.isBetween(pos, this.children[0].start, Utils.arrayPeek(this.children)!.end);
-        }
-        return false;
+        return !!this.children.length && Utils.isBetween(pos, this.children[0].start, Utils.arrayPeek(this.children)!.end);
     }
 
     // public getLeafExp(pos: number): XExp | null {
