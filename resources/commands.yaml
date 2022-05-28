@@ -3,7 +3,7 @@
   flagWriteAt: [0,1]
   doc: Sets up a flag that is assigned a number.
 
-- cmd: IF([player:PLAYER],[leftB:READABLE_VAR/SETTABLE_VAR][operator:COMPARE_OPERATOR][rightA:NUMBER/PLAYER],[rightB:READABLE_VAR/SETTABLE_VAR])
+- cmd: IF([player:PLAYER],[left B:READABLE_VAR/SETTABLE_VAR][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER],[right B:READABLE_VAR/SETTABLE_VAR])
   opts: 1
   condition: PUSH
   doc: This is used to test the differences between two values. If those two values agree with the comparison, the script will continue. If the two values do not agree with the comparison, the script will find the next ENDIF and continue from there.

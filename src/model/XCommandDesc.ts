@@ -1,7 +1,8 @@
+import { XExp2 } from "../interpreter/model/XExp2";
 import { XSyntaxToken } from "../interpreter/model/XToken";
 import { ParamType } from "./ParamType";
 import { RootLvl } from "./RootLvl";
-import { SignChange } from "./SignChange";
+import { SignChange, XSignChange } from "./SignChange";
 import { CommandEffect } from "./XCommandEffect";
 import { XDescParam } from "./XDescParam";
 
@@ -29,10 +30,22 @@ import { XDescParam } from "./XDescParam";
 // }
 
 export class XCommandDesc {
-    parts: XDescParam[] = [];
+    params: XDescParam[] = [];
     effects: CommandEffect[] = [];
     opts: number = 0;
     bracketed: boolean = false;
     doc: string = "";
     autoTypes: boolean = false;
+    signChanges?: XSignChange[];
+
+    public getParams(exp?: XExp2): XDescParam[] {
+        if (!exp || !this.signChanges) {
+            return this.params;
+        }
+        let paramsCopy: XDescParam[] = [...this.params];
+        for (const change of this.signChanges) {
+            paramsCopy = change.applySignParamsChange(exp, paramsCopy);
+        }
+        return paramsCopy;
+    }
 }

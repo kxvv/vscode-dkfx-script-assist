@@ -4,16 +4,12 @@ interface IXDescParam {
     allowedTypes: ParamType[];
     name: string;
     optional: boolean;
-    expectsSep: boolean;
+    preSep: boolean;
 }
 
-export class XDescParam implements IXDescParam {
+export interface XDescParam {
     allowedTypes: ParamType[];
     name: string;
     optional: boolean;
-    expectsSep: boolean;
-
-    constructor(arg: IXDescParam) {
-        Object.assign(this, arg);
-    }
+    preSep: boolean;
 }

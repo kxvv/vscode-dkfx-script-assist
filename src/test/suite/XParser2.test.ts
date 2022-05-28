@@ -12,7 +12,7 @@ import { XParsedLine2 } from "../../interpreter/model/XParsedLine";
 import { XExpChild } from "../../interpreter/model/XExpChild";
 import { XConst2 } from "../../interpreter/model/XConst2";
 
-suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
+suite("Suite for XParser2::" + XParser2.parse.name, () => {
     test("f( four ) rem hi", () => {
         const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
         const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);

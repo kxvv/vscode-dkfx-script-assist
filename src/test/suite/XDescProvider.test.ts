@@ -7,28 +7,28 @@ import { XDescProvider } from "../../XDescProvider";
 
 const TEST_DOC = "test_doc";
 
-suite("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
+suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
     test("SET_FLAg", () => {
         const result: XCommandDesc | null = XDescProvider.getCommandDesc("SET_FLAg")!;
         const expected: XCommandDesc = new XCommandDesc;
-        expected.parts.push(new XDescParam({
+        expected.params.push({
             allowedTypes: [ParamType.Player],
-            expectsSep: true,
+            preSep: false,
             name: "player",
             optional: false,
-        }));
-        expected.parts.push(new XDescParam({
+        });
+        expected.params.push({
             allowedTypes: [ParamType.CampaignFlag, ParamType.CustomBox, ParamType.Flag],
-            expectsSep: true,
+            preSep: true,
             name: "flag",
             optional: false,
-        }));
-        expected.parts.push(new XDescParam({
+        });
+        expected.params.push({
             allowedTypes: [ParamType.Number],
-            expectsSep: false,
+            preSep: true,
             name: "value",
             optional: false,
-        }));
+        });
         expected.opts = 0;
         expected.effects.push(CommandEffectFactory.flagWrite());
         
@@ -45,36 +45,36 @@ suite("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
     test("IF", () => {
         const result: XCommandDesc | null = XDescProvider.getCommandDesc("IF")!;
         const expected: XCommandDesc = new XCommandDesc;
-        expected.parts.push(new XDescParam({
+        expected.params.push({
             allowedTypes: [ParamType.Player],
-            expectsSep: true,
+            preSep: false,
             name: "player",
             optional: false,
-        }));
-        expected.parts.push(new XDescParam({
+        });
+        expected.params.push({
             allowedTypes: [ParamType.ReadVar,ParamType.SetVar],
-            expectsSep: false,
-            name: "leftB",
+            preSep: true,
+            name: "left B",
             optional: false,
-        }));
-        expected.parts.push(new XDescParam({
+        });
+        expected.params.push({
             allowedTypes: [ParamType.CompareOperator],
-            expectsSep: false,
+            preSep: false,
             name: "operator",
             optional: false,
-        }));
-        expected.parts.push(new XDescParam({
+        });
+        expected.params.push({
             allowedTypes: [ParamType.Number, ParamType.Player],
-            expectsSep: true,
-            name: "rightA",
+            preSep: false,
+            name: "right A",
             optional: false,
-        }));
-        expected.parts.push(new XDescParam({
+        });
+        expected.params.push({
             allowedTypes: [ParamType.ReadVar,ParamType.SetVar],
-            expectsSep: false,
-            name: "rightB",
+            preSep: true,
+            name: "right B",
             optional: true,
-        }));
+        });
         expected.opts = 1;
         expected.effects.push(CommandEffectFactory.conditionPush());
         

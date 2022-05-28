@@ -6,7 +6,7 @@ import { CommandDesc } from "./model/CommandDesc";
 import { Exp } from "./model/Exp";
 import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
 import { ParamType } from "./model/ParamType";
-import { SignChange } from "./model/SignChange";
+import { XSignChange } from "./model/SignChange";
 import { XCommandDesc } from "./model/XCommandDesc";
 import { CommandEffect, CommandEffectFactory } from "./model/XCommandEffect";
 import { XDescParam } from "./model/XDescParam";
@@ -49,15 +49,16 @@ function interpretSignParam(signPart: string): { name: string, params: string } 
     };
 }
 
-function interpretSignChangeString(arg: string): SignChange {
+function interpretSignChangeString(arg: string): XSignChange {
+    // IF 1 EQ ROOM SET 2 ROOM
     const parts = arg.split(" ");
     const check = parts[2] === "IN" ? "IN" : "EQ";
-    const result: SignChange = {
+    const result: XSignChange = new XSignChange({
         in: parseInt(parts[1]),
         check,
         out: parseInt(parts[5]),
-        outTypes: interpretParamTypes(parts[6])
-    };
+        change: parts[6] === "MAKE_OPTIONAL" ? parts[6] : interpretParamTypes(parts[6])
+    });
     if (check === "EQ") {
         result.arg = parts[3];
     } else {
@@ -105,19 +106,19 @@ function decideOptionalStartingIndex(signParts: string[], optParam: number | und
 
 interface NonSepSignPart {
     signPart: string;
-    expectsSep: boolean;
+    preSep: boolean;
 }
 
 function signToNonSepSignParts(sign: string): NonSepSignPart[] {
     const result: NonSepSignPart[] = [];
-    const partArray = sign.replace(/[\[\]]+/g, "&").split("&").map(c => c.trim()).filter(Boolean);
+    const partArray = sign.replace(/[\[\]]+/g, "&").split("&").filter(Boolean);
     let part: string;
     for (let i = 0; i < partArray.length; i++) {
         part = partArray[i];
         if (part !== XSyntaxToken.ArgSep) {
             result.push({
                 signPart: part,
-                expectsSep: partArray[i + 1] === XSyntaxToken.ArgSep
+                preSep: partArray[i - 1] === XSyntaxToken.ArgSep
             });
         }
     }
@@ -144,27 +145,26 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
     
     for (let i = 0; i < nonSepSignParts.length; i++) {
         const { name, params } = interpretSignParam(nonSepSignParts[i].signPart);
-        const cmdParam: XDescParam = new XDescParam({
+        const cmdParam: XDescParam = {
             allowedTypes: interpretParamTypes(params),
             optional: i >= optFromNonSepIndex,
             name: name || getDefaultCmdParamName(i),
-            expectsSep: nonSepSignParts[i].expectsSep
-        });
-        result.parts.push(cmdParam);
-        if (result.parts.some(p => p instanceof XDescParam && p.allowedTypes.includes(ParamType.Auto))) {
+            preSep: nonSepSignParts[i].preSep
+        };
+        result.params.push(cmdParam);
+        if (result.params.some(p => p.allowedTypes.includes(ParamType.Auto))) {
             result.autoTypes = true;
         }
-        const msgSlotPos = result.parts.findIndex(p => p.allowedTypes.includes(ParamType.MsgNumber));
+        const msgSlotPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.MsgNumber));
         if (msgSlotPos > -1) { result.effects.push(CommandEffectFactory.msgSlot()); }
-        const newPartyPos = result.parts.findIndex(p => p.allowedTypes.includes(ParamType.NewParty));
+        const newPartyPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.NewParty));
         if (newPartyPos > -1) { result.effects.push(CommandEffectFactory.partyAdd()); }
-        const versionPos = result.parts.findIndex(p => p.allowedTypes.includes(ParamType.Version));
+        const versionPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.Version));
         if (versionPos > -1) { result.effects.push(CommandEffectFactory.version()); }
     }
-    // TODO sign changes
-    // if (loadCmd.signChanges) {
-    //     result.signChanges = loadCmd.signChanges.map(interpretSignChangeString);
-    // }
+    if (loadCmd.signChanges) {
+        result.signChanges = loadCmd.signChanges.map(interpretSignChangeString);
+    }
     return result;
 }
 
@@ -182,37 +182,37 @@ function autoToAllowedTypes(mappedTypes: ParamType[], targetTypes: ParamType[]):
     return mappedTypes.filter(mt => mt !== ParamType.Auto).concat(targetTypes);
 }
 
-function getSignChangedCommandDesc(exp: XExp, desc: XCommandDesc, changes: SignChange[]): XCommandDesc {
-    let result: XCommandDesc = desc;
-    let replace: boolean;
-    let inValue: XConst | XExp | null | undefined;
-    for (const sc of changes) {
-        replace = false;
-        inValue = exp.getChildByIndex(sc.in)?.arg;
-        if (inValue && inValue instanceof XConst) {
-            if (sc.check === "EQ" && inValue.val === sc.arg?.toUpperCase()) {
-                replace = true;
-            } else if (sc.check === "IN" && sc.typeArgs) {
-                const targetEntitites = sc.typeArgs.map(t => DK_ENTITIES[t]).flat().map(e => e.val);
-                replace = targetEntitites.includes(inValue.val);
-            }
-            if (replace) {
-                result = new XCommandDesc;
-                Object.assign(result, desc);
-                result.parts = desc.parts.map((p, i) => {
-                    if (i === sc.out) {
-                        return {
-                            ...p,
-                            allowedTypes: sc.outTypes
-                        };
-                    }
-                    return p;
-                });
-            }
-        }
-    }
-    return result;
-}
+// function getSignChangedCommandDesc(exp: XExp, desc: XCommandDesc, changes: SignChange[]): XCommandDesc {
+//     let result: XCommandDesc = desc;
+//     let replace: boolean;
+//     let inValue: XConst | XExp | null | undefined;
+//     for (const sc of changes) {
+//         replace = false;
+//         inValue = exp.getChildByIndex(sc.in)?.arg;
+//         if (inValue && inValue instanceof XConst) {
+//             if (sc.check === "EQ" && inValue.val === sc.arg?.toUpperCase()) {
+//                 replace = true;
+//             } else if (sc.check === "IN" && sc.typeArgs) {
+//                 const targetEntitites = sc.typeArgs.map(t => DK_ENTITIES[t]).flat().map(e => e.val);
+//                 replace = targetEntitites.includes(inValue.val);
+//             }
+//             if (replace) {
+//                 result = new XCommandDesc;
+//                 Object.assign(result, desc);
+//                 result.params = desc.params.map((p, i) => {
+//                     if (i === sc.out) {
+//                         return {
+//                             ...p,
+//                             allowedTypes: sc.outTypes
+//                         };
+//                     }
+//                     return p;
+//                 });
+//             }
+//         }
+//     }
+//     return result;
+// }
 
 
 export class XDescProvider {
