@@ -9,6 +9,10 @@ export class Utils {
         return val >= lw && val <= hi;
     }
 
+    static isParsedBetween(val: string, lw: number, hi: number): boolean {
+        return Utils.isBetween(parseInt(val), lw, hi);
+    }
+
     static getDefaultCmdParamName(index: number) {
         return `value${index + 1}`;
     }
