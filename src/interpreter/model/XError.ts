@@ -74,3 +74,9 @@ export class ErrorNothingToReuse extends XError {
         super(`Missing command to reuse`, exp.start, exp.end);
     }
 }
+
+export class ErrorUnknownCommand extends XError {
+    constructor(exp: Range, name: string) {
+        super(`Unknown command '${name}'`, exp.start, exp.end);
+    }
+}

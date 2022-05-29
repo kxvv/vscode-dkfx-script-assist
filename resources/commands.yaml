@@ -7,3 +7,6 @@
   opts: 1
   condition: PUSH
   doc: This is used to test the differences between two values. If those two values agree with the comparison, the script will continue. If the two values do not agree with the comparison, the script will find the next ENDIF and continue from there.
+
+- cmd: ENDIF()
+  condition: POP

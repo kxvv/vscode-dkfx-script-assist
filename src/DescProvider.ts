@@ -128,7 +128,6 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
         ...(loadCmd.partyDeleteAt != null && { partyDeleteAt: loadCmd.partyDeleteAt }),
         ...(loadCmd.signChanges != null && { signChanges: [] }),
         ...(loadCmd.doc && { doc: getCmdDocMarkDown(loadCmd, name) }),
-        ...(loadCmd.decorates && { decorates: true }),
         ...(loadCmd.rootLvl && { rootLvl: loadCmd.rootLvl as RootLvl }),
         ...(loadCmd.wins && { wins: true }),
         ...(loadCmd.returns != null && { returns: interpretParamTypes(loadCmd.returns) }),

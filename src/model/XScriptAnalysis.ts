@@ -160,8 +160,6 @@ export class XScriptAnalysis {
                         .some(e => e != null);
                 }
             }
-        } else {
-            error = true;
         }
         if (error) {
             this.pushError(line, new ErrorCannotReuse(exp));

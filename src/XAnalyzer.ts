@@ -1,4 +1,5 @@
 import { XConst2 } from "./interpreter/model/XConst2";
+import { ErrorUnknownCommand } from "./interpreter/model/XError";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XParsedLine2 } from "./interpreter/model/XParsedLine";
 import { XCommandDesc } from "./model/XCommandDesc";
@@ -15,7 +16,7 @@ export class XAnalyzer {
 
     }
 
-    static analyze(lineMap: XLineMap, lineCount?: number): XScriptAnalysis | void {
+    static analyze(lineMap: XLineMap, lineCount?: number): XScriptAnalysis {
         const analysis: XScriptAnalysis = new XScriptAnalysis;
 
         let exp: XExp2 | XConst2 | undefined;
@@ -36,18 +37,17 @@ export class XAnalyzer {
                             this.checkTypesForExp(exp, analysis);
                         }
                     } else {
-                        // TODO unknown command error
+                        if (exp instanceof XExp2) {
+                            analysis.pushError(i, new ErrorUnknownCommand(exp.caller, exp.caller.val));
+                        } else {
+                            analysis.pushError(i, new ErrorUnknownCommand(exp, exp.val));
+                        }
                     }
                     analysis.tryReuse(i, exp, desc);
-
-                    // if (exp instanceof XConst2) {
-                    //     result.evalVars(exp);
-                    // } else {
-                    //     result.evalVars(exp);
-                    // }
                 }
             }
         }
         analysis.finalize();
+        return analysis;
     }
 }

@@ -1,18 +1,19 @@
 import { Analyzer } from "./Analyzer";
 import { ConfigProvider } from "./ConfigProvider";
 import { HoverHelper } from "./HoverHelper";
+import { XParsedLine2 } from "./interpreter/model/XParsedLine";
 import { DkDiag } from "./model/DkDiag";
 import { DkSuggestion } from "./model/DkSuggestion";
-import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { SignatureHint } from "./model/SignatureHint";
-import { Statement } from "./model/Statement";
+import { XScriptAnalysis } from "./model/XScriptAnalysis";
 import { SignatureHelper } from "./SignatureHelper";
 import { SuggestionHelper } from "./SuggestionHelper";
 import { TestUtils } from "./test/suite/TestUtils";
+import { XAnalyzer } from "./XAnalyzer";
 
-export type LineMap = (Statement | undefined)[];
+export type LineMap = (XParsedLine2 | undefined)[];
 
-export type IndexedStatements = Array<[lineIndex: number, statement: Statement]>;
+export type IndexedStatements = Array<[lineIndex: number, statement: XParsedLine2]>;
 
 export interface ScriptChangeInfo {
     changes: IndexedStatements;
@@ -25,12 +26,12 @@ export class ScriptInstance {
     private readonly lineMap: LineMap;
     private lineCount = 0;
     private uri: string;
-    private analysis: ScriptAnalysis;
+    private analysis: XScriptAnalysis;
 
     constructor(uri: string) {
         this.uri = uri;
         this.lineMap = new Array();
-        this.analysis = TestUtils.createScriptAnl();
+        this.analysis = new XScriptAnalysis;
     }
 
     update(change: ScriptChangeInfo) {
@@ -50,8 +51,9 @@ export class ScriptInstance {
         this.lineCount = change.documentLineCount;
     }
 
-    performAnalysis(): ScriptAnalysis {
-        return this.analysis = Analyzer.analyze(this.lineMap, this.lineCount);
+    performAnalysis(): XScriptAnalysis {
+        return this.analysis = XAnalyzer.analyze(this.lineMap, this.lineCount);
+        // return this.analysis = Analyzer.analyze(this.lineMap, this.lineCount);
     }
 
     collectDiagnostics(): DkDiag[] {
@@ -66,42 +68,44 @@ export class ScriptInstance {
     }
 
     suggest(line: number, pos: number): DkSuggestion[] {
-        const s = this.statementAt(line);
-        if (s) {
-            if (s.exp?.args.length) {
-                return SuggestionHelper.getSuggestionsForParamTypes(
-                    this.analysis,
-                    Analyzer.getParamTypesForPosition(s, pos)
-                );
-            } else {
-                if (s.comment && (!s.exp || (s.exp && pos > s.exp.end))) {
-                    return [];
-                }
-                return SuggestionHelper.suggestCommand(this.lineMap, line);
-            }
-        }
+        const s: XParsedLine2 | undefined= this.statementAt(line);
+        // if (s) {
+        //     if (s.exp?.args.length) {
+        //         return SuggestionHelper.getSuggestionsForParamTypes(
+        //             this.analysis,
+        //             Analyzer.getParamTypesForPosition(s, pos)
+        //         );
+        //     } else {
+        //         if (s.comment && (!s.exp || (s.exp && pos > s.exp.end))) {
+        //             return [];
+        //         }
+        //         return SuggestionHelper.suggestCommand(this.lineMap, line);
+        //     }
+        // }
         return [];
     }
 
     hint(line: number, pos: number): SignatureHint | null {
-        const statement = this.statementAt(line);
-        return statement ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
+        return null;
+        // const statement = this.statementAt(line);
+        // return statement ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
     }
 
     hover(line: number, pos: number): string | null {
-        const statement = this.statementAt(line);
-        return statement ? HoverHelper.getHoverForExp(statement.exp, pos) : null;
+        return null;
+        // const statement = this.statementAt(line);
+        // return statement ? HoverHelper.getHoverForExp(statement.exp, pos) : null;
     }
 
     print() {
-        console.table(this.lineMap.map((v, i) => [i, v?.exp?.value || '""']));
+        // console.table(this.lineMap.map((v, i) => [i, v?.exp?.value || '""']));
     }
 
     printLine(ln: number) {
         console.log(this.lineMap[ln]);
     }
 
-    statementAt(ln: number) {
+    statementAt(ln: number): XParsedLine2 | undefined {
         return this.lineMap[ln];
     }
 

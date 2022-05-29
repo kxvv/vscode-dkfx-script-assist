@@ -114,55 +114,56 @@ export class Analyzer {
     }
 
     static analyze(lineMap: LineMap, lineCount?: number): ScriptAnalysis {
-        const result: ScriptAnalysis = TestUtils.createScriptAnl();
-        const conditionDiagStack: DkDiag[] = [];
-        let exp: Exp | undefined;
-        let desc: CommandDesc | null;
-        let ep: EvalProps;
-        let decoLine = -1;
-        let decoExp: Exp | null = null;
-        for (let i = 0; i < (lineCount || lineMap.length); i++) {
-            exp = lineMap[i]?.exp;
-            if (exp) {
-                desc = DescProvider.getCommandDesc(exp);
-                if (desc) {
-                    if (decoExp && AnalyzerUtils.isNonDecorable(desc)) {
-                        result.diags.push(AnalyzerUtils.createSimpleDiag(decoExp, decoLine, ErrMsg.NextCommandNonDecorable));
-                    }
-                    AnalyzerUtils.diagRootLvl(result, desc, exp, i, !!conditionDiagStack.length);
-                    if (desc.decorates) {
-                        decoLine = i;
-                        decoExp = exp;
-                    } else { decoExp = null; }
-                    if (desc.isConditionPush) {
-                        conditionDiagStack.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.UnterminatedCondition));
-                    } else if (desc.isConditionPop) {
-                        if (conditionDiagStack.length) {
-                            conditionDiagStack.pop();
-                        } else {
-                            result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.UnexpectedEndif));
-                        }
-                    }
-                    if (desc.returns) {
-                        result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.CmdNotAtRootLvl));
-                    } else {
-                        ep = { exp, desc, line: i, state: result };
-                        Analyzer.evalExpSideEffects(ep);
-                        Analyzer.evalExp(ep);
-                    }
-                } else {
-                    result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsgUtils.getUnknownCommandMsg(exp.value)));
-                }
-                result.diags.push(...Analyzer.collectOneLineParseErrors(exp, i));
-            }
-            if (lineMap[i]?.comment?.includes(DIAG_IGNORE_FLAG)) {
-                result.diagIgnoreLines.push(i);
-            }
-        }
-        if (decoExp) { result.diags.push(AnalyzerUtils.createSimpleDiag(decoExp, decoLine, ErrMsg.TrailingDecorator)); }
-        Analyzer.performDiags(result);
-        result.diags = [...result.diags, ...conditionDiagStack];
-        return result;
+        return TestUtils.createScriptAnl();
+        // const result: ScriptAnalysis = TestUtils.createScriptAnl();
+        // const conditionDiagStack: DkDiag[] = [];
+        // let exp: Exp | undefined;
+        // let desc: CommandDesc | null;
+        // let ep: EvalProps;
+        // let decoLine = -1;
+        // let decoExp: Exp | null = null;
+        // for (let i = 0; i < (lineCount || lineMap.length); i++) {
+        //     exp = lineMap[i]?.exp;
+        //     if (exp) {
+        //         desc = DescProvider.getCommandDesc(exp);
+        //         if (desc) {
+        //             if (decoExp && AnalyzerUtils.isNonDecorable(desc)) {
+        //                 result.diags.push(AnalyzerUtils.createSimpleDiag(decoExp, decoLine, ErrMsg.NextCommandNonDecorable));
+        //             }
+        //             AnalyzerUtils.diagRootLvl(result, desc, exp, i, !!conditionDiagStack.length);
+        //             if (desc.decorates) {
+        //                 decoLine = i;
+        //                 decoExp = exp;
+        //             } else { decoExp = null; }
+        //             if (desc.isConditionPush) {
+        //                 conditionDiagStack.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.UnterminatedCondition));
+        //             } else if (desc.isConditionPop) {
+        //                 if (conditionDiagStack.length) {
+        //                     conditionDiagStack.pop();
+        //                 } else {
+        //                     result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.UnexpectedEndif));
+        //                 }
+        //             }
+        //             if (desc.returns) {
+        //                 result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.CmdNotAtRootLvl));
+        //             } else {
+        //                 ep = { exp, desc, line: i, state: result };
+        //                 Analyzer.evalExpSideEffects(ep);
+        //                 Analyzer.evalExp(ep);
+        //             }
+        //         } else {
+        //             result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsgUtils.getUnknownCommandMsg(exp.value)));
+        //         }
+        //         result.diags.push(...Analyzer.collectOneLineParseErrors(exp, i));
+        //     }
+        //     if (lineMap[i]?.comment?.includes(DIAG_IGNORE_FLAG)) {
+        //         result.diagIgnoreLines.push(i);
+        //     }
+        // }
+        // if (decoExp) { result.diags.push(AnalyzerUtils.createSimpleDiag(decoExp, decoLine, ErrMsg.TrailingDecorator)); }
+        // Analyzer.performDiags(result);
+        // result.diags = [...result.diags, ...conditionDiagStack];
+        // return result;
     }
 
     static getParamTypesForPosition(statement: Statement, pos: number): ParamType[] {

@@ -1,13 +1,14 @@
 import * as vscode from "vscode";
 import { ConfigProvider } from "./ConfigProvider";
 import { LANGUAGE_ID } from "./extension";
+import { XParsedLine2 } from "./interpreter/model/XParsedLine";
+import { Preparser } from "./interpreter/Preparser";
+import { XParser2 } from "./interpreter/XParser2";
+import { XTokenizer } from "./interpreter/XTokenizer";
 import { MappersVs } from "./MappersVs";
 import { ExtConfig } from "./model/ExtConfig";
-import { Statement } from "./model/Statement";
-import { Parser } from "./Parser";
 import { ResolverUtils } from "./ResolverUtils";
 import { IndexedStatements, ScriptChangeInfo, ScriptInstance } from "./ScriptInstance";
-import { Tokenizer } from "./Tokenizer";
 
 export class Resolver {
     readonly diag: vscode.DiagnosticCollection;
@@ -19,10 +20,8 @@ export class Resolver {
         this.diag = vscode.languages.createDiagnosticCollection(`${LANGUAGE_ID}-diag`);;
     }
 
-    lineToDkStatement(line: string): Statement {
-        const tkns = Tokenizer.tokenize(line);
-        const r = Parser.parseLineTokens(tkns);
-        return r;
+    lineToDkStatement(line: string): XParsedLine2 {
+        return XParser2.parse(Preparser.preparse(XTokenizer.tokenize(line)));
     }
 
     createScriptChangeInfo(cc: vscode.TextDocumentContentChangeEvent, event: vscode.TextDocumentChangeEvent): ScriptChangeInfo {
