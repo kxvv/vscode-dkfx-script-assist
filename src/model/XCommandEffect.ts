@@ -1,117 +1,41 @@
-import { XSyntaxToken } from "../interpreter/model/XToken";
-import { Operator } from "./Operators";
-import { ParamType } from "./ParamType";
-import { RootLvl } from "./RootLvl";
-import { SignChange } from "./SignChange";
-import { XDescParam } from "./XDescParam";
-import { XTempArg } from "./XTempArg";
+import { LoadedCommand } from "./LoadedCommand";
 
-/*
-    TODO
-    autoTypes?: boolean;
-    signChanges?: SignChange[];
-    returns?: ParamType[];
-    decorates?: boolean;
-*/
+export interface CommandEffect {
+    conditionPush?: boolean;
+    conditionPop?: boolean;
+    reuses?: boolean;
 
-export type CommandEffect = (arg: XTempArg) => any;
+    // vars:
+    wins?: boolean;
+    timerWrite?: number[];
+    timerRead?: number[];
+    flagWrite?: number[];
+    flagRead?: number[];
+    apWrite?: number;
+    apRead?: number;
+    partyAdd?: number;
+    partyRead?: number;
+    partyDelete?: number;
+    msgSlot?: number;
+    version?: number;
+}
 
 export class CommandEffectFactory {
-
-    static conditionPush(): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static conditionPop
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static timerWrite
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static timerRead
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static flagWrite
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static flagRead
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static apWrite
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static apRead
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static partyAdd
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static partyRead
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static partyDelete
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static wins
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static msgSlot
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
-    }
-
-    static version
-        (): CommandEffect {
-        return (arg: XTempArg) => {
-            // TODO
-        };
+    public static fromLoadedCmd(loadCmd: LoadedCommand): CommandEffect {
+        const eff: CommandEffect = {};
+        (loadCmd.condition === "PUSH" && (eff.conditionPush = true));
+        (loadCmd.condition === "POP" && (eff.conditionPop = true));
+        (loadCmd.timerWriteAt && (eff.timerWrite = loadCmd.timerWriteAt));
+        (loadCmd.timerReadAt && (eff.timerRead = loadCmd.timerReadAt));
+        (loadCmd.flagWriteAt && (eff.flagWrite = loadCmd.flagWriteAt));
+        (loadCmd.flagReadAt && (eff.flagRead = loadCmd.flagReadAt));
+        (loadCmd.apWriteAt != null && (eff.apWrite = loadCmd.apWriteAt));
+        (loadCmd.apReadAt != null && (eff.apRead = loadCmd.apReadAt));
+        (loadCmd.partyAddAt != null && (eff.partyAdd = loadCmd.partyAddAt));
+        (loadCmd.partyReadAt != null && (eff.partyRead = loadCmd.partyReadAt));
+        (loadCmd.partyDeleteAt != null && (eff.partyDelete = loadCmd.partyDeleteAt));
+        (loadCmd.wins != null && (eff.wins = loadCmd.wins));
+        (loadCmd.reuses && (eff.reuses = true));
+        return eff;
     }
 }

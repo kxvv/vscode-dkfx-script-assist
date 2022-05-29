@@ -76,24 +76,6 @@ function getCmdDocMarkDown(loadCmd: LoadedCommand, name: string): string {
     return loadCmd.doc || "";
 }
 
-function getCommandsEffects(loadCmd: LoadedCommand): CommandEffect[] {
-    const result: CommandEffect[] = [];
-    const F = CommandEffectFactory;
-    (loadCmd.condition === "PUSH" && result.push(F.conditionPush()));
-    (loadCmd.condition === "POP" && result.push(F.conditionPop()));
-    (loadCmd.timerWriteAt && result.push(F.timerWrite()));
-    (loadCmd.timerReadAt && result.push(F.timerRead()));
-    (loadCmd.flagWriteAt && result.push(F.flagWrite()));
-    (loadCmd.flagReadAt && result.push(F.flagRead()));
-    (loadCmd.apWriteAt != null && result.push(F.apWrite()));
-    (loadCmd.apReadAt != null && result.push(F.apRead()));
-    (loadCmd.partyAddAt != null && result.push(F.partyAdd()));
-    (loadCmd.partyReadAt != null && result.push(F.partyRead()));
-    (loadCmd.partyDeleteAt != null && result.push(F.partyDelete()));
-    (loadCmd.wins != null && result.push(F.wins()));
-    return result;
-}
-
 function decideOptionalStartingIndex(signParts: string[], optParam: number | undefined): number {
     if (optParam != null) {
         const referencedStrings = signParts.map(part => ({ value: part }));
@@ -131,7 +113,7 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
     // ...(loadCmd.doc && { doc: getCmdDocMarkDown(loadCmd, name) }),
 
     const result: XCommandDesc = {
-        effects: getCommandsEffects(loadCmd),
+        effects: CommandEffectFactory.fromLoadedCmd(loadCmd),
         bracketed: false,
         params: [],
         autoTypes: false,
@@ -161,15 +143,16 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
             result.autoTypes = true;
         }
         const msgSlotPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.MsgNumber));
-        if (msgSlotPos > -1) { result.effects.push(CommandEffectFactory.msgSlot()); }
+        if (msgSlotPos > -1) { result.effects!.msgSlot = msgSlotPos; }
         const newPartyPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.NewParty));
-        if (newPartyPos > -1) { result.effects.push(CommandEffectFactory.partyAdd()); }
+        if (newPartyPos > -1) { result.effects!.partyAdd = newPartyPos; }
         const versionPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.Version));
-        if (versionPos > -1) { result.effects.push(CommandEffectFactory.version()); }
+        if (versionPos > -1) { result.effects!.version = versionPos; }
     }
     if (loadCmd.signChanges) {
         result.signChanges = loadCmd.signChanges.map(interpretSignChangeString);
     }
+    if (!Object.keys(result.effects || {}).length) { delete result.effects; }
     return result;
 }
 

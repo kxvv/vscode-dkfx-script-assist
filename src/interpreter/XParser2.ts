@@ -8,6 +8,7 @@ import { XParsedLine2 } from "./model/XParsedLine";
 import { XToken } from "./model/XToken";
 import { PreparsedStatement } from "./Preparser";
 import { XExp2 } from "./model/XExp2";
+import { XConst2 } from "./model/XConst2";
 
 export class XParser2 {
 
@@ -23,7 +24,7 @@ export class XParser2 {
 
             if (tokens[0] instanceof XToken && tokens[0].type === TokenType.Word) {
                 if (tokens.length === 1) {
-                    result.exp = tokens[0];
+                    result.exp = new XConst2(null, tokens[0].val, tokens[0].start);
                 } else if (tokens[1] instanceof TokenGroup) {
                     result.exp = XParser2.parseGroup(tokens[1], tokens[0], result);
                 } else if (tokens[1]) {

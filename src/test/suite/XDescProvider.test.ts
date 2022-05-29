@@ -1,7 +1,6 @@
 import * as assert from "assert";
 import { ParamType } from "../../model/ParamType";
 import { XCommandDesc } from "../../model/XCommandDesc";
-import { CommandEffectFactory } from "../../model/XCommandEffect";
 import { XDescProvider } from "../../XDescProvider";
 import { TestUtils } from "./TestUtils";
 
@@ -27,12 +26,10 @@ suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () =
             name: "value",
             optional: false,
         });
-        expected.effects.push(CommandEffectFactory.flagWrite());
+        expected.effects = {
+            flagWrite: [0, 1]
+        };
 
-        assert.deepStrictEqual(result.effects.length, expected.effects.length);
-        // TODO 
-        result.effects.pop();
-        expected.effects.pop();
         assert.deepStrictEqual(result, expected);
     });
 
@@ -46,7 +43,7 @@ suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () =
             optional: false,
         });
         expected.params.push({
-            allowedTypes: [ParamType.ReadVar,ParamType.SetVar],
+            allowedTypes: [ParamType.ReadVar, ParamType.SetVar],
             preSep: true,
             name: "left B",
             optional: false,
@@ -64,17 +61,15 @@ suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () =
             optional: false,
         });
         expected.params.push({
-            allowedTypes: [ParamType.ReadVar,ParamType.SetVar],
+            allowedTypes: [ParamType.ReadVar, ParamType.SetVar],
             preSep: true,
             name: "right B",
             optional: true,
         });
-        expected.effects.push(CommandEffectFactory.conditionPush());
+        expected.effects = {
+            conditionPush: true
+        };
 
-        assert.deepStrictEqual(result.effects.length, expected.effects.length);
-        // TODO 
-        result.effects.pop();
-        expected.effects.pop();
         assert.deepStrictEqual(result, expected);
     });
 });

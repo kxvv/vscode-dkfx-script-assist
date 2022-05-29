@@ -52,22 +52,22 @@ export class TestUtils {
         };
     }
     
-    static createScriptXAnl(): XScriptAnalysis {
-        return {
-            diags: [],
-            parties: [],
-            timerWrites: [],
-            timerReads: [],
-            flagWrites: [],
-            flagReads: [],
-            msgSlots: {},
-            versionWrites: [],
-            apReads: [],
-            apWrites: [],
-            winsCount: 0,
-            diagIgnoreLines: [],
-        };
-    }
+    // static createScriptXAnl(): XScriptAnalysis {
+    //     return {
+    //         diags: [],
+    //         parties: [],
+    //         timerWrites: [],
+    //         timerReads: [],
+    //         flagWrites: [],
+    //         flagReads: [],
+    //         msgSlots: {},
+    //         versionWrites: [],
+    //         apReads: [],
+    //         apWrites: [],
+    //         winsCount: 0,
+    //         diagIgnoreLines: [],
+    //     };
+    // }
 
     static createXToken(val: string, start: number, type = TokenType.Syntactic): XToken {
         return new XToken(val, start, type);
@@ -78,7 +78,6 @@ export class TestUtils {
             autoTypes: false,
             bracketed: false,
             doc: "",
-            effects: [],
             params: [],
         };
     }

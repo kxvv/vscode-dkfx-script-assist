@@ -68,6 +68,18 @@ export class XExp2 {
         return this.children;
     }
 
+    public getChild(index: number) {
+        return this.children[index];
+    }
+
+    public getChildsConst(index: number): XConst2 | null {
+        const child: XExpChild | undefined = this.children[index];
+        if (child && child.val instanceof XConst2) {
+            return child.val;
+        }
+        return null;
+    }
+
     public getDesc(): XCommandDesc | undefined {
         return this.desc || (this.desc = XDescProvider.getCommandDescForExp(this));
     }

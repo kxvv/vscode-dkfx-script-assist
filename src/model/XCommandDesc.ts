@@ -31,9 +31,10 @@ import { XDescParam } from "./XDescParam";
 
 export interface XCommandDesc {
     params: XDescParam[];
-    effects: CommandEffect[];
     bracketed: boolean;
     doc: string;
     autoTypes: boolean;
     signChanges?: XSignChange[];
+    effects?: CommandEffect;
+    rootLvl?: RootLvl;
 }
