@@ -787,6 +787,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "DamageToBoulder" },
         { val: "ThingSize" },
         { val: "Properties" },
+        { val: "CorpseVanishEffect" },
     ],
     [ParamType.Rule]: [
         { val: "RULE0" },
