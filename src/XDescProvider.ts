@@ -149,9 +149,8 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
         const versionPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.Version));
         if (versionPos > -1) { result.effects!.version = versionPos; }
     }
-    if (loadCmd.signChanges) {
-        result.signChanges = loadCmd.signChanges.map(interpretSignChangeString);
-    }
+    loadCmd.signChanges && (result.signChanges = loadCmd.signChanges.map(interpretSignChangeString));
+    loadCmd.returns && (result.returns = interpretParamTypes(loadCmd.returns));
     if (!Object.keys(result.effects || {}).length) { delete result.effects; }
     return result;
 }

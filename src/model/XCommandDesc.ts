@@ -37,4 +37,5 @@ export interface XCommandDesc {
     signChanges?: XSignChange[];
     effects?: CommandEffect;
     rootLvl?: RootLvl;
+    returns?: ParamType[];
 }

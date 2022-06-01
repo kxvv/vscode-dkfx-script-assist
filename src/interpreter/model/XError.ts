@@ -1,4 +1,5 @@
 import { ErrSeverity } from "../../model/ErrSeverity";
+import { ParamType } from "../../model/ParamType";
 import { TokenGroup } from "./TokenGroup";
 import { XToken } from "./XToken";
 
@@ -78,5 +79,39 @@ export class ErrorNothingToReuse extends XError {
 export class ErrorUnknownCommand extends XError {
     constructor(exp: Range, name: string) {
         super(`Unknown command '${name}'`, exp.start, exp.end);
+    }
+}
+
+export class ErrorTypeMismatch extends XError {
+    constructor(exp: Range, value: string, pt: ParamType[]) {
+        super(`Cannot assign '${value}' to ${pt.join("/")}`, exp.start, exp.end);
+    }
+}
+
+export class ErrorEmptyParam extends XError {
+    constructor(exp: Range) {
+        super(`Empty params are not allowed`, exp.start, exp.end);
+    }
+}
+
+export class ErrorArgumentsCount extends XError {
+    constructor(exp: Range, min: number, max: number) {
+        super(
+            min === max ?
+                `Expected ${min} param${min > 1 ? "s" : ""}`
+                : `Expected ${min}-${max} params`, exp.start, exp.end
+        );
+    }
+}
+
+export class ErrorSeparatorExpected extends XError {
+    constructor(exp: Range) {
+        super(`Separator (',') expected`, exp.start, exp.end);
+    }
+}
+
+export class ErrorReturnOnlyAsArg extends XError {
+    constructor(exp: Range) {
+        super(`Commands with return value can only be used as an argument`, exp.start, exp.end);
     }
 }

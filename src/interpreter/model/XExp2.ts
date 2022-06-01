@@ -10,7 +10,7 @@ import { XCommandDesc } from "../../model/XCommandDesc";
 import { XDescProvider } from "../../XDescProvider";
 
 export class XExp2 {
-    private children: (XExpChild)[];
+    private children: XExpChild[];
     caller: XToken;
     start: number;
     end: number;
@@ -68,7 +68,7 @@ export class XExp2 {
         return this.children;
     }
 
-    public getChild(index: number) {
+    public getChild(index: number): XExpChild | undefined {
         return this.children[index];
     }
 

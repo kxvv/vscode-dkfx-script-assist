@@ -13,7 +13,7 @@ interface TypeToolCheck {
     analysis: XScriptAnalysis;
 }
 
-interface TypeTool {
+export interface TypeTool {
     check(args: TypeToolCheck): boolean;
 }
 
