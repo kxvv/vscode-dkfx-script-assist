@@ -1,5 +1,5 @@
 import { XConst2 } from "./interpreter/model/XConst2";
-import { ErrorArgumentsCount, ErrorEmptyParam, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnknownCommand } from "./interpreter/model/XError";
+import { ErrorArgumentsCount, ErrorEmptyParam, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/XError";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XExpChild } from "./interpreter/model/XExpChild";
 import { XParsedLine2 } from "./interpreter/model/XParsedLine";
@@ -67,6 +67,9 @@ export class XAnalyzer {
                 if (desc.params[i].preSep && !child.preSep) {
                     analysis.pushError(line, new ErrorSeparatorExpected(child));
                 }
+                if (!desc.params[i].preSep && child.preSep) {
+                    analysis.pushError(line, new ErrorUnexpectedSeparator(child.preSep));
+                }
 
             } else {
                 if (!desc.params[i].optional) { faultyparamsCount++; }
@@ -76,7 +79,7 @@ export class XAnalyzer {
             analysis.pushError(line, new ErrorArgumentsCount(exp.caller, params.length - optsCount, params.length));
         }
         for (let i = desc.params.length; i < exp.getChildren().length; i++) {
-            analysis.pushError(line, new ErrorArgumentsCount(exp.getChildren()[i], params.length - optsCount, params.length));
+            analysis.pushError(line, new ErrorArgumentsCount(exp.getChild(i), params.length - optsCount, params.length));
         }
     }
 

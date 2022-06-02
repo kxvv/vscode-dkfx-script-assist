@@ -110,6 +110,12 @@ export class ErrorSeparatorExpected extends XError {
     }
 }
 
+export class ErrorUnexpectedSeparator extends XError {
+    constructor(sep: Range) {
+        super(`Unexpected separator`, sep.start, sep.end);
+    }
+}
+
 export class ErrorReturnOnlyAsArg extends XError {
     constructor(exp: Range) {
         super(`Commands with return value can only be used as an argument`, exp.start, exp.end);

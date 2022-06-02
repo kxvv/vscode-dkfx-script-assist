@@ -7,7 +7,7 @@ import { CommandDesc } from "./model/CommandDesc";
 import { Exp } from "./model/Exp";
 import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
 import { ParamType } from "./model/ParamType";
-import { XSignChange } from "./model/SignChange";
+import { SignOptChange, XSignChange } from "./model/SignChange";
 import { XCommandDesc } from "./model/XCommandDesc";
 import { CommandEffect, CommandEffectFactory } from "./model/XCommandEffect";
 import { XDescParam } from "./model/XDescParam";
@@ -51,15 +51,19 @@ function interpretSignParam(signPart: string): { name: string, params: string } 
 }
 
 function interpretSignChangeString(arg: string): XSignChange {
-    // IF 1 EQ ROOM SET 2 ROOM
+    // 0:IF 1:1 2:EQ 3:ROOM 4:SET 5:2 6:ROOM
     const parts = arg.split(" ");
-    const check = parts[2] === "IN" ? "IN" : "EQ";
+    const check = parts[2] === "EQ" ? "EQ" : "IN";
     const result: XSignChange = new XSignChange({
         in: parseInt(parts[1]),
         check,
         out: parseInt(parts[5]),
-        change: parts[6] === "MAKE_OPTIONAL" ? parts[6] : interpretParamTypes(parts[6])
     });
+    if ([SignOptChange.Optional, SignOptChange.Required].includes(parts[6] as SignOptChange)) {
+        result.optChange = parts[6] as SignOptChange;
+    } else {
+        result.change = interpretParamTypes(parts[6]);
+    }
     if (check === "EQ") {
         result.arg = parts[3];
     } else {
@@ -119,17 +123,17 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
         autoTypes: false,
         doc: "",
     };
-    
+
     const parts = [...(loadCmd.cmd.matchAll(/([([])(.*)([)\]])/g))][0];
     const openSymbol = parts[1];
     const sign = parts[2];
 
     result.bracketed = openSymbol === XSyntaxToken.BOpen;
 
-    
+
     const nonSepSignParts: NonSepSignPart[] = signToNonSepSignParts(sign);
     const optFromNonSepIndex = nonSepSignParts.length - (loadCmd.opts || 0);
-    
+
     for (let i = 0; i < nonSepSignParts.length; i++) {
         const { name, params } = interpretSignParam(nonSepSignParts[i].signPart);
         const cmdParam: XDescParam = {

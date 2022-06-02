@@ -74,6 +74,7 @@ export enum ParamType {
     TrapConfig = "TRAP_CONFIG",
     TrapTriggerType = "TRAP_TRIGGER_TYPE",
     Unknown = "UNKNOWN",
+    Void = "VOID",
     Version = "VERSION",
     Zero = "ZERO"
 }

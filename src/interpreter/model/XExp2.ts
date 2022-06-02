@@ -68,7 +68,7 @@ export class XExp2 {
         return this.children;
     }
 
-    public getChild(index: number): XExpChild | undefined {
+    public getChild(index: number): XExpChild {
         return this.children[index];
     }
 

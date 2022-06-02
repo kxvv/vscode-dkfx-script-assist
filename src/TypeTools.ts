@@ -8,9 +8,9 @@ import { XScriptAnalysis } from "./model/XScriptAnalysis";
 import { Utils } from "./Utils";
 
 interface TypeToolCheck {
-    line: number;
     word: XConst2;
-    analysis: XScriptAnalysis;
+    line?: number;
+    analysis?: XScriptAnalysis;
 }
 
 export interface TypeTool {
@@ -152,6 +152,11 @@ const DK_TYPES: { [key: string]: TypeTool } = {
     [ParamType.Unknown]: {
         check(ttc: TypeToolCheck): boolean {
             return true;
+        }
+    },
+    [ParamType.Void]: {
+        check(ttc: TypeToolCheck): boolean {
+            return false;
         }
     },
 };

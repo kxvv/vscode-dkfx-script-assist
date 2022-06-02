@@ -1438,4 +1438,12 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "DISEASE", },
         { val: "LIGHT", },
     ],
+    [ParamType.CompareOperator]: [
+        { val: ">" },
+        { val: "<" },
+        { val: ">=" },
+        { val: "<=" },
+        { val: "==" },
+        { val: "!=" },
+    ],
 };
