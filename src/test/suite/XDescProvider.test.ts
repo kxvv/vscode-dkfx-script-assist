@@ -4,7 +4,7 @@ import { XCommandDesc } from "../../model/XCommandDesc";
 import { XDescProvider } from "../../XDescProvider";
 import { TestUtils } from "./TestUtils";
 
-suite.only("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
+suite("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
     test("SET_FLAg", () => {
         const result: XCommandDesc | null = XDescProvider.getCommandDesc("SET_FLAg")!;
         const expected: XCommandDesc = TestUtils.createDesc();

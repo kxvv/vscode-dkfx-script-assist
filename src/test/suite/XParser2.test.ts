@@ -7,12 +7,12 @@ import { Operator } from "../../model/Operators";
 import { TokenType } from "../../model/TokenType";
 import { TestUtils } from "./TestUtils";
 import { XParser2 } from "../../interpreter/XParser2";
-import { XExp2 } from "../../interpreter/model/XExp2";
+import { RangeExp, XExp2 } from "../../interpreter/model/XExp2";
 import { XParsedLine2 } from "../../interpreter/model/XParsedLine";
 import { XExpChild } from "../../interpreter/model/XExpChild";
 import { XConst2 } from "../../interpreter/model/XConst2";
 
-suite("Suite for XParser2::" + XParser2.parse.name, () => {
+suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
     test("f( four ) rem hi", () => {
         const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
         const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);
@@ -467,6 +467,40 @@ suite("Suite for XParser2::" + XParser2.parse.name, () => {
         }
         expected.pushError(new ErrorInvalidStatement(last));
 
+        assert.deepStrictEqual(result, expected);
+    });
+
+    test("f( 12 ~ 22 )", () => {
+        const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
+        const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);
+        const closerToken: XToken = TestUtils.createXToken(XSyntaxToken.PClose, 11);
+        const left: XToken = TestUtils.createXToken("12", 3, TokenType.Word);
+        const operator: XToken = TestUtils.createXToken("~", 6, TokenType.Operator);
+        const right: XToken = TestUtils.createXToken("22", 8, TokenType.Word);
+
+        const st: PreparsedStatement = new PreparsedStatement(
+            [
+                callerToken,
+                new TokenGroup(
+                    [left, operator, right],
+                    openerToken,
+                    closerToken,
+                )
+            ],
+        );
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
+        {
+            const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
+            exp.getChildren().pop();
+
+            const child = new XExpChild(exp, 2, 11);
+            child.val = new RangeExp(left, operator, right);
+            child.val.parent = child;
+
+            exp.getChildren().push(child);
+            expected.exp = exp;
+        }
         assert.deepStrictEqual(result, expected);
     });
 });

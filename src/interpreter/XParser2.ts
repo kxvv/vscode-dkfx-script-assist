@@ -7,8 +7,9 @@ import { ErrorInvalidStatement, ErrorOpeningAndClosingTokensMismatch, ErrorUnexp
 import { XParsedLine2 } from "./model/XParsedLine";
 import { XToken } from "./model/XToken";
 import { PreparsedStatement } from "./Preparser";
-import { XExp2 } from "./model/XExp2";
+import { RangeExp, XExp2 } from "./model/XExp2";
 import { XConst2 } from "./model/XConst2";
+import { XExpChild } from "./model/XExpChild";
 
 export class XParser2 {
 
@@ -47,18 +48,24 @@ export class XParser2 {
         let i = 0;
         let token: XToken | TokenGroup;
         let nextToken: XToken | TokenGroup;
+        let nextToken2: XToken | TokenGroup;
 
         while (i < group.tokens.length) {
             token = group.tokens[i];
             nextToken = group.tokens[i + 1];
 
             if (token instanceof XToken) {
-                if (nextToken && nextToken instanceof TokenGroup) {
+                if (nextToken instanceof TokenGroup) {
                     result.pushExp(XParser2.parseGroup(nextToken, token, futureLine));
                     i += 2;
                 } else {
-                    result.pushToken(token);
-                    i++;
+                    if (nextToken?.val === Operator.Rng && (nextToken2 = group.tokens[i + 2]) && nextToken2 instanceof XToken) {
+                        result.pushExp(new RangeExp(token, nextToken, nextToken2));
+                        i += 3;
+                    } else {
+                        result.pushToken(token);
+                        i++;
+                    }
                 }
             } else {
                 result.pushExp(XParser2.parseGroup(token, token.opener, futureLine));

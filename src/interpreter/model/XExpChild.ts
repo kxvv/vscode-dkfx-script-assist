@@ -1,6 +1,7 @@
 import { XToken } from "./XToken";
 import { XExp2 } from "./XExp2";
 import { XConst2 } from "./XConst2";
+import { XDescParam } from "../../model/XDescParam";
 
 export class XExpChild {
     parent: XExp2;
@@ -13,5 +14,15 @@ export class XExpChild {
         this.parent = parent;
         this.start = start;
         this.end = end;
+    }
+
+    getDescParam(): XDescParam | null {
+        const siblings = this.parent.getChildren();
+        for (let i = 0; i < (this.parent.getDesc()?.params.length || 0); i++) {
+            if (siblings[i] === this) {
+                return this.parent.getDesc()!.params[i];
+            }
+        }
+        return null;
     }
 }

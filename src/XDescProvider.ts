@@ -219,7 +219,7 @@ export class XDescProvider {
     }
 
     static getCommandDescForExp(exp: XExp2): XCommandDesc | undefined {
-        const desc = XDescProvider.getCommandDescMap().get(exp.caller.val.toUpperCase());
+        const desc = XDescProvider.getCommandDesc(exp.caller.val);
         if (desc?.signChanges) {
             let paramsCopy: XDescParam[] = [...desc.params];
             for (const change of desc.signChanges) {

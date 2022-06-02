@@ -8,6 +8,7 @@ import { XExpChild } from "./XExpChild";
 import { XConst2 } from "./XConst2";
 import { XCommandDesc } from "../../model/XCommandDesc";
 import { XDescProvider } from "../../XDescProvider";
+import { ParamType } from "../../model/ParamType";
 
 export class XExp2 {
     private children: XExpChild[];
@@ -109,6 +110,47 @@ export class XExp2 {
     //     }
     //     return result;
     // }
+}
+
+export class RangeExp extends XExp2 {
+    constructor(left: XToken, operator: XToken, right: XToken) {
+        super(operator, operator, operator);
+        this.start = left.start;
+        this.end = right.end;
+        this.getChildren().pop();
+
+        let child: XExpChild;
+        child = new XExpChild(this, left.start, left.end);
+        child.val = new XConst2(child, left.val, left.start);
+        this.getChildren().push(child);
+        child = new XExpChild(this, right.start, right.end);
+        child.val = new XConst2(child, right.val, right.start);
+        this.getChildren().push(child);
+
+        const parentDesc: XCommandDesc | undefined = this.parent?.parent.getDesc();
+        if (parentDesc) {
+            this.desc = {
+                bracketed: false,
+                autoTypes: false,
+                doc: "",
+                returns: [ParamType.Range],
+                params: [
+                    {
+                        allowedTypes: [ParamType.Number],
+                        name: "left",
+                        optional: false,
+                        preSep: true,
+                    },
+                    {
+                        allowedTypes: [ParamType.Number],
+                        name: "right",
+                        optional: false,
+                        preSep: false,
+                    }
+                ]
+            };
+        }
+    }
 }
 
 // export class XExp {
