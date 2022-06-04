@@ -121,3 +121,15 @@ export class ErrorReturnOnlyAsArg extends XError {
         super(`Commands with return value can only be used as an argument`, exp.start, exp.end);
     }
 }
+
+export class ErrorParensMismatch extends XError {
+    constructor(caller: Range) {
+        super(`Opening and closing tokens do not match`, caller.start, caller.end);
+    }
+}
+
+export class ErrorIncorrectOpeningToken extends XError {
+    constructor(opener: Range, expected: string) {
+        super(`Incorrect opening token (expected '${expected}')`, opener.start, opener.end);
+    }
+}

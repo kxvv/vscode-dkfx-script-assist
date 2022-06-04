@@ -2,7 +2,6 @@
 - cmd: SET_FLAG([player:PLAYER],[flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX],[value:NUMBER])
   flagWriteAt: [0,1]
   doc: Sets up a flag that is assigned a number.
-  signChanges: [IF 1 IN FLAG SET 2 ROOM, IF 1 IN CUSTOM_BOX SET 2 POWER]
   opts: 1
 
 - cmd: IF([player:PLAYER],[left B:READABLE_VAR/SETTABLE_VAR][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER],[right B:READABLE_VAR/SETTABLE_VAR])
@@ -14,5 +13,12 @@
 - cmd: ENDIF()
   condition: POP
 
-- cmd: TEST(ehh:NUMBER)
+- cmd: TEST([ehh:NUMBER])
   returns: FLAG
+
+- cmd: DRAWFROM([AUTO],[AUTO],[AUTO],[AUTO],[AUTO],[AUTO],[AUTO],[AUTO])
+  opts: 7
+  returns: AUTO
+  doc: |
+    Is not a command itself but may replace a parameter of most other commands. Replaces the old RANDOM() command. It draws at random one value or number from up to eight parameters.
+    The command shouldn't be used in multiplayer maps, as it will lead to synchronization problems. Value represented by DRAWFROM is selected at start of a map, and never changes during the gameplay.

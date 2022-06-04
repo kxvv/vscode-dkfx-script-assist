@@ -127,29 +127,26 @@ export class RangeExp extends XExp2 {
         child.val = new XConst2(child, right.val, right.start);
         this.getChildren().push(child);
 
-        const parentDesc: XCommandDesc | undefined = this.parent?.parent.getDesc();
-        if (parentDesc) {
-            this.desc = {
-                bracketed: false,
-                autoTypes: false,
-                doc: "",
-                returns: [ParamType.Range],
-                params: [
-                    {
-                        allowedTypes: [ParamType.Number],
-                        name: "left",
-                        optional: false,
-                        preSep: true,
-                    },
-                    {
-                        allowedTypes: [ParamType.Number],
-                        name: "right",
-                        optional: false,
-                        preSep: false,
-                    }
-                ]
-            };
-        }
+        this.desc = {
+            bracketed: false,
+            autoTypes: false,
+            doc: "",
+            returns: [ParamType.Range],
+            params: [
+                {
+                    allowedTypes: [ParamType.Number],
+                    name: "left",
+                    optional: false,
+                    preSep: false,
+                },
+                {
+                    allowedTypes: [ParamType.Number],
+                    name: "right",
+                    optional: false,
+                    preSep: false,
+                }
+            ]
+        };
     }
 }
 

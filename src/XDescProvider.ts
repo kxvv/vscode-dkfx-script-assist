@@ -219,7 +219,13 @@ export class XDescProvider {
     }
 
     static getCommandDescForExp(exp: XExp2): XCommandDesc | undefined {
-        const desc = XDescProvider.getCommandDesc(exp.caller.val);
+        let desc = XDescProvider.getCommandDesc(exp.caller.val);
+        if (desc?.autoTypes && exp.parent) {
+            const parentParam = exp.parent.getDescParam();
+            if (parentParam) {
+                desc = this.replaceAutoTypes({ ...desc }, exp, parentParam);
+            }
+        }
         if (desc?.signChanges) {
             let paramsCopy: XDescParam[] = [...desc.params];
             for (const change of desc.signChanges) {
@@ -232,6 +238,21 @@ export class XDescProvider {
         }
         return desc;
         // return XDescProvider.getCommandDescMap().get(name.toUpperCase()) || null;
+    }
+
+    private static replaceAutoTypes(descCopy: XCommandDesc, exp: XExp2, parentParam: XDescParam): XCommandDesc {
+        let isConsecutive = parentParam.allowedTypes.includes(ParamType.Number) || parentParam.allowedTypes.includes(ParamType.Byte);
+        if (String(descCopy.returns) === String([ParamType.Auto])) {
+            descCopy.returns = parentParam.allowedTypes;
+        }
+        descCopy.params = descCopy.params.map(p => {
+            const result: XDescParam = { ...p };
+            if (String(p.allowedTypes) === String([ParamType.Auto])) {
+                result.allowedTypes = isConsecutive ? parentParam.allowedTypes.concat(ParamType.Range) : parentParam.allowedTypes;
+            }
+            return result;
+        });
+        return descCopy;
     }
 
     // static getCommandDesc(exp: string | Exp): CommandDesc | null {

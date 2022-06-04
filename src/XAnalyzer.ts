@@ -1,14 +1,16 @@
 import { XConst2 } from "./interpreter/model/XConst2";
-import { ErrorArgumentsCount, ErrorEmptyParam, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/XError";
+import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/XError";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XExpChild } from "./interpreter/model/XExpChild";
 import { XParsedLine2 } from "./interpreter/model/XParsedLine";
+import { Operator } from "./model/Operators";
 import { ParamType } from "./model/ParamType";
 import { XCommandDesc } from "./model/XCommandDesc";
 import { CommandEffect } from "./model/XCommandEffect";
 import { XDescParam } from "./model/XDescParam";
 import { XScriptAnalysis } from "./model/XScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
+import { SyntaxToken } from "./Tokenizer";
 import { TypeTools } from "./TypeTools";
 
 const DIAG_IGNORE_FLAG = "@ignore";
@@ -24,9 +26,25 @@ export class XAnalyzer {
         return !!(expDesc && allowed.some(t => expDesc.returns?.includes(t)));
     }
 
+    private static checkParens(line: number, exp: XExp2, desc: XCommandDesc, analysis: XScriptAnalysis) {
+        if (exp.caller.val !== Operator.Rng) {
+            if (exp.closer) {
+                const parens = exp.opener.val + exp.closer.val;
+                if (parens !== "()" && parens !== "[]") {
+                    analysis.pushError(line, new ErrorParensMismatch(exp.caller));
+                }
+            }
+            if (desc.bracketed && exp.opener.val === SyntaxToken.POpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.BOpen));
+            } else if (!desc.bracketed && exp.opener.val === SyntaxToken.BOpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.POpen));
+            }
+        }
+    }
+
     private static checkTypesForExp(line: number, exp: XExp2, desc: XCommandDesc, analysis: XScriptAnalysis) {
         const params: XDescParam[] = desc.params;
-        let faultyparamsCount = 0; // todo better name
+        let misplacedParamsCount = 0;
         let child: XExpChild | undefined;
         let childVal: XExp2 | XConst2 | null | undefined;
         let allowed: ParamType[];
@@ -72,10 +90,11 @@ export class XAnalyzer {
                 }
 
             } else {
-                if (!desc.params[i].optional) { faultyparamsCount++; }
+                if (!desc.params[i].optional) { misplacedParamsCount++; }
             }
         }
-        if (faultyparamsCount) {
+        XAnalyzer.checkParens(line, exp, desc, analysis);
+        if (misplacedParamsCount) {
             analysis.pushError(line, new ErrorArgumentsCount(exp.caller, params.length - optsCount, params.length));
         }
         for (let i = desc.params.length; i < exp.getChildren().length; i++) {

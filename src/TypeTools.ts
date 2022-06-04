@@ -56,6 +56,12 @@ const check = {
 };
 
 const DK_TYPES: { [key: string]: TypeTool } = {
+    [ParamType.Auto]: {
+        check(ttc: TypeToolCheck): boolean {
+            const val = ttc.word.val;
+            return check.numberPositive(val) && Utils.isParsedBetween(val, CONSTRAINTS.minAp, CONSTRAINTS.maxAp);
+        }
+    },
     [ParamType.ActionPoint]: {
         check(ttc: TypeToolCheck): boolean {
             const val = ttc.word.val;
