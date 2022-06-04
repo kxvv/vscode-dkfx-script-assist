@@ -89,6 +89,43 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         assert.deepStrictEqual(result, expected);
     });
 
+    test("f(four>", () => {
+        const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
+        const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);
+        const arg1: XToken = TestUtils.createXToken("four", 2, TokenType.String);
+        const argSep: XToken = TestUtils.createXToken(Operator.Gt, 6, TokenType.Operator);
+
+        const st: PreparsedStatement = new PreparsedStatement(
+            [
+                callerToken,
+                new TokenGroup(
+                    [arg1, argSep],
+                    openerToken,
+                )
+            ]
+        );
+        const result: XParsedLine2 = XParser2.parse(st);
+        const expected: XParsedLine2 = new XParsedLine2;
+        {
+            const exp: XExp2 = new XExp2(callerToken, openerToken);
+            exp.getChildren().pop();
+            let child: XExpChild;
+
+            child = new XExpChild(exp, 2, 6);
+            child.val = new XConst2(child, arg1.val, arg1.start);
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 6, 7);
+            child.val = new XConst2(child, argSep.val, argSep.start);
+            exp.getChildren().push(child);
+            child = new XExpChild(exp, 7, Number.MAX_SAFE_INTEGER);
+            exp.getChildren().push(child);
+            expected.exp = exp;
+        }
+        expected.parseErrs = [new ErrorUnterminatedExpression(callerToken)];
+
+        assert.deepStrictEqual(result, expected);
+    });
+
     test("f(  )", () => {
         const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
         const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);

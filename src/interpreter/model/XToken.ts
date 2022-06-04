@@ -30,4 +30,8 @@ export class XToken {
     isSeparating() {
         return this.val === ","; // TODO remove this || OPERATORS.includes(this.val as Operator);
     }
+
+    isOperator(): boolean {
+        return OPERATORS.includes(this.val as Operator);
+    }
 }

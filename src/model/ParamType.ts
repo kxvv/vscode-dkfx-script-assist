@@ -56,6 +56,7 @@ export enum ParamType {
     PowerLvl = "POWER_LVL",
     Range = "RANGE",
     ReadVar = "READABLE_VAR",
+    ReadSetVar = "READSET_VAR",
     ResearchType = "RESEARCH_TYPE",
     Room = "ROOM",
     RoomAvailability = "ROOM_AVAILABILITY",

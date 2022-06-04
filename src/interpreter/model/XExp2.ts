@@ -59,6 +59,11 @@ export class XExp2 {
                 newborn = new XExpChild(this, lastChild.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
                 newborn.val = new XConst2(newborn, arg.val, arg.start);
                 this.children.push(newborn);
+                if (arg.isOperator()) {
+                    newborn.end = arg.end;
+                    newborn = new XExpChild(this, newborn.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
+                    this.children.push(newborn);
+                }
             } else {
                 lastChild.val = new XConst2(lastChild, arg.val, arg.start);
             }
@@ -89,27 +94,37 @@ export class XExp2 {
         return !!this.children.length && Utils.isBetween(pos, this.children[0].start, Utils.arrayPeek(this.children)!.end);
     }
 
-    // public getLeafExp(pos: number): XExp | null {
-    //     const stack: XExp[] = [this];
-    //     let result: XExp | null = null;
-    //     while (stack.length) {
-    //         result = stack.pop() || null;
-    //         if (result && result.isPosInCall(pos)) {
-    //             for (const child of result.getChildren()) {
-    //                 // TODO also consider trailing?
-    //                 if (child instanceof XExpChildSlot && child.arg instanceof XExp) {
-    //                     if (child.arg.isPosInCall(pos)) {
-    //                         stack.push(child.arg);
-    //                         break;
-    //                     }
-    //                 }
-    //             }
-    //         } else {
-    //             result = null;
-    //         }
-    //     }
-    //     return result;
-    // }
+    public getLeafExp(pos: number): XExp2 | null {
+        const stack: XExp2[] = [this];
+        let result: XExp2 | null = null;
+        while (stack.length) {
+            result = stack.pop() || null;
+            if (result && result.isPosInCall(pos)) {
+                for (const child of result.getChildren()) {
+                    if (child.val instanceof XExp2) {
+                        if (child.val.isPosInCall(pos)) {
+                            stack.push(child.val);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                result = null;
+            }
+        }
+        return result;
+    }
+
+    public getChildAtPosition(pos: number): [XExpChild | null, number] {
+        let child: XExpChild;
+        for (let i = this.children.length - 1; i >= 0; i--) {
+            child = this.children[i];
+            if (pos >= child.start && pos <= child.end) {
+                return [child, i];
+            }
+        }
+        return [null, 0];
+    }
 }
 
 export class RangeExp extends XExp2 {

@@ -1,17 +1,28 @@
 import { DescProvider } from "./DescProvider";
 import { XExp } from "./interpreter/model/XExp";
+import { XExp2 } from "./interpreter/model/XExp2";
 import { XExpChildSlot } from "./interpreter/model/XExpChildSlot";
 import { MappersDk } from "./MappersDk";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { ParamType } from "./model/ParamType";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { Statement } from "./model/Statement";
+import { XDescParam } from "./model/XDescParam";
+import { XScriptAnalysis } from "./model/XScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
+import { TypeTools } from "./TypeTools";
 import { TypeUtils } from "./TypeUtils";
 import { Utils } from "./Utils";
 
 export class SuggestionHelper {
     private static cachedCommands: DkSuggestion[] = [];
+    
+    public static suggestParams(analysis: XScriptAnalysis, paramDesc: XDescParam): DkSuggestion[] {
+        return paramDesc.allowedTypes
+            .map(t => TypeTools.utilFor(t).suggest(analysis))
+            .flat();
+    }
+    
     static getSuggestionsForParamTypes(state: ScriptAnalysis, types: ParamType[]): DkSuggestion[] {
         return types.map(t => TypeUtils.suggestForType(state, t)).flat();
     }
