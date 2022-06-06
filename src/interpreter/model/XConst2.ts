@@ -2,7 +2,7 @@ import { XCommandDesc } from "../../model/XCommandDesc";
 import { XDescProvider } from "../../XDescProvider";
 import { XExpChild } from "./XExpChild";
 
-export class XConst2 {
+export class XWord {
     val: string;
     start: number;
     end: number;

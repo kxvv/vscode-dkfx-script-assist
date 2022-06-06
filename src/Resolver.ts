@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { ConfigProvider } from "./ConfigProvider";
 import { LANGUAGE_ID } from "./extension";
 import { XParsedLine2 } from "./interpreter/model/XParsedLine";
-import { Preparser } from "./interpreter/Preparser";
+import { XPreparser } from "./interpreter/XPreparser";
 import { XParser2 } from "./interpreter/XParser2";
 import { XTokenizer } from "./interpreter/XTokenizer";
 import { MappersVs } from "./MappersVs";
@@ -21,7 +21,7 @@ export class Resolver {
     }
 
     lineToDkStatement(line: string): XParsedLine2 {
-        return XParser2.parse(Preparser.preparse(XTokenizer.tokenize(line)));
+        return XParser2.parse(XPreparser.preparse(XTokenizer.tokenize(line)));
     }
 
     createScriptChangeInfo(cc: vscode.TextDocumentContentChangeEvent, event: vscode.TextDocumentChangeEvent): ScriptChangeInfo {

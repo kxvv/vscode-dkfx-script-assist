@@ -1,11 +1,11 @@
 import { XToken } from "./XToken";
 import { XExp2 } from "./XExp2";
-import { XConst2 } from "./XConst2";
+import { XWord } from "./XConst2";
 import { XDescParam } from "../../model/XDescParam";
 
 export class XExpChild {
     parent: XExp2;
-    val: XExp2 | XConst2 | null = null;
+    val: XExp2 | XWord | null = null;
     start: number;
     end: number;
     preSep: XToken | null;

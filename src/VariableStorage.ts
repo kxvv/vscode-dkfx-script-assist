@@ -1,5 +1,5 @@
 import { DK_ENTITIES } from "./Entities";
-import { XConst2 } from "./interpreter/model/XConst2";
+import { XWord } from "./interpreter/model/XConst2";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XToken } from "./interpreter/model/XToken";
 import { ParamType } from "./model/ParamType";
@@ -70,7 +70,7 @@ export class VariableStorage {
         return value;
     }
 
-    pushFlagAlter(player: string, flag: string, write: boolean, line: number, word: XToken | XConst2) {
+    pushFlagAlter(player: string, flag: string, write: boolean, line: number, word: XToken | XWord) {
         const varIndex = DK_ENTITIES[ParamType.Flag].findIndex(e => e.val === flag);
         if (varIndex !== -1) {
             let alter: FlagTimerAlter[] | undefined = this.flagAlters[this.playerColorToIndexedPlayer(player)];
@@ -85,7 +85,7 @@ export class VariableStorage {
         }
     }
 
-    pushTimerAlter(player: string, timer: string, write: boolean, line: number, word: XToken | XConst2) {
+    pushTimerAlter(player: string, timer: string, write: boolean, line: number, word: XToken | XWord) {
         const varIndex = DK_ENTITIES[ParamType.Timer].findIndex(e => e.val === timer);
         if (varIndex !== -1) {
             let alter: FlagTimerAlter[] | undefined = this.timerAlters[this.playerColorToIndexedPlayer(player)];
@@ -100,7 +100,7 @@ export class VariableStorage {
         }
     }
 
-    pushApAlter(reset: boolean, line: number, word: XToken | XConst2) {
+    pushApAlter(reset: boolean, line: number, word: XToken | XWord) {
         const num = +word.val;
         if (!isNaN(num)) {
             this.apAlters.push({
@@ -113,7 +113,7 @@ export class VariableStorage {
         }
     }
 
-    pushWin(line: number, word: XToken | XConst2) {
+    pushWin(line: number, word: XToken | XWord) {
         this.winAlters.push({
             start: word.start,
             end: word.end,
@@ -121,7 +121,7 @@ export class VariableStorage {
         });
     }
 
-    pushVersion(line: number, word: XToken | XConst2) {
+    pushVersion(line: number, word: XToken | XWord) {
         this.versionAlters.push({
             start: word.start,
             end: word.end,
@@ -129,7 +129,7 @@ export class VariableStorage {
         });
     }
 
-    pushMsgSlot(line: number, word: XToken | XConst2) {
+    pushMsgSlot(line: number, word: XToken | XWord) {
         const slot = +word.val;
         if (!isNaN(slot)) {
             this.msgSlotAlters[slot] = this.msgSlotAlters[slot] || [];

@@ -1,19 +1,19 @@
 import { TokenType } from "../model/TokenType";
 import { Utils } from "../Utils";
-import { TokenGroup } from "./model/TokenGroup";
+import { XTokenGroup } from "./model/XTokenGroup";
 import { XSyntaxToken, XToken } from "./model/XToken";
 
 export class PreparsedStatement {
-    tokens: (XToken | TokenGroup)[] = [];
+    tokens: (XToken | XTokenGroup)[] = [];
     comment?: XToken;
 
-    constructor(tokens: (XToken | TokenGroup)[] = [], comment?: XToken) {
+    constructor(tokens: (XToken | XTokenGroup)[] = [], comment?: XToken) {
         this.tokens = tokens;
         if (comment) { this.comment = comment; }
     }
 }
 
-export class Preparser {
+export class XPreparser {
 
     // groups tokens and makes sure comment is moved into comment prop and is removed from tokens
     static preparse(tokens: XToken[]): PreparsedStatement {
@@ -31,15 +31,15 @@ export class Preparser {
             result.comment = tokens.pop()!;
         }
 
-        const tokenGroupStack: TokenGroup[] = [];
+        const tokenGroupStack: XTokenGroup[] = [];
         let tkn: XToken;
-        let topGroup: TokenGroup | undefined;
+        let topGroup: XTokenGroup | undefined;
         for (let i = 0; i < tokens.length; i++) {
             tkn = tokens[i];
             topGroup = Utils.arrayPeek(tokenGroupStack);
             if (tkn.type === TokenType.Syntactic) {
                 if (tkn.val === XSyntaxToken.BOpen || tkn.val === XSyntaxToken.POpen) {
-                    const newGroup: TokenGroup = new TokenGroup([], tkn);
+                    const newGroup: XTokenGroup = new XTokenGroup([], tkn);
                     (topGroup || result).tokens.push(newGroup);
                     tokenGroupStack.push(newGroup);
                 } else if (tkn.val === XSyntaxToken.BClose || tkn.val === XSyntaxToken.PClose) {

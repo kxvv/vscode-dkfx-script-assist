@@ -1,4 +1,4 @@
-import { XConst2 } from "../interpreter/model/XConst2";
+import { XWord } from "../interpreter/model/XConst2";
 import { ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen, XError } from "../interpreter/model/XError";
 import { XExp2 } from "../interpreter/model/XExp2";
 import { VariableStorage } from "../VariableStorage";
@@ -11,7 +11,7 @@ import { CommandEffect } from "./XCommandEffect";
 
 interface StackOpening {
     line: number;
-    exp: XExp2 | XConst2;
+    exp: XExp2 | XWord;
 }
 
 export class XScriptAnalysis {
@@ -41,7 +41,7 @@ export class XScriptAnalysis {
         this.diagIgnoreLines.push(line);
     }
 
-    evalEffects(line: number, exp: XConst2 | XExp2, effects: CommandEffect) {
+    evalEffects(line: number, exp: XWord | XExp2, effects: CommandEffect) {
         effects.conditionPush && this.conditionOpenings.push({ line, exp });
         if (effects.conditionPop) {
             if (this.conditionOpenings.length) {
@@ -58,8 +58,8 @@ export class XScriptAnalysis {
             }
         }
 
-        let player: XConst2 | null;
-        let variable: XConst2 | null;
+        let player: XWord | null;
+        let variable: XWord | null;
 
         if (exp instanceof XExp2) {
 
@@ -148,7 +148,7 @@ export class XScriptAnalysis {
         }
     }
 
-    tryReuse(line: number, exp: XExp2 | XConst2, desc?: XCommandDesc) {
+    tryReuse(line: number, exp: XExp2 | XWord, desc?: XCommandDesc) {
         let error = false;
         let eff: CommandEffect | undefined;
         if (this.reuses.length) {

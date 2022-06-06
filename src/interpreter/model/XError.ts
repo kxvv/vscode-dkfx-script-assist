@@ -1,6 +1,5 @@
 import { ErrSeverity } from "../../model/ErrSeverity";
 import { ParamType } from "../../model/ParamType";
-import { TokenGroup } from "./TokenGroup";
 import { XToken } from "./XToken";
 
 interface Range {

@@ -1,8 +1,8 @@
 import * as assert from "assert";
-import { TokenGroup } from "../../interpreter/model/TokenGroup";
+import { XTokenGroup } from "../../interpreter/model/XTokenGroup";
 import { ErrorInvalidStatement, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "../../interpreter/model/XError";
 import { XSyntaxToken, XToken } from "../../interpreter/model/XToken";
-import { PreparsedStatement } from "../../interpreter/Preparser";
+import { PreparsedStatement } from "../../interpreter/XPreparser";
 import { Operator } from "../../model/Operators";
 import { TokenType } from "../../model/TokenType";
 import { TestUtils } from "./TestUtils";
@@ -10,9 +10,9 @@ import { XParser2 } from "../../interpreter/XParser2";
 import { RangeExp, XExp2 } from "../../interpreter/model/XExp2";
 import { XParsedLine2 } from "../../interpreter/model/XParsedLine";
 import { XExpChild } from "../../interpreter/model/XExpChild";
-import { XConst2 } from "../../interpreter/model/XConst2";
+import { XWord } from "../../interpreter/model/XConst2";
 
-suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
+suite("Suite for XParser2::" + XParser2.parse.name, () => {
     test("f( four ) rem hi", () => {
         const callerToken: XToken = TestUtils.createXToken("f", 0, TokenType.Word);
         const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 1);
@@ -23,7 +23,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [arg],
                     openerToken,
                     closerToken,
@@ -40,7 +40,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
             let child: XExpChild;
 
             child = new XExpChild(exp, 2, 8);
-            child.val = new XConst2(child, arg.val, arg.start);
+            child.val = new XWord(child, arg.val, arg.start);
 
             children.push(child);
             expected.exp = exp;
@@ -60,7 +60,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [arg1, argSep, arg2],
                     openerToken,
                     closerToken,
@@ -75,13 +75,13 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
             let child: XExpChild;
 
             child = new XExpChild(exp, 2, 6);
-            child.val = new XConst2(child, arg1.val, arg1.start);
+            child.val = new XWord(child, arg1.val, arg1.start);
             exp.getChildren().push(child);
             child = new XExpChild(exp, 6, 9);
-            child.val = new XConst2(child, argSep.val, argSep.start);
+            child.val = new XWord(child, argSep.val, argSep.start);
             exp.getChildren().push(child);
             child = new XExpChild(exp, 9, 14);
-            child.val = new XConst2(child, arg2.val, arg2.start);
+            child.val = new XWord(child, arg2.val, arg2.start);
             exp.getChildren().push(child);
             expected.exp = exp;
         }
@@ -98,7 +98,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [arg1, argSep],
                     openerToken,
                 )
@@ -112,10 +112,10 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
             let child: XExpChild;
 
             child = new XExpChild(exp, 2, 6);
-            child.val = new XConst2(child, arg1.val, arg1.start);
+            child.val = new XWord(child, arg1.val, arg1.start);
             exp.getChildren().push(child);
             child = new XExpChild(exp, 6, 7);
-            child.val = new XConst2(child, argSep.val, argSep.start);
+            child.val = new XWord(child, argSep.val, argSep.start);
             exp.getChildren().push(child);
             child = new XExpChild(exp, 7, Number.MAX_SAFE_INTEGER);
             exp.getChildren().push(child);
@@ -134,7 +134,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [],
                     openerToken,
                     closerToken,
@@ -166,7 +166,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [argSep1, argSep2, arg, argSep3],
                     openerToken,
                     closerToken,
@@ -186,7 +186,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
             child.preSep = argSep1;
             exp.getChildren().push(child);
             child = new XExpChild(exp, 4, 9);
-            child.val = new XConst2(child, arg.val, arg.start);
+            child.val = new XWord(child, arg.val, arg.start);
             child.preSep = argSep2;
             exp.getChildren().push(child);
             child = new XExpChild(exp, 10, 10);
@@ -207,7 +207,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [argSep],
                     openerToken,
                 )
@@ -250,11 +250,11 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerTokenF,
-                new TokenGroup(
+                new XTokenGroup(
                     [
                         argSep1,
                         callerTokenG,
-                        new TokenGroup(
+                        new XTokenGroup(
                             [
                                 arg1,
                                 argSep2,
@@ -287,12 +287,12 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
                 exp2.parent = child;
                 exp2.getChildren().pop();
                 let childG: XExpChild = new XExpChild(exp2, 5, 6);
-                childG.val = new XConst2(childG, arg1.val, arg1.start);
+                childG.val = new XWord(childG, arg1.val, arg1.start);
                 exp2.getChildren().push(childG);
 
                 childG = new XExpChild(exp2, 7, 9);
                 childG.preSep = argSep2;
-                childG.val = new XConst2(childG, arg2.val, arg2.start);
+                childG.val = new XWord(childG, arg2.val, arg2.start);
                 exp2.getChildren().push(childG);
                 child.val = exp2;
             }
@@ -300,7 +300,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
             exp.getChildren().push(child);
 
             child = new XExpChild(exp, 11, 12);
-            child.val = new XConst2(child, arg3.val, arg3.start);
+            child.val = new XWord(child, arg3.val, arg3.start);
             child.preSep = argSep3;
             exp.getChildren().push(child);
 
@@ -321,7 +321,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [x],
                     openerToken,
                     closerToken,
@@ -336,7 +336,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
             const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
             exp.getChildren().pop();
             let child: XExpChild = new XExpChild(exp, 2, 3);
-            child.val = new XConst2(child, x.val, x.start);
+            child.val = new XWord(child, x.val, x.start);
             exp.getChildren().push(child);
             expected.exp = exp;
         }
@@ -348,7 +348,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
 
     test("(", () => {
         const openerToken: XToken = TestUtils.createXToken(XSyntaxToken.POpen, 0);
-        const tknGroup = new TokenGroup([], openerToken);
+        const tknGroup = new XTokenGroup([], openerToken);
 
         const st: PreparsedStatement = new PreparsedStatement([tknGroup]);
         const result: XParsedLine2 = XParser2.parse(st);
@@ -367,8 +367,8 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerTokenF,
-                new TokenGroup(
-                    [callerTokenG, new TokenGroup([], openerToken2)],
+                new XTokenGroup(
+                    [callerTokenG, new XTokenGroup([], openerToken2)],
                     openerToken1,
                 )
             ]
@@ -404,8 +404,8 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
-                    [new TokenGroup([], openerToken2)],
+                new XTokenGroup(
+                    [new XTokenGroup([], openerToken2)],
                     openerToken1,
                 )
             ],
@@ -440,7 +440,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup([], openerToken)
+                new XTokenGroup([], openerToken)
             ],
         );
         const result: XParsedLine2 = XParser2.parse(st);
@@ -484,7 +484,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [arg],
                     openerToken,
                     closerToken,
@@ -498,7 +498,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
             const exp: XExp2 = new XExp2(callerToken, openerToken, closerToken);
             exp.getChildren().pop();
             const child: XExpChild = new XExpChild(exp, 2, 8);
-            child.val = new XConst2(child, arg.val, arg.start);
+            child.val = new XWord(child, arg.val, arg.start);
             exp.getChildren().push(child);
             expected.exp = exp;
         }
@@ -518,7 +518,7 @@ suite.only("Suite for XParser2::" + XParser2.parse.name, () => {
         const st: PreparsedStatement = new PreparsedStatement(
             [
                 callerToken,
-                new TokenGroup(
+                new XTokenGroup(
                     [left, operator, right],
                     openerToken,
                     closerToken,

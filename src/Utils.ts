@@ -1,8 +1,8 @@
-import { SyntaxToken } from "./Tokenizer";
+import { XSyntaxToken } from "./interpreter/model/XToken";
 
 export class Utils {
     static arrayPeek<T>(arg: Array<T>): T | undefined {
-        return arg[arg.length-1];
+        return arg[arg.length - 1];
     }
 
     static isBetween(val: number, lw: number, hi: number): boolean {
@@ -17,7 +17,7 @@ export class Utils {
         return `value${index + 1}`;
     }
 
-    static getParens(bracketed?: boolean): [SyntaxToken, SyntaxToken] {
-        return bracketed ? [SyntaxToken.BOpen, SyntaxToken.BClose] : [SyntaxToken.POpen, SyntaxToken.PClose];
+    static getParens(bracketed?: boolean): [XSyntaxToken, XSyntaxToken] {
+        return bracketed ? [XSyntaxToken.BOpen, XSyntaxToken.BClose] : [XSyntaxToken.POpen, XSyntaxToken.PClose];
     }
 }

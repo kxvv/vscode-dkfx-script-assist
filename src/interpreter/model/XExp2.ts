@@ -5,7 +5,7 @@
 import { XToken } from "./XToken";
 import { Utils } from "../../Utils";
 import { XExpChild } from "./XExpChild";
-import { XConst2 } from "./XConst2";
+import { XWord } from "./XConst2";
 import { XCommandDesc } from "../../model/XCommandDesc";
 import { XDescProvider } from "../../XDescProvider";
 import { ParamType } from "../../model/ParamType";
@@ -64,7 +64,7 @@ export class XExp2 {
             if (lastChild.val) {
                 lastChild.end = lastChild.val.end;
                 newborn = new XExpChild(this, lastChild.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
-                newborn.val = new XConst2(newborn, arg.val, arg.start);
+                newborn.val = new XWord(newborn, arg.val, arg.start);
                 this.children.push(newborn);
                 if (arg.isOperator()) {
                     newborn.end = arg.end;
@@ -72,7 +72,7 @@ export class XExp2 {
                     this.children.push(newborn);
                 }
             } else {
-                lastChild.val = new XConst2(lastChild, arg.val, arg.start);
+                lastChild.val = new XWord(lastChild, arg.val, arg.start);
             }
         }
     }
@@ -85,9 +85,9 @@ export class XExp2 {
         return this.children[index];
     }
 
-    public getChildsConst(index: number): XConst2 | null {
+    public getChildsConst(index: number): XWord | null {
         const child: XExpChild | undefined = this.children[index];
-        if (child && child.val instanceof XConst2) {
+        if (child && child.val instanceof XWord) {
             return child.val;
         }
         return null;
@@ -166,10 +166,10 @@ export class RangeExp extends XExp2 {
 
         let child: XExpChild;
         child = new XExpChild(this, left.start, left.end);
-        child.val = new XConst2(child, left.val, left.start);
+        child.val = new XWord(child, left.val, left.start);
         this.getChildren().push(child);
         child = new XExpChild(this, right.start, right.end);
-        child.val = new XConst2(child, right.val, right.start);
+        child.val = new XWord(child, right.val, right.start);
         this.getChildren().push(child);
 
         this.desc = {

@@ -1,5 +1,4 @@
 import { Operator, OPERATORS } from "../../model/Operators";
-import { Token } from "../../model/Token";
 import { TokenType } from "../../model/TokenType";
 
 export enum XSyntaxToken {

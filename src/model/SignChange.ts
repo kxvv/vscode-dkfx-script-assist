@@ -1,5 +1,5 @@
 import { DK_ENTITIES } from "../Entities";
-import { XConst2 } from "../interpreter/model/XConst2";
+import { XWord } from "../interpreter/model/XConst2";
 import { XExp2 } from "../interpreter/model/XExp2";
 import { XExpChild } from "../interpreter/model/XExpChild";
 import { TypeTools } from "../TypeTools";
@@ -50,7 +50,7 @@ export class XSignChange implements IXSignChange {
         if (comparedChild) {
             const inValue = comparedChild.val;
 
-            if (inValue instanceof XConst2) {
+            if (inValue instanceof XWord) {
 
                 if (this.check === "EQ" && inValue.val === this.arg?.toUpperCase()) {
                     willPerformChange = true;

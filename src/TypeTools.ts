@@ -1,5 +1,5 @@
 import { DK_ENTITIES } from "./Entities";
-import { XConst2 } from "./interpreter/model/XConst2";
+import { XWord } from "./interpreter/model/XConst2";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XExpChild } from "./interpreter/model/XExpChild";
 import { MappersDk } from "./MappersDk";
@@ -10,7 +10,7 @@ import { XScriptAnalysis } from "./model/XScriptAnalysis";
 import { Utils } from "./Utils";
 
 interface TypeToolCheck {
-    word: XConst2;
+    word: XWord;
     line?: number;
     analysis?: XScriptAnalysis;
 }
@@ -51,7 +51,7 @@ const check = {
     numberNegativeOrZero(val: string): boolean {
         return /^-\d+$/.test(val);
     },
-    isEntity(word: XConst2, paramType: ParamType): boolean {
+    isEntity(word: XWord, paramType: ParamType): boolean {
         const upperCased = word.val.toUpperCase();
         return !!(DK_ENTITIES[paramType]?.some(e => e.val === upperCased));
     },

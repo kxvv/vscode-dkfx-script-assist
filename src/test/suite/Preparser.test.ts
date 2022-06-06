@@ -1,12 +1,12 @@
 import * as assert from "assert";
-import { TokenGroup } from "../../interpreter/model/TokenGroup";
-import { PreparsedStatement, Preparser } from "../../interpreter/Preparser";
+import { XTokenGroup } from "../../interpreter/model/XTokenGroup";
+import { PreparsedStatement, XPreparser } from "../../interpreter/XPreparser";
 import { XSyntaxToken, XToken } from "../../interpreter/model/XToken";
 import { TokenType } from "../../model/TokenType";
 import { Utils } from "../../Utils";
 import { TestUtils } from "./TestUtils";
 
-suite("Suite for Preparser::" + Preparser.preparse.name, () => {
+suite("Suite for Preparser::" + XPreparser.preparse.name, () => {
     test("simple call with trailing closing token", () => {
         const tokens: XToken[] = [
             TestUtils.createXToken("foo", 2, TokenType.Word),
@@ -15,10 +15,10 @@ suite("Suite for Preparser::" + Preparser.preparse.name, () => {
             TestUtils.createXToken(XSyntaxToken.PClose, 14),
             TestUtils.createXToken(XSyntaxToken.PClose, 15),
         ];
-        const result: PreparsedStatement = Preparser.preparse(tokens);
+        const result: PreparsedStatement = XPreparser.preparse(tokens);
         const expected = new PreparsedStatement([
             tokens[0],
-            new TokenGroup(
+            new XTokenGroup(
                 [tokens[2]],
                 tokens[1],
                 tokens[3]
@@ -35,13 +35,13 @@ suite("Suite for Preparser::" + Preparser.preparse.name, () => {
             TestUtils.createXToken(XSyntaxToken.POpen, 14),
             TestUtils.createXToken(XSyntaxToken.POpen, 15),
         ];
-        const result: PreparsedStatement = Preparser.preparse(tokens);
+        const result: PreparsedStatement = XPreparser.preparse(tokens);
         const expected: PreparsedStatement = new PreparsedStatement([
-            new TokenGroup(
+            new XTokenGroup(
                 [
-                    new TokenGroup(
+                    new XTokenGroup(
                         [
-                            new TokenGroup(
+                            new XTokenGroup(
                                 [],
                                 tokens[2]
                             )
@@ -63,14 +63,14 @@ suite("Suite for Preparser::" + Preparser.preparse.name, () => {
             TestUtils.createXToken(XSyntaxToken.POpen, 20),
             TestUtils.createXToken("rem sup", 22, TokenType.Comment),
         ];
-        const result: PreparsedStatement = Preparser.preparse(tokens);
+        const result: PreparsedStatement = XPreparser.preparse(tokens);
         const expected: PreparsedStatement = new PreparsedStatement([
-            new TokenGroup(
+            new XTokenGroup(
                 [
-                    new TokenGroup(
+                    new XTokenGroup(
                         [
                             tokens[2],
-                            new TokenGroup(
+                            new XTokenGroup(
                                 [],
                                 tokens[3]
                             )
@@ -88,7 +88,7 @@ suite("Suite for Preparser::" + Preparser.preparse.name, () => {
         const tokens: XToken[] = [
             TestUtils.createXToken("rem hi", 0, TokenType.Comment),
         ];
-        const result: PreparsedStatement = Preparser.preparse(tokens);
+        const result: PreparsedStatement = XPreparser.preparse(tokens);
         const expected: PreparsedStatement = new PreparsedStatement([], tokens[0]);
         assert.deepStrictEqual(result, expected);
     });

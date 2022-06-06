@@ -1,8 +1,9 @@
-import { XConst2 } from "./interpreter/model/XConst2";
+import { XWord } from "./interpreter/model/XConst2";
 import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/XError";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XExpChild } from "./interpreter/model/XExpChild";
 import { XParsedLine2 } from "./interpreter/model/XParsedLine";
+import { XSyntaxToken } from "./interpreter/model/XToken";
 import { Operator } from "./model/Operators";
 import { ParamType } from "./model/ParamType";
 import { XCommandDesc } from "./model/XCommandDesc";
@@ -10,18 +11,17 @@ import { CommandEffect } from "./model/XCommandEffect";
 import { XDescParam } from "./model/XDescParam";
 import { XScriptAnalysis } from "./model/XScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
-import { SyntaxToken } from "./Tokenizer";
 import { TypeTools } from "./TypeTools";
 
 const DIAG_IGNORE_FLAG = "@ignore";
 
 export class XAnalyzer {
 
-    private static isWordCorrectType(line: number, word: XConst2, allowed: ParamType[], analysis: XScriptAnalysis): boolean {
+    private static isWordCorrectType(line: number, word: XWord, allowed: ParamType[], analysis: XScriptAnalysis): boolean {
         return allowed.some(t => TypeTools.utilFor(t).check({ analysis, word, line }));
     }
 
-    private static isCorrectReturnType(exp: XExp2 | XConst2, allowed: ParamType[]): boolean {
+    private static isCorrectReturnType(exp: XExp2 | XWord, allowed: ParamType[]): boolean {
         const expDesc: XCommandDesc | undefined = exp.getDesc();
         return !!(expDesc && allowed.some(t => expDesc.returns?.includes(t)));
     }
@@ -34,10 +34,10 @@ export class XAnalyzer {
                     analysis.pushError(line, new ErrorParensMismatch(exp.caller));
                 }
             }
-            if (desc.bracketed && exp.opener.val === SyntaxToken.POpen) {
-                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.BOpen));
-            } else if (!desc.bracketed && exp.opener.val === SyntaxToken.BOpen) {
-                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.POpen));
+            if (desc.bracketed && exp.opener.val === XSyntaxToken.POpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, XSyntaxToken.BOpen));
+            } else if (!desc.bracketed && exp.opener.val === XSyntaxToken.BOpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, XSyntaxToken.POpen));
             }
         }
     }
@@ -46,7 +46,7 @@ export class XAnalyzer {
         const params: XDescParam[] = desc.params;
         let misplacedParamsCount = 0;
         let child: XExpChild | undefined;
-        let childVal: XExp2 | XConst2 | null | undefined;
+        let childVal: XExp2 | XWord | null | undefined;
         let allowed: ParamType[];
         let optsCount = 0;
         let tempDesc: XCommandDesc | undefined;
@@ -60,7 +60,7 @@ export class XAnalyzer {
 
                 if (childVal) {
 
-                    if (childVal instanceof XConst2) {
+                    if (childVal instanceof XWord) {
                         if (!XAnalyzer.isWordCorrectType(line, childVal, allowed, analysis)) {
                             if (!(tempDesc = childVal.getDesc()) || !XAnalyzer.isCorrectReturnType(childVal, allowed)) {
                                 analysis.pushError(line, new ErrorTypeMismatch(childVal, childVal.val, params[i].allowedTypes));
@@ -102,7 +102,7 @@ export class XAnalyzer {
         }
     }
 
-    private static checkWordForParams(line: number, exp: XConst2, desc: XCommandDesc, analysis: XScriptAnalysis) {
+    private static checkWordForParams(line: number, exp: XWord, desc: XCommandDesc, analysis: XScriptAnalysis) {
         if (desc.params.length) {
             const maxParams = desc.params.length;
             const requiredParams = maxParams - desc.params.filter(p => p.optional).length;
@@ -113,7 +113,7 @@ export class XAnalyzer {
     static analyze(lineMap: LineMap, lineCount?: number): XScriptAnalysis {
         const analysis: XScriptAnalysis = new XScriptAnalysis;
 
-        let exp: XExp2 | XConst2 | undefined;
+        let exp: XExp2 | XWord | undefined;
         let line: XParsedLine2 | undefined;
         let desc: XCommandDesc | undefined;
         let effects: CommandEffect | undefined;
