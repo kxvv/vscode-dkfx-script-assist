@@ -1,47 +1,42 @@
-import { DescProvider } from "./DescProvider";
 import { DK_ENTITIES } from "./Entities";
-import { CommandDesc } from "./model/CommandDesc";
-import { Exp } from "./model/Exp";
+import { XConst2 } from "./interpreter/model/XConst2";
+import { XExp2 } from "./interpreter/model/XExp2";
+import { DkEntity } from "./model/DkEntity";
 import { SignatureHelper } from "./SignatureHelper";
 import { Utils } from "./Utils";
 
 export class HoverHelper {
-    static getHoverForExp(exp: Exp | undefined, pos: number): string | null {
-        if (!exp) {
-            return null;
-        }
-        let cmdNameEndPos = exp.start + exp.value.length;
-        let desc: CommandDesc | null;
-        let arg: Exp;
-        if (Utils.isBetween(pos, exp.start, cmdNameEndPos)) {
-            if (desc = DescProvider.getCommandDesc(exp.value)) {
-                return null;
-                // return SignatureHelper.hintFromDesc(desc, exp.value, 0).heading + "\n\n" + (desc.doc || "");
+
+    static getHoverForExp(exp: XExp2 | XConst2 | undefined, pos: number): string | null {
+        if (exp instanceof XConst2 && Utils.isBetween(pos, exp.start, exp.end) && exp.getDesc()) {
+            return SignatureHelper
+                .hintFromDesc(exp.getDesc()!, exp.val, 0).heading + "\n\n" + (exp.getDesc()!.doc || "");
+        } else if (exp instanceof XExp2) {
+            if (Utils.isBetween(pos, exp.caller.start, exp.caller.end)) {
+                return HoverHelper.getHoverForExp(new XConst2(null, exp.caller.val, exp.caller.start), pos);
+            }
+            const { child, leaf, index } = exp.getChildAtCursorPosition(pos);
+            const childText = child?.val instanceof XConst2 ? child.val.val : "";
+            const leafDesc = leaf?.getDesc();
+            if (leafDesc) {
+                let paramHoverText = child?.getDescParam()?.name || "";
+                let entityDoc = "";
+                let foundEntity: DkEntity | undefined;
+                for (const type of (child?.getDescParam()?.allowedTypes || [])) {
+                    foundEntity = DK_ENTITIES[type]?.find(e => e.val.toUpperCase() === childText.toUpperCase());
+                    if (foundEntity) {
+                        entityDoc = foundEntity.doc || "";
+                        break;
+                    }
+                }
+                paramHoverText = `*${SignatureHelper.hintFromDesc(leafDesc, leaf!.caller.val, 0).params[index] || ""}*`;
+                if (entityDoc) {
+                    return `${paramHoverText}\n\n**${childText}**: ${entityDoc}`;
+                }
+                return paramHoverText;
             }
         }
-        // desc = DescProvider.getCommandDesc(exp);
-        // for (let i = 0; i < exp.args.length; i++) {
-        //     arg = exp.args[i];
-        //     if (Utils.isBetween(pos, arg.start, arg.end)) {
-        //         if (DescProvider.getCommandDesc(arg.value)) {
-        //             return this.getHoverForExp(arg, pos);
-        //         }
-        //         if (desc) {
-        //             const paramTypes = desc.params[i];
-        //             for (const at of paramTypes.allowedTypes) {
-        //                 const paramTitle = `*${SignatureHelper.hintFromDesc(desc, exp.value, 0).params[i] || ""}*`;
-        //                 for (const e of (DK_ENTITIES[at] || [])) {
-        //                     if (e.val.toUpperCase() === arg.value.toUpperCase()) {
-        //                         if (e.doc) {
-        //                             return `${paramTitle}\n\n**${arg.value}**: ${e.doc}`;
-        //                         }
-        //                     }
-        //                 }
-        //                 return paramTitle;
-        //             }
-        //         }
-        //     }
-        // }
         return null;
     }
+
 }

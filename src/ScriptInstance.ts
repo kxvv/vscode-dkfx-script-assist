@@ -1,17 +1,13 @@
-import { Analyzer } from "./Analyzer";
 import { ConfigProvider } from "./ConfigProvider";
 import { HoverHelper } from "./HoverHelper";
 import { XExp2 } from "./interpreter/model/XExp2";
-import { XExpChild } from "./interpreter/model/XExpChild";
 import { XParsedLine2 } from "./interpreter/model/XParsedLine";
 import { DkDiag } from "./model/DkDiag";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { SignatureHint } from "./model/SignatureHint";
-import { XDescParam } from "./model/XDescParam";
 import { XScriptAnalysis } from "./model/XScriptAnalysis";
 import { SignatureHelper } from "./SignatureHelper";
 import { SuggestionHelper } from "./SuggestionHelper";
-import { TestUtils } from "./test/suite/TestUtils";
 import { XAnalyzer } from "./XAnalyzer";
 
 export type LineMap = (XParsedLine2 | undefined)[];
@@ -56,7 +52,6 @@ export class ScriptInstance {
 
     performAnalysis(): XScriptAnalysis {
         return this.analysis = XAnalyzer.analyze(this.lineMap, this.lineCount);
-        // return this.analysis = Analyzer.analyze(this.lineMap, this.lineCount);
     }
 
     collectDiagnostics(): DkDiag[] {
@@ -71,11 +66,11 @@ export class ScriptInstance {
     }
 
     suggest(line: number, pos: number): DkSuggestion[] {
-        const s: XParsedLine2 | undefined = this.statementAt(line);
+        const pl: XParsedLine2 | undefined = this.statementAt(line);
 
-        if (s) {
-            if (s.exp instanceof XExp2 && s.exp.getChildren().length && pos < s.exp.end) {
-                const { child, index, leaf, ahead } = s.exp.getChildAtCursorPosition(pos);
+        if (pl) {
+            if (pl.exp instanceof XExp2 && pl.exp.getChildren().length && pos < pl.exp.end) {
+                const { child, index, leaf, ahead } = pl.exp.getChildAtCursorPosition(pos);
                 const leafDesc = leaf?.getDesc();
                 // if cursor is within child && leaf command is recognized
                 if (child && leafDesc) {
@@ -89,7 +84,9 @@ export class ScriptInstance {
                 }
                 return [];
             }
-            return s.comment && pos < s.comment.start ? SuggestionHelper.suggestCommand(this.lineMap, line) : [];
+            if (!pl.comment || (pl.comment && pos < pl.comment.start)) {
+                return SuggestionHelper.suggestCommand(this.lineMap, line);
+            }
         }
         return [];
     }
@@ -100,9 +97,8 @@ export class ScriptInstance {
     }
 
     hover(line: number, pos: number): string | null {
-        return null;
-        // const statement = this.statementAt(line);
-        // return statement ? HoverHelper.getHoverForExp(statement.exp, pos) : null;
+        const statement = this.statementAt(line);
+        return statement ? HoverHelper.getHoverForExp(statement.exp, pos) : null;
     }
 
     print() {

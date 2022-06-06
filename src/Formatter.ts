@@ -1,39 +1,39 @@
 import { ConfigProvider } from "./ConfigProvider";
-import { DescProvider } from "./DescProvider";
-import { CommandDesc } from "./model/CommandDesc";
+import { XToken } from "./interpreter/model/XToken";
+import { XTokenizer } from "./interpreter/XTokenizer";
 import { ExtConfig, ExtConfigFormatter } from "./model/ExtConfig";
-import { Token } from "./model/Token";
 import { TokenType } from "./model/TokenType";
-import { Tokenizer } from "./Tokenizer";
+import { XCommandDesc } from "./model/XCommandDesc";
+import { XDescProvider } from "./XDescProvider";
 
 export class Formatter {
     static formatTextLines(lines: string[]): string[] {
         const result: string[] = [];
         const config: ExtConfig = ConfigProvider.getConfig();
-        let tokens: Token[];
-        let desc: CommandDesc | null;
+        let tokens: XToken[];
+        let desc: XCommandDesc | undefined;
         let ifCountStack = 0;
         for (const line of lines) {
-            tokens = Tokenizer.tokenize(line);
+            tokens = XTokenizer.tokenize(line);
             if (!tokens.length) {
                 result.push("");
                 continue;
             }
-            desc = DescProvider.getCommandDesc(tokens[0].val);
-            if (desc && desc.isConditionPop && ifCountStack) {
+            desc = XDescProvider.getCommandDesc(tokens[0].val);
+            if (desc?.effects?.conditionPop && ifCountStack) {
                 ifCountStack--;
             }
             result.push(Formatter.lineTokensToString(tokens, ifCountStack, config.formatter));
-            if (desc && desc.isConditionPush) {
+            if (desc?.effects?.conditionPush) {
                 ifCountStack++;
             }
         }
         return result;
     }
 
-    static lineTokensToString(line: Token[], indentCount: number, formatter: ExtConfigFormatter): string {
+    static lineTokensToString(line: XToken[], indentCount: number, formatter: ExtConfigFormatter): string {
         const result: string[] = new Array(indentCount).fill(formatter.indentationString);
-        let t: Token;
+        let t: XToken;
         for (let i = 0; i < line.length; i++) {
             t = line[i];
             if (t.type === TokenType.Syntactic) {

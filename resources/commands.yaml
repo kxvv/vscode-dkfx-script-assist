@@ -4,7 +4,7 @@
   doc: Sets up a flag that is assigned a number.
   opts: 1
 
-- cmd: IF([player:PLAYER],[left B:READSET_VAR][operator:COMPARE_OPERATOR][right A:ROOM],[right B:READSET_VAR])
+- cmd: IF([player:PLAYER],[left B:READSET_VAR][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER],[right B:READSET_VAR])
   opts: 1
   signChanges: [IF 3 IN NUMBER SET 4 VOID, IF 3 IN PLAYER SET 4 REQUIRED]
   condition: PUSH
