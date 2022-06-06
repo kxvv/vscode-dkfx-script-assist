@@ -72,55 +72,31 @@ export class ScriptInstance {
 
     suggest(line: number, pos: number): DkSuggestion[] {
         const s: XParsedLine2 | undefined = this.statementAt(line);
-        console.log(s);
 
         if (s) {
-            if (s.exp instanceof XExp2 && s.exp.getChildren().length) {
-                // get command at the top of the stack based on cursor's position
-                // e.g. for cursor between 'a' and 'b', foo(x, y , bar( a b ), 44) gets exp bar
-                const activeExp = s.exp.getLeafExp(pos);
-                // suggest only if the command is recognized
-                if (activeExp && activeExp.getDesc()) {
-                    // identify a child at the cursor and also get its index
-                    const [cursorChild, paramIndex]: [XExpChild | null, number] = activeExp.getChildAtPosition(pos);
-                    // param desc of the active child
-                    let activeParamDesc: XDescParam | undefined | null;
-                    // if the actual value's end is before the slot's end
-                    if (cursorChild?.val && (cursorChild.val.end < cursorChild.end)) {
-                        // this indicates a space was pressed: next child does not exist
-                        // but suggestion should be made for the later param (might be undefined)
-                        activeParamDesc = activeExp.getDesc()!.params[paramIndex + 1];
+            if (s.exp instanceof XExp2 && s.exp.getChildren().length && pos < s.exp.end) {
+                const { child, index, leaf, ahead } = s.exp.getChildAtCursorPosition(pos);
+                const leafDesc = leaf?.getDesc();
+                // if cursor is within child && leaf command is recognized
+                if (child && leafDesc) {
+                    // if cursor is not behind last param
+                    if (!(ahead && !leafDesc.params[index + 1])) {
+                        return SuggestionHelper.suggestParams(
+                            this.analysis,
+                            ahead ? leafDesc.params[index + 1] : leafDesc.params[index]
+                        );
                     }
-                    // if undefined just use the child at cursor's position
-                    activeParamDesc = activeParamDesc || cursorChild?.getDescParam();
-                    if (cursorChild && activeParamDesc) {
-                        return SuggestionHelper.suggestParams(this.analysis, activeParamDesc);
-                    }
-
                 }
-
+                return [];
             }
-
-
-            // if (s.exp?.args.length) {
-            //     return SuggestionHelper.getSuggestionsForParamTypes(
-            //         this.analysis,
-            //         Analyzer.getParamTypesForPosition(s, pos)
-            //     );
-            // } else {
-            //     if (s.comment && (!s.exp || (s.exp && pos > s.exp.end))) {
-            //         return [];
-            //     }
-            //     return SuggestionHelper.suggestCommand(this.lineMap, line);
-            // }
+            return s.comment && pos < s.comment.start ? SuggestionHelper.suggestCommand(this.lineMap, line) : [];
         }
         return [];
     }
 
     hint(line: number, pos: number): SignatureHint | null {
-        return null;
-        // const statement = this.statementAt(line);
-        // return statement ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
+        const statement = this.statementAt(line);
+        return statement?.exp instanceof XExp2 ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
     }
 
     hover(line: number, pos: number): string | null {

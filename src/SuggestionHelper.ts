@@ -13,14 +13,15 @@ import { LineMap } from "./ScriptInstance";
 import { TypeTools } from "./TypeTools";
 import { TypeUtils } from "./TypeUtils";
 import { Utils } from "./Utils";
+import { XDescProvider } from "./XDescProvider";
 
 export class SuggestionHelper {
     private static cachedCommands: DkSuggestion[] = [];
     
-    public static suggestParams(analysis: XScriptAnalysis, paramDesc: XDescParam): DkSuggestion[] {
-        return paramDesc.allowedTypes
+    public static suggestParams(analysis: XScriptAnalysis, paramDesc: XDescParam | null): DkSuggestion[] {
+        return paramDesc ? paramDesc.allowedTypes
             .map(t => TypeTools.utilFor(t).suggest(analysis))
-            .flat();
+            .flat() : [];
     }
     
     static getSuggestionsForParamTypes(state: ScriptAnalysis, types: ParamType[]): DkSuggestion[] {
@@ -29,7 +30,7 @@ export class SuggestionHelper {
 
     static suggestCommand(LineMap: LineMap, lineNumber: number): DkSuggestion[] {
         if (!this.cachedCommands.length) {
-            this.cachedCommands = [...DescProvider.getCommandDescMap().entries()]
+            this.cachedCommands = [...XDescProvider.getCommandDescMap().entries()]
                 .filter(([name, desc]) => {
                     return !desc.returns;
                 })

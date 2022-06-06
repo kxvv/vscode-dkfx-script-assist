@@ -2,6 +2,7 @@ import { CommandDesc } from "./model/CommandDesc";
 import { DkEntity } from "./model/DkEntity";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { SuggestionKind } from "./model/SuggestionKind";
+import { XCommandDesc } from "./model/XCommandDesc";
 
 export class MappersDk {
     static entityToDkSuggestion(e: DkEntity, preselect = "", kind: SuggestionKind = 0): DkSuggestion {
@@ -16,7 +17,7 @@ export class MappersDk {
         return result;
     }
 
-    static commandToDkSuggestion(name: string, desc: CommandDesc): DkSuggestion {
+    static commandToDkSuggestion(name: string, desc: XCommandDesc): DkSuggestion {
         const result: DkSuggestion = {
             label: name,
             kind: SuggestionKind.Method, // method

@@ -10,6 +10,13 @@ import { XCommandDesc } from "../../model/XCommandDesc";
 import { XDescProvider } from "../../XDescProvider";
 import { ParamType } from "../../model/ParamType";
 
+interface ChildSearchByCursorPosition {
+    child: XExpChild | null;
+    index: number;
+    leaf: XExp2 | null;
+    ahead: boolean;
+}
+
 export class XExp2 {
     private children: XExpChild[];
     caller: XToken;
@@ -115,15 +122,38 @@ export class XExp2 {
         return result;
     }
 
-    public getChildAtPosition(pos: number): [XExpChild | null, number] {
+    private getChildAtPosition(pos: number): [XExpChild | null, number] {
+        const target: XExp2 | null = this.getLeafExp(pos);
         let child: XExpChild;
-        for (let i = this.children.length - 1; i >= 0; i--) {
-            child = this.children[i];
-            if (pos >= child.start && pos <= child.end) {
-                return [child, i];
+        if (target) {
+            for (let i = this.children.length - 1; i >= 0; i--) {
+                child = this.children[i];
+                if (pos >= child.start && pos <= child.end) {
+                    return [child, i];
+                }
             }
         }
-        return [null, 0];
+        return [null, -1];
+    }
+
+
+
+    public getChildAtCursorPosition(pos: number): ChildSearchByCursorPosition {
+        // get command at the top of the stack based on cursor's position
+        // e.g. for cursor between 'a' and 'b', foo(x, y , bar( a b ), 44) gets exp bar
+        const leaf = this.getLeafExp(pos);
+        const result: ChildSearchByCursorPosition = { child: null, index: -1, leaf, ahead: false };
+        if (leaf) {
+            // identify a child at the cursor and also get its index
+            const [child, index] = leaf.getChildAtPosition(pos);
+            // if the actual value's end is before the slot's end
+            // this indicates a space was pressed: next child does not exist
+            // but cursor points at the later param
+            result.ahead = !!child?.val && (child.val.end < child.end);
+            result.child = child;
+            result.index = index;
+        }
+        return result;
     }
 }
 

@@ -41,6 +41,7 @@ suite("Suite for XParser::" + XParser.parse.name, () => {
             expected.exp = exp;
             expected.comment = comment;
         }
+
         assert.deepStrictEqual(result, expected);
     });
 
