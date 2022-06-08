@@ -1,4 +1,4 @@
-import { XWord } from "./XConst2";
+import { XWord } from "./XWord";
 import { XError } from "./XError";
 import { XExp2 } from "./XExp2";
 import { XToken } from "./XToken";

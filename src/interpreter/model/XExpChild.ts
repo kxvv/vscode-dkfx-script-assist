@@ -1,6 +1,6 @@
 import { XToken } from "./XToken";
 import { XExp2 } from "./XExp2";
-import { XWord } from "./XConst2";
+import { XWord } from "./XWord";
 import { XDescParam } from "../../model/XDescParam";
 
 export class XExpChild {

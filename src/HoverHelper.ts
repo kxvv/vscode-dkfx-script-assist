@@ -1,5 +1,5 @@
 import { DK_ENTITIES } from "./Entities";
-import { XWord } from "./interpreter/model/XConst2";
+import { XWord } from "./interpreter/model/XWord";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { DkEntity } from "./model/DkEntity";
 import { SignatureHelper } from "./SignatureHelper";

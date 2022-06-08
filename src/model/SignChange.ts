@@ -1,5 +1,5 @@
 import { DK_ENTITIES } from "../Entities";
-import { XWord } from "../interpreter/model/XConst2";
+import { XWord } from "../interpreter/model/XWord";
 import { XExp2 } from "../interpreter/model/XExp2";
 import { XExpChild } from "../interpreter/model/XExpChild";
 import { TypeTools } from "../TypeTools";

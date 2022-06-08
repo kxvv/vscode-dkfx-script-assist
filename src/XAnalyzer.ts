@@ -1,4 +1,4 @@
-import { XWord } from "./interpreter/model/XConst2";
+import { XWord } from "./interpreter/model/XWord";
 import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/XError";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XExpChild } from "./interpreter/model/XExpChild";

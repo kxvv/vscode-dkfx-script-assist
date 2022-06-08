@@ -10,7 +10,7 @@ import { XParser2 } from "../../interpreter/XParser2";
 import { RangeExp, XExp2 } from "../../interpreter/model/XExp2";
 import { XParsedLine2 } from "../../interpreter/model/XParsedLine";
 import { XExpChild } from "../../interpreter/model/XExpChild";
-import { XWord } from "../../interpreter/model/XConst2";
+import { XWord } from "../../interpreter/model/XWord";
 
 suite("Suite for XParser2::" + XParser2.parse.name, () => {
     test("f( four ) rem hi", () => {

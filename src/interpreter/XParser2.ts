@@ -1,7 +1,7 @@
 import { Operator } from "../model/Operators";
 import { TokenType } from "../model/TokenType";
 import { XTokenGroup } from "./model/XTokenGroup";
-import { XWord } from "./model/XConst2";
+import { XWord } from "./model/XWord";
 import { ErrorInvalidStatement, ErrorOpeningAndClosingTokensMismatch, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "./model/XError";
 import { RangeExp, XExp2 } from "./model/XExp2";
 import { XParsedLine2 } from "./model/XParsedLine";

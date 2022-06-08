@@ -1,9 +1,6 @@
 import { DK_ENTITIES } from "./Entities";
-import { XWord } from "./interpreter/model/XConst2";
-import { XExp2 } from "./interpreter/model/XExp2";
-import { XExpChild } from "./interpreter/model/XExpChild";
+import { XWord } from "./interpreter/model/XWord";
 import { MappersDk } from "./MappersDk";
-import { DkEntity } from "./model/DkEntity";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { ParamType } from "./model/ParamType";
 import { XScriptAnalysis } from "./model/XScriptAnalysis";
@@ -20,7 +17,7 @@ export interface TypeTool {
     suggest(analysis: XScriptAnalysis): DkSuggestion[];
 }
 
-const CONSTRAINTS = {
+export const CONSTRAINTS = {
     minMsgNumber: 0,
     maxMsgNumber: 50,
     maxByte: 255,
@@ -33,6 +30,7 @@ const CONSTRAINTS = {
     minSubtile: 0,
     maxSubtile: 255,
     maxTextLen: 1024,
+    maxPartyMembers: 7,
 };
 
 const check = {

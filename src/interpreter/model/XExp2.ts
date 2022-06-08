@@ -5,7 +5,7 @@
 import { XToken } from "./XToken";
 import { Utils } from "../../Utils";
 import { XExpChild } from "./XExpChild";
-import { XWord } from "./XConst2";
+import { XWord } from "./XWord";
 import { XCommandDesc } from "../../model/XCommandDesc";
 import { XDescProvider } from "../../XDescProvider";
 import { ParamType } from "../../model/ParamType";
@@ -85,7 +85,7 @@ export class XExp2 {
         return this.children[index];
     }
 
-    public getChildsConst(index: number): XWord | null {
+    public getChildsWord(index: number): XWord | null {
         const child: XExpChild | undefined = this.children[index];
         if (child && child.val instanceof XWord) {
             return child.val;

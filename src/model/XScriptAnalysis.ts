@@ -1,4 +1,4 @@
-import { XWord } from "../interpreter/model/XConst2";
+import { XWord } from "../interpreter/model/XWord";
 import { ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen, XError } from "../interpreter/model/XError";
 import { XExp2 } from "../interpreter/model/XExp2";
 import { VariableStorage } from "../VariableStorage";
@@ -65,75 +65,26 @@ export class XScriptAnalysis {
 
             // eval vars
 
-            if (effects.timerWrite) {
-                player = exp.getChildsConst(effects.timerWrite[0]);
-                variable = exp.getChildsConst(effects.timerWrite[1]);
-                if (player && variable) {
-                    this.variableStorage.pushTimerAlter(
-                        player.val.toUpperCase(),
-                        variable.val.toUpperCase(),
-                        true,
-                        line,
-                        variable
-                    );
-                }
-            }
-            if (effects.timerRead) {
-                player = exp.getChildsConst(effects.timerRead[0]);
-                variable = exp.getChildsConst(effects.timerRead[1]);
-                if (player && variable) {
-                    this.variableStorage.pushTimerAlter(
-                        player.val.toUpperCase(),
-                        variable.val.toUpperCase(),
-                        false,
-                        line,
-                        variable
-                    );
-                }
-            }
-
-            if (effects.flagWrite) {
-                player = exp.getChildsConst(effects.flagWrite[0]);
-                variable = exp.getChildsConst(effects.flagWrite[1]);
-                if (player && variable) {
-                    this.variableStorage.pushTimerAlter(
-                        player.val.toUpperCase(),
-                        variable.val.toUpperCase(),
-                        true,
-                        line,
-                        variable
-                    );
-                }
-            }
-            if (effects.flagRead) {
-                player = exp.getChildsConst(effects.flagRead[0]);
-                variable = exp.getChildsConst(effects.flagRead[1]);
-                if (player && variable) {
-                    this.variableStorage.pushTimerAlter(
-                        player.val.toUpperCase(),
-                        variable.val.toUpperCase(),
-                        false,
-                        line,
-                        variable
-                    );
-                }
-            }
+            effects.timerWrite && this.evalTimers(line, exp, true, effects.timerWrite);
+            effects.timerRead && this.evalTimers(line, exp, false, effects.timerRead);
+            effects.flagWrite && this.evalFlags(line, exp, true, effects.flagWrite);
+            effects.flagRead && this.evalFlags(line, exp, false, effects.flagRead);
 
             if (effects.apRead != null) {
-                variable = exp.getChildsConst(effects.apRead);
+                variable = exp.getChildsWord(effects.apRead);
                 if (variable) {
                     this.variableStorage.pushApAlter(false, line, variable);
                 }
             }
             if (effects.apWrite != null) {
-                variable = exp.getChildsConst(effects.apWrite);
+                variable = exp.getChildsWord(effects.apWrite);
                 if (variable) {
                     this.variableStorage.pushApAlter(true, line, variable);
                 }
             }
 
             if (effects.msgSlot != null) {
-                variable = exp.getChildsConst(effects.msgSlot);
+                variable = exp.getChildsWord(effects.msgSlot);
                 if (variable) {
                     this.variableStorage.pushMsgSlot(line, variable);
                 }
@@ -144,7 +95,57 @@ export class XScriptAnalysis {
             }
 
             // eval parties
-            // TODO
+
+            if (effects.partyAdd != null) {
+                variable = exp.getChildsWord(effects.partyAdd);
+                if (variable) {
+                    this.variableStorage.pushParty(variable.val, "add", line, exp);
+                }
+            }
+            if (effects.partyRead != null) {
+                variable = exp.getChildsWord(effects.partyRead);
+                if (variable) {
+                    this.variableStorage.pushParty(variable.val, "read", line, exp);
+                }
+            }
+            if (effects.partyDelete != null) {
+                variable = exp.getChildsWord(effects.partyDelete);
+                if (variable) {
+                    this.variableStorage.pushParty(variable.val, "del", line, exp);
+                }
+            }
+        }
+    }
+
+    private evalTimers(line: number, exp: XExp2, write: boolean, indices: number[]) {
+        for (const idx of indices) {
+            const player: XWord | null = exp.getChildsWord(idx - 1);
+            const variable: XWord | null = exp.getChildsWord(idx);
+            if (player && variable) {
+                this.variableStorage.pushTimerAlter(
+                    player.val.toUpperCase(),
+                    variable.val.toUpperCase(),
+                    write,
+                    line,
+                    variable
+                );
+            }
+        }
+    }
+
+    private evalFlags(line: number, exp: XExp2, write: boolean, indices: number[]) {
+        for (const idx of indices) {
+            const player: XWord | null = exp.getChildsWord(idx - 1);
+            const variable: XWord | null = exp.getChildsWord(idx);
+            if (player && variable) {
+                this.variableStorage.pushFlagAlter(
+                    player.val.toUpperCase(),
+                    variable.val.toUpperCase(),
+                    write,
+                    line,
+                    variable
+                );
+            }
         }
     }
 
@@ -173,5 +174,6 @@ export class XScriptAnalysis {
         for (const reuse of this.reuses) {
             this.pushError(reuse.line, new ErrorNothingToReuse(reuse.exp));
         }
+        this.variableStorage.finalize(this.pushError.bind(this));
     }
 }
