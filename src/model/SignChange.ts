@@ -55,7 +55,7 @@ export class XSignChange implements IXSignChange {
                 if (this.check === "EQ" && inValue.val === this.arg?.toUpperCase()) {
                     willPerformChange = true;
                 } else if (this.check === "IN" && this.typeArgs) {
-                    willPerformChange = this.typeArgs.some(t => TypeTools.utilFor(t).check({
+                    willPerformChange = this.typeArgs.some(t => true === TypeTools.utilFor(t).check({
                         word: inValue
                     }));
                 }

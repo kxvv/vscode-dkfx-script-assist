@@ -7,6 +7,7 @@ import { ErrSeverity } from "./ErrSeverity";
 import { RootLvl } from "./RootLvl";
 import { XCommandDesc } from "./XCommandDesc";
 import { CommandEffect } from "./XCommandEffect";
+import { CONSTRAINTS } from "../TypeTools";
 
 
 interface StackOpening {
@@ -19,7 +20,7 @@ export class XScriptAnalysis {
     conditionOpenings: StackOpening[] = [];
     reuses: StackOpening[] = [];
     diagIgnoreLines: number[] = [];
-    variableStorage = new VariableStorage;
+    private variableStorage = new VariableStorage;
 
     pushError(line: number, err: XError) {
         this.diags.push({
@@ -165,6 +166,18 @@ export class XScriptAnalysis {
         if (error) {
             this.pushError(line, new ErrorCannotReuse(exp));
         }
+    }
+
+    getNextFreeMsgNumber(): number | null {
+        return this.variableStorage.getNextFreeMsgNumber();
+    }
+
+    isPartyDeclared(partyName: string): boolean {
+        return this.variableStorage.isPartyDeclared(partyName);
+    }
+
+    getDeclaredPartyNames(): string[] {
+        return this.variableStorage.getDeclaredPartyNames();
     }
 
     finalize() {

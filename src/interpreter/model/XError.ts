@@ -200,6 +200,12 @@ export class ErrorMsgSlotUsed extends XError {
     }
 }
 
+export class ErrorMsgOutOfRange extends XError {
+    constructor(slot: Range, min: number, max: number) {
+        super(`Message number out of range: ${min}-${max} allowed`, slot.start, slot.end);
+    }
+}
+
 export class ErrorPartyEmpty extends XError {
     constructor(name: string, party: Range) {
         super(`Party '${name}' is empty`, party.start, party.end);
@@ -218,5 +224,18 @@ export class ErrorPartyTooManyMembers extends XError {
     constructor(name: string, party: Range) {
         super(`Party '${name}' has too many members`, party.start, party.end);
         this.severity = ErrSeverity.Warning;
+    }
+}
+
+export class ErrorPartyNameNotUnique extends XError {
+    constructor(name: string, party: Range) {
+        super(`Party '${name}' already exists`, party.start, party.end);
+        this.severity = ErrSeverity.Warning;
+    }
+}
+
+export class ErrorPartyUnknown extends XError {
+    constructor(name: string, party: Range) {
+        super(`Unknown party '${name}'`, party.start, party.end);
     }
 }

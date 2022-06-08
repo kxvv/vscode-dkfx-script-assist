@@ -1,4 +1,5 @@
 import { DK_ENTITIES } from "./Entities";
+import { ErrorMsgOutOfRange, ErrorPartyNameNotUnique, ErrorPartyUnknown, XError } from "./interpreter/model/XError";
 import { XWord } from "./interpreter/model/XWord";
 import { MappersDk } from "./MappersDk";
 import { DkSuggestion } from "./model/DkSuggestion";
@@ -13,7 +14,7 @@ interface TypeToolCheck {
 }
 
 export interface TypeTool {
-    check(args: TypeToolCheck): boolean;
+    check(args: TypeToolCheck): boolean | XError;
     suggest(analysis: XScriptAnalysis): DkSuggestion[];
 }
 
@@ -110,28 +111,36 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         }
     },
     [ParamType.Location]: {
-        check(ttc: TypeToolCheck): boolean {
+        check(ttc: TypeToolCheck): boolean | XError {
             return check.isEntity(ttc.word, ParamType.Location)
-                || DK_TYPES[ParamType.Keeper].check(ttc)
-                || DK_TYPES[ParamType.PlayerGood].check(ttc)
-                || DK_TYPES[ParamType.ActionPoint].check(ttc)
-                || DK_TYPES[ParamType.HeroGate].check(ttc);
+                || TypeTools.utilFor(ParamType.Keeper).check(ttc)
+                || TypeTools.utilFor(ParamType.PlayerGood).check(ttc)
+                || TypeTools.utilFor(ParamType.ActionPoint).check(ttc)
+                || TypeTools.utilFor(ParamType.HeroGate).check(ttc);
         },
         suggest(analysis: XScriptAnalysis): DkSuggestion[] {
-            return [];
+            return TypeTools.utilFor(ParamType.Keeper).suggest(analysis)
+                .concat(TypeTools.utilFor(ParamType.PlayerGood).suggest(analysis));
         }
     },
     [ParamType.MsgNumber]: {
-        check(ttc: TypeToolCheck): boolean {
-            return check.numberPositive(ttc.word.val);
+        check(ttc: TypeToolCheck): boolean | XError {
+            return Utils.isParsedBetween(ttc.word.val, CONSTRAINTS.minMsgNumber, CONSTRAINTS.maxMsgNumber)
+                || new ErrorMsgOutOfRange(ttc.word, CONSTRAINTS.minMsgNumber, CONSTRAINTS.maxMsgNumber);
         },
         suggest(analysis: XScriptAnalysis): DkSuggestion[] {
-            return []; // TODO
+            const msgNum = analysis.getNextFreeMsgNumber();
+            if (msgNum != null) {
+                return [MappersDk.entityToDkSuggestion({ val: String(msgNum) })];
+            }
+            return [];
         }
     },
     [ParamType.NewParty]: {
-        check(ttc: TypeToolCheck): boolean {
-            // TODO
+        check(ttc: TypeToolCheck): boolean | XError {
+            if (ttc.analysis?.isPartyDeclared(ttc.word.val)) {
+                return new ErrorPartyNameNotUnique(ttc.word.val, ttc.word);
+            }
             return true;
         },
         suggest(analysis: XScriptAnalysis): DkSuggestion[] {
@@ -155,12 +164,16 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         }
     },
     [ParamType.Party]: {
-        check(ttc: TypeToolCheck): boolean {
-            // TODO
+        check(ttc: TypeToolCheck): boolean | XError {
+            if (!ttc.analysis?.isPartyDeclared(ttc.word.val)) {
+                return new ErrorPartyUnknown(ttc.word.val, ttc.word);
+            }
             return true;
         },
         suggest(analysis: XScriptAnalysis): DkSuggestion[] {
-            return [];
+            return analysis.getDeclaredPartyNames().map(name => MappersDk.entityToDkSuggestion(
+                { val: name }
+            ));
         }
     },
     [ParamType.ReadVar]: {
@@ -185,6 +198,15 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         },
         suggest(analysis: XScriptAnalysis): DkSuggestion[] {
             return setVars.map(t => TypeTools.utilFor(t).suggest(analysis)).flat();
+        }
+    },
+    [ParamType.Slab]: {
+        check(ttc: TypeToolCheck): boolean {
+            const val = ttc.word.val;
+            return check.numberPositive(val) && Utils.isParsedBetween(val, CONSTRAINTS.minSlab, CONSTRAINTS.maxSlab);
+        },
+        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+            return [];
         }
     },
     [ParamType.Subtile]: {

@@ -1,5 +1,5 @@
 import { XWord } from "./interpreter/model/XWord";
-import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/XError";
+import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand, XError } from "./interpreter/model/XError";
 import { XExp2 } from "./interpreter/model/XExp2";
 import { XExpChild } from "./interpreter/model/XExpChild";
 import { XParsedLine2 } from "./interpreter/model/XParsedLine";
@@ -17,8 +17,16 @@ const DIAG_IGNORE_FLAG = "@ignore";
 
 export class XAnalyzer {
 
-    private static isWordCorrectType(line: number, word: XWord, allowed: ParamType[], analysis: XScriptAnalysis): boolean {
-        return allowed.some(t => TypeTools.utilFor(t).check({ analysis, word, line }));
+    private static isWordCorrectType(
+        line: number, word: XWord, allowed: ParamType[], analysis: XScriptAnalysis
+    ): boolean | XError {
+        let checkResult;
+        for (const type of allowed) {
+            if (checkResult = TypeTools.utilFor(type).check({ analysis, word, line })) {
+                return checkResult;
+            }
+        }
+        return false;
     }
 
     private static isCorrectReturnType(exp: XExp2 | XWord, allowed: ParamType[]): boolean {
@@ -50,6 +58,7 @@ export class XAnalyzer {
         let allowed: ParamType[];
         let optsCount = 0;
         let tempDesc: XCommandDesc | undefined;
+        let check: boolean | XError;
         for (let i = 0; i < desc.params.length; i++) {
             child = exp.getChild(i);
             allowed = params[i].allowedTypes;
@@ -61,9 +70,16 @@ export class XAnalyzer {
                 if (childVal) {
 
                     if (childVal instanceof XWord) {
-                        if (!XAnalyzer.isWordCorrectType(line, childVal, allowed, analysis)) {
+                        if (
+                            (check = XAnalyzer.isWordCorrectType(line, childVal, allowed, analysis)) !== true
+                        ) {
                             if (!(tempDesc = childVal.getDesc()) || !XAnalyzer.isCorrectReturnType(childVal, allowed)) {
-                                analysis.pushError(line, new ErrorTypeMismatch(childVal, childVal.val, params[i].allowedTypes));
+                                analysis.pushError(
+                                    line,
+                                    check === false
+                                    ? new ErrorTypeMismatch(childVal, childVal.val, params[i].allowedTypes)
+                                    : check
+                                );
                             }
                             if (tempDesc = childVal.getDesc()) {
                                 XAnalyzer.checkWordForParams(line, childVal, tempDesc, analysis);

@@ -162,6 +162,23 @@ export class VariableStorage {
         }
     }
 
+    getNextFreeMsgNumber(): number | null {
+        for (let i = CONSTRAINTS.minMsgNumber; i <= CONSTRAINTS.maxMsgNumber; i++) {
+            if (!this.msgSlotAlters[i]?.length) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    isPartyDeclared(partyName: string): boolean {
+        return Object.keys(this.parties).map(name => name.toUpperCase()).includes(partyName.toUpperCase());
+    }
+
+    getDeclaredPartyNames(): string[] {
+        return Object.keys(this.parties);
+    }
+
     finalize(pushError: (line: number, err: XError) => any) {
         for (const alters of Object.values(this.timerAlters)) {
             for (const alter of alters) {
@@ -203,8 +220,10 @@ export class VariableStorage {
         }
 
         for (const indexedSlot of this.msgSlotAlters) {
-            for (const slot of indexedSlot.slice(1)) {
-                pushError(slot.line, new ErrorMsgSlotUsed(slot));
+            if (indexedSlot) {
+                for (const slot of indexedSlot.slice(1)) {
+                    pushError(slot.line, new ErrorMsgSlotUsed(slot));
+                }
             }
         }
 
