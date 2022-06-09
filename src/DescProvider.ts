@@ -1,19 +1,19 @@
-import { XExp2 } from "./interpreter/model/XExp2";
-import { XSyntaxToken } from "./interpreter/model/XToken";
+import { Exp } from "./interpreter/model/Exp";
+import { XSyntaxToken } from "./interpreter/model/Token";
 import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
 import { ParamType } from "./model/ParamType";
 import { SignOptChange, XSignChange } from "./model/SignChange";
-import { XCommandDesc } from "./model/XCommandDesc";
-import { CommandEffectFactory } from "./model/XCommandEffect";
-import { XDescParam } from "./model/XDescParam";
+import { CommandDesc } from "./model/CommandDesc";
+import { CommandEffectFactory } from "./model/CommandEffect";
+import { DescParam } from "./model/DescParam";
 import { ResourcesLoader } from "./ResourcesLoader";
 
-let dkCmdParamsMap: Map<string, XCommandDesc> | undefined;
+let dkCmdParamsMap: Map<string, CommandDesc> | undefined;
 
 const LOADED_COMMANDS: LoadedCommands = ResourcesLoader.loadCommands();
 
-function initCmdParamsMap(loaded: LoadedCommands): Map<string, XCommandDesc> {
-    const result: Map<string, XCommandDesc> = new Map;
+function initCmdParamsMap(loaded: LoadedCommands): Map<string, CommandDesc> {
+    const result: Map<string, CommandDesc> = new Map;
     loaded.values.forEach(lv => {
         const openSymbolIndex = lv.cmd.match(/[([]/)?.index || 0;
         const name = lv.cmd.substring(0, openSymbolIndex).toUpperCase();
@@ -87,8 +87,8 @@ function signToNonSepSignParts(sign: string): NonSepSignPart[] {
 }
 
 
-function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XCommandDesc {
-    const result: XCommandDesc = {
+function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): CommandDesc {
+    const result: CommandDesc = {
         effects: CommandEffectFactory.fromLoadedCmd(loadCmd),
         bracketed: false,
         params: [],
@@ -108,7 +108,7 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
 
     for (let i = 0; i < nonSepSignParts.length; i++) {
         const { name, params } = interpretSignParam(nonSepSignParts[i].signPart);
-        const cmdParam: XDescParam = {
+        const cmdParam: DescParam = {
             allowedTypes: interpretParamTypes(params),
             optional: i >= optFromNonSepIndex,
             name: name || getDefaultCmdParamName(i),
@@ -132,20 +132,20 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): XComm
 }
 
 
-export class XDescProvider {
-    static getCommandDescMap(): Map<string, XCommandDesc> {
+export class DescProvider {
+    static getCommandDescMap(): Map<string, CommandDesc> {
         if (!dkCmdParamsMap) {
             dkCmdParamsMap = initCmdParamsMap(LOADED_COMMANDS);
         }
         return dkCmdParamsMap;
     }
 
-    static getCommandDesc(arg: string): XCommandDesc | undefined {
-        return XDescProvider.getCommandDescMap().get(arg.toUpperCase());
+    static getCommandDesc(arg: string): CommandDesc | undefined {
+        return DescProvider.getCommandDescMap().get(arg.toUpperCase());
     }
 
-    static getCommandDescForExp(exp: XExp2): XCommandDesc | undefined {
-        let desc = XDescProvider.getCommandDesc(exp.caller.val);
+    static getCommandDescForExp(exp: Exp): CommandDesc | undefined {
+        let desc = DescProvider.getCommandDesc(exp.caller.val);
         if (desc?.autoTypes && exp.parent) {
             const parentParam = exp.parent.getDescParam();
             if (parentParam) {
@@ -153,7 +153,7 @@ export class XDescProvider {
             }
         }
         if (desc?.signChanges) {
-            let paramsCopy: XDescParam[] = [...desc.params];
+            let paramsCopy: DescParam[] = [...desc.params];
             for (const change of desc.signChanges) {
                 paramsCopy = change.applySignParamsChange(exp, paramsCopy);
             }
@@ -165,13 +165,13 @@ export class XDescProvider {
         return desc;
     }
 
-    private static replaceAutoTypes(descCopy: XCommandDesc, exp: XExp2, parentParam: XDescParam): XCommandDesc {
+    private static replaceAutoTypes(descCopy: CommandDesc, exp: Exp, parentParam: DescParam): CommandDesc {
         let isConsecutive = parentParam.allowedTypes.includes(ParamType.Number) || parentParam.allowedTypes.includes(ParamType.Byte);
         if (String(descCopy.returns) === String([ParamType.Auto])) {
             descCopy.returns = parentParam.allowedTypes;
         }
         descCopy.params = descCopy.params.map(p => {
-            const result: XDescParam = { ...p };
+            const result: DescParam = { ...p };
             if (String(p.allowedTypes) === String([ParamType.Auto])) {
                 result.allowedTypes = isConsecutive ? parentParam.allowedTypes.concat(ParamType.Range) : parentParam.allowedTypes;
             }

@@ -1,18 +1,18 @@
 import { ConfigProvider } from "./ConfigProvider";
 import { HoverHelper } from "./HoverHelper";
-import { XExp2 } from "./interpreter/model/XExp2";
-import { XParsedLine2 } from "./interpreter/model/XParsedLine";
+import { Exp } from "./interpreter/model/Exp";
+import { ParsedLine } from "./interpreter/model/ParsedLine";
 import { DkDiag } from "./model/DkDiag";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { SignatureHint } from "./model/SignatureHint";
-import { XScriptAnalysis } from "./model/XScriptAnalysis";
+import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { SignatureHelper } from "./SignatureHelper";
 import { SuggestionHelper } from "./SuggestionHelper";
-import { XAnalyzer } from "./XAnalyzer";
+import { Analyzer } from "./Analyzer";
 
-export type LineMap = (XParsedLine2 | undefined)[];
+export type LineMap = (ParsedLine | undefined)[];
 
-export type IndexedStatements = Array<[lineIndex: number, statement: XParsedLine2]>;
+export type IndexedStatements = Array<[lineIndex: number, statement: ParsedLine]>;
 
 export interface ScriptChangeInfo {
     changes: IndexedStatements;
@@ -25,12 +25,12 @@ export class ScriptInstance {
     private readonly lineMap: LineMap;
     private lineCount = 0;
     private uri: string;
-    private analysis: XScriptAnalysis;
+    private analysis: ScriptAnalysis;
 
     constructor(uri: string) {
         this.uri = uri;
         this.lineMap = new Array();
-        this.analysis = new XScriptAnalysis;
+        this.analysis = new ScriptAnalysis;
     }
 
     update(change: ScriptChangeInfo) {
@@ -50,8 +50,8 @@ export class ScriptInstance {
         this.lineCount = change.documentLineCount;
     }
 
-    performAnalysis(): XScriptAnalysis {
-        return this.analysis = XAnalyzer.analyze(this.lineMap, this.lineCount);
+    performAnalysis(): ScriptAnalysis {
+        return this.analysis = Analyzer.analyze(this.lineMap, this.lineCount);
     }
 
     collectDiagnostics(): DkDiag[] {
@@ -66,10 +66,10 @@ export class ScriptInstance {
     }
 
     suggest(line: number, pos: number): DkSuggestion[] {
-        const pl: XParsedLine2 | undefined = this.statementAt(line);
+        const pl: ParsedLine | undefined = this.statementAt(line);
 
         if (pl) {
-            if (pl.exp instanceof XExp2 && pl.exp.getChildren().length && pos < pl.exp.end) {
+            if (pl.exp instanceof Exp && pl.exp.getChildren().length && pos < pl.exp.end) {
                 const { child, index, leaf, ahead } = pl.exp.getChildAtCursorPosition(pos);
                 const leafDesc = leaf?.getDesc();
                 // if cursor is within child && leaf command is recognized
@@ -93,7 +93,7 @@ export class ScriptInstance {
 
     hint(line: number, pos: number): SignatureHint | null {
         const statement = this.statementAt(line);
-        return statement?.exp instanceof XExp2 ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
+        return statement?.exp instanceof Exp ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
     }
 
     hover(line: number, pos: number): string | null {
@@ -109,7 +109,7 @@ export class ScriptInstance {
         console.log(this.lineMap[ln]);
     }
 
-    statementAt(ln: number): XParsedLine2 | undefined {
+    statementAt(ln: number): ParsedLine | undefined {
         return this.lineMap[ln];
     }
 

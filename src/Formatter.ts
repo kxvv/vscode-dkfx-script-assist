@@ -1,25 +1,25 @@
 import { ConfigProvider } from "./ConfigProvider";
-import { XToken } from "./interpreter/model/XToken";
-import { XTokenizer } from "./interpreter/XTokenizer";
+import { DescProvider } from "./DescProvider";
+import { Token } from "./interpreter/model/Token";
+import { Tokenizer } from "./interpreter/Tokenizer";
+import { CommandDesc } from "./model/CommandDesc";
 import { ExtConfig, ExtConfigFormatter } from "./model/ExtConfig";
 import { TokenType } from "./model/TokenType";
-import { XCommandDesc } from "./model/XCommandDesc";
-import { XDescProvider } from "./XDescProvider";
 
 export class Formatter {
     static formatTextLines(lines: string[]): string[] {
         const result: string[] = [];
         const config: ExtConfig = ConfigProvider.getConfig();
-        let tokens: XToken[];
-        let desc: XCommandDesc | undefined;
+        let tokens: Token[];
+        let desc: CommandDesc | undefined;
         let ifCountStack = 0;
         for (const line of lines) {
-            tokens = XTokenizer.tokenize(line);
+            tokens = Tokenizer.tokenize(line);
             if (!tokens.length) {
                 result.push("");
                 continue;
             }
-            desc = XDescProvider.getCommandDesc(tokens[0].val);
+            desc = DescProvider.getCommandDesc(tokens[0].val);
             if (desc?.effects?.conditionPop && ifCountStack) {
                 ifCountStack--;
             }
@@ -31,9 +31,9 @@ export class Formatter {
         return result;
     }
 
-    static lineTokensToString(line: XToken[], indentCount: number, formatter: ExtConfigFormatter): string {
+    static lineTokensToString(line: Token[], indentCount: number, formatter: ExtConfigFormatter): string {
         const result: string[] = new Array(indentCount).fill(formatter.indentationString);
-        let t: XToken;
+        let t: Token;
         for (let i = 0; i < line.length; i++) {
             t = line[i];
             if (t.type === TokenType.Syntactic) {

@@ -1,25 +1,25 @@
-import { XWord } from "./interpreter/model/XWord";
-import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand, XError } from "./interpreter/model/XError";
-import { XExp2 } from "./interpreter/model/XExp2";
-import { XExpChild } from "./interpreter/model/XExpChild";
-import { XParsedLine2 } from "./interpreter/model/XParsedLine";
-import { XSyntaxToken } from "./interpreter/model/XToken";
+import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand, DKError } from "./interpreter/model/DKError";
+import { Exp } from "./interpreter/model/Exp";
+import { ExpChild } from "./interpreter/model/ExpChild";
+import { ParsedLine } from "./interpreter/model/ParsedLine";
+import { XSyntaxToken } from "./interpreter/model/Token";
+import { Word } from "./interpreter/model/Word";
+import { CommandDesc } from "./model/CommandDesc";
+import { CommandEffect } from "./model/CommandEffect";
+import { DescParam } from "./model/DescParam";
 import { Operator } from "./model/Operators";
 import { ParamType } from "./model/ParamType";
-import { XCommandDesc } from "./model/XCommandDesc";
-import { CommandEffect } from "./model/XCommandEffect";
-import { XDescParam } from "./model/XDescParam";
-import { XScriptAnalysis } from "./model/XScriptAnalysis";
+import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
 import { TypeTools } from "./TypeTools";
 
 const DIAG_IGNORE_FLAG = "@ignore";
 
-export class XAnalyzer {
+export class Analyzer {
 
     private static isWordCorrectType(
-        line: number, word: XWord, allowed: ParamType[], analysis: XScriptAnalysis
-    ): boolean | XError {
+        line: number, word: Word, allowed: ParamType[], analysis: ScriptAnalysis
+    ): boolean | DKError {
         let checkResult;
         for (const type of allowed) {
             if (checkResult = TypeTools.utilFor(type).check({ analysis, word, line })) {
@@ -29,12 +29,12 @@ export class XAnalyzer {
         return false;
     }
 
-    private static isCorrectReturnType(exp: XExp2 | XWord, allowed: ParamType[]): boolean {
-        const expDesc: XCommandDesc | undefined = exp.getDesc();
+    private static isCorrectReturnType(exp: Exp | Word, allowed: ParamType[]): boolean {
+        const expDesc: CommandDesc | undefined = exp.getDesc();
         return !!(expDesc && allowed.some(t => expDesc.returns?.includes(t)));
     }
 
-    private static checkParens(line: number, exp: XExp2, desc: XCommandDesc, analysis: XScriptAnalysis) {
+    private static checkParens(line: number, exp: Exp, desc: CommandDesc, analysis: ScriptAnalysis) {
         if (exp.caller.val !== Operator.Rng) {
             if (exp.closer) {
                 const parens = exp.opener.val + exp.closer.val;
@@ -50,15 +50,15 @@ export class XAnalyzer {
         }
     }
 
-    private static checkTypesForExp(line: number, exp: XExp2, desc: XCommandDesc, analysis: XScriptAnalysis) {
-        const params: XDescParam[] = desc.params;
+    private static checkTypesForExp(line: number, exp: Exp, desc: CommandDesc, analysis: ScriptAnalysis) {
+        const params: DescParam[] = desc.params;
         let misplacedParamsCount = 0;
-        let child: XExpChild | undefined;
-        let childVal: XExp2 | XWord | null | undefined;
+        let child: ExpChild | undefined;
+        let childVal: Exp | Word | null | undefined;
         let allowed: ParamType[];
         let optsCount = 0;
-        let tempDesc: XCommandDesc | undefined;
-        let check: boolean | XError;
+        let tempDesc: CommandDesc | undefined;
+        let check: boolean | DKError;
         for (let i = 0; i < desc.params.length; i++) {
             child = exp.getChild(i);
             allowed = params[i].allowedTypes;
@@ -69,28 +69,28 @@ export class XAnalyzer {
 
                 if (childVal) {
 
-                    if (childVal instanceof XWord) {
+                    if (childVal instanceof Word) {
                         if (
-                            (check = XAnalyzer.isWordCorrectType(line, childVal, allowed, analysis)) !== true
+                            (check = Analyzer.isWordCorrectType(line, childVal, allowed, analysis)) !== true
                         ) {
-                            if (!(tempDesc = childVal.getDesc()) || !XAnalyzer.isCorrectReturnType(childVal, allowed)) {
+                            if (!(tempDesc = childVal.getDesc()) || !Analyzer.isCorrectReturnType(childVal, allowed)) {
                                 analysis.pushError(
                                     line,
                                     check === false
-                                    ? new ErrorTypeMismatch(childVal, childVal.val, params[i].allowedTypes)
-                                    : check
+                                        ? new ErrorTypeMismatch(childVal, childVal.val, params[i].allowedTypes)
+                                        : check
                                 );
                             }
                             if (tempDesc = childVal.getDesc()) {
-                                XAnalyzer.checkWordForParams(line, childVal, tempDesc, analysis);
+                                Analyzer.checkWordForParams(line, childVal, tempDesc, analysis);
                             }
                         }
                     } else {
-                        if (!XAnalyzer.isCorrectReturnType(childVal, allowed)) {
+                        if (!Analyzer.isCorrectReturnType(childVal, allowed)) {
                             analysis.pushError(line, new ErrorTypeMismatch(childVal.caller, childVal.caller.val, params[i].allowedTypes));
                         }
                         if (tempDesc = childVal.getDesc()) {
-                            XAnalyzer.checkTypesForExp(line, childVal, tempDesc, analysis);
+                            Analyzer.checkTypesForExp(line, childVal, tempDesc, analysis);
                         }
                     }
 
@@ -109,7 +109,7 @@ export class XAnalyzer {
                 if (!desc.params[i].optional) { misplacedParamsCount++; }
             }
         }
-        XAnalyzer.checkParens(line, exp, desc, analysis);
+        Analyzer.checkParens(line, exp, desc, analysis);
         if (misplacedParamsCount) {
             analysis.pushError(line, new ErrorArgumentsCount(exp.caller, params.length - optsCount, params.length));
         }
@@ -118,7 +118,7 @@ export class XAnalyzer {
         }
     }
 
-    private static checkWordForParams(line: number, exp: XWord, desc: XCommandDesc, analysis: XScriptAnalysis) {
+    private static checkWordForParams(line: number, exp: Word, desc: CommandDesc, analysis: ScriptAnalysis) {
         if (desc.params.length) {
             const maxParams = desc.params.length;
             const requiredParams = maxParams - desc.params.filter(p => p.optional).length;
@@ -126,12 +126,12 @@ export class XAnalyzer {
         }
     }
 
-    static analyze(lineMap: LineMap, lineCount?: number): XScriptAnalysis {
-        const analysis: XScriptAnalysis = new XScriptAnalysis;
+    static analyze(lineMap: LineMap, lineCount?: number): ScriptAnalysis {
+        const analysis: ScriptAnalysis = new ScriptAnalysis;
 
-        let exp: XExp2 | XWord | undefined;
-        let line: XParsedLine2 | undefined;
-        let desc: XCommandDesc | undefined;
+        let exp: Exp | Word | undefined;
+        let line: ParsedLine | undefined;
+        let desc: CommandDesc | undefined;
         let effects: CommandEffect | undefined;
 
         for (let i = 0; i < (lineCount || lineMap.length); i++) {
@@ -146,13 +146,13 @@ export class XAnalyzer {
                         if (desc.returns) {
                             analysis.pushError(i, new ErrorReturnOnlyAsArg(exp));
                         }
-                        if (exp instanceof XExp2) {
-                            XAnalyzer.checkTypesForExp(i, exp, desc, analysis);
+                        if (exp instanceof Exp) {
+                            Analyzer.checkTypesForExp(i, exp, desc, analysis);
                         } else {
-                            XAnalyzer.checkWordForParams(i, exp, desc, analysis);
+                            Analyzer.checkWordForParams(i, exp, desc, analysis);
                         }
                     } else {
-                        if (exp instanceof XExp2) {
+                        if (exp instanceof Exp) {
                             analysis.pushError(i, new ErrorUnknownCommand(exp.caller, exp.caller.val));
                         } else {
                             analysis.pushError(i, new ErrorUnknownCommand(exp, exp.val));

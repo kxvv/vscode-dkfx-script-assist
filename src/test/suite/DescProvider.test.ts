@@ -1,13 +1,13 @@
 import * as assert from "assert";
+import { DescProvider } from "../../DescProvider";
+import { CommandDesc } from "../../model/CommandDesc";
 import { ParamType } from "../../model/ParamType";
-import { XCommandDesc } from "../../model/XCommandDesc";
-import { XDescProvider } from "../../XDescProvider";
 import { TestUtils } from "./TestUtils";
 
-suite("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
+suite("Suite for DescProvider::" + DescProvider.getCommandDesc.name, () => {
     test("SET_FLAg", () => {
-        const result: XCommandDesc | null = XDescProvider.getCommandDesc("SET_FLAg")!;
-        const expected: XCommandDesc = TestUtils.createDesc();
+        const result: CommandDesc | null = DescProvider.getCommandDesc("SET_FLAg")!;
+        const expected: CommandDesc = TestUtils.createDesc();
         expected.params.push({
             allowedTypes: [ParamType.Player],
             preSep: false,
@@ -34,8 +34,8 @@ suite("Suite for XDescProvider::" + XDescProvider.getCommandDesc.name, () => {
     });
 
     test("IF", () => {
-        const result: XCommandDesc | null = XDescProvider.getCommandDesc("IF")!;
-        const expected: XCommandDesc = TestUtils.createDesc();
+        const result: CommandDesc | null = DescProvider.getCommandDesc("IF")!;
+        const expected: CommandDesc = TestUtils.createDesc();
         expected.params.push({
             allowedTypes: [ParamType.Player],
             preSep: false,

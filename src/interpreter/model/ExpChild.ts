@@ -1,22 +1,22 @@
-import { XToken } from "./XToken";
-import { XExp2 } from "./XExp2";
-import { XWord } from "./XWord";
-import { XDescParam } from "../../model/XDescParam";
+import { DescParam } from "../../model/DescParam";
+import { Exp } from "./Exp";
+import { Token } from "./Token";
+import { Word } from "./Word";
 
-export class XExpChild {
-    parent: XExp2;
-    val: XExp2 | XWord | null = null;
+export class ExpChild {
+    parent: Exp;
+    val: Exp | Word | null = null;
     start: number;
     end: number;
-    preSep: XToken | null;
+    preSep: Token | null;
 
-    constructor(parent: XExp2, start: number, end = Number.MAX_SAFE_INTEGER) {
+    constructor(parent: Exp, start: number, end = Number.MAX_SAFE_INTEGER) {
         this.parent = parent;
         this.start = start;
         this.end = end;
     }
 
-    getDescParam(): XDescParam | null {
+    getDescParam(): DescParam | null {
         const siblings = this.parent.getChildren();
         for (let i = 0; i < (this.parent.getDesc()?.params.length || 0); i++) {
             if (siblings[i] === this) {

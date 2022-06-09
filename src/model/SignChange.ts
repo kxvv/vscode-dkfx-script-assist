@@ -1,10 +1,9 @@
-import { DK_ENTITIES } from "../Entities";
-import { XWord } from "../interpreter/model/XWord";
-import { XExp2 } from "../interpreter/model/XExp2";
-import { XExpChild } from "../interpreter/model/XExpChild";
+import { Exp } from "../interpreter/model/Exp";
+import { ExpChild } from "../interpreter/model/ExpChild";
+import { Word } from "../interpreter/model/Word";
 import { TypeTools } from "../TypeTools";
+import { DescParam } from "./DescParam";
 import { ParamType } from "./ParamType";
-import { XDescParam } from "./XDescParam";
 
 export interface SignChange {
     check: "IN" | "EQ";
@@ -44,13 +43,13 @@ export class XSignChange implements IXSignChange {
         Object.assign(this, arg);
     }
 
-    applySignParamsChange(exp: XExp2, paramsCopy: XDescParam[]): XDescParam[] {
-        const comparedChild: XExpChild = exp.getChild(this.in);
+    applySignParamsChange(exp: Exp, paramsCopy: DescParam[]): DescParam[] {
+        const comparedChild: ExpChild = exp.getChild(this.in);
         let willPerformChange = false;
         if (comparedChild) {
             const inValue = comparedChild.val;
 
-            if (inValue instanceof XWord) {
+            if (inValue instanceof Word) {
 
                 if (this.check === "EQ" && inValue.val === this.arg?.toUpperCase()) {
                     willPerformChange = true;

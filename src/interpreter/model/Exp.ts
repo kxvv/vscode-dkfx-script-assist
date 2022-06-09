@@ -1,48 +1,44 @@
-// import { SyntaxToken } from "../Tokenizer";
-// import { Err } from "../model/Err";
-// import { TokenType } from "../model/TokenType";
-// import { XToken } from "./XToken";
-import { XToken } from "./XToken";
-import { Utils } from "../../Utils";
-import { XExpChild } from "./XExpChild";
-import { XWord } from "./XWord";
-import { XCommandDesc } from "../../model/XCommandDesc";
-import { XDescProvider } from "../../XDescProvider";
+import { DescProvider } from "../../DescProvider";
+import { CommandDesc } from "../../model/CommandDesc";
 import { ParamType } from "../../model/ParamType";
+import { Utils } from "../../Utils";
+import { ExpChild } from "./ExpChild";
+import { Token } from "./Token";
+import { Word } from "./Word";
 
 interface ChildSearchByCursorPosition {
-    child: XExpChild | null;
+    child: ExpChild | null;
     index: number;
-    leaf: XExp2 | null;
+    leaf: Exp | null;
     ahead: boolean;
 }
 
-export class XExp2 {
-    private children: XExpChild[];
-    caller: XToken;
+export class Exp {
+    private children: ExpChild[];
+    caller: Token;
     start: number;
     end: number;
-    opener: XToken;
-    closer: XToken | null;
-    parent: XExpChild | null = null;
-    desc?: XCommandDesc;
+    opener: Token;
+    closer: Token | null;
+    parent: ExpChild | null = null;
+    desc?: CommandDesc;
 
-    constructor(caller: XToken, opener: XToken, closer: XToken | null = null) {
+    constructor(caller: Token, opener: Token, closer: Token | null = null) {
         this.caller = caller;
         this.start = caller.start;
         this.end = closer?.end || Number.MAX_SAFE_INTEGER;
         this.opener = opener;
         this.closer = closer;
-        this.children = [new XExpChild(this, opener.end, this.closer?.start || Number.MAX_SAFE_INTEGER)];
+        this.children = [new ExpChild(this, opener.end, this.closer?.start || Number.MAX_SAFE_INTEGER)];
     }
 
-    public pushExp(arg: XExp2) {
-        const lastChild: XExpChild = Utils.arrayPeek(this.children)!;
-        let newborn: XExpChild;
+    public pushExp(arg: Exp) {
+        const lastChild: ExpChild = Utils.arrayPeek(this.children)!;
+        let newborn: ExpChild;
 
         if (lastChild.val) {
             lastChild.end = lastChild.val.end;
-            newborn = new XExpChild(this, lastChild.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
+            newborn = new ExpChild(this, lastChild.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
             newborn.val = arg;
             arg.parent = newborn;
             this.children.push(newborn);
@@ -52,27 +48,27 @@ export class XExp2 {
         }
     }
 
-    public pushToken(arg: XToken) {
-        let newborn: XExpChild;
-        const lastChild: XExpChild = Utils.arrayPeek(this.children)!;
+    public pushToken(arg: Token) {
+        let newborn: ExpChild;
+        const lastChild: ExpChild = Utils.arrayPeek(this.children)!;
         if (arg.isSeparating()) {
-            newborn = new XExpChild(this, arg.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
+            newborn = new ExpChild(this, arg.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
             newborn.preSep = arg;
             this.children.push(newborn);
             lastChild.end = arg.start;
         } else {
             if (lastChild.val) {
                 lastChild.end = lastChild.val.end;
-                newborn = new XExpChild(this, lastChild.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
-                newborn.val = new XWord(newborn, arg.val, arg.start);
+                newborn = new ExpChild(this, lastChild.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
+                newborn.val = new Word(newborn, arg.val, arg.start);
                 this.children.push(newborn);
                 if (arg.isOperator()) {
                     newborn.end = arg.end;
-                    newborn = new XExpChild(this, newborn.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
+                    newborn = new ExpChild(this, newborn.end, this.closer?.start || Number.MAX_SAFE_INTEGER);
                     this.children.push(newborn);
                 }
             } else {
-                lastChild.val = new XWord(lastChild, arg.val, arg.start);
+                lastChild.val = new Word(lastChild, arg.val, arg.start);
             }
         }
     }
@@ -81,34 +77,34 @@ export class XExp2 {
         return this.children;
     }
 
-    public getChild(index: number): XExpChild {
+    public getChild(index: number): ExpChild {
         return this.children[index];
     }
 
-    public getChildsWord(index: number): XWord | null {
-        const child: XExpChild | undefined = this.children[index];
-        if (child && child.val instanceof XWord) {
+    public getChildsWord(index: number): Word | null {
+        const child: ExpChild | undefined = this.children[index];
+        if (child && child.val instanceof Word) {
             return child.val;
         }
         return null;
     }
 
-    public getDesc(): XCommandDesc | undefined {
-        return this.desc || (this.desc = XDescProvider.getCommandDescForExp(this));
+    public getDesc(): CommandDesc | undefined {
+        return this.desc || (this.desc = DescProvider.getCommandDescForExp(this));
     }
 
     public isPosInCall(pos: number): boolean {
         return !!this.children.length && Utils.isBetween(pos, this.children[0].start, Utils.arrayPeek(this.children)!.end);
     }
 
-    public getLeafExp(pos: number): XExp2 | null {
-        const stack: XExp2[] = [this];
-        let result: XExp2 | null = null;
+    public getLeafExp(pos: number): Exp | null {
+        const stack: Exp[] = [this];
+        let result: Exp | null = null;
         while (stack.length) {
             result = stack.pop() || null;
             if (result && result.isPosInCall(pos)) {
                 for (const child of result.getChildren()) {
-                    if (child.val instanceof XExp2) {
+                    if (child.val instanceof Exp) {
                         if (child.val.isPosInCall(pos)) {
                             stack.push(child.val);
                             break;
@@ -122,9 +118,9 @@ export class XExp2 {
         return result;
     }
 
-    private getChildAtPosition(pos: number): [XExpChild | null, number] {
-        const target: XExp2 | null = this.getLeafExp(pos);
-        let child: XExpChild;
+    private getChildAtPosition(pos: number): [ExpChild | null, number] {
+        const target: Exp | null = this.getLeafExp(pos);
+        let child: ExpChild;
         if (target) {
             for (let i = this.children.length - 1; i >= 0; i--) {
                 child = this.children[i];
@@ -157,19 +153,19 @@ export class XExp2 {
     }
 }
 
-export class RangeExp extends XExp2 {
-    constructor(left: XToken, operator: XToken, right: XToken) {
+export class RangeExp extends Exp {
+    constructor(left: Token, operator: Token, right: Token) {
         super(operator, operator, operator);
         this.start = left.start;
         this.end = right.end;
         this.getChildren().pop();
 
-        let child: XExpChild;
-        child = new XExpChild(this, left.start, left.end);
-        child.val = new XWord(child, left.val, left.start);
+        let child: ExpChild;
+        child = new ExpChild(this, left.start, left.end);
+        child.val = new Word(child, left.val, left.start);
         this.getChildren().push(child);
-        child = new XExpChild(this, right.start, right.end);
-        child.val = new XWord(child, right.val, right.start);
+        child = new ExpChild(this, right.start, right.end);
+        child.val = new Word(child, right.val, right.start);
         this.getChildren().push(child);
 
         this.desc = {

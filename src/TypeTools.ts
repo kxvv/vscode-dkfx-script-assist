@@ -1,21 +1,21 @@
 import { DK_ENTITIES } from "./Entities";
-import { ErrorMsgOutOfRange, ErrorPartyNameNotUnique, ErrorPartyUnknown, XError } from "./interpreter/model/XError";
-import { XWord } from "./interpreter/model/XWord";
+import { ErrorMsgOutOfRange, ErrorPartyNameNotUnique, ErrorPartyUnknown, DKError } from "./interpreter/model/DKError";
+import { Word } from "./interpreter/model/Word";
 import { MappersDk } from "./MappersDk";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { ParamType } from "./model/ParamType";
-import { XScriptAnalysis } from "./model/XScriptAnalysis";
+import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { Utils } from "./Utils";
 
 interface TypeToolCheck {
-    word: XWord;
+    word: Word;
     line?: number;
-    analysis?: XScriptAnalysis;
+    analysis?: ScriptAnalysis;
 }
 
 export interface TypeTool {
-    check(args: TypeToolCheck): boolean | XError;
-    suggest(analysis: XScriptAnalysis): DkSuggestion[];
+    check(args: TypeToolCheck): boolean | DKError;
+    suggest(analysis: ScriptAnalysis): DkSuggestion[];
 }
 
 export const CONSTRAINTS = {
@@ -50,7 +50,7 @@ const check = {
     numberNegativeOrZero(val: string): boolean {
         return /^-\d+$/.test(val);
     },
-    isEntity(word: XWord, paramType: ParamType): boolean {
+    isEntity(word: Word, paramType: ParamType): boolean {
         const upperCased = word.val.toUpperCase();
         return !!(DK_ENTITIES[paramType]?.some(e => e.val === upperCased));
     },
@@ -72,7 +72,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             const val = ttc.word.val;
             return check.numberPositive(val) && Utils.isParsedBetween(val, CONSTRAINTS.minAp, CONSTRAINTS.maxAp);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -81,7 +81,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             const val = ttc.word.val;
             return check.number(val) && Math.abs(parseInt(val)) <= CONSTRAINTS.maxByte;
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -89,7 +89,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return check.isEntity(ttc.word, ParamType.CustomBox);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return DK_ENTITIES[ParamType.CustomBox].slice(0, 5).map(e => MappersDk.entityToDkSuggestion(e));
         }
     },
@@ -97,7 +97,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return check.number(ttc.word.val);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -106,29 +106,29 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             const val = ttc.word.val;
             return check.numberNegative(val) && Utils.isParsedBetween(val, CONSTRAINTS.minHg, CONSTRAINTS.maxHg);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
     [ParamType.Location]: {
-        check(ttc: TypeToolCheck): boolean | XError {
+        check(ttc: TypeToolCheck): boolean | DKError {
             return check.isEntity(ttc.word, ParamType.Location)
                 || TypeTools.utilFor(ParamType.Keeper).check(ttc)
                 || TypeTools.utilFor(ParamType.PlayerGood).check(ttc)
                 || TypeTools.utilFor(ParamType.ActionPoint).check(ttc)
                 || TypeTools.utilFor(ParamType.HeroGate).check(ttc);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return TypeTools.utilFor(ParamType.Keeper).suggest(analysis)
                 .concat(TypeTools.utilFor(ParamType.PlayerGood).suggest(analysis));
         }
     },
     [ParamType.MsgNumber]: {
-        check(ttc: TypeToolCheck): boolean | XError {
+        check(ttc: TypeToolCheck): boolean | DKError {
             return Utils.isParsedBetween(ttc.word.val, CONSTRAINTS.minMsgNumber, CONSTRAINTS.maxMsgNumber)
                 || new ErrorMsgOutOfRange(ttc.word, CONSTRAINTS.minMsgNumber, CONSTRAINTS.maxMsgNumber);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             const msgNum = analysis.getNextFreeMsgNumber();
             if (msgNum != null) {
                 return [MappersDk.entityToDkSuggestion({ val: String(msgNum) })];
@@ -137,13 +137,13 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         }
     },
     [ParamType.NewParty]: {
-        check(ttc: TypeToolCheck): boolean | XError {
+        check(ttc: TypeToolCheck): boolean | DKError {
             if (ttc.analysis?.isPartyDeclared(ttc.word.val)) {
                 return new ErrorPartyNameNotUnique(ttc.word.val, ttc.word);
             }
             return true;
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -151,7 +151,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return check.numberPositiveOrZero(ttc.word.val);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -159,18 +159,18 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return check.number(ttc.word.val);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
     [ParamType.Party]: {
-        check(ttc: TypeToolCheck): boolean | XError {
+        check(ttc: TypeToolCheck): boolean | DKError {
             if (!ttc.analysis?.isPartyDeclared(ttc.word.val)) {
                 return new ErrorPartyUnknown(ttc.word.val, ttc.word);
             }
             return true;
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return analysis.getDeclaredPartyNames().map(name => MappersDk.entityToDkSuggestion(
                 { val: name }
             ));
@@ -180,7 +180,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return readVars.some(t => check.isEntity(ttc.word, t));
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return readVars.map(t => TypeTools.utilFor(t).suggest(analysis)).flat();
         }
     },
@@ -188,7 +188,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return readSetVars.some(t => check.isEntity(ttc.word, t));
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return readSetVars.map(t => TypeTools.utilFor(t).suggest(analysis)).flat();
         }
     },
@@ -196,7 +196,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return setVars.some(t => check.isEntity(ttc.word, t));
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return setVars.map(t => TypeTools.utilFor(t).suggest(analysis)).flat();
         }
     },
@@ -205,7 +205,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             const val = ttc.word.val;
             return check.numberPositive(val) && Utils.isParsedBetween(val, CONSTRAINTS.minSlab, CONSTRAINTS.maxSlab);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -214,7 +214,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             const val = ttc.word.val;
             return check.numberPositiveOrZero(val) && Utils.isParsedBetween(val, CONSTRAINTS.minSubtile, CONSTRAINTS.maxSubtile);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -222,7 +222,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return /^".*"$/i.test(ttc.word.val) && (ttc.word.val.length - 2) <= CONSTRAINTS.maxTextLen;
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -230,7 +230,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return check.numberPositiveOrZero(ttc.word.val);
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -238,7 +238,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return true;
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -246,7 +246,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         check(ttc: TypeToolCheck): boolean {
             return false;
         },
-        suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [];
         }
     },
@@ -259,7 +259,7 @@ export class TypeTools {
             check(ttc: TypeToolCheck): boolean {
                 return check.isEntity(ttc.word, type);
             },
-            suggest(analysis: XScriptAnalysis): DkSuggestion[] {
+            suggest(analysis: ScriptAnalysis): DkSuggestion[] {
                 return DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e)) || [];
             }
         };

@@ -1,35 +1,32 @@
-import { XWord } from "../interpreter/model/XWord";
-import { ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen, XError } from "../interpreter/model/XError";
-import { XExp2 } from "../interpreter/model/XExp2";
+import { ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen, DKError } from "../interpreter/model/DKError";
+import { Exp } from "../interpreter/model/Exp";
+import { Word } from "../interpreter/model/Word";
 import { VariableStorage } from "../VariableStorage";
 import { DkDiag } from "./DkDiag";
-import { ErrSeverity } from "./ErrSeverity";
 import { RootLvl } from "./RootLvl";
-import { XCommandDesc } from "./XCommandDesc";
-import { CommandEffect } from "./XCommandEffect";
-import { CONSTRAINTS } from "../TypeTools";
-
+import { CommandDesc } from "./CommandDesc";
+import { CommandEffect } from "./CommandEffect";
 
 interface StackOpening {
     line: number;
-    exp: XExp2 | XWord;
+    exp: Exp | Word;
 }
 
-export class XScriptAnalysis {
+export class ScriptAnalysis {
     diags: DkDiag[] = [];
     conditionOpenings: StackOpening[] = [];
     reuses: StackOpening[] = [];
     diagIgnoreLines: number[] = [];
     private variableStorage = new VariableStorage;
 
-    pushError(line: number, err: XError) {
+    pushError(line: number, err: DKError) {
         this.diags.push({
             line,
             ...err
         });
     }
 
-    pushParseErrors(line: number, errs: XError[] = []) {
+    pushParseErrors(line: number, errs: DKError[] = []) {
         for (const err of errs) {
             this.diags.push({
                 line,
@@ -42,7 +39,7 @@ export class XScriptAnalysis {
         this.diagIgnoreLines.push(line);
     }
 
-    evalEffects(line: number, exp: XWord | XExp2, effects: CommandEffect) {
+    evalEffects(line: number, exp: Word | Exp, effects: CommandEffect) {
         effects.conditionPush && this.conditionOpenings.push({ line, exp });
         if (effects.conditionPop) {
             if (this.conditionOpenings.length) {
@@ -59,10 +56,10 @@ export class XScriptAnalysis {
             }
         }
 
-        let player: XWord | null;
-        let variable: XWord | null;
+        let player: Word | null;
+        let variable: Word | null;
 
-        if (exp instanceof XExp2) {
+        if (exp instanceof Exp) {
 
             // eval vars
 
@@ -118,10 +115,10 @@ export class XScriptAnalysis {
         }
     }
 
-    private evalTimers(line: number, exp: XExp2, write: boolean, indices: number[]) {
+    private evalTimers(line: number, exp: Exp, write: boolean, indices: number[]) {
         for (const idx of indices) {
-            const player: XWord | null = exp.getChildsWord(idx - 1);
-            const variable: XWord | null = exp.getChildsWord(idx);
+            const player: Word | null = exp.getChildsWord(idx - 1);
+            const variable: Word | null = exp.getChildsWord(idx);
             if (player && variable) {
                 this.variableStorage.pushTimerAlter(
                     player.val.toUpperCase(),
@@ -134,10 +131,10 @@ export class XScriptAnalysis {
         }
     }
 
-    private evalFlags(line: number, exp: XExp2, write: boolean, indices: number[]) {
+    private evalFlags(line: number, exp: Exp, write: boolean, indices: number[]) {
         for (const idx of indices) {
-            const player: XWord | null = exp.getChildsWord(idx - 1);
-            const variable: XWord | null = exp.getChildsWord(idx);
+            const player: Word | null = exp.getChildsWord(idx - 1);
+            const variable: Word | null = exp.getChildsWord(idx);
             if (player && variable) {
                 this.variableStorage.pushFlagAlter(
                     player.val.toUpperCase(),
@@ -150,7 +147,7 @@ export class XScriptAnalysis {
         }
     }
 
-    tryReuse(line: number, exp: XExp2 | XWord, desc?: XCommandDesc) {
+    tryReuse(line: number, exp: Exp | Word, desc?: CommandDesc) {
         let error = false;
         let eff: CommandEffect | undefined;
         if (this.reuses.length) {
@@ -187,6 +184,6 @@ export class XScriptAnalysis {
         for (const reuse of this.reuses) {
             this.pushError(reuse.line, new ErrorNothingToReuse(reuse.exp));
         }
-        this.variableStorage.finalize(this.pushError.bind(this));
+        this.variableStorage.finalize(this);
     }
 }

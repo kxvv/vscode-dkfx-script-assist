@@ -1,13 +1,13 @@
-import { XSyntaxToken, XToken } from "./XToken";
+import { Token, XSyntaxToken } from "./Token";
 
-export class XTokenGroup {
-    tokens: (XToken | XTokenGroup)[] = [];
-    opener: XToken;
-    closer: XToken | null;
+export class TokenGroup {
+    tokens: (Token | TokenGroup)[] = [];
+    opener: Token;
+    closer: Token | null;
     start: number;
     end: number = Number.MAX_SAFE_INTEGER;
 
-    constructor(tokens: (XToken | XTokenGroup)[] = [], opener: XToken, closer: XToken | null = null) {
+    constructor(tokens: (Token | TokenGroup)[] = [], opener: Token, closer: Token | null = null) {
         this.tokens = tokens;
         this.opener = opener;
         this.closer = closer;

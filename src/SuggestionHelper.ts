@@ -1,15 +1,15 @@
 import { MappersDk } from "./MappersDk";
 import { DkSuggestion } from "./model/DkSuggestion";
-import { XDescParam } from "./model/XDescParam";
-import { XScriptAnalysis } from "./model/XScriptAnalysis";
+import { DescParam } from "./model/DescParam";
+import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
 import { TypeTools } from "./TypeTools";
-import { XDescProvider } from "./XDescProvider";
+import { DescProvider } from "./DescProvider";
 
 export class SuggestionHelper {
     private static cachedCommands: DkSuggestion[] = [];
 
-    public static suggestParams(analysis: XScriptAnalysis, paramDesc: XDescParam | null): DkSuggestion[] {
+    public static suggestParams(analysis: ScriptAnalysis, paramDesc: DescParam | null): DkSuggestion[] {
         return paramDesc ? paramDesc.allowedTypes
             .map(t => TypeTools.utilFor(t).suggest(analysis))
             .flat() : [];
@@ -17,7 +17,7 @@ export class SuggestionHelper {
 
     static suggestCommand(LineMap: LineMap, lineNumber: number): DkSuggestion[] {
         if (!this.cachedCommands.length) {
-            this.cachedCommands = [...XDescProvider.getCommandDescMap().entries()]
+            this.cachedCommands = [...DescProvider.getCommandDescMap().entries()]
                 .filter(([name, desc]) => {
                     return !desc.returns;
                 })

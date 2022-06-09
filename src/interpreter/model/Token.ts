@@ -10,10 +10,10 @@ export enum XSyntaxToken {
 };
 
 export interface XTokenIndexMap {
-    [key: number]: XToken;
+    [key: number]: Token;
 }
 
-export class XToken {
+export class Token {
     val: string;
     start: number;
     end: number;
@@ -27,7 +27,7 @@ export class XToken {
     }
 
     isSeparating() {
-        return this.val === ","; // TODO remove this || OPERATORS.includes(this.val as Operator);
+        return this.val === ",";
     }
 
     isOperator(): boolean {

@@ -1,14 +1,14 @@
-import { XToken } from "../../interpreter/model/XToken";
+import { Token } from "../../interpreter/model/Token";
+import { CommandDesc } from "../../model/CommandDesc";
 import { TokenType } from "../../model/TokenType";
-import { XCommandDesc } from "../../model/XCommandDesc";
 
 export class TestUtils {
 
-    static createXToken(val: string, start: number, type = TokenType.Syntactic): XToken {
-        return new XToken(val, start, type);
+    static createXToken(val: string, start: number, type = TokenType.Syntactic): Token {
+        return new Token(val, start, type);
     };
 
-    static createDesc(): XCommandDesc {
+    static createDesc(): CommandDesc {
         return {
             autoTypes: false,
             bracketed: false,

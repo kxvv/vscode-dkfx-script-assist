@@ -1,4 +1,4 @@
-import { XSyntaxToken } from "./interpreter/model/XToken";
+import { XSyntaxToken } from "./interpreter/model/Token";
 
 export class Utils {
     static arrayPeek<T>(arg: Array<T>): T | undefined {

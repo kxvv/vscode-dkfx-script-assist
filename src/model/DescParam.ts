@@ -1,6 +1,6 @@
 import { ParamType } from "./ParamType";
 
-export interface XDescParam {
+export interface DescParam {
     allowedTypes: ParamType[];
     name: string;
     optional: boolean;

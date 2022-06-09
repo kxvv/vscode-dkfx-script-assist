@@ -1,17 +1,17 @@
 import { TokenType } from "../model/TokenType";
-import { XToken, XTokenIndexMap } from "./model/XToken";
+import { Token, XTokenIndexMap } from "./model/Token";
 
 const REGEXPS = {
     words: /[-\w]+/g,
-    operators: /(>=|<=|==|!=)|(=|!|>|<|~)/g, // TODO construct this regexp using enums
+    operators: /(>=|<=|==|!=)|(=|!|>|<|~)/g,
     whitespace: /\s/,
 };
 
-export class XTokenizer {
+export class Tokenizer {
     static getWordTokensMap(txt: string): XTokenIndexMap {
         const result: XTokenIndexMap = {};
         [...txt.matchAll(REGEXPS.words)].forEach(match => {
-            result[match.index || 0] = new XToken(match[0], match.index || 0, TokenType.Word);
+            result[match.index || 0] = new Token(match[0], match.index || 0, TokenType.Word);
         });
         return result;
     }
@@ -26,24 +26,24 @@ export class XTokenizer {
                         ? TokenType.Operator
                         : TokenType.OperatorIncomplete
                 );
-            result[match.index || 0] = new XToken(match[0], match.index || 0, type);
+            result[match.index || 0] = new Token(match[0], match.index || 0, type);
         });
         return result;
     };
 
-    static tokenize(line: string): XToken[] {
-        const wordMap = XTokenizer.getWordTokensMap(line);
-        const operatorMap = XTokenizer.getOperatorTokensMap(line);
-        const result: XToken[] = [];
+    static tokenize(line: string): Token[] {
+        const wordMap = Tokenizer.getWordTokensMap(line);
+        const operatorMap = Tokenizer.getOperatorTokensMap(line);
+        const result: Token[] = [];
         const chars = line.split("");
 
         let i = 0;
         let inString = false;
         let char;
-        let wordToken: XToken;
-        let operatorToken: XToken;
+        let wordToken: Token;
+        let operatorToken: Token;
         let word: string[] = [];
-        let tkn: XToken;
+        let tkn: Token;
         while (i < line.length) {
             char = chars[i];
             if (inString) {
@@ -51,7 +51,7 @@ export class XTokenizer {
                 i++;
                 if (char === `"`) {
                     inString = false;
-                    tkn = new XToken(word.join(""), i - word.length, TokenType.String);
+                    tkn = new Token(word.join(""), i - word.length, TokenType.String);
                     tkn.end = i;
                     result.push(tkn);
                     word = [];
@@ -67,7 +67,7 @@ export class XTokenizer {
             wordToken = wordMap[i];
             if (wordToken) {
                 if (wordToken.val.toUpperCase().startsWith("REM")) {
-                    tkn = new XToken(line.substring(i, line.length), i, TokenType.Comment);
+                    tkn = new Token(line.substring(i, line.length), i, TokenType.Comment);
                     tkn.end = line.length;
                     result.push(tkn);
                     break;
@@ -86,13 +86,13 @@ export class XTokenizer {
             }
 
             if (!REGEXPS.whitespace.test(char)) {
-                tkn = new XToken(char, i, TokenType.Syntactic);
+                tkn = new Token(char, i, TokenType.Syntactic);
                 result.push(tkn);
             }
             i++;
         }
         if (inString) {
-            tkn = new XToken(word.join(""), chars.length - word.length, TokenType.StringIncomplete);
+            tkn = new Token(word.join(""), chars.length - word.length, TokenType.StringIncomplete);
             tkn.end = chars.length;
             result.push(tkn);
         }

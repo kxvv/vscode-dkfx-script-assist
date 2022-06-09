@@ -1,10 +1,10 @@
-import { XExp2 } from "./interpreter/model/XExp2";
+import { Exp } from "./interpreter/model/Exp";
+import { CommandDesc } from "./model/CommandDesc";
 import { SignatureHint } from "./model/SignatureHint";
-import { XCommandDesc } from "./model/XCommandDesc";
 import { Utils } from "./Utils";
 
 export class SignatureHelper {
-    static getSignHelpForExp(exp: XExp2 | undefined, pos: number): SignatureHint | null {
+    static getSignHelpForExp(exp: Exp | undefined, pos: number): SignatureHint | null {
         if (exp) {
             const { leaf, child, index, ahead } = exp.getChildAtCursorPosition(pos);
             if (child && leaf?.getDesc()) {
@@ -14,7 +14,7 @@ export class SignatureHelper {
         return null;
     }
 
-    static hintFromDesc(desc: XCommandDesc, cmdName: string, active: number): SignatureHint {
+    static hintFromDesc(desc: CommandDesc, cmdName: string, active: number): SignatureHint {
         const paramTexts = desc.params.map(p => `${p.name}: ${p.allowedTypes.join("/")}`);
         const parens = Utils.getParens(desc.bracketed);
         return {

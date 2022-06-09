@@ -1,10 +1,11 @@
 import { DK_ENTITIES } from "./Entities";
-import { XWord } from "./interpreter/model/XWord";
-import { XExp2 } from "./interpreter/model/XExp2";
-import { XToken } from "./interpreter/model/XToken";
+import { Word } from "./interpreter/model/Word";
+import { Exp } from "./interpreter/model/Exp";
+import { Token } from "./interpreter/model/Token";
 import { ParamType } from "./model/ParamType";
-import { ErrorApNeverTriggered, ErrorFlagNeverRead, ErrorFlagNeverSet, ErrorMsgSlotUsed, ErrorNeverAddedToLevel, ErrorNoVersionCommand, ErrorNoWinCommand, ErrorPartyEmpty, ErrorPartyTooManyMembers, ErrorTimerNeverRead, ErrorTimerNeverSet, ErrorVersionAlreadySet, XError } from "./interpreter/model/XError";
+import { ErrorApNeverTriggered, ErrorFlagNeverRead, ErrorFlagNeverSet, ErrorMsgSlotUsed, ErrorNeverAddedToLevel, ErrorNoVersionCommand, ErrorNoWinCommand, ErrorPartyEmpty, ErrorPartyTooManyMembers, ErrorTimerNeverRead, ErrorTimerNeverSet, ErrorVersionAlreadySet, DKError } from "./interpreter/model/DKError";
 import { CONSTRAINTS } from "./TypeTools";
+import { ScriptAnalysis } from "./model/ScriptAnalysis";
 
 interface FlagTimerAlter {
     varIndex: number;
@@ -31,11 +32,11 @@ interface ApAlter {
 interface Party {
     declareExp: {
         line: number;
-        exp: XExp2;
+        exp: Exp;
     }[];
     adds: {
         line: number;
-        exp: XExp2;
+        exp: Exp;
     }[];
     reads: number;
     dels: number;
@@ -72,7 +73,7 @@ export class VariableStorage {
         return value;
     }
 
-    pushParty(partyName: string, action: "add" | "read" | "del", line: number, exp: XExp2) {
+    pushParty(partyName: string, action: "add" | "read" | "del", line: number, exp: Exp) {
         if (!this.parties[partyName]) {
             this.parties[partyName] = {
                 adds: [],
@@ -90,7 +91,7 @@ export class VariableStorage {
         }
     }
 
-    pushFlagAlter(player: string, flag: string, write: boolean, line: number, word: XToken | XWord) {
+    pushFlagAlter(player: string, flag: string, write: boolean, line: number, word: Token | Word) {
         const varIndex = DK_ENTITIES[ParamType.Flag].findIndex(e => e.val === flag);
         const id = this.playerColorToIndexedPlayer(player);
         if (varIndex !== -1) {
@@ -103,10 +104,9 @@ export class VariableStorage {
                 write,
             });
         }
-        console.log('pushingg', varIndex, this.flagAlters[id]);
     }
 
-    pushTimerAlter(player: string, timer: string, write: boolean, line: number, word: XToken | XWord) {
+    pushTimerAlter(player: string, timer: string, write: boolean, line: number, word: Token | Word) {
         const varIndex = DK_ENTITIES[ParamType.Timer].findIndex(e => e.val === timer);
         const id = this.playerColorToIndexedPlayer(player);
         if (varIndex !== -1) {
@@ -121,7 +121,7 @@ export class VariableStorage {
         }
     }
 
-    pushApAlter(reset: boolean, line: number, word: XToken | XWord) {
+    pushApAlter(reset: boolean, line: number, word: Token | Word) {
         const num = +word.val;
         if (!isNaN(num)) {
             this.apAlters.push({
@@ -134,7 +134,7 @@ export class VariableStorage {
         }
     }
 
-    pushWin(line: number, word: XToken | XWord) {
+    pushWin(line: number, word: Token | Word) {
         this.winAlters.push({
             start: word.start,
             end: word.end,
@@ -142,7 +142,7 @@ export class VariableStorage {
         });
     }
 
-    pushVersion(line: number, word: XToken | XWord) {
+    pushVersion(line: number, word: Token | Word) {
         this.versionAlters.push({
             start: word.start,
             end: word.end,
@@ -150,7 +150,7 @@ export class VariableStorage {
         });
     }
 
-    pushMsgSlot(line: number, word: XToken | XWord) {
+    pushMsgSlot(line: number, word: Token | Word) {
         const slot = +word.val;
         if (!isNaN(slot)) {
             this.msgSlotAlters[slot] = this.msgSlotAlters[slot] || [];
@@ -179,14 +179,14 @@ export class VariableStorage {
         return Object.keys(this.parties);
     }
 
-    finalize(pushError: (line: number, err: XError) => any) {
+    finalize(analysis: ScriptAnalysis) {
         for (const alters of Object.values(this.timerAlters)) {
             for (const alter of alters) {
                 if (alter.write && !alters.find(a => a.varIndex === alter.varIndex && !a.write)) {
-                    pushError(alter.line, new ErrorTimerNeverRead(alter));
+                    analysis.pushError(alter.line, new ErrorTimerNeverRead(alter));
                 }
                 if (!alter.write && !alters.find(a => a.varIndex === alter.varIndex && a.write)) {
-                    pushError(alter.line, new ErrorTimerNeverSet(alter));
+                    analysis.pushError(alter.line, new ErrorTimerNeverSet(alter));
                 }
             }
         }
@@ -194,35 +194,35 @@ export class VariableStorage {
         for (const alters of Object.values(this.flagAlters)) {
             for (const alter of alters) {
                 if (alter.write && !alters.find(a => a.varIndex === alter.varIndex && !a.write)) {
-                    pushError(alter.line, new ErrorFlagNeverRead(alter));
+                    analysis.pushError(alter.line, new ErrorFlagNeverRead(alter));
                 }
                 if (!alter.write && !alters.find(a => a.varIndex === alter.varIndex && a.write)) {
-                    pushError(alter.line, new ErrorFlagNeverSet(alter));
+                    analysis.pushError(alter.line, new ErrorFlagNeverSet(alter));
                 }
             }
         }
 
         for (const alter of this.apAlters) {
             if (alter.reset && this.apAlters.find(a => !a.reset && a.number === alter.number)) {
-                pushError(alter.line, new ErrorApNeverTriggered(alter));
+                analysis.pushError(alter.line, new ErrorApNeverTriggered(alter));
             }
         }
 
         if (!this.winAlters.length) {
-            pushError(0, new ErrorNoWinCommand);
+            analysis.pushError(0, new ErrorNoWinCommand);
         }
 
         if (!this.versionAlters.length) {
-            pushError(0, new ErrorNoVersionCommand);
+            analysis.pushError(0, new ErrorNoVersionCommand);
         }
         for (const alter of this.versionAlters.slice(1)) {
-            pushError(alter.line, new ErrorVersionAlreadySet(alter));
+            analysis.pushError(alter.line, new ErrorVersionAlreadySet(alter));
         }
 
         for (const indexedSlot of this.msgSlotAlters) {
             if (indexedSlot) {
                 for (const slot of indexedSlot.slice(1)) {
-                    pushError(slot.line, new ErrorMsgSlotUsed(slot));
+                    analysis.pushError(slot.line, new ErrorMsgSlotUsed(slot));
                 }
             }
         }
@@ -231,13 +231,13 @@ export class VariableStorage {
         for (const [name, val] of Object.entries(this.parties)) {
             if (declareExp = val.declareExp[0]) {
                 if (!val.adds.length) {
-                    pushError(declareExp.line, new ErrorPartyEmpty(name, declareExp.exp));
+                    analysis.pushError(declareExp.line, new ErrorPartyEmpty(name, declareExp.exp));
                 }
                 if (!val.reads) {
-                    pushError(declareExp.line, new ErrorNeverAddedToLevel(name, declareExp.exp));
+                    analysis.pushError(declareExp.line, new ErrorNeverAddedToLevel(name, declareExp.exp));
                 }
                 if (val.adds.length > CONSTRAINTS.maxPartyMembers && !val.dels) {
-                    pushError(declareExp.line, new ErrorPartyTooManyMembers(name, declareExp.exp));
+                    analysis.pushError(declareExp.line, new ErrorPartyTooManyMembers(name, declareExp.exp));
                 }
             }
         }

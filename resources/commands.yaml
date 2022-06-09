@@ -241,7 +241,7 @@
   flagReadAt: [1]
   doc: Exports a variable to a campaign flag to use in a future campaign level. To be used together with the IMPORT command.
 
-- cmd: IF_CONTROLS([player:PLAYER],[left B:CREATURE][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER],[right B:CREATURE])
+- cmd: IF_CONTROLS([player:PLAYER],[left B:CREATURE/CREATURE_GLOBAL][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER],[right B:CREATURE/CREATURE_GLOBAL])
   opts: 1
   signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED]
   condition: PUSH
