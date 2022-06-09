@@ -1,6 +1,6 @@
 import { ParamType } from "./ParamType";
 import { RootLvl } from "./RootLvl";
-import { XSignChange } from "./SignChange";
+import { SignChange } from "./SignChange";
 import { CommandEffect } from "./CommandEffect";
 import { DescParam } from "./DescParam";
 
@@ -9,7 +9,7 @@ export interface CommandDesc {
     bracketed: boolean;
     doc: string;
     autoTypes: boolean;
-    signChanges?: XSignChange[];
+    signChanges?: SignChange[];
     effects?: CommandEffect;
     rootLvl?: RootLvl;
     returns?: ParamType[];

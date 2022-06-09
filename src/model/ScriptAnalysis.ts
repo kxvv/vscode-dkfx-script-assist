@@ -1,11 +1,11 @@
-import { ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen, DKError } from "../interpreter/model/DKError";
+import { DKError, ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen } from "../interpreter/model/DKError";
 import { Exp } from "../interpreter/model/Exp";
 import { Word } from "../interpreter/model/Word";
 import { VariableStorage } from "../VariableStorage";
-import { DkDiag } from "./DkDiag";
-import { RootLvl } from "./RootLvl";
 import { CommandDesc } from "./CommandDesc";
 import { CommandEffect } from "./CommandEffect";
+import { DkDiag } from "./DkDiag";
+import { RootLvl } from "./RootLvl";
 
 interface StackOpening {
     line: number;
@@ -15,7 +15,10 @@ interface StackOpening {
 export class ScriptAnalysis {
     diags: DkDiag[] = [];
     conditionOpenings: StackOpening[] = [];
+
     reuses: StackOpening[] = [];
+    lastReuse: Word | Exp;
+
     diagIgnoreLines: number[] = [];
     private variableStorage = new VariableStorage;
 
@@ -49,6 +52,7 @@ export class ScriptAnalysis {
             }
         }
         if (effects.reuses) {
+            this.lastReuse = exp;
             if (this.reuses.length) {
                 this.pushError(line, new ErrorCannotReuse(exp));
             } else {
@@ -88,10 +92,6 @@ export class ScriptAnalysis {
                 }
             }
 
-            if (effects.wins) {
-                this.variableStorage.pushWin(line, exp.caller);
-            }
-
             // eval parties
 
             if (effects.partyAdd != null) {
@@ -112,6 +112,13 @@ export class ScriptAnalysis {
                     this.variableStorage.pushParty(variable.val, "del", line, exp);
                 }
             }
+        }
+
+        if (effects.wins) {
+            this.variableStorage.pushWin();
+        }
+        if (effects.versions) {
+            this.variableStorage.pushVersion(line, exp);
         }
     }
 
@@ -148,6 +155,7 @@ export class ScriptAnalysis {
     }
 
     tryReuse(line: number, exp: Exp | Word, desc?: CommandDesc) {
+        if (exp === this.lastReuse) { return; }
         let error = false;
         let eff: CommandEffect | undefined;
         if (this.reuses.length) {
@@ -155,7 +163,7 @@ export class ScriptAnalysis {
             if (desc) {
                 if (desc.rootLvl === RootLvl.Enforce) { error = true; }
                 else if (eff = desc.effects) {
-                    error = [eff.conditionPop, eff.conditionPush, eff.reuses, eff.version, eff.partyAdd]
+                    error = [eff.conditionPop, eff.conditionPush, eff.reuses, eff.versions, eff.partyAdd]
                         .some(e => e != null);
                 }
             }

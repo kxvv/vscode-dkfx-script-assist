@@ -1,4 +1,4 @@
-import { ErrorArgumentsCount, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand, DKError } from "./interpreter/model/DKError";
+import { DKError, ErrorArgumentsCount, ErrorCommandNotAtRootLvl, ErrorCommandOnlyAtRootLvl, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnCommandAtRootLvl, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/DKError";
 import { Exp } from "./interpreter/model/Exp";
 import { ExpChild } from "./interpreter/model/ExpChild";
 import { ParsedLine } from "./interpreter/model/ParsedLine";
@@ -9,6 +9,7 @@ import { CommandEffect } from "./model/CommandEffect";
 import { DescParam } from "./model/DescParam";
 import { Operator } from "./model/Operators";
 import { ParamType } from "./model/ParamType";
+import { RootLvl } from "./model/RootLvl";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
 import { TypeTools } from "./TypeTools";
@@ -22,7 +23,7 @@ export class Analyzer {
     ): boolean | DKError {
         let checkResult;
         for (const type of allowed) {
-            if (checkResult = TypeTools.utilFor(type).check({ analysis, word, line })) {
+            if (checkResult = TypeTools.toolFor(type).check({ analysis, word, line })) {
                 return checkResult;
             }
         }
@@ -87,7 +88,10 @@ export class Analyzer {
                         }
                     } else {
                         if (!Analyzer.isCorrectReturnType(childVal, allowed)) {
-                            analysis.pushError(line, new ErrorTypeMismatch(childVal.caller, childVal.caller.val, params[i].allowedTypes));
+                            analysis.pushError(
+                                line,
+                                new ErrorTypeMismatch(childVal.caller, childVal.caller.val, params[i].allowedTypes)
+                            );
                         }
                         if (tempDesc = childVal.getDesc()) {
                             Analyzer.checkTypesForExp(line, childVal, tempDesc, analysis);
@@ -118,6 +122,21 @@ export class Analyzer {
         }
     }
 
+    private static checkForRootLvl(
+        line: number, exp: Exp | Word, desc: CommandDesc, analysis: ScriptAnalysis
+    ) {
+        const isRoot = !analysis.conditionOpenings.length;
+        if (isRoot && desc.rootLvl === RootLvl.Forbid) {
+            analysis.pushError(line, new ErrorCommandNotAtRootLvl(exp));
+        }
+        if (!isRoot && desc.rootLvl === RootLvl.Enforce) {
+            analysis.pushError(line, new ErrorCommandOnlyAtRootLvl(exp));
+        }
+        if (isRoot && desc.returns) {
+            analysis.pushError(line, new ErrorReturnCommandAtRootLvl(exp));
+        }
+    }
+
     private static checkWordForParams(line: number, exp: Word, desc: CommandDesc, analysis: ScriptAnalysis) {
         if (desc.params.length) {
             const maxParams = desc.params.length;
@@ -140,9 +159,7 @@ export class Analyzer {
                 if (line.comment?.val.includes(DIAG_IGNORE_FLAG)) { analysis.pushDiagLineIgnore(i); }
                 if (exp = line.exp) {
                     if (desc = exp.getDesc()) {
-                        if (effects = desc.effects) {
-                            analysis.evalEffects(i, exp, effects);
-                        }
+                        Analyzer.checkForRootLvl(i, exp, desc, analysis);
                         if (desc.returns) {
                             analysis.pushError(i, new ErrorReturnOnlyAsArg(exp));
                         }
@@ -150,6 +167,9 @@ export class Analyzer {
                             Analyzer.checkTypesForExp(i, exp, desc, analysis);
                         } else {
                             Analyzer.checkWordForParams(i, exp, desc, analysis);
+                        }
+                        if (effects = desc.effects) {
+                            analysis.evalEffects(i, exp, effects);
                         }
                     } else {
                         if (exp instanceof Exp) {

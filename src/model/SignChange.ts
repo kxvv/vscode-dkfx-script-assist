@@ -19,7 +19,7 @@ export enum SignOptChange {
     Optional = "OPTIONAL",
 }
 
-interface IXSignChange {
+interface ISignChange {
     check: "IN" | "EQ";
     in: number;
     out: number;
@@ -30,7 +30,7 @@ interface IXSignChange {
 }
 
 
-export class XSignChange implements IXSignChange {
+export class SignChange implements ISignChange {
     check: "IN" | "EQ";
     in: number;
     out: number;
@@ -39,7 +39,7 @@ export class XSignChange implements IXSignChange {
     typeArgs?: ParamType[];
     optChange?: SignOptChange;
 
-    constructor(arg: IXSignChange) {
+    constructor(arg: ISignChange) {
         Object.assign(this, arg);
     }
 
@@ -54,7 +54,7 @@ export class XSignChange implements IXSignChange {
                 if (this.check === "EQ" && inValue.val === this.arg?.toUpperCase()) {
                     willPerformChange = true;
                 } else if (this.check === "IN" && this.typeArgs) {
-                    willPerformChange = this.typeArgs.some(t => true === TypeTools.utilFor(t).check({
+                    willPerformChange = this.typeArgs.some(t => true === TypeTools.toolFor(t).check({
                         word: inValue
                     }));
                 }

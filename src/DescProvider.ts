@@ -1,11 +1,12 @@
 import { Exp } from "./interpreter/model/Exp";
 import { XSyntaxToken } from "./interpreter/model/Token";
-import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
-import { ParamType } from "./model/ParamType";
-import { SignOptChange, XSignChange } from "./model/SignChange";
 import { CommandDesc } from "./model/CommandDesc";
 import { CommandEffectFactory } from "./model/CommandEffect";
 import { DescParam } from "./model/DescParam";
+import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
+import { ParamType } from "./model/ParamType";
+import { RootLvl } from "./model/RootLvl";
+import { SignChange, SignOptChange } from "./model/SignChange";
 import { ResourcesLoader } from "./ResourcesLoader";
 
 let dkCmdParamsMap: Map<string, CommandDesc> | undefined;
@@ -39,11 +40,11 @@ function interpretSignParam(signPart: string): { name: string, params: string } 
     };
 }
 
-function interpretSignChangeString(arg: string): XSignChange {
+function interpretSignChangeString(arg: string): SignChange {
     // 0:IF 1:1 2:EQ 3:ROOM 4:SET 5:2 6:ROOM
     const parts = arg.split(" ");
     const check = parts[2] === "EQ" ? "EQ" : "IN";
-    const result: XSignChange = new XSignChange({
+    const result: SignChange = new SignChange({
         in: parseInt(parts[1]),
         check,
         out: parseInt(parts[5]),
@@ -102,7 +103,6 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
 
     result.bracketed = openSymbol === XSyntaxToken.BOpen;
 
-
     const nonSepSignParts: NonSepSignPart[] = signToNonSepSignParts(sign);
     const optFromNonSepIndex = nonSepSignParts.length - (loadCmd.opts || 0);
 
@@ -123,10 +123,11 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
         const newPartyPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.NewParty));
         if (newPartyPos > -1) { result.effects!.partyAdd = newPartyPos; }
         const versionPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.Version));
-        if (versionPos > -1) { result.effects!.version = versionPos; }
+        if (versionPos > -1) { result.effects!.versions = true; }
     }
     loadCmd.signChanges && (result.signChanges = loadCmd.signChanges.map(interpretSignChangeString));
     loadCmd.returns && (result.returns = interpretParamTypes(loadCmd.returns));
+    loadCmd.rootLvl && (result.rootLvl = loadCmd.rootLvl as RootLvl);
     if (!Object.keys(result.effects || {}).length) { delete result.effects; }
     return result;
 }

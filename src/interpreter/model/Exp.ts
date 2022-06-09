@@ -190,14 +190,3 @@ export class RangeExp extends Exp {
         };
     }
 }
-
-// export class XExp {
-//     args: (XExp | XToken)[];
-//     value: string;
-//     start: number;
-//     end: number;
-//     parseErrors?: Err[];
-//     active?: boolean;
-//     meta?: string;
-//     opens?: SyntaxToken;
-// }

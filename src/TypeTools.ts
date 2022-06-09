@@ -52,7 +52,7 @@ const check = {
     },
     isEntity(word: Word, paramType: ParamType): boolean {
         const upperCased = word.val.toUpperCase();
-        return !!(DK_ENTITIES[paramType]?.some(e => e.val === upperCased));
+        return !!(DK_ENTITIES[paramType]?.some(e => e.val.toUpperCase() === upperCased));
     },
 };
 
@@ -113,14 +113,14 @@ const DK_TYPES: { [key: string]: TypeTool } = {
     [ParamType.Location]: {
         check(ttc: TypeToolCheck): boolean | DKError {
             return check.isEntity(ttc.word, ParamType.Location)
-                || TypeTools.utilFor(ParamType.Keeper).check(ttc)
-                || TypeTools.utilFor(ParamType.PlayerGood).check(ttc)
-                || TypeTools.utilFor(ParamType.ActionPoint).check(ttc)
-                || TypeTools.utilFor(ParamType.HeroGate).check(ttc);
+                || TypeTools.toolFor(ParamType.Keeper).check(ttc)
+                || TypeTools.toolFor(ParamType.PlayerGood).check(ttc)
+                || TypeTools.toolFor(ParamType.ActionPoint).check(ttc)
+                || TypeTools.toolFor(ParamType.HeroGate).check(ttc);
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return TypeTools.utilFor(ParamType.Keeper).suggest(analysis)
-                .concat(TypeTools.utilFor(ParamType.PlayerGood).suggest(analysis));
+            return TypeTools.toolFor(ParamType.Keeper).suggest(analysis)
+                .concat(TypeTools.toolFor(ParamType.PlayerGood).suggest(analysis));
         }
     },
     [ParamType.MsgNumber]: {
@@ -181,7 +181,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return readVars.some(t => check.isEntity(ttc.word, t));
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return readVars.map(t => TypeTools.utilFor(t).suggest(analysis)).flat();
+            return readVars.map(t => TypeTools.toolFor(t).suggest(analysis)).flat();
         }
     },
     [ParamType.ReadSetVar]: {
@@ -189,7 +189,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return readSetVars.some(t => check.isEntity(ttc.word, t));
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return readSetVars.map(t => TypeTools.utilFor(t).suggest(analysis)).flat();
+            return readSetVars.map(t => TypeTools.toolFor(t).suggest(analysis)).flat();
         }
     },
     [ParamType.SetVar]: {
@@ -197,7 +197,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return setVars.some(t => check.isEntity(ttc.word, t));
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return setVars.map(t => TypeTools.utilFor(t).suggest(analysis)).flat();
+            return setVars.map(t => TypeTools.toolFor(t).suggest(analysis)).flat();
         }
     },
     [ParamType.Slab]: {
@@ -254,7 +254,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
 
 export class TypeTools {
 
-    public static utilFor(type: ParamType): TypeTool {
+    public static toolFor(type: ParamType): TypeTool {
         return DK_TYPES[type] || {
             check(ttc: TypeToolCheck): boolean {
                 return check.isEntity(ttc.word, type);

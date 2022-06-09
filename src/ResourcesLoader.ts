@@ -5,13 +5,15 @@ import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
 
 const RESOURCES_PATH = join(__dirname, "..", "resources");
 const CMDS_PATH = "commands.yaml";
-const CUSTOM_CMDS_PATH = "custom_commands.yaml";
+const CUSTOM_CMDS_PATH = "custom_commands.0.4.yaml";
 const MAP_BROWSER_PATH = join(RESOURCES_PATH, "map_browser.html");
 
 export class ResourcesLoader {
     static loadCommands(): LoadedCommands {
-        const mainCmds = YAML.parse(readFileSync(join(RESOURCES_PATH, CMDS_PATH)).toString()) as LoadedCommand[];
-        const customCmds = YAML.parse(readFileSync(join(RESOURCES_PATH, CUSTOM_CMDS_PATH)).toString()) as LoadedCommand[];
+        const mainCmds =
+            YAML.parse(ResourcesLoader.loadFileContents(join(RESOURCES_PATH, CMDS_PATH))) as LoadedCommand[];
+        const customCmds =
+            YAML.parse(ResourcesLoader.loadFileContents(join(RESOURCES_PATH, CUSTOM_CMDS_PATH))) as LoadedCommand[];
         return { values: mainCmds.concat(customCmds || []) };
     }
 

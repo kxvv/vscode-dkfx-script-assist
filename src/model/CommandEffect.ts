@@ -17,7 +17,7 @@ export interface CommandEffect {
     partyRead?: number;
     partyDelete?: number;
     msgSlot?: number;
-    version?: number;
+    versions?: boolean;
 }
 
 export class CommandEffectFactory {

@@ -50,7 +50,7 @@
   doc: Once an Action Point has been triggered, it cannot be triggered again unless it has been reset by this command.
 
 - cmd: NEXT_COMMAND_REUSABLE()
-  decorates: true
+  reuses: true
   doc: |
     Once any action command has been triggered once, it cannot be triggered again. This means that you cannot create loops or generators that add heroes to the level each time one of your creatures steps foot in a room. To get around this, the Dungeon Keeper script has a special command called NEXT_COMMAND_REUSABLE.
     
@@ -178,8 +178,8 @@
   opts: 4
   rootLvl: ENFORCE
 
-- cmd: SET_COMPUTER_EVENT([player:PLAYER],[event:COMP_EVENT],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN])
-  opts: 4
+- cmd: SET_COMPUTER_EVENT([player:PLAYER],[event:COMP_EVENT],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN])
+  opts: 5
   rootLvl: ENFORCE
 
 - cmd: SET_COMPUTER_GLOBALS([players:PLAYER],[global:COMP_GLOBAL],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN])
@@ -202,7 +202,7 @@
     The command shouldn't be used in multiplayer maps, as it will lead to synchronization problems. Value represented by DRAWFROM is selected at start of a map, and never changes during the gameplay.
 
 - cmd: IMPORT([player:PLAYER],[campaign flag:CAMPAIGN_FLAG])
-  returns: NUMBER/NUMBER+/BYTE/GOLD/BINARY/TIME/ACTION_POINT/HERO_GATE/POWER_LVL/SLAB/SUBTILE/LVL/ROOM_AVAILABILITY
+  returns: NUMBER/NUMBER+/BYTE/GOLD/BINARY/TIME/ACTION_POINT/HERO_GATE/POWER_LVL/SLAB/SUBTILE/LVL/ROOM_AVAILABILITY/1-10
 
 - cmd: DISPLAY_TIMER([player:PLAYER],[timer:TIMER],[use clocktime:BINARY])
   timerReadAt: [1]
@@ -474,11 +474,11 @@
   doc: Casts a unit spell on a specific creature. Only abilities with actual spell effects can be used.
 
 - cmd: SACRIFICED[[creature:CREATURE]]
-  returns: GLOBAL/FLAG
+  returns: GLOBAL/FLAG/READSET_VAR
   doc: Returns how many creatures of the type were sacrificed.
 
 - cmd: REWARDED[[creature:CREATURE]]
-  returns: GLOBAL/FLAG
+  returns: GLOBAL/FLAG/READSET_VAR
   doc: Returns how many units of the type the player has received from the temple.
 
 - cmd: AT_ACTION_POINT[[ACTION_POINT]]

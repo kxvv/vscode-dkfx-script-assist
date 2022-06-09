@@ -209,7 +209,6 @@ export class ErrorMsgOutOfRange extends DKError {
 export class ErrorPartyEmpty extends DKError {
     constructor(name: string, party: Range) {
         super(`Party '${name}' is empty`, party.start, party.end);
-        this.severity = ErrSeverity.Warning;
     }
 }
 
@@ -223,19 +222,35 @@ export class ErrorNeverAddedToLevel extends DKError {
 export class ErrorPartyTooManyMembers extends DKError {
     constructor(name: string, party: Range) {
         super(`Party '${name}' has too many members`, party.start, party.end);
-        this.severity = ErrSeverity.Warning;
     }
 }
 
 export class ErrorPartyNameNotUnique extends DKError {
     constructor(name: string, party: Range) {
         super(`Party '${name}' already exists`, party.start, party.end);
-        this.severity = ErrSeverity.Warning;
     }
 }
 
 export class ErrorPartyUnknown extends DKError {
     constructor(name: string, party: Range) {
         super(`Unknown party '${name}'`, party.start, party.end);
+    }
+}
+
+export class ErrorReturnCommandAtRootLvl extends DKError {
+    constructor(exp: Range) {
+        super(`Commands with return value can only be used as an argument`, exp.start, exp.end);
+    }
+}
+
+export class ErrorCommandOnlyAtRootLvl extends DKError {
+    constructor(exp: Range) {
+        super(`Command only allowed inside of IF block`, exp.start, exp.end);
+    }
+}
+
+export class ErrorCommandNotAtRootLvl extends DKError {
+    constructor(exp: Range) {
+        super(`Command not allowed outside of IF block`, exp.start, exp.end);
     }
 }

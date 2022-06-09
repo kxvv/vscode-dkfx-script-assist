@@ -11,7 +11,7 @@ export class SuggestionHelper {
 
     public static suggestParams(analysis: ScriptAnalysis, paramDesc: DescParam | null): DkSuggestion[] {
         return paramDesc ? paramDesc.allowedTypes
-            .map(t => TypeTools.utilFor(t).suggest(analysis))
+            .map(t => TypeTools.toolFor(t).suggest(analysis))
             .flat() : [];
     }
 

@@ -50,7 +50,7 @@ export class VariableStorage {
         [key: string]: FlagTimerAlter[];
     } = {};
     private apAlters: ApAlter[] = [];
-    private winAlters: GeneralVarAlter[] = [];
+    private winCount: number = 0;
     private versionAlters: GeneralVarAlter[] = [];
     private msgSlotAlters: GeneralVarAlter[][] = [];
     private parties: {
@@ -134,18 +134,14 @@ export class VariableStorage {
         }
     }
 
-    pushWin(line: number, word: Token | Word) {
-        this.winAlters.push({
-            start: word.start,
-            end: word.end,
-            line,
-        });
+    pushWin() {
+        this.winCount++;
     }
 
-    pushVersion(line: number, word: Token | Word) {
+    pushVersion(line: number, exp: Exp | Word) {
         this.versionAlters.push({
-            start: word.start,
-            end: word.end,
+            start: exp.start,
+            end: exp.end,
             line,
         });
     }
@@ -208,7 +204,7 @@ export class VariableStorage {
             }
         }
 
-        if (!this.winAlters.length) {
+        if (!this.winCount) {
             analysis.pushError(0, new ErrorNoWinCommand);
         }
 

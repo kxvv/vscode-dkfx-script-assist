@@ -29,7 +29,7 @@ export class ScriptInstance {
 
     constructor(uri: string) {
         this.uri = uri;
-        this.lineMap = new Array();
+        this.lineMap = new Array;
         this.analysis = new ScriptAnalysis;
     }
 

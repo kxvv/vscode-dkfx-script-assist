@@ -85,7 +85,7 @@ export class Tokenizer {
                 continue;
             }
 
-            if (!REGEXPS.whitespace.test(char)) {
+            if (!REGEXPS.whitespace.test(char) && char !== "\u200b") {
                 tkn = new Token(char, i, TokenType.Syntactic);
                 result.push(tkn);
             }
