@@ -392,6 +392,7 @@
   doc: Works like DISPLAY_MESSAGE, but instead of using a string from translations, allows to type it directly.
 
 - cmd: RANDOMISE_FLAG([player:PLAYER],[flag:FLAG/CAMPAIGN_FLAG],[max value:NUMBER])
+  flagWriteAt: [1]
   doc: Gives a flag a true random value. Can be used to get truly random level scripts.
 
 - cmd: REMOVE_SACRIFICE_RECIPE([CREATURE],[CREATURE],[CREATURE],[CREATURE],[CREATURE])  

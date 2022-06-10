@@ -77,7 +77,7 @@ export enum ParamType {
     Zero = "ZERO"
 }
 
-export const FINAL_PARAM_TYPES: ParamType[] = [
+export const FINAL_PARAM_TYPES: Readonly<ParamType[]> = [
     ParamType.AudioType, ParamType.Button, ParamType.CompareOperator,
     ParamType.CreatureConfig, ParamType.CreatureGlobal, ParamType.CreatureProperty,
     ParamType.CreatureTendency, ParamType.DisplayVarTargetType,

@@ -4,7 +4,7 @@ import { DkSuggestion } from "./model/DkSuggestion";
 import { ErrSeverity } from "./model/ErrSeverity";
 import { SignatureHint } from "./model/SignatureHint";
 
-const ERR_MSG_PREFIXES = {
+const ERR_MSG_PREFIXES: Readonly<{[key in ErrSeverity]: string}> = {
     [ErrSeverity.Hint]: "Hint",
     [ErrSeverity.Information]: "Info",
     [ErrSeverity.Warning]: "Warning",

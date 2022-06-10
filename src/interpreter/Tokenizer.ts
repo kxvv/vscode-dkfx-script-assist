@@ -1,7 +1,7 @@
 import { TokenType } from "../model/TokenType";
 import { Token, TokenIndexMap } from "./model/Token";
 
-const REGEXPS = {
+const REGEXPS: Readonly<{[key: string]: RegExp}> = {
     words: /[-\w]+/g,
     operators: /(>=|<=|==|!=)|(=|!|>|<|~)/g,
     whitespace: /\s/,

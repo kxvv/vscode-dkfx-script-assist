@@ -18,7 +18,7 @@ export interface TypeTool {
     suggest(analysis: ScriptAnalysis): DkSuggestion[];
 }
 
-export const CONSTRAINTS = {
+export const CONSTRAINTS: Readonly<{[key: string]: number}> = {
     minMsgNumber: 0,
     maxMsgNumber: 50,
     maxByte: 255,

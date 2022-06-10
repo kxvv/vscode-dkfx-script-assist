@@ -199,7 +199,7 @@ export class VariableStorage {
         }
 
         for (const alter of this.apAlters) {
-            if (alter.reset && this.apAlters.find(a => !a.reset && a.number === alter.number)) {
+            if (alter.reset && !this.apAlters.find(a => !a.reset && a.number === alter.number)) {
                 analysis.pushError(alter.line, new ErrorApNeverTriggered(alter));
             }
         }

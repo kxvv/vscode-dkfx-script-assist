@@ -8,7 +8,7 @@ export enum Operator {
     Rng = "~",
 }
 
-export const OPERATORS = [
+export const OPERATORS: Readonly<Operator[]> = [
     Operator.Lt,
     Operator.Gt,
     Operator.Lte,
