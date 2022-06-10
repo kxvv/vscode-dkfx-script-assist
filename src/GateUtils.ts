@@ -1,12 +1,12 @@
 import * as vscode from "vscode";
 import { LANGUAGE_ID } from "./extension";
 import { Formatter } from "./Formatter";
+import { Gate } from "./Gate";
 import { MappersVs } from "./MappersVs";
-import { Resolver } from "./Resolver";
 import { ScriptInstance } from "./ScriptInstance";
 
-export class ResolverUtils {
-    static registerOnTextChangeListener(context: vscode.ExtensionContext, resolver: Resolver) {
+export class GateUtils {
+    static registerOnTextChangeListener(context: vscode.ExtensionContext, resolver: Gate) {
         vscode.workspace.onDidChangeTextDocument((event: vscode.TextDocumentChangeEvent) => {
             if (event.document.languageId !== LANGUAGE_ID) {
                 return;
@@ -23,7 +23,7 @@ export class ResolverUtils {
         });
     }
 
-    static registerOnActiveEditorChangeListener(context: vscode.ExtensionContext, resolver: Resolver) {
+    static registerOnActiveEditorChangeListener(context: vscode.ExtensionContext, resolver: Gate) {
         const onActiveChange = vscode.window.onDidChangeActiveTextEditor(editor => {
             if (editor) {
                 if (editor.document.languageId !== LANGUAGE_ID) {
@@ -40,7 +40,7 @@ export class ResolverUtils {
         }
     }
 
-    static registerCompletionProvider(resolver: Resolver) {
+    static registerCompletionProvider(resolver: Gate) {
         vscode.languages.registerCompletionItemProvider(LANGUAGE_ID, {
             provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
                 const uri = document.uri.toString();
@@ -49,7 +49,7 @@ export class ResolverUtils {
         }, ",", "(", " ", "[");
     }
 
-    static registerSignHelpProvider(resolver: Resolver) {
+    static registerSignHelpProvider(resolver: Gate) {
         vscode.languages.registerSignatureHelpProvider(LANGUAGE_ID, {
             provideSignatureHelp(
                 document: vscode.TextDocument,
@@ -64,7 +64,7 @@ export class ResolverUtils {
         }, ",", "(", " ", "[");
     }
 
-    static registerHoverProvider(resolver: Resolver) {
+    static registerHoverProvider(resolver: Gate) {
         vscode.languages.registerHoverProvider(LANGUAGE_ID, {
             provideHover(
                 document: vscode.TextDocument,
@@ -80,7 +80,7 @@ export class ResolverUtils {
         });
     }
 
-    static registerFormattingProvider(resolver: Resolver) {
+    static registerFormattingProvider(resolver: Gate) {
         vscode.languages.registerDocumentFormattingEditProvider(LANGUAGE_ID, {
             provideDocumentFormattingEdits(
                 document: vscode.TextDocument,

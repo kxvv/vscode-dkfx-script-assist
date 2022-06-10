@@ -1,18 +1,18 @@
-import { Analyzer } from "./Analyzer";
 import { ConfigProvider } from "./ConfigProvider";
 import { HoverHelper } from "./HoverHelper";
+import { Exp } from "./interpreter/model/Exp";
+import { ParsedLine } from "./interpreter/model/ParsedLine";
 import { DkDiag } from "./model/DkDiag";
 import { DkSuggestion } from "./model/DkSuggestion";
-import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { SignatureHint } from "./model/SignatureHint";
-import { Statement } from "./model/Statement";
+import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { SignatureHelper } from "./SignatureHelper";
 import { SuggestionHelper } from "./SuggestionHelper";
-import { TestUtils } from "./test/suite/TestUtils";
+import { Analyzer } from "./Analyzer";
 
-export type LineMap = (Statement | undefined)[];
+export type LineMap = (ParsedLine | undefined)[];
 
-export type IndexedStatements = Array<[lineIndex: number, statement: Statement]>;
+export type IndexedStatements = Array<[lineIndex: number, statement: ParsedLine]>;
 
 export interface ScriptChangeInfo {
     changes: IndexedStatements;
@@ -29,8 +29,8 @@ export class ScriptInstance {
 
     constructor(uri: string) {
         this.uri = uri;
-        this.lineMap = new Array();
-        this.analysis = TestUtils.createScriptAnl();
+        this.lineMap = new Array;
+        this.analysis = new ScriptAnalysis;
     }
 
     update(change: ScriptChangeInfo) {
@@ -66,17 +66,25 @@ export class ScriptInstance {
     }
 
     suggest(line: number, pos: number): DkSuggestion[] {
-        const s = this.statementAt(line);
-        if (s) {
-            if (s.exp?.args.length) {
-                return SuggestionHelper.getSuggestionsForParamTypes(
-                    this.analysis,
-                    Analyzer.getParamTypesForPosition(s, pos)
-                );
-            } else {
-                if (s.comment && (!s.exp || (s.exp && pos > s.exp.end))) {
-                    return [];
+        const pl: ParsedLine | undefined = this.statementAt(line);
+
+        if (pl) {
+            if (pl.exp instanceof Exp && pl.exp.getChildren().length && pos < pl.exp.end) {
+                const { child, index, leaf, ahead } = pl.exp.getChildAtCursorPosition(pos);
+                const leafDesc = leaf?.getDesc();
+                // if cursor is within child && leaf command is recognized
+                if (child && leafDesc) {
+                    // if cursor is not behind last param
+                    if (!(ahead && !leafDesc.params[index + 1])) {
+                        return SuggestionHelper.suggestParams(
+                            this.analysis,
+                            ahead ? leafDesc.params[index + 1] : leafDesc.params[index]
+                        );
+                    }
                 }
+                return [];
+            }
+            if (!pl.comment || (pl.comment && pos < pl.comment.start)) {
                 return SuggestionHelper.suggestCommand(this.lineMap, line);
             }
         }
@@ -85,7 +93,7 @@ export class ScriptInstance {
 
     hint(line: number, pos: number): SignatureHint | null {
         const statement = this.statementAt(line);
-        return statement ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
+        return statement?.exp instanceof Exp ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
     }
 
     hover(line: number, pos: number): string | null {
@@ -94,14 +102,14 @@ export class ScriptInstance {
     }
 
     print() {
-        console.table(this.lineMap.map((v, i) => [i, v?.exp?.value || '""']));
+        // console.table(this.lineMap.map((v, i) => [i, v?.exp?.value || '""']));
     }
 
     printLine(ln: number) {
         console.log(this.lineMap[ln]);
     }
 
-    statementAt(ln: number) {
+    statementAt(ln: number): ParsedLine | undefined {
         return this.lineMap[ln];
     }
 

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>String visualizer</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+            padding: 1em 4em 0 4em;
+        }
+
+        main {
+            font-size: 3em;
+        }
+
+        li {
+            letter-spacing: 3px;
+        }
+
+        span {
+            background-color: rgb(19, 2, 50);
+        }
+
+        .marked {
+            background-color: yellow;
+            color: black;
+        }
+
+        .marked-before {
+            border: 1px solid yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <input autofocus id="main-input">
+    <input id="main-checkbox" type="checkbox"><label>before</label>
+    <main>
+        <ol id="main-list" start="0">
+        </ol>
+    </main>
+    <script>
+        (function (elems) {
+            function updateList() {
+                const before = elems.checkbox.checked;
+                const txt = elems.input.value;
+                elems.list.innerHTML = "";
+
+                const fragment = new DocumentFragment;
+                let pre, ins, post;
+                let tempElem, listItem;
+                for (let i = 0; i < txt.length; i++) {
+                    if (before) {
+                        pre = txt.substring(0, i);
+                        ins = txt.substring(i, i);
+                        post = txt.substring(i, txt.length);
+                    } else {
+                        pre = txt.substring(0, i);
+                        ins = txt.substring(i, i + 1);
+                        post = txt.substring(i + 1, txt.length);
+                    }
+                    pre = pre.replace(/\s/gi, "&nbsp;");
+                    ins = ins.replace(/\s/gi, "&nbsp;");
+                    post = post.replace(/\s/gi, "&nbsp;");
+                    listItem = document.createElement("li");
+
+                    tempElem = document.createElement("span");
+                    tempElem.innerHTML = pre;
+                    listItem.appendChild(tempElem);
+
+                    tempElem = document.createElement("span");
+                    tempElem.innerHTML = ins;
+                    tempElem.classList.add(before ? "marked-before" : "marked");
+                    listItem.appendChild(tempElem);
+
+                    tempElem = document.createElement("span");
+                    tempElem.innerHTML = post;
+                    listItem.appendChild(tempElem);
+
+                    fragment.appendChild(listItem);
+                }
+
+                elems.list.appendChild(fragment);
+            }
+
+            elems.input.addEventListener("keyup", function (ev) {
+                if (ev.key === "Enter") {
+                    elems.checkbox.checked = !elems.checkbox.checked;
+                }
+                updateList();
+            });
+            elems.checkbox.addEventListener("change", updateList);
+        })({
+            input: document.getElementById("main-input"),
+            list: document.getElementById("main-list"),
+            checkbox: document.getElementById("main-checkbox"),
+        })
+    </script>
+</body>
+
+</html>

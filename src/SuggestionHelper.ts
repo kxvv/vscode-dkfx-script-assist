@@ -1,15 +1,18 @@
-import { DescProvider } from "./DescProvider";
 import { MappersDk } from "./MappersDk";
 import { DkSuggestion } from "./model/DkSuggestion";
-import { ParamType } from "./model/ParamType";
+import { DescParam } from "./model/DescParam";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
-import { TypeUtils } from "./TypeUtils";
+import { TypeTools } from "./TypeTools";
+import { DescProvider } from "./DescProvider";
 
 export class SuggestionHelper {
     private static cachedCommands: DkSuggestion[] = [];
-    static getSuggestionsForParamTypes(state: ScriptAnalysis, types: ParamType[]): DkSuggestion[] {
-        return types.map(t => TypeUtils.suggestForType(state, t)).flat();
+
+    public static suggestParams(analysis: ScriptAnalysis, paramDesc: DescParam | null): DkSuggestion[] {
+        return paramDesc ? paramDesc.allowedTypes
+            .map(t => TypeTools.toolFor(t).suggest(analysis))
+            .flat() : [];
     }
 
     static suggestCommand(LineMap: LineMap, lineNumber: number): DkSuggestion[] {

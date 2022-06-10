@@ -1,18 +1,9 @@
-import { Token } from "./model/Token";
-import { TokenType } from "./model/TokenType";
-import { TokenIndexMap } from "./model/TokenIndexMap";
-
-export enum SyntaxToken {
-    POpen = "(",
-    PClose = ")",
-    BOpen = "[",
-    BClose = "]",
-    ArgSep = ",",
-};
+import { TokenType } from "../model/TokenType";
+import { Token, TokenIndexMap } from "./model/Token";
 
 const REGEXPS = {
     words: /[-\w]+/g,
-    operators: /(>=|<=|==|!=)|(=|!|>|<|~)/g, // TODO construct this regexp using enums
+    operators: /(>=|<=|==|!=)|(=|!|>|<|~)/g,
     whitespace: /\s/,
 };
 
@@ -20,12 +11,7 @@ export class Tokenizer {
     static getWordTokensMap(txt: string): TokenIndexMap {
         const result: TokenIndexMap = {};
         [...txt.matchAll(REGEXPS.words)].forEach(match => {
-            result[match.index || 0] = {
-                val: match[0],
-                start: match.index || 0,
-                end: (match.index || 0) + match[0].length,
-                type: TokenType.Word
-            };
+            result[match.index || 0] = new Token(match[0], match.index || 0, TokenType.Word);
         });
         return result;
     }
@@ -33,18 +19,14 @@ export class Tokenizer {
     static getOperatorTokensMap(txt: string): TokenIndexMap {
         const result: TokenIndexMap = {};
         [...txt.matchAll(REGEXPS.operators)].forEach(match => {
-            result[match.index || 0] = {
-                val: match[0],
-                start: match.index || 0,
-                end: (match.index || 0) + match[0].length,
-                type: !match[2]
-                    ? TokenType.Operator
-                    : (
-                        (match[0] === ">" || match[0] === "<" || match[0] === "~")
-                            ? TokenType.Operator
-                            : TokenType.OperatorIncomplete
-                    )
-            };
+            const type: TokenType = !match[2]
+                ? TokenType.Operator
+                : (
+                    (match[0] === ">" || match[0] === "<" || match[0] === "~")
+                        ? TokenType.Operator
+                        : TokenType.OperatorIncomplete
+                );
+            result[match.index || 0] = new Token(match[0], match.index || 0, type);
         });
         return result;
     };
@@ -61,6 +43,7 @@ export class Tokenizer {
         let wordToken: Token;
         let operatorToken: Token;
         let word: string[] = [];
+        let tkn: Token;
         while (i < line.length) {
             char = chars[i];
             if (inString) {
@@ -68,12 +51,9 @@ export class Tokenizer {
                 i++;
                 if (char === `"`) {
                     inString = false;
-                    result.push({
-                        val: word.join(""),
-                        start: i - word.length,
-                        end: i,
-                        type: TokenType.String
-                    });
+                    tkn = new Token(word.join(""), i - word.length, TokenType.String);
+                    tkn.end = i;
+                    result.push(tkn);
                     word = [];
                 }
                 continue;
@@ -87,12 +67,9 @@ export class Tokenizer {
             wordToken = wordMap[i];
             if (wordToken) {
                 if (wordToken.val.toUpperCase().startsWith("REM")) {
-                    result.push({
-                        val: line.substring(i, line.length),
-                        start: i,
-                        end: line.length,
-                        type: TokenType.Comment
-                    });
+                    tkn = new Token(line.substring(i, line.length), i, TokenType.Comment);
+                    tkn.end = line.length;
+                    result.push(tkn);
                     break;
                 } else {
                     result.push(wordToken);
@@ -108,25 +85,17 @@ export class Tokenizer {
                 continue;
             }
 
-            if (!REGEXPS.whitespace.test(char)) {
-                result.push({
-                    val: char,
-                    start: i,
-                    end: i + 1,
-                    type: TokenType.Syntactic
-                });
+            if (!REGEXPS.whitespace.test(char) && char !== "\u200b") {
+                tkn = new Token(char, i, TokenType.Syntactic);
+                result.push(tkn);
             }
             i++;
         }
         if (inString) {
-            result.push({
-                val: word.join(""),
-                start: chars.length - word.length,
-                end: chars.length,
-                type: TokenType.StringIncomplete
-            });
+            tkn = new Token(word.join(""), chars.length - word.length, TokenType.StringIncomplete);
+            tkn.end = chars.length;
+            result.push(tkn);
         }
         return result;
     };
-
 }

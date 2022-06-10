@@ -1,12 +1,20 @@
 import * as vscode from "vscode";
 import { DkDiag } from "./model/DkDiag";
 import { DkSuggestion } from "./model/DkSuggestion";
+import { ErrSeverity } from "./model/ErrSeverity";
 import { SignatureHint } from "./model/SignatureHint";
+
+const ERR_MSG_PREFIXES = {
+    [ErrSeverity.Hint]: "Hint",
+    [ErrSeverity.Information]: "Info",
+    [ErrSeverity.Warning]: "Warning",
+    [ErrSeverity.Error]: "Error",
+};
 
 export class MappersVs {
     static diag(d: DkDiag): vscode.Diagnostic {
         return {
-            message: d.msg,
+            message: `${ERR_MSG_PREFIXES[d.severity]}: ${d.msg}`,
             range: new vscode.Range(d.line, d.start, d.line, d.end),
             severity: d.severity as unknown as vscode.DiagnosticSeverity,
         };

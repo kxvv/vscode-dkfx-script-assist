@@ -6,18 +6,28 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "1" },
     ],
     [ParamType.Player]: [
-        { val: "PLAYER0", doc: "The RED player", keeper: true },
-        { val: "PLAYER1", doc: "The BLUE player", keeper: true },
-        { val: "PLAYER2", doc: "The GREEN player", keeper: true },
-        { val: "PLAYER3", doc: "The YELLOW player", keeper: true },
-        { val: "RED", doc: "PLAYER0's equivalent", keeper: true },
-        { val: "BLUE", doc: "PLAYER1's equivalent", keeper: true },
-        { val: "GREEN", doc: "PLAYER2's equivalent", keeper: true },
-        { val: "YELLOW", doc: "PLAYER3's equivalent", keeper: true },
+        { val: "PLAYER0", doc: "The RED player", },
+        { val: "PLAYER1", doc: "The BLUE player", },
+        { val: "PLAYER2", doc: "The GREEN player", },
+        { val: "PLAYER3", doc: "The YELLOW player", },
+        { val: "RED", doc: "PLAYER0's equivalent", },
+        { val: "BLUE", doc: "PLAYER1's equivalent", },
+        { val: "GREEN", doc: "PLAYER2's equivalent", },
+        { val: "YELLOW", doc: "PLAYER3's equivalent", },
         { val: "WHITE", doc: "Heroes/PLAYER_GOOD's equivalent" },
         { val: "PLAYER_GOOD", doc: "The heroes" },
         { val: "ALL_PLAYERS" },
         { val: "PLAYER_NEUTRAL", doc: "The neutral player" },
+    ],
+    [ParamType.Keeper]: [
+        { val: "PLAYER0", doc: "The RED player", },
+        { val: "PLAYER1", doc: "The BLUE player", },
+        { val: "PLAYER2", doc: "The GREEN player", },
+        { val: "PLAYER3", doc: "The YELLOW player", },
+        { val: "RED", doc: "PLAYER0's equivalent", },
+        { val: "BLUE", doc: "PLAYER1's equivalent", },
+        { val: "GREEN", doc: "PLAYER2's equivalent", },
+        { val: "YELLOW", doc: "PLAYER3's equivalent", },
     ],
     [ParamType.PlayerGood]: [
         { val: "PLAYER_GOOD", doc: "The heroes" },
@@ -192,22 +202,18 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         {
             val: "TOTAL_DIGGERS",
             doc: "The number of special diggers (Imps) that player has got",
-            creature: true
         },
         {
             val: "TOTAL_CREATURES",
             doc: "The number of creatures that player has got",
-            creature: true
         },
         {
             val: "EVIL_CREATURES",
             doc: "The number of evil creatures that player has got",
-            creature: true
         },
         {
             val: "GOOD_CREATURES",
             doc: "The number of heroes that player has got",
-            creature: true
         },
         {
             val: "TOTAL_RESEARCH",
@@ -1438,4 +1444,30 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "DISEASE", },
         { val: "LIGHT", },
     ],
+    [ParamType.CompareOperator]: [
+        { val: ">" },
+        { val: "<" },
+        { val: ">=" },
+        { val: "<=" },
+        { val: "==" },
+        { val: "!=" },
+    ],
+    [ParamType.CreatureGlobal]: [
+        {
+            val: "TOTAL_DIGGERS",
+            doc: "The number of special diggers (Imps) that player has got",
+        },
+        {
+            val: "TOTAL_CREATURES",
+            doc: "The number of creatures that player has got",
+        },
+        {
+            val: "EVIL_CREATURES",
+            doc: "The number of evil creatures that player has got",
+        },
+        {
+            val: "GOOD_CREATURES",
+            doc: "The number of heroes that player has got",
+        },
+    ]
 };

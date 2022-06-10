@@ -1,17 +1,17 @@
 import { ConfigProvider } from "./ConfigProvider";
 import { DescProvider } from "./DescProvider";
+import { Token } from "./interpreter/model/Token";
+import { Tokenizer } from "./interpreter/Tokenizer";
 import { CommandDesc } from "./model/CommandDesc";
 import { ExtConfig, ExtConfigFormatter } from "./model/ExtConfig";
-import { Token } from "./model/Token";
 import { TokenType } from "./model/TokenType";
-import { Tokenizer } from "./Tokenizer";
 
 export class Formatter {
     static formatTextLines(lines: string[]): string[] {
         const result: string[] = [];
         const config: ExtConfig = ConfigProvider.getConfig();
         let tokens: Token[];
-        let desc: CommandDesc | null;
+        let desc: CommandDesc | undefined;
         let ifCountStack = 0;
         for (const line of lines) {
             tokens = Tokenizer.tokenize(line);
@@ -20,11 +20,11 @@ export class Formatter {
                 continue;
             }
             desc = DescProvider.getCommandDesc(tokens[0].val);
-            if (desc && desc.isConditionPop && ifCountStack) {
+            if (desc?.effects?.conditionPop && ifCountStack) {
                 ifCountStack--;
             }
             result.push(Formatter.lineTokensToString(tokens, ifCountStack, config.formatter));
-            if (desc && desc.isConditionPush) {
+            if (desc?.effects?.conditionPush) {
                 ifCountStack++;
             }
         }
