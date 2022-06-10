@@ -13,63 +13,28 @@ suite("Suite for DescProvider::" + DescProvider.getCommandDesc.name, () => {
             preSep: false,
             name: "player",
             optional: false,
+            final: false,
         });
         expected.params.push({
-            allowedTypes: [ParamType.CampaignFlag, ParamType.CustomBox, ParamType.Flag],
+            allowedTypes: [ParamType.SetVar],
             preSep: true,
             name: "flag",
             optional: false,
+            final: false,
         });
         expected.params.push({
             allowedTypes: [ParamType.Number],
             preSep: true,
             name: "value",
             optional: false,
+            final: false,
         });
         expected.effects = {
-            flagWrite: [0, 1]
+            flagWrite: [1]
         };
 
-        assert.deepStrictEqual(result, expected);
-    });
-
-    test("IF", () => {
-        const result: CommandDesc | null = DescProvider.getCommandDesc("IF")!;
-        const expected: CommandDesc = TestUtils.createDesc();
-        expected.params.push({
-            allowedTypes: [ParamType.Player],
-            preSep: false,
-            name: "player",
-            optional: false,
-        });
-        expected.params.push({
-            allowedTypes: [ParamType.ReadVar, ParamType.SetVar],
-            preSep: true,
-            name: "left B",
-            optional: false,
-        });
-        expected.params.push({
-            allowedTypes: [ParamType.CompareOperator],
-            preSep: false,
-            name: "operator",
-            optional: false,
-        });
-        expected.params.push({
-            allowedTypes: [ParamType.Number, ParamType.Player],
-            preSep: false,
-            name: "right A",
-            optional: false,
-        });
-        expected.params.push({
-            allowedTypes: [ParamType.ReadVar, ParamType.SetVar],
-            preSep: true,
-            name: "right B",
-            optional: true,
-        });
-        expected.effects = {
-            conditionPush: true
-        };
-
+        assert.ok(result.doc.length);
+        expected.doc = result.doc;
         assert.deepStrictEqual(result, expected);
     });
 });

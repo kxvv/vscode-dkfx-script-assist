@@ -1,6 +1,6 @@
 import { TokenType } from "../model/TokenType";
 import { Utils } from "../Utils";
-import { Token, XSyntaxToken } from "./model/Token";
+import { Token, SyntaxToken } from "./model/Token";
 import { TokenGroup } from "./model/TokenGroup";
 
 export class PreparsedStatement {
@@ -38,11 +38,11 @@ export class Preparser {
             tkn = tokens[i];
             topGroup = Utils.arrayPeek(tokenGroupStack);
             if (tkn.type === TokenType.Syntactic) {
-                if (tkn.val === XSyntaxToken.BOpen || tkn.val === XSyntaxToken.POpen) {
+                if (tkn.val === SyntaxToken.BOpen || tkn.val === SyntaxToken.POpen) {
                     const newGroup: TokenGroup = new TokenGroup([], tkn);
                     (topGroup || result).tokens.push(newGroup);
                     tokenGroupStack.push(newGroup);
-                } else if (tkn.val === XSyntaxToken.BClose || tkn.val === XSyntaxToken.PClose) {
+                } else if (tkn.val === SyntaxToken.BClose || tkn.val === SyntaxToken.PClose) {
                     if (topGroup) {
                         topGroup.closer = tkn;
                         topGroup.end = tkn.start;

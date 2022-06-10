@@ -1,4 +1,4 @@
-import { Token, XSyntaxToken } from "./Token";
+import { Token, SyntaxToken } from "./Token";
 
 export class TokenGroup {
     tokens: (Token | TokenGroup)[] = [];
@@ -16,9 +16,9 @@ export class TokenGroup {
     }
 
     isParensMatching() {
-        if (this.opener.val === XSyntaxToken.POpen && this.closer && this.closer.val === XSyntaxToken.PClose) {
+        if (this.opener.val === SyntaxToken.POpen && this.closer && this.closer.val === SyntaxToken.PClose) {
             return true;
         }
-        return this.opener.val === XSyntaxToken.BOpen && this.closer && this.closer.val === XSyntaxToken.BClose;
+        return this.opener.val === SyntaxToken.BOpen && this.closer && this.closer.val === SyntaxToken.BClose;
     }
 }

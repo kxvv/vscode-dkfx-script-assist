@@ -179,12 +179,14 @@ export class RangeExp extends Exp {
                     name: "left",
                     optional: false,
                     preSep: false,
+                    final: true,
                 },
                 {
                     allowedTypes: [ParamType.Number],
                     name: "right",
                     optional: false,
                     preSep: false,
+                    final: true,
                 }
             ]
         };

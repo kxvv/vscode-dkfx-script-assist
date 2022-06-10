@@ -1,4 +1,4 @@
-import { XSyntaxToken } from "./interpreter/model/Token";
+import { SyntaxToken } from "./interpreter/model/Token";
 
 export class Utils {
     static arrayPeek<T>(arg: Array<T>): T | undefined {
@@ -17,7 +17,7 @@ export class Utils {
         return `value${index + 1}`;
     }
 
-    static getParens(bracketed?: boolean): [XSyntaxToken, XSyntaxToken] {
-        return bracketed ? [XSyntaxToken.BOpen, XSyntaxToken.BClose] : [XSyntaxToken.POpen, XSyntaxToken.PClose];
+    static getParens(bracketed?: boolean): [SyntaxToken, SyntaxToken] {
+        return bracketed ? [SyntaxToken.BOpen, SyntaxToken.BClose] : [SyntaxToken.POpen, SyntaxToken.PClose];
     }
 }

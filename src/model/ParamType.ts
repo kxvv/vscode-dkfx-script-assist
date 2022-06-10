@@ -4,7 +4,6 @@ export enum ParamType {
     AnyCreature = "ANY_CREATURE",
     AudioType = "AUDIO_TYPE",
     Auto = "AUTO",
-    AvailabilityComparison = "AVAILABILITY_COMPARISON",
     Binary = "BINARY",
     Button = "BUTTON",
     Byte = "BYTE",
@@ -14,9 +13,7 @@ export enum ParamType {
     CompGlobal = "COMP_GLOBAL",
     CompProcess = "COMP_PROCESS",
     CompareOperator = "COMPARE_OPERATOR",
-    Comparison = "COMPARISON",
     Computer = "COMPUTER",
-    ControlComparison = "CONTROL_COMPARISON",
     Creature = "CREATURE",
     CreatureConfig = "CREATURE_CONFIG",
     CreatureGlobal = "CREATURE_GLOBAL",
@@ -79,3 +76,14 @@ export enum ParamType {
     Version = "VERSION",
     Zero = "ZERO"
 }
+
+export const FINAL_PARAM_TYPES: ParamType[] = [
+    ParamType.AudioType, ParamType.Button, ParamType.CompareOperator,
+    ParamType.CreatureConfig, ParamType.CreatureGlobal, ParamType.CreatureProperty,
+    ParamType.CreatureTendency, ParamType.DisplayVarTargetType,
+    ParamType.DoorConfig, ParamType.FillType, ParamType.GameRule, ParamType.Global,
+    ParamType.HeadFor, ParamType.MsgNumber, ParamType.NewParty, ParamType.Operation,
+    ParamType.ObjectConfig, ParamType.Range, ParamType.ResearchType, ParamType.Rule,
+    ParamType.SacrificeCmd, ParamType.Text, ParamType.TrapActivationType, ParamType.TrapConfig,
+    ParamType.TrapTriggerType, ParamType.Version, ParamType.Void
+];

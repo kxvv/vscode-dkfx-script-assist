@@ -1,15 +1,20 @@
 import { Exp } from "./interpreter/model/Exp";
-import { XSyntaxToken } from "./interpreter/model/Token";
+import { SyntaxToken } from "./interpreter/model/Token";
 import { CommandDesc } from "./model/CommandDesc";
 import { CommandEffectFactory } from "./model/CommandEffect";
 import { DescParam } from "./model/DescParam";
 import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
-import { ParamType } from "./model/ParamType";
+import { FINAL_PARAM_TYPES, ParamType } from "./model/ParamType";
 import { RootLvl } from "./model/RootLvl";
 import { SignChange, SignOptChange } from "./model/SignChange";
 import { ResourcesLoader } from "./ResourcesLoader";
 
-let dkCmdParamsMap: Map<string, CommandDesc> | undefined;
+interface NonSepSignPart {
+    signPart: string;
+    preSep: boolean;
+}
+
+let descMap: Map<string, CommandDesc> | undefined;
 
 const LOADED_COMMANDS: LoadedCommands = ResourcesLoader.loadCommands();
 
@@ -40,6 +45,10 @@ function interpretSignParam(signPart: string): { name: string, params: string } 
     };
 }
 
+function descParamShouldBeFinal(param: DescParam): boolean {
+    return param.allowedTypes.some(t => FINAL_PARAM_TYPES.includes(t));
+}
+
 function interpretSignChangeString(arg: string): SignChange {
     // 0:IF 1:1 2:EQ 3:ROOM 4:SET 5:2 6:ROOM
     const parts = arg.split(" ");
@@ -66,21 +75,16 @@ function interpretParamTypes(arg: string): ParamType[] {
     return arg.split("/").map(t => t.trim()).sort() as ParamType[];
 }
 
-interface NonSepSignPart {
-    signPart: string;
-    preSep: boolean;
-}
-
 function signToNonSepSignParts(sign: string): NonSepSignPart[] {
     const result: NonSepSignPart[] = [];
     const partArray = sign.replace(/[\[\]]+/g, "&").split("&").filter(Boolean);
     let part: string;
     for (let i = 0; i < partArray.length; i++) {
         part = partArray[i];
-        if (part !== XSyntaxToken.ArgSep) {
+        if (part !== SyntaxToken.ArgSep) {
             result.push({
                 signPart: part,
-                preSep: partArray[i - 1] === XSyntaxToken.ArgSep
+                preSep: partArray[i - 1] === SyntaxToken.ArgSep
             });
         }
     }
@@ -101,7 +105,7 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
     const openSymbol = parts[1];
     const sign = parts[2];
 
-    result.bracketed = openSymbol === XSyntaxToken.BOpen;
+    result.bracketed = openSymbol === SyntaxToken.BOpen;
 
     const nonSepSignParts: NonSepSignPart[] = signToNonSepSignParts(sign);
     const optFromNonSepIndex = nonSepSignParts.length - (loadCmd.opts || 0);
@@ -112,8 +116,10 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
             allowedTypes: interpretParamTypes(params),
             optional: i >= optFromNonSepIndex,
             name: name || getDefaultCmdParamName(i),
-            preSep: nonSepSignParts[i].preSep
+            preSep: nonSepSignParts[i].preSep,
+            final: false
         };
+        cmdParam.final = descParamShouldBeFinal(cmdParam);
         result.params.push(cmdParam);
         if (result.params.some(p => p.allowedTypes.includes(ParamType.Auto))) {
             result.autoTypes = true;
@@ -135,10 +141,10 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
 
 export class DescProvider {
     static getCommandDescMap(): Map<string, CommandDesc> {
-        if (!dkCmdParamsMap) {
-            dkCmdParamsMap = initCmdParamsMap(LOADED_COMMANDS);
+        if (!descMap) {
+            descMap = initCmdParamsMap(LOADED_COMMANDS);
         }
-        return dkCmdParamsMap;
+        return descMap;
     }
 
     static getCommandDesc(arg: string): CommandDesc | undefined {

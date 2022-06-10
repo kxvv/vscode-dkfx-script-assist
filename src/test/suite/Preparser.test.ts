@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { Token, XSyntaxToken } from "../../interpreter/model/Token";
+import { Token, SyntaxToken } from "../../interpreter/model/Token";
 import { TokenGroup } from "../../interpreter/model/TokenGroup";
 import { PreparsedStatement, Preparser } from "../../interpreter/Preparser";
 import { TokenType } from "../../model/TokenType";
@@ -10,10 +10,10 @@ suite("Suite for Preparser::" + Preparser.preparse.name, () => {
     test("simple call with trailing closing token", () => {
         const tokens: Token[] = [
             TestUtils.createXToken("foo", 2, TokenType.Word),
-            TestUtils.createXToken(XSyntaxToken.POpen, 8),
+            TestUtils.createXToken(SyntaxToken.POpen, 8),
             TestUtils.createXToken("bar", 10, TokenType.Word),
-            TestUtils.createXToken(XSyntaxToken.PClose, 14),
-            TestUtils.createXToken(XSyntaxToken.PClose, 15),
+            TestUtils.createXToken(SyntaxToken.PClose, 14),
+            TestUtils.createXToken(SyntaxToken.PClose, 15),
         ];
         const result: PreparsedStatement = Preparser.preparse(tokens);
         const expected = new PreparsedStatement([
@@ -31,9 +31,9 @@ suite("Suite for Preparser::" + Preparser.preparse.name, () => {
     test("subsequent openers", () => {
         const tokens: Token[] = [
 
-            TestUtils.createXToken(XSyntaxToken.POpen, 8),
-            TestUtils.createXToken(XSyntaxToken.POpen, 14),
-            TestUtils.createXToken(XSyntaxToken.POpen, 15),
+            TestUtils.createXToken(SyntaxToken.POpen, 8),
+            TestUtils.createXToken(SyntaxToken.POpen, 14),
+            TestUtils.createXToken(SyntaxToken.POpen, 15),
         ];
         const result: PreparsedStatement = Preparser.preparse(tokens);
         const expected: PreparsedStatement = new PreparsedStatement([
@@ -57,10 +57,10 @@ suite("Suite for Preparser::" + Preparser.preparse.name, () => {
 
     test("subsequent openers with one token and a comment", () => {
         const tokens: Token[] = [
-            TestUtils.createXToken(XSyntaxToken.POpen, 8),
-            TestUtils.createXToken(XSyntaxToken.POpen, 14),
+            TestUtils.createXToken(SyntaxToken.POpen, 8),
+            TestUtils.createXToken(SyntaxToken.POpen, 14),
             TestUtils.createXToken("hi", 14, TokenType.Word),
-            TestUtils.createXToken(XSyntaxToken.POpen, 20),
+            TestUtils.createXToken(SyntaxToken.POpen, 20),
             TestUtils.createXToken("rem sup", 22, TokenType.Comment),
         ];
         const result: PreparsedStatement = Preparser.preparse(tokens);

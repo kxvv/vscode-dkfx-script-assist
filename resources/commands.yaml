@@ -474,11 +474,11 @@
   doc: Casts a unit spell on a specific creature. Only abilities with actual spell effects can be used.
 
 - cmd: SACRIFICED[[creature:CREATURE]]
-  returns: GLOBAL/FLAG/READSET_VAR
+  returns: GLOBAL/FLAG/READSET_VAR/READABLE_VAR/SETTABLE_VAR
   doc: Returns how many creatures of the type were sacrificed.
 
 - cmd: REWARDED[[creature:CREATURE]]
-  returns: GLOBAL/FLAG/READSET_VAR
+  returns: GLOBAL/FLAG/READSET_VAR/READABLE_VAR/SETTABLE_VAR
   doc: Returns how many units of the type the player has received from the temple.
 
 - cmd: AT_ACTION_POINT[[ACTION_POINT]]

@@ -1,8 +1,8 @@
-import { DKError, ErrorArgumentsCount, ErrorCommandNotAtRootLvl, ErrorCommandOnlyAtRootLvl, ErrorEmptyParam, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnCommandAtRootLvl, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/DKError";
+import { DKError, ErrorArgumentsCount, ErrorCommandNotAtRootLvl, ErrorCommandOnlyAtRootLvl, ErrorEmptyParam, ErrorExpectedFinal, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnCommandAtRootLvl, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/DKError";
 import { Exp } from "./interpreter/model/Exp";
 import { ExpChild } from "./interpreter/model/ExpChild";
 import { ParsedLine } from "./interpreter/model/ParsedLine";
-import { XSyntaxToken } from "./interpreter/model/Token";
+import { SyntaxToken } from "./interpreter/model/Token";
 import { Word } from "./interpreter/model/Word";
 import { CommandDesc } from "./model/CommandDesc";
 import { CommandEffect } from "./model/CommandEffect";
@@ -43,10 +43,10 @@ export class Analyzer {
                     analysis.pushError(line, new ErrorParensMismatch(exp.caller));
                 }
             }
-            if (desc.bracketed && exp.opener.val === XSyntaxToken.POpen) {
-                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, XSyntaxToken.BOpen));
-            } else if (!desc.bracketed && exp.opener.val === XSyntaxToken.BOpen) {
-                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, XSyntaxToken.POpen));
+            if (desc.bracketed && exp.opener.val === SyntaxToken.POpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.BOpen));
+            } else if (!desc.bracketed && exp.opener.val === SyntaxToken.BOpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.POpen));
             }
         }
     }
@@ -95,6 +95,9 @@ export class Analyzer {
                         }
                         if (tempDesc = childVal.getDesc()) {
                             Analyzer.checkTypesForExp(line, childVal, tempDesc, analysis);
+                        }
+                        if (params[i].final) {
+                            analysis.pushError(line, new ErrorExpectedFinal(childVal));
                         }
                     }
 

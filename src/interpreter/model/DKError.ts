@@ -29,7 +29,7 @@ export class DKError {
 
 export class ErrorInvalidStatement extends DKError {
     constructor(token: Range) {
-        super(`Invalid statement: script line must consist of a command or a comment`, token.start, token.end);
+        super(`Invalid commant syntax: script line must consist of a comment or a single command followed by a comment`, token.start, token.end);
     }
 }
 
@@ -252,5 +252,11 @@ export class ErrorCommandOnlyAtRootLvl extends DKError {
 export class ErrorCommandNotAtRootLvl extends DKError {
     constructor(exp: Range) {
         super(`Command not allowed outside of IF block`, exp.start, exp.end);
+    }
+}
+
+export class ErrorExpectedFinal extends DKError {
+    constructor(exp: Range) {
+        super(`Expected final value, not a command`, exp.start, exp.end);
     }
 }

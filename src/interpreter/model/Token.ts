@@ -1,7 +1,7 @@
 import { Operator, OPERATORS } from "../../model/Operators";
 import { TokenType } from "../../model/TokenType";
 
-export enum XSyntaxToken {
+export enum SyntaxToken {
     POpen = "(",
     PClose = ")",
     BOpen = "[",
@@ -9,7 +9,7 @@ export enum XSyntaxToken {
     ArgSep = ",",
 };
 
-export interface XTokenIndexMap {
+export interface TokenIndexMap {
     [key: number]: Token;
 }
 

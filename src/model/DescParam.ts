@@ -5,4 +5,5 @@ export interface DescParam {
     name: string;
     optional: boolean;
     preSep: boolean;
+    final: boolean;
 }

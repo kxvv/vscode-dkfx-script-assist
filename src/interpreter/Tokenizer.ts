@@ -1,5 +1,5 @@
 import { TokenType } from "../model/TokenType";
-import { Token, XTokenIndexMap } from "./model/Token";
+import { Token, TokenIndexMap } from "./model/Token";
 
 const REGEXPS = {
     words: /[-\w]+/g,
@@ -8,16 +8,16 @@ const REGEXPS = {
 };
 
 export class Tokenizer {
-    static getWordTokensMap(txt: string): XTokenIndexMap {
-        const result: XTokenIndexMap = {};
+    static getWordTokensMap(txt: string): TokenIndexMap {
+        const result: TokenIndexMap = {};
         [...txt.matchAll(REGEXPS.words)].forEach(match => {
             result[match.index || 0] = new Token(match[0], match.index || 0, TokenType.Word);
         });
         return result;
     }
 
-    static getOperatorTokensMap(txt: string): XTokenIndexMap {
-        const result: XTokenIndexMap = {};
+    static getOperatorTokensMap(txt: string): TokenIndexMap {
+        const result: TokenIndexMap = {};
         [...txt.matchAll(REGEXPS.operators)].forEach(match => {
             const type: TokenType = !match[2]
                 ? TokenType.Operator

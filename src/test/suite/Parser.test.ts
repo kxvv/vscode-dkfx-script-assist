@@ -3,7 +3,7 @@ import { ErrorInvalidStatement, ErrorUnexpectedOpeningToken, ErrorUnterminatedEx
 import { Exp, RangeExp } from "../../interpreter/model/Exp";
 import { ExpChild } from "../../interpreter/model/ExpChild";
 import { ParsedLine } from "../../interpreter/model/ParsedLine";
-import { Token, XSyntaxToken } from "../../interpreter/model/Token";
+import { Token, SyntaxToken } from "../../interpreter/model/Token";
 import { TokenGroup } from "../../interpreter/model/TokenGroup";
 import { Word } from "../../interpreter/model/Word";
 import { Parser } from "../../interpreter/Parser";
@@ -15,8 +15,8 @@ import { TestUtils } from "./TestUtils";
 suite("Suite for Parser::" + Parser.parse.name, () => {
     test("f( four ) rem hi", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 8);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 8);
         const arg: Token = TestUtils.createXToken("four", 3, TokenType.String);
         const comment: Token = TestUtils.createXToken("rem hi", 10, TokenType.Comment);
 
@@ -51,8 +51,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(four  > f0ur)", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 14);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 14);
         const arg1: Token = TestUtils.createXToken("four", 2, TokenType.String);
         const argSep: Token = TestUtils.createXToken(Operator.Gt, 8, TokenType.Operator);
         const arg2: Token = TestUtils.createXToken("f0ur", 10, TokenType.String);
@@ -91,7 +91,7 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(four>", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
         const arg1: Token = TestUtils.createXToken("four", 2, TokenType.String);
         const argSep: Token = TestUtils.createXToken(Operator.Gt, 6, TokenType.Operator);
 
@@ -128,8 +128,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(  )", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 4);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 4);
 
         const st: PreparsedStatement = new PreparsedStatement(
             [
@@ -156,12 +156,12 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(,, argg,)", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 10);
-        const argSep1: Token = TestUtils.createXToken(XSyntaxToken.ArgSep, 2);
-        const argSep2: Token = TestUtils.createXToken(XSyntaxToken.ArgSep, 3);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 10);
+        const argSep1: Token = TestUtils.createXToken(SyntaxToken.ArgSep, 2);
+        const argSep2: Token = TestUtils.createXToken(SyntaxToken.ArgSep, 3);
         const arg: Token = TestUtils.createXToken("argg", 5, TokenType.String);
-        const argSep3: Token = TestUtils.createXToken(XSyntaxToken.ArgSep, 9);
+        const argSep3: Token = TestUtils.createXToken(SyntaxToken.ArgSep, 9);
 
         const st: PreparsedStatement = new PreparsedStatement(
             [
@@ -201,8 +201,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(, ", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const argSep: Token = TestUtils.createXToken(XSyntaxToken.ArgSep, 2);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const argSep: Token = TestUtils.createXToken(SyntaxToken.ArgSep, 2);
 
         const st: PreparsedStatement = new PreparsedStatement(
             [
@@ -235,13 +235,13 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(,g(a, b),c)", () => {
         const callerTokenF: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerTokenF: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const openerTokenG: Token = TestUtils.createXToken(XSyntaxToken.POpen, 4);
-        const closerTokenG: Token = TestUtils.createXToken(XSyntaxToken.PClose, 9);
-        const closerTokenF: Token = TestUtils.createXToken(XSyntaxToken.PClose, 12);
-        const argSep1: Token = TestUtils.createXToken(XSyntaxToken.ArgSep, 2);
-        const argSep2: Token = TestUtils.createXToken(XSyntaxToken.ArgSep, 6);
-        const argSep3: Token = TestUtils.createXToken(XSyntaxToken.ArgSep, 10);
+        const openerTokenF: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const openerTokenG: Token = TestUtils.createXToken(SyntaxToken.POpen, 4);
+        const closerTokenG: Token = TestUtils.createXToken(SyntaxToken.PClose, 9);
+        const closerTokenF: Token = TestUtils.createXToken(SyntaxToken.PClose, 12);
+        const argSep1: Token = TestUtils.createXToken(SyntaxToken.ArgSep, 2);
+        const argSep2: Token = TestUtils.createXToken(SyntaxToken.ArgSep, 6);
+        const argSep3: Token = TestUtils.createXToken(SyntaxToken.ArgSep, 10);
         const callerTokenG: Token = TestUtils.createXToken("g", 3, TokenType.Word);
         const arg1: Token = TestUtils.createXToken("a", 5, TokenType.Word);
         const arg2: Token = TestUtils.createXToken("b", 8, TokenType.Word);
@@ -312,8 +312,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(x) y z", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 3);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 3);
         const x: Token = TestUtils.createXToken("x", 2, TokenType.Word);
         const y: Token = TestUtils.createXToken("y", 5, TokenType.Word);
         const z: Token = TestUtils.createXToken("z", 7, TokenType.Word);
@@ -347,7 +347,7 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
     });
 
     test("(", () => {
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 0);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 0);
         const tknGroup = new TokenGroup([], openerToken);
 
         const st: PreparsedStatement = new PreparsedStatement([tknGroup]);
@@ -361,8 +361,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
     test("f(g(", () => {
         const callerTokenF: Token = TestUtils.createXToken("f", 0, TokenType.Word);
         const callerTokenG: Token = TestUtils.createXToken("g", 2, TokenType.Word);
-        const openerToken1: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const openerToken2: Token = TestUtils.createXToken(XSyntaxToken.POpen, 3);
+        const openerToken1: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const openerToken2: Token = TestUtils.createXToken(SyntaxToken.POpen, 3);
 
         const st: PreparsedStatement = new PreparsedStatement(
             [
@@ -398,8 +398,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f((", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken1: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const openerToken2: Token = TestUtils.createXToken(XSyntaxToken.POpen, 2);
+        const openerToken1: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const openerToken2: Token = TestUtils.createXToken(SyntaxToken.POpen, 2);
 
         const st: PreparsedStatement = new PreparsedStatement(
             [
@@ -435,7 +435,7 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f(", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
 
         const st: PreparsedStatement = new PreparsedStatement(
             [
@@ -459,7 +459,7 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f)", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 1);
 
         const st: PreparsedStatement = new PreparsedStatement(
             [
@@ -476,8 +476,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f( four ) sup", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 8);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 8);
         const arg: Token = TestUtils.createXToken("four", 3, TokenType.String);
         const last: Token = TestUtils.createXToken("sup", 10, TokenType.Word);
 
@@ -509,8 +509,8 @@ suite("Suite for Parser::" + Parser.parse.name, () => {
 
     test("f( 12 ~ 22 )", () => {
         const callerToken: Token = TestUtils.createXToken("f", 0, TokenType.Word);
-        const openerToken: Token = TestUtils.createXToken(XSyntaxToken.POpen, 1);
-        const closerToken: Token = TestUtils.createXToken(XSyntaxToken.PClose, 11);
+        const openerToken: Token = TestUtils.createXToken(SyntaxToken.POpen, 1);
+        const closerToken: Token = TestUtils.createXToken(SyntaxToken.PClose, 11);
         const left: Token = TestUtils.createXToken("12", 3, TokenType.Word);
         const operator: Token = TestUtils.createXToken("~", 6, TokenType.Operator);
         const right: Token = TestUtils.createXToken("22", 8, TokenType.Word);
