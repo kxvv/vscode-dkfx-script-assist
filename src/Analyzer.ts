@@ -1,199 +1,191 @@
-import { AnalyzerUtils } from "./AnalyzerUtils";
-import { DescProvider } from "./DescProvider";
-import { ErrMsgUtils } from "./ErrMsgUtils";
+import { DKError, ErrorArgumentsCount, ErrorCommandNotAtRootLvl, ErrorCommandOnlyAtRootLvl, ErrorEmptyParam, ErrorExpectedFinal, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnCommandAtRootLvl, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/DKError";
+import { Exp } from "./interpreter/model/Exp";
+import { ExpChild } from "./interpreter/model/ExpChild";
+import { ParsedLine } from "./interpreter/model/ParsedLine";
+import { SyntaxToken } from "./interpreter/model/Token";
+import { Word } from "./interpreter/model/Word";
 import { CommandDesc } from "./model/CommandDesc";
-import { DkDiag } from "./model/DkDiag";
-import { ErrMsg } from "./model/ErrMsg";
-import { ErrSeverity } from "./model/ErrSeverity";
-import { Exp } from "./model/Exp";
+import { CommandEffect } from "./model/CommandEffect";
+import { DescParam } from "./model/DescParam";
+import { Operator } from "./model/Operators";
 import { ParamType } from "./model/ParamType";
+import { RootLvl } from "./model/RootLvl";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
-import { Statement } from "./model/Statement";
 import { LineMap } from "./ScriptInstance";
-import { TestUtils } from "./test/suite/TestUtils";
-import { SyntaxToken } from "./Tokenizer";
-import { TypeUtils } from "./TypeUtils";
-import { Utils } from "./Utils";
-
-export interface EvalProps {
-    exp: Exp,
-    line: number,
-    desc: CommandDesc,
-    state: ScriptAnalysis
-}
+import { TypeTools } from "./TypeTools";
 
 const DIAG_IGNORE_FLAG = "@ignore";
 
 export class Analyzer {
 
-    static collectOneLineParseErrors(exp: Exp, line: number): DkDiag[] {
-        const result: DkDiag[] = (exp.parseErrors || []).map(pe => ({
-            line,
-            start: pe.start || exp.start,
-            end: pe.end || exp.end,
-            msg: pe.msg,
-            severity: ErrSeverity.Error
-        }));
-        for (const arg of exp.args) {
-            result.push(...Analyzer.collectOneLineParseErrors(arg, line));
-        }
-        return result;
-    }
-
-    static performDiags(state: ScriptAnalysis): void {
-        AnalyzerUtils.diagTimers(state);
-        AnalyzerUtils.diagFlags(state);
-        AnalyzerUtils.diagMsgSlots(state);
-        AnalyzerUtils.diagVersionsAndWins(state);
-        AnalyzerUtils.diagAps(state);
-        AnalyzerUtils.diagParties(state);
-    }
-
-    static evalExpSideEffects(ep: EvalProps): void {
-        AnalyzerUtils.evalParties(ep);
-        AnalyzerUtils.evalTimers(ep);
-        AnalyzerUtils.evalFlags(ep);
-        AnalyzerUtils.evalAps(ep);
-        AnalyzerUtils.evalOthers(ep);
-    }
-
-    static evalExp({ exp, line, state, desc }: EvalProps): void {
-        let unprovidedCount = 0;
-        let arg: Exp;
-        let argDesc: CommandDesc | null;
-        let allowedTypes: ParamType[];
-        for (let i = 0; i < desc.params.length; i++) {
-            arg = exp.args[i];
-            if (arg && arg.value) {
-                allowedTypes = desc.params[i].allowedTypes;
-                argDesc = DescProvider.getCommandDesc(arg);
-                if (!argDesc || argDesc.autoTypes) {
-                    argDesc = DescProvider.deriveCommandDesc(arg, allowedTypes);
-                }
-                if (argDesc?.params.length && arg.args.length) {
-                    Analyzer.evalExp({
-                        exp: arg,
-                        desc: argDesc,
-                        line,
-                        state
-                    });
-                }
-                TypeUtils.typeCheckParam({
-                    parent: exp,
-                    arg,
-                    argDesc,
-                    argIndex: i,
-                    line,
-                    parentDesc: desc,
-                    state,
-                });
-            } else {
-                unprovidedCount += desc.params[i].optional ? 0 : 1;
+    private static isWordCorrectType(
+        line: number, word: Word, allowed: ParamType[], analysis: ScriptAnalysis
+    ): boolean | DKError {
+        let checkResult;
+        for (const type of allowed) {
+            if (checkResult = TypeTools.toolFor(type).check({ analysis, word, line })) {
+                return checkResult;
             }
         }
-        if (unprovidedCount) {
-            state.diags.push({
-                start: exp.start,
-                end: exp.start + exp.value.length,
-                line,
-                severity: ErrSeverity.Error,
-                msg: ErrMsgUtils.getMissingParamsMsg(desc.params.length - (desc.opts || 0), desc.params.length)
-            });
-        } else if (exp.args.length > desc.params.length) {
-            state.diags.push({
-                start: exp.start,
-                end: exp.start + exp.value.length,
-                line,
-                severity: ErrSeverity.Error,
-                msg: ErrMsgUtils.getExtraParamsMsg(desc.params.length)
-            });
+        return false;
+    }
+
+    private static isCorrectReturnType(exp: Exp | Word, allowed: ParamType[]): boolean {
+        const expDesc: CommandDesc | undefined = exp.getDesc();
+        return !!(expDesc && allowed.some(t => expDesc.returns?.includes(t)));
+    }
+
+    private static checkParens(line: number, exp: Exp, desc: CommandDesc, analysis: ScriptAnalysis) {
+        if (exp.caller.val !== Operator.Rng) {
+            if (exp.closer) {
+                const parens = exp.opener.val + exp.closer.val;
+                if (parens !== "()" && parens !== "[]") {
+                    analysis.pushError(line, new ErrorParensMismatch(exp.caller));
+                }
+            }
+            if (desc.bracketed && exp.opener.val === SyntaxToken.POpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.BOpen));
+            } else if (!desc.bracketed && exp.opener.val === SyntaxToken.BOpen) {
+                analysis.pushError(line, new ErrorIncorrectOpeningToken(exp.opener, SyntaxToken.POpen));
+            }
         }
-        if (desc.bracketed && exp.opens !== SyntaxToken.BOpen) {
-            state.diags.push(AnalyzerUtils.createSimpleDiag(exp, line, ErrMsgUtils.getUsingBrackets(exp.value)));
+    }
+
+    private static checkTypesForExp(line: number, exp: Exp, desc: CommandDesc, analysis: ScriptAnalysis) {
+        const params: DescParam[] = desc.params;
+        let misplacedParamsCount = 0;
+        let child: ExpChild | undefined;
+        let childVal: Exp | Word | null | undefined;
+        let allowed: ParamType[];
+        let optsCount = 0;
+        let tempDesc: CommandDesc | undefined;
+        let check: boolean | DKError;
+        for (let i = 0; i < desc.params.length; i++) {
+            child = exp.getChild(i);
+            allowed = params[i].allowedTypes;
+            optsCount += +params[i].optional;
+
+            if (child) {
+                childVal = child.val;
+
+                if (childVal) {
+
+                    if (childVal instanceof Word) {
+                        if (
+                            (check = Analyzer.isWordCorrectType(line, childVal, allowed, analysis)) !== true
+                        ) {
+                            if (!(tempDesc = childVal.getDesc()) || !Analyzer.isCorrectReturnType(childVal, allowed)) {
+                                analysis.pushError(
+                                    line,
+                                    check === false
+                                        ? new ErrorTypeMismatch(childVal, childVal.val, params[i].allowedTypes)
+                                        : check
+                                );
+                            }
+                            if (tempDesc = childVal.getDesc()) {
+                                Analyzer.checkWordForParams(line, childVal, tempDesc, analysis);
+                            }
+                        }
+                    } else {
+                        if (!Analyzer.isCorrectReturnType(childVal, allowed)) {
+                            analysis.pushError(
+                                line,
+                                new ErrorTypeMismatch(childVal.caller, childVal.caller.val, params[i].allowedTypes)
+                            );
+                        }
+                        if (tempDesc = childVal.getDesc()) {
+                            Analyzer.checkTypesForExp(line, childVal, tempDesc, analysis);
+                        }
+                        if (params[i].final) {
+                            analysis.pushError(line, new ErrorExpectedFinal(childVal));
+                        }
+                    }
+
+                } else {
+                    analysis.pushError(line, new ErrorEmptyParam(child));
+                }
+
+                if (desc.params[i].preSep && !child.preSep) {
+                    analysis.pushError(line, new ErrorSeparatorExpected(child));
+                }
+                if (!desc.params[i].preSep && child.preSep) {
+                    analysis.pushError(line, new ErrorUnexpectedSeparator(child.preSep));
+                }
+
+            } else {
+                if (!desc.params[i].optional) { misplacedParamsCount++; }
+            }
+        }
+        Analyzer.checkParens(line, exp, desc, analysis);
+        if (misplacedParamsCount) {
+            analysis.pushError(line, new ErrorArgumentsCount(exp.caller, params.length - optsCount, params.length));
+        }
+        for (let i = desc.params.length; i < exp.getChildren().length; i++) {
+            analysis.pushError(line, new ErrorArgumentsCount(exp.getChild(i), params.length - optsCount, params.length));
+        }
+    }
+
+    private static checkForRootLvl(
+        line: number, exp: Exp | Word, desc: CommandDesc, analysis: ScriptAnalysis
+    ) {
+        const isRoot = !analysis.conditionOpenings.length;
+        if (isRoot && desc.rootLvl === RootLvl.Forbid) {
+            analysis.pushError(line, new ErrorCommandNotAtRootLvl(exp));
+        }
+        if (!isRoot && desc.rootLvl === RootLvl.Enforce) {
+            analysis.pushError(line, new ErrorCommandOnlyAtRootLvl(exp));
+        }
+        if (isRoot && desc.returns) {
+            analysis.pushError(line, new ErrorReturnCommandAtRootLvl(exp));
+        }
+    }
+
+    private static checkWordForParams(line: number, exp: Word, desc: CommandDesc, analysis: ScriptAnalysis) {
+        if (desc.params.length) {
+            const maxParams = desc.params.length;
+            const requiredParams = maxParams - desc.params.filter(p => p.optional).length;
+            analysis.pushError(line, new ErrorArgumentsCount(exp, requiredParams, maxParams));
         }
     }
 
     static analyze(lineMap: LineMap, lineCount?: number): ScriptAnalysis {
-        const result: ScriptAnalysis = TestUtils.createScriptAnl();
-        const conditionDiagStack: DkDiag[] = [];
-        let exp: Exp | undefined;
-        let desc: CommandDesc | null;
-        let ep: EvalProps;
-        let decoLine = -1;
-        let decoExp: Exp | null = null;
+        const analysis: ScriptAnalysis = new ScriptAnalysis;
+
+        let exp: Exp | Word | undefined;
+        let line: ParsedLine | undefined;
+        let desc: CommandDesc | undefined;
+        let effects: CommandEffect | undefined;
+
         for (let i = 0; i < (lineCount || lineMap.length); i++) {
-            exp = lineMap[i]?.exp;
-            if (exp) {
-                desc = DescProvider.getCommandDesc(exp);
-                if (desc) {
-                    if (decoExp && AnalyzerUtils.isNonDecorable(desc)) {
-                        result.diags.push(AnalyzerUtils.createSimpleDiag(decoExp, decoLine, ErrMsg.NextCommandNonDecorable));
-                    }
-                    AnalyzerUtils.diagRootLvl(result, desc, exp, i, !!conditionDiagStack.length);
-                    if (desc.decorates) {
-                        decoLine = i;
-                        decoExp = exp;
-                    } else { decoExp = null; }
-                    if (desc.isConditionPush) {
-                        conditionDiagStack.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.UnterminatedCondition));
-                    } else if (desc.isConditionPop) {
-                        if (conditionDiagStack.length) {
-                            conditionDiagStack.pop();
+            if (line = lineMap[i]) {
+                analysis.pushParseErrors(i, line.parseErrs);
+                if (line.comment?.val.includes(DIAG_IGNORE_FLAG)) { analysis.pushDiagLineIgnore(i); }
+                if (exp = line.exp) {
+                    if (desc = exp.getDesc()) {
+                        Analyzer.checkForRootLvl(i, exp, desc, analysis);
+                        if (desc.returns) {
+                            analysis.pushError(i, new ErrorReturnOnlyAsArg(exp));
+                        }
+                        if (exp instanceof Exp) {
+                            Analyzer.checkTypesForExp(i, exp, desc, analysis);
                         } else {
-                            result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.UnexpectedEndif));
+                            Analyzer.checkWordForParams(i, exp, desc, analysis);
                         }
-                    }
-                    if (desc.returns) {
-                        result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsg.CmdNotAtRootLvl));
+                        if (effects = desc.effects) {
+                            analysis.evalEffects(i, exp, effects);
+                        }
                     } else {
-                        ep = { exp, desc, line: i, state: result };
-                        Analyzer.evalExpSideEffects(ep);
-                        Analyzer.evalExp(ep);
-                    }
-                } else {
-                    result.diags.push(AnalyzerUtils.createSimpleDiag(exp, i, ErrMsgUtils.getUnknownCommandMsg(exp.value)));
-                }
-                result.diags.push(...Analyzer.collectOneLineParseErrors(exp, i));
-            }
-            if (lineMap[i]?.comment?.includes(DIAG_IGNORE_FLAG)) {
-                result.diagIgnoreLines.push(i);
-            }
-        }
-        if (decoExp) { result.diags.push(AnalyzerUtils.createSimpleDiag(decoExp, decoLine, ErrMsg.TrailingDecorator)); }
-        Analyzer.performDiags(result);
-        result.diags = [...result.diags, ...conditionDiagStack];
-        return result;
-    }
-
-    static getParamTypesForPosition(statement: Statement, pos: number): ParamType[] {
-        if (statement.exp) {
-            const e = statement.exp;
-            if (Utils.isBetween(pos, e.bgnPos, e.endPos)) {
-                let iterated: Exp = e;
-                let desc: CommandDesc | null = DescProvider.getCommandDesc(iterated);
-                let result: ParamType[] = [];
-                let found = true;
-                while (found) {
-                    found = false;
-                    if (!desc) { break; }
-                    for (let j = 0; j < iterated.args.length; j++) {
-                        if (Utils.isBetween(pos, iterated.args[j].bgnPos, iterated.args[j].endPos)) {
-                            result = desc.params[j]?.allowedTypes || [];
-                            iterated = iterated.args[j];
-
-                            desc = DescProvider.getCommandDesc(iterated);
-                            if (!desc || desc.autoTypes) {
-                                desc = DescProvider.deriveCommandDesc(iterated, result);
-                            }
-
-                            found = true;
-                            break;
+                        if (exp instanceof Exp) {
+                            analysis.pushError(i, new ErrorUnknownCommand(exp.caller, exp.caller.val));
+                        } else {
+                            analysis.pushError(i, new ErrorUnknownCommand(exp, exp.val));
                         }
                     }
+                    analysis.tryReuse(i, exp, desc);
                 }
-                return result;
             }
         }
-        return [];
+        analysis.finalize();
+        return analysis;
     }
 }

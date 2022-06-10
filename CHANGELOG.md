@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.0] - 2022-06-10
+### Added
+- rewritten interpreter
+
 ## [0.3.8] - 2022-05-16
 ### Added
 - flag values now are not limited to 0-255

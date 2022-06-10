@@ -19,7 +19,7 @@ export class MappersDk {
     static commandToDkSuggestion(name: string, desc: CommandDesc): DkSuggestion {
         const result: DkSuggestion = {
             label: name,
-            kind: SuggestionKind.Method, // method
+            kind: SuggestionKind.Method,
         };
         if (desc.doc) {
             result.documentation = desc.doc;

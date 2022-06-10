@@ -1,15 +1,16 @@
 import * as vscode from "vscode";
 import { ConfigProvider } from "./ConfigProvider";
 import { LANGUAGE_ID } from "./extension";
+import { ParsedLine } from "./interpreter/model/ParsedLine";
+import { Parser } from "./interpreter/Parser";
+import { Preparser } from "./interpreter/Preparser";
+import { Tokenizer } from "./interpreter/Tokenizer";
 import { MappersVs } from "./MappersVs";
 import { ExtConfig } from "./model/ExtConfig";
-import { Statement } from "./model/Statement";
-import { Parser } from "./Parser";
-import { ResolverUtils } from "./ResolverUtils";
+import { GateUtils } from "./GateUtils";
 import { IndexedStatements, ScriptChangeInfo, ScriptInstance } from "./ScriptInstance";
-import { Tokenizer } from "./Tokenizer";
 
-export class Resolver {
+export class Gate {
     readonly diag: vscode.DiagnosticCollection;
     instances: { [uri: string]: ScriptInstance } = {};
     timeoutDiags: { [uri: string]: any } = {};
@@ -19,10 +20,8 @@ export class Resolver {
         this.diag = vscode.languages.createDiagnosticCollection(`${LANGUAGE_ID}-diag`);;
     }
 
-    lineToDkStatement(line: string): Statement {
-        const tkns = Tokenizer.tokenize(line);
-        const r = Parser.parseLineTokens(tkns);
-        return r;
+    lineToDkStatement(line: string): ParsedLine {
+        return Parser.parse(Preparser.preparse(Tokenizer.tokenize(line)));
     }
 
     createScriptChangeInfo(cc: vscode.TextDocumentContentChangeEvent, event: vscode.TextDocumentChangeEvent): ScriptChangeInfo {
@@ -86,12 +85,12 @@ export class Resolver {
     }
 
     subscribe(context: vscode.ExtensionContext) {
-        ResolverUtils.registerOnTextChangeListener(context, this);
-        ResolverUtils.registerOnActiveEditorChangeListener(context, this);
-        ResolverUtils.registerCompletionProvider(this);
-        ResolverUtils.registerSignHelpProvider(this);
-        ResolverUtils.registerHoverProvider(this);
-        ResolverUtils.registerFormattingProvider(this);
+        GateUtils.registerOnTextChangeListener(context, this);
+        GateUtils.registerOnActiveEditorChangeListener(context, this);
+        GateUtils.registerCompletionProvider(this);
+        GateUtils.registerSignHelpProvider(this);
+        GateUtils.registerHoverProvider(this);
+        GateUtils.registerFormattingProvider(this);
         this.setConfig();
 
         vscode.window.onDidChangeActiveTextEditor(() => {

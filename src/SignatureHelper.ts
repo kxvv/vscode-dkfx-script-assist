@@ -1,25 +1,15 @@
-import { DescProvider } from "./DescProvider";
+import { Exp } from "./interpreter/model/Exp";
 import { CommandDesc } from "./model/CommandDesc";
-import { Exp } from "./model/Exp";
 import { SignatureHint } from "./model/SignatureHint";
 import { Utils } from "./Utils";
 
 export class SignatureHelper {
     static getSignHelpForExp(exp: Exp | undefined, pos: number): SignatureHint | null {
-        let arg: Exp;
-        let index = -1;
-        if (exp && Utils.isBetween(pos, exp.bgnPos, exp.endPos)) {
-            for (let i = 0; i < exp.args.length; i++) {
-                arg = exp.args[i];
-                if (Utils.isBetween(pos, arg.bgnPos, arg.endPos)) {
-                    if (arg.args.length) {
-                        return SignatureHelper.getSignHelpForExp(arg, pos);
-                    }
-                    index = i;
-                }
+        if (exp) {
+            const { leaf, child, index, ahead } = exp.getChildAtCursorPosition(pos);
+            if (child && leaf?.getDesc()) {
+                return SignatureHelper.hintFromDesc(leaf.getDesc()!, leaf.caller.val, index + +ahead);
             }
-            const desc = DescProvider.getCommandDesc(exp);
-            if (desc) { return SignatureHelper.hintFromDesc(desc, exp.value, index); }
         }
         return null;
     }
