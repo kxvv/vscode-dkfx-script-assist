@@ -223,7 +223,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return /^".*"$/i.test(ttc.word.val) && (ttc.word.val.length - 2) <= CONSTRAINTS.maxTextLen;
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return [];
+            return [MappersDk.entityToDkSuggestion({ val: `""`})];
         }
     },
     [ParamType.Time]: {

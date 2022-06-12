@@ -159,7 +159,7 @@ export class VariableStorage {
     }
 
     getNextFreeMsgNumber(): number | null {
-        for (let i = CONSTRAINTS.minMsgNumber; i <= CONSTRAINTS.maxMsgNumber; i++) {
+        for (let i = Math.max(CONSTRAINTS.minMsgNumber, 1); i <= CONSTRAINTS.maxMsgNumber; i++) {
             if (!this.msgSlotAlters[i]?.length) {
                 return i;
             }
