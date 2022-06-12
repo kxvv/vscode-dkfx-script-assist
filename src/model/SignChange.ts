@@ -1,9 +1,9 @@
-import { Exp } from "../interpreter/model/Exp";
-import { ExpChild } from "../interpreter/model/ExpChild";
-import { Word } from "../interpreter/model/Word";
 import { TypeTools } from "../TypeTools";
 import { DescParam } from "./DescParam";
+import { Exp } from "./Exp";
+import { ExpChild } from "./ExpChild";
 import { ParamType } from "./ParamType";
+import { Word } from "./Word";
 
 export interface SignChange {
     check: "IN" | "EQ";
@@ -72,7 +72,7 @@ export class SignChange implements ISignChange {
                 }
 
             } else {
-                // TODO
+                // TODO optional: interpret exps?
             }
         }
         return paramsCopy;

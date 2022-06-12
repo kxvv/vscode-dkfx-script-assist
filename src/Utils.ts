@@ -1,4 +1,4 @@
-import { SyntaxToken } from "./interpreter/model/Token";
+import { SyntaxToken } from "./model/Token";
 
 export class Utils {
     static arrayPeek<T>(arg: Array<T>): T | undefined {

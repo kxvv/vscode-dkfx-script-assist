@@ -1,4 +1,4 @@
-import { Exp } from "./interpreter/model/Exp";
+import { Exp } from "./model/Exp";
 import { CommandDesc } from "./model/CommandDesc";
 import { SignatureHint } from "./model/SignatureHint";
 import { Utils } from "./Utils";

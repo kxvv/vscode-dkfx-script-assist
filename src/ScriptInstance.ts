@@ -1,14 +1,14 @@
+import { Analyzer } from "./Analyzer";
 import { ConfigProvider } from "./ConfigProvider";
 import { HoverHelper } from "./HoverHelper";
-import { Exp } from "./interpreter/model/Exp";
-import { ParsedLine } from "./interpreter/model/ParsedLine";
 import { DkDiag } from "./model/DkDiag";
 import { DkSuggestion } from "./model/DkSuggestion";
-import { SignatureHint } from "./model/SignatureHint";
+import { Exp } from "./model/Exp";
+import { ParsedLine } from "./model/ParsedLine";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
+import { SignatureHint } from "./model/SignatureHint";
 import { SignatureHelper } from "./SignatureHelper";
 import { SuggestionHelper } from "./SuggestionHelper";
-import { Analyzer } from "./Analyzer";
 
 export type LineMap = (ParsedLine | undefined)[];
 

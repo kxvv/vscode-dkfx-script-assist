@@ -1,7 +1,7 @@
 import { DK_ENTITIES } from "./Entities";
-import { Exp } from "./interpreter/model/Exp";
-import { Word } from "./interpreter/model/Word";
 import { DkEntity } from "./model/DkEntity";
+import { Exp } from "./model/Exp";
+import { Word } from "./model/Word";
 import { SignatureHelper } from "./SignatureHelper";
 import { Utils } from "./Utils";
 

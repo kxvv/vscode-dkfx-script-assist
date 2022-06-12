@@ -1,10 +1,10 @@
 import { DK_ENTITIES } from "./Entities";
-import { ErrorMsgOutOfRange, ErrorPartyNameNotUnique, ErrorPartyUnknown, DKError } from "./interpreter/model/DKError";
-import { Word } from "./interpreter/model/Word";
 import { MappersDk } from "./MappersDk";
+import { DKError, ErrorMsgOutOfRange, ErrorPartyNameNotUnique, ErrorPartyUnknown } from "./model/DKError";
 import { DkSuggestion } from "./model/DkSuggestion";
 import { ParamType } from "./model/ParamType";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
+import { Word } from "./model/Word";
 import { Utils } from "./Utils";
 
 interface TypeToolCheck {
@@ -18,7 +18,7 @@ export interface TypeTool {
     suggest(analysis: ScriptAnalysis): DkSuggestion[];
 }
 
-export const CONSTRAINTS: Readonly<{[key: string]: number}> = {
+export const CONSTRAINTS: Readonly<{ [key: string]: number }> = {
     minMsgNumber: 0,
     maxMsgNumber: 50,
     maxByte: 255,

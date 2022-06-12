@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { Token, SyntaxToken } from "../../interpreter/model/Token";
-import { TokenGroup } from "../../interpreter/model/TokenGroup";
 import { PreparsedStatement, Preparser } from "../../interpreter/Preparser";
+import { SyntaxToken, Token } from "../../model/Token";
+import { TokenGroup } from "../../model/TokenGroup";
 import { TokenType } from "../../model/TokenType";
 import { Utils } from "../../Utils";
 import { TestUtils } from "./TestUtils";

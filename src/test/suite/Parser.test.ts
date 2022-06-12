@@ -1,15 +1,15 @@
 import * as assert from "assert";
-import { ErrorInvalidStatement, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "../../interpreter/model/DKError";
-import { Exp, RangeExp } from "../../interpreter/model/Exp";
-import { ExpChild } from "../../interpreter/model/ExpChild";
-import { ParsedLine } from "../../interpreter/model/ParsedLine";
-import { Token, SyntaxToken } from "../../interpreter/model/Token";
-import { TokenGroup } from "../../interpreter/model/TokenGroup";
-import { Word } from "../../interpreter/model/Word";
 import { Parser } from "../../interpreter/Parser";
 import { PreparsedStatement } from "../../interpreter/Preparser";
+import { ErrorInvalidStatement, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "../../model/DKError";
+import { Exp, RangeExp } from "../../model/Exp";
+import { ExpChild } from "../../model/ExpChild";
 import { Operator } from "../../model/Operators";
+import { ParsedLine } from "../../model/ParsedLine";
+import { SyntaxToken, Token } from "../../model/Token";
+import { TokenGroup } from "../../model/TokenGroup";
 import { TokenType } from "../../model/TokenType";
+import { Word } from "../../model/Word";
 import { TestUtils } from "./TestUtils";
 
 suite("Suite for Parser::" + Parser.parse.name, () => {

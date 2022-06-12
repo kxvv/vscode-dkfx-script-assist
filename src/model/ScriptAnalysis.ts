@@ -1,11 +1,11 @@
-import { DKError, ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen } from "../interpreter/model/DKError";
-import { Exp } from "../interpreter/model/Exp";
-import { Word } from "../interpreter/model/Word";
 import { VariableStorage } from "../VariableStorage";
 import { CommandDesc } from "./CommandDesc";
 import { CommandEffect } from "./CommandEffect";
 import { DkDiag } from "./DkDiag";
+import { DKError, ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen } from "./DKError";
+import { Exp } from "./Exp";
 import { RootLvl } from "./RootLvl";
+import { Word } from "./Word";
 
 interface StackOpening {
     line: number;

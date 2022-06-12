@@ -1,5 +1,5 @@
-import { Token } from "../../interpreter/model/Token";
 import { CommandDesc } from "../../model/CommandDesc";
+import { Token } from "../../model/Token";
 import { TokenType } from "../../model/TokenType";
 
 export class TestUtils {

@@ -1,16 +1,16 @@
-import { DKError, ErrorArgumentsCount, ErrorCommandNotAtRootLvl, ErrorCommandOnlyAtRootLvl, ErrorEmptyParam, ErrorExpectedFinal, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnCommandAtRootLvl, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./interpreter/model/DKError";
-import { Exp } from "./interpreter/model/Exp";
-import { ExpChild } from "./interpreter/model/ExpChild";
-import { ParsedLine } from "./interpreter/model/ParsedLine";
-import { SyntaxToken } from "./interpreter/model/Token";
-import { Word } from "./interpreter/model/Word";
 import { CommandDesc } from "./model/CommandDesc";
 import { CommandEffect } from "./model/CommandEffect";
 import { DescParam } from "./model/DescParam";
+import { DKError, ErrorArgumentsCount, ErrorCommandNotAtRootLvl, ErrorCommandOnlyAtRootLvl, ErrorEmptyParam, ErrorExpectedFinal, ErrorIncorrectOpeningToken, ErrorParensMismatch, ErrorReturnCommandAtRootLvl, ErrorReturnOnlyAsArg, ErrorSeparatorExpected, ErrorTypeMismatch, ErrorUnexpectedSeparator, ErrorUnknownCommand } from "./model/DKError";
+import { Exp } from "./model/Exp";
+import { ExpChild } from "./model/ExpChild";
 import { Operator } from "./model/Operators";
 import { ParamType } from "./model/ParamType";
+import { ParsedLine } from "./model/ParsedLine";
 import { RootLvl } from "./model/RootLvl";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
+import { SyntaxToken } from "./model/Token";
+import { Word } from "./model/Word";
 import { LineMap } from "./ScriptInstance";
 import { TypeTools } from "./TypeTools";
 

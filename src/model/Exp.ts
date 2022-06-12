@@ -1,7 +1,7 @@
-import { DescProvider } from "../../DescProvider";
-import { CommandDesc } from "../../model/CommandDesc";
-import { ParamType } from "../../model/ParamType";
-import { Utils } from "../../Utils";
+import { DescProvider } from "../DescProvider";
+import { CommandDesc } from "./CommandDesc";
+import { ParamType } from "./ParamType";
+import { Utils } from "../Utils";
 import { ExpChild } from "./ExpChild";
 import { Token } from "./Token";
 import { Word } from "./Word";

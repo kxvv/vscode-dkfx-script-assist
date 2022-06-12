@@ -1,5 +1,5 @@
-import { Operator, OPERATORS } from "../../model/Operators";
-import { TokenType } from "../../model/TokenType";
+import { OPERATORS, Operator } from "./Operators";
+import { TokenType } from "./TokenType";
 
 export enum SyntaxToken {
     POpen = "(",

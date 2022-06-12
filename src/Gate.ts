@@ -1,13 +1,13 @@
 import * as vscode from "vscode";
 import { ConfigProvider } from "./ConfigProvider";
 import { LANGUAGE_ID } from "./extension";
-import { ParsedLine } from "./interpreter/model/ParsedLine";
+import { GateUtils } from "./GateUtils";
 import { Parser } from "./interpreter/Parser";
 import { Preparser } from "./interpreter/Preparser";
 import { Tokenizer } from "./interpreter/Tokenizer";
 import { MappersVs } from "./MappersVs";
 import { ExtConfig } from "./model/ExtConfig";
-import { GateUtils } from "./GateUtils";
+import { ParsedLine } from "./model/ParsedLine";
 import { IndexedStatements, ScriptChangeInfo, ScriptInstance } from "./ScriptInstance";
 
 export class Gate {

@@ -1,6 +1,6 @@
 import * as assert from "assert";
-import { Token } from "../../interpreter/model/Token";
 import { Tokenizer } from "../../interpreter/Tokenizer";
+import { Token } from "../../model/Token";
 import { TokenType } from "../../model/TokenType";
 
 suite("Suite for XTokenizer::" + Tokenizer.tokenize.name, () => {

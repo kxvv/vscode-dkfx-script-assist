@@ -1,12 +1,12 @@
-import { Exp } from "./interpreter/model/Exp";
-import { SyntaxToken } from "./interpreter/model/Token";
 import { CommandDesc } from "./model/CommandDesc";
 import { CommandEffectFactory } from "./model/CommandEffect";
 import { DescParam } from "./model/DescParam";
+import { Exp } from "./model/Exp";
 import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
 import { FINAL_PARAM_TYPES, ParamType } from "./model/ParamType";
 import { RootLvl } from "./model/RootLvl";
 import { SignChange, SignOptChange } from "./model/SignChange";
+import { SyntaxToken } from "./model/Token";
 import { ResourcesLoader } from "./ResourcesLoader";
 
 interface NonSepSignPart {

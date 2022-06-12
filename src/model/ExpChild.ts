@@ -1,4 +1,4 @@
-import { DescParam } from "../../model/DescParam";
+import { DescParam } from "./DescParam";
 import { Exp } from "./Exp";
 import { Token } from "./Token";
 import { Word } from "./Word";

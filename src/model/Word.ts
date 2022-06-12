@@ -1,5 +1,5 @@
-import { CommandDesc } from "../../model/CommandDesc";
-import { DescProvider } from "../../DescProvider";
+import { DescProvider } from "../DescProvider";
+import { CommandDesc } from "./CommandDesc";
 import { ExpChild } from "./ExpChild";
 
 export class Word {

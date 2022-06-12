@@ -1,11 +1,11 @@
 import { DK_ENTITIES } from "./Entities";
-import { Word } from "./interpreter/model/Word";
-import { Exp } from "./interpreter/model/Exp";
-import { Token } from "./interpreter/model/Token";
+import { ErrorApNeverTriggered, ErrorFlagNeverRead, ErrorFlagNeverSet, ErrorMsgSlotUsed, ErrorNeverAddedToLevel, ErrorNoVersionCommand, ErrorNoWinCommand, ErrorPartyEmpty, ErrorPartyTooManyMembers, ErrorTimerNeverRead, ErrorTimerNeverSet, ErrorVersionAlreadySet } from "./model/DKError";
+import { Exp } from "./model/Exp";
 import { ParamType } from "./model/ParamType";
-import { ErrorApNeverTriggered, ErrorFlagNeverRead, ErrorFlagNeverSet, ErrorMsgSlotUsed, ErrorNeverAddedToLevel, ErrorNoVersionCommand, ErrorNoWinCommand, ErrorPartyEmpty, ErrorPartyTooManyMembers, ErrorTimerNeverRead, ErrorTimerNeverSet, ErrorVersionAlreadySet, DKError } from "./interpreter/model/DKError";
-import { CONSTRAINTS } from "./TypeTools";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
+import { Token } from "./model/Token";
+import { Word } from "./model/Word";
+import { CONSTRAINTS } from "./TypeTools";
 
 interface FlagTimerAlter {
     varIndex: number;

@@ -1,11 +1,11 @@
+import { ErrorInvalidStatement, ErrorOpeningAndClosingTokensMismatch, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "../model/DKError";
+import { Exp, RangeExp } from "../model/Exp";
 import { Operator } from "../model/Operators";
+import { ParsedLine } from "../model/ParsedLine";
+import { Token } from "../model/Token";
+import { TokenGroup } from "../model/TokenGroup";
 import { TokenType } from "../model/TokenType";
-import { ErrorInvalidStatement, ErrorOpeningAndClosingTokensMismatch, ErrorUnexpectedOpeningToken, ErrorUnterminatedExpression } from "./model/DKError";
-import { Exp, RangeExp } from "./model/Exp";
-import { ParsedLine } from "./model/ParsedLine";
-import { Token } from "./model/Token";
-import { TokenGroup } from "./model/TokenGroup";
-import { Word } from "./model/Word";
+import { Word } from "../model/Word";
 import { PreparsedStatement } from "./Preparser";
 
 export class Parser {

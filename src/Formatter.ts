@@ -1,9 +1,9 @@
 import { ConfigProvider } from "./ConfigProvider";
 import { DescProvider } from "./DescProvider";
-import { Token } from "./interpreter/model/Token";
 import { Tokenizer } from "./interpreter/Tokenizer";
 import { CommandDesc } from "./model/CommandDesc";
 import { ExtConfig, ExtConfigFormatter } from "./model/ExtConfig";
+import { Token } from "./model/Token";
 import { TokenType } from "./model/TokenType";
 
 export class Formatter {

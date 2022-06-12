@@ -1,5 +1,5 @@
-import { ErrSeverity } from "../../model/ErrSeverity";
-import { ParamType } from "../../model/ParamType";
+import { ErrSeverity } from "./ErrSeverity";
+import { ParamType } from "./ParamType";
 import { Token } from "./Token";
 
 interface Range {

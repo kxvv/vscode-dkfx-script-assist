@@ -4,7 +4,7 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.4.0] - 2022-06-10
+## [0.4.0] - 2022-06-12
 ### Added
 - rewritten interpreter
 

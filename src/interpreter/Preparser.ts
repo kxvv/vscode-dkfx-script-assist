@@ -1,7 +1,7 @@
+import { SyntaxToken, Token } from "../model/Token";
+import { TokenGroup } from "../model/TokenGroup";
 import { TokenType } from "../model/TokenType";
 import { Utils } from "../Utils";
-import { Token, SyntaxToken } from "./model/Token";
-import { TokenGroup } from "./model/TokenGroup";
 
 export class PreparsedStatement {
     tokens: (Token | TokenGroup)[] = [];
