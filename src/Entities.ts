@@ -6,7 +6,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "1" },
     ],
     [ParamType.Player]: [
-        { val: "PLAYER0", doc: "The RED player", },
+        { val: "PLAYER0", doc: "The RED player", preselect: true },
         { val: "PLAYER1", doc: "The BLUE player", },
         { val: "PLAYER2", doc: "The GREEN player", },
         { val: "PLAYER3", doc: "The YELLOW player", },
@@ -16,11 +16,10 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "YELLOW", doc: "PLAYER3's equivalent", },
         { val: "WHITE", doc: "Heroes/PLAYER_GOOD's equivalent" },
         { val: "PLAYER_GOOD", doc: "The heroes" },
-        { val: "ALL_PLAYERS" },
         { val: "PLAYER_NEUTRAL", doc: "The neutral player" },
     ],
     [ParamType.Keeper]: [
-        { val: "PLAYER0", doc: "The RED player", },
+        { val: "PLAYER0", doc: "The RED player", preselect: true },
         { val: "PLAYER1", doc: "The BLUE player", },
         { val: "PLAYER2", doc: "The GREEN player", },
         { val: "PLAYER3", doc: "The YELLOW player", },
@@ -42,7 +41,8 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
     })),
     [ParamType.Flag]: new Array(8).fill(0).map((e, i) => ({
         val: "FLAG" + i,
-        doc: `The flag number ${i}. Each player has their own flag sets.`
+        doc: `The flag number ${i}. Each player has their own flag sets.`,
+        ...(i === 0 && {preselect: true})
     })),
     [ParamType.CampaignFlag]: new Array(8).fill(0).map((e, i) => ({
         val: "CAMPAIGN_FLAG" + i,
@@ -52,6 +52,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         {
             val: "0",
             doc: "A general computer player with everything turned on. Builds rooms quickly and is aggressive.",
+            preselect: true
         },
         {
             val: "1",
@@ -412,6 +413,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         {
             val: "ATTACK_DUNGEON_HEART",
             doc: "Attack the nearest Dungeon Heart.",
+            preselect: true,
         },
         {
             val: "DEFEND_HEART",
@@ -468,7 +470,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "15", doc: "Graveyard", },
         { val: "16", doc: "Barracks", },
         { val: "17", doc: "Torture chamber", },
-        { val: "18", doc: "Bridge", },
+        { val: "18", doc: "Bridge", preselect: true, },
         { val: "19", doc: "Guard post", },
         { val: "20", doc: "Sell button", },
         { val: "21", doc: "Create imp", },
@@ -548,6 +550,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         {
             val: "0",
             doc: "The red player - PLAYER0",
+            preselect: true,
         },
         {
             val: "1",
@@ -604,6 +607,7 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         {
             val: "LEAST_EXPERIENCED",
             doc: "Lowest level creature",
+            preselect: true,
         },
         {
             val: "LEAST_EXP_WANDERING",
@@ -644,7 +648,8 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
     ],
     [ParamType.AudioType]: [
         {
-            val: "SOUND"
+            val: "SOUND",
+            preselect: true,
         },
         {
             val: "SPEECH"
@@ -761,7 +766,8 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             val: "FLEE"
         },
         {
-            val: "IMPRISON"
+            val: "IMPRISON",
+            preselect: true,
         },
     ],
     [ParamType.CreatureConfig]: [

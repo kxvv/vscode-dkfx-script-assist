@@ -9,7 +9,7 @@ suite("Suite for DescProvider::" + DescProvider.getCommandDesc.name, () => {
         const result: CommandDesc | null = DescProvider.getCommandDesc("SET_FLAg")!;
         const expected: CommandDesc = TestUtils.createDesc();
         expected.params.push({
-            allowedTypes: [ParamType.Player],
+            allowedTypes: [ParamType.AllPlayers, ParamType.Player],
             preSep: false,
             name: "player",
             optional: false,

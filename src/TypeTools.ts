@@ -260,7 +260,7 @@ export class TypeTools {
                 return check.isEntity(ttc.word, type);
             },
             suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-                return DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e)) || [];
+                return DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
             }
         };
     }
