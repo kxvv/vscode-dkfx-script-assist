@@ -1,6 +1,8 @@
 {
     "diagEnabled": true,
     "customTraps": [],
+    "customDoors": [],
+    "customCreatures": [],
     "customObjects": [],
     "formatter": {
         "spaceAfterSeparator": false,

@@ -8,6 +8,8 @@ export class ConfigProvider {
     private static conf: ExtConfig = {
         diagEnabled: true,
         customTraps: [],
+        customDoors: [],
+        customCreatures: [],
         customObjects: [],
         formatter: {
             spaceAfterSeparator: false,
@@ -16,6 +18,8 @@ export class ConfigProvider {
         }
     };
     private static origTraps: DkEntity[] = DK_ENTITIES[ParamType.Trap];
+    private static origDoors: DkEntity[] = DK_ENTITIES[ParamType.Door];
+    private static origCreatures: DkEntity[] = DK_ENTITIES[ParamType.Creature];
     private static origObjects: DkEntity[] = DK_ENTITIES[ParamType.Object];
 
     private static toIndentationChars(setting: string): string {
@@ -38,11 +42,21 @@ export class ConfigProvider {
             val: custom.toUpperCase(),
             doc: "Custom trap"
         }));
+        const customDoors = config.customDoors.map(custom => ({
+            val: custom.toUpperCase(),
+            doc: "Custom door"
+        }));
+        const customCreatures = config.customCreatures.map(custom => ({
+            val: custom.toUpperCase(),
+            doc: "Custom creature"
+        }));
         const customObjects = config.customObjects.map(custom => ({
             val: custom.toUpperCase(),
             doc: "Custom object"
         }));
         DK_ENTITIES[ParamType.Trap] = this.origTraps.concat(customTraps);
+        DK_ENTITIES[ParamType.Door] = this.origDoors.concat(customDoors);
+        DK_ENTITIES[ParamType.Creature] = this.origCreatures.concat(customCreatures);
         DK_ENTITIES[ParamType.Object] = this.origObjects.concat(customObjects);
     }
 

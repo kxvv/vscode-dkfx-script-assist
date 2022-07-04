@@ -24,7 +24,7 @@
 
 - cmd: IF([player:PLAYER/ALL_PLAYERS],[left B:READSET_VAR][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER/ALL_PLAYERS],[right B:READSET_VAR])
   opts: 1
-  signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED]
+  signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED, IF 3 IS ALL_PLAYERS SET 4 REQUIRED]
   flagReadAt: [1, 4]
   timerReadAt: [1, 4]
   condition: PUSH
@@ -32,7 +32,7 @@
 
 - cmd: IF_AVAILABLE([player:PLAYER/ALL_PLAYERS],[left B:ROOM/POWER/TRAP/DOOR/CREATURE][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER/ALL_PLAYERS],[right B:ROOM/POWER/TRAP/DOOR/CREATURE])
   opts: 1
-  signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED]
+  signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED, IF 3 IS ALL_PLAYERS SET 4 REQUIRED]
   condition: PUSH
   doc: Allows you to ask whether something is available to that player. If it is not, then the answer will be 0. If it is then the answer will be 1.
 
@@ -500,3 +500,6 @@
 
 - cmd: TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE])
   doc: Transfers creatures as dungeon special would.
+
+- cmd: SWAP_CREATURE([new creature config:TEXT/UNKNOWN],[creature:CREATURE])
+  doc: Replaces the creature with a new creature in the "new creature config".cfg file.

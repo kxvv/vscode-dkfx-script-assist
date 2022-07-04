@@ -4,7 +4,12 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.4.0] - 2022-06-13
+## [0.4.2] - 2022-07-04
+### Added
+- SWAP_CREATURE command
+- custom doors+creatures config
+
+## [0.4.1] - 2022-06-13
 ### Fixed
 - message numbers suggesting zeros, no suggestion for texts
 

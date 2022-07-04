@@ -2,7 +2,7 @@
     "name": "vscode-dk-scripting-assist",
     "displayName": "Dungeon Keeper's Scripting Assistant",
     "description": "Provides code completion, formatting, map browser and more.",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "publisher": "kxvv",
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -65,6 +65,22 @@
                     "type": "array",
                     "default": [],
                     "description": "Enter custom trap names for type checking and completion hints",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "customDoors": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Enter custom door names for type checking and completion hints",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "customCreatures": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Enter custom creature names for type checking and completion hints. Usable via SWAP_CREATURE command",
                     "items": {
                         "type": "string"
                     }
