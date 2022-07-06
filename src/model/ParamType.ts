@@ -25,6 +25,7 @@ export enum ParamType {
     DisplayVarTargetType = "DISPLAY_VAR_TARGET_TYPE",
     Door = "DOOR",
     DoorConfig = "DOOR_CONFIG",
+    Effect = "EFFECT",
     FillType = "FILL_TYPE",
     Flag = "FLAG",
     GameRule = "GAME_RULE",

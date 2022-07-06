@@ -340,13 +340,13 @@
   opts: 1
   doc: Conceals part of the map with fog of war, opposite to REVEAL_MAP_RECT
 
-- cmd: CREATE_EFFECT([effect:NUMBER],[location:LOCATION])
+- cmd: CREATE_EFFECT([effect:NUMBER/EFFECT],[location:LOCATION])
   doc: Create an Effect at a location. Can be any effect or effect element that is in game, like the hearts that appear when healing, or the red smoke when claiming a room.
 
-- cmd: CREATE_EFFECT_AT_POS([effect:NUMBER],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE])
+- cmd: CREATE_EFFECT_AT_POS([effect:NUMBER/EFFECT],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE])
   doc: Create an Effect at a subtile. Can be any effect or effect element that is in game, like the hearts that appear when healing, or the red smoke when claiming a room.
 
-- cmd: CREATE_EFFECTS_LINE([origin:LOCATION],[destination:LOCATION],[curvature:NUMBER],[distance:BYTE],[speed:BYTE],[effect:NUMBER])
+- cmd: CREATE_EFFECTS_LINE([origin:LOCATION],[destination:LOCATION],[curvature:NUMBER],[distance:BYTE],[speed:BYTE],[effect:NUMBER/EFFECT])
   doc: |
     Spawns an effect multiple times, forming a line.
 
@@ -501,5 +501,5 @@
 - cmd: TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE])
   doc: Transfers creatures as dungeon special would.
 
-- cmd: SWAP_CREATURE([new creature config:TEXT/UNKNOWN],[creature:CREATURE])
+- cmd: SWAP_CREATURE([new creature config:UNKNOWN],[creature:CREATURE])
   doc: Replaces the creature with a new creature in the "new creature config".cfg file.
