@@ -43,6 +43,10 @@ export class GateUtils {
     static registerCompletionProvider(resolver: Gate) {
         vscode.languages.registerCompletionItemProvider(LANGUAGE_ID, {
             provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
+                const txt = document.lineAt(position.line).text;
+                if (txt.startsWith("REM ") || txt.startsWith("rem ")) {
+                    return [];
+                }
                 const uri = document.uri.toString();
                 return resolver.instances[uri].suggest(position.line, position.character).map(MappersVs.dkSuggestion);
             }

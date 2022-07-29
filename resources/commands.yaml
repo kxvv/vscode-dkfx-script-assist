@@ -232,7 +232,7 @@
 - cmd: DISPLAY_COUNTDOWN([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[show difference:BINARY],[use clocktime:BINARY])
   doc: Displays on screen how long a specific script timer reaches the target turn.
 
-- cmd: DISPLAY_VARIABLE([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[show difference:BINARY],[target type:DISPLAY_VAR_TARGET_TYPE])
+- cmd: DISPLAY_VARIABLE([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[show difference target:NUMBER],[target type:DISPLAY_VAR_TARGET_TYPE])
   opts: 2
   doc: Displays a script variable on screen.
   todo: true

@@ -245,7 +245,7 @@ export class ErrorReturnCommandAtRootLvl extends DKError {
 
 export class ErrorCommandOnlyAtRootLvl extends DKError {
     constructor(exp: Range) {
-        super(`Command only allowed inside of IF block`, exp.start, exp.end);
+        super(`Command not allowed inside of IF block`, exp.start, exp.end);
     }
 }
 
