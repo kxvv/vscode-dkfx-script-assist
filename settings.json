@@ -1,5 +1,6 @@
 {
     "diagEnabled": true,
+    "diagReactionTime": 512,
     "customTraps": [],
     "customDoors": [],
     "customCreatures": [],

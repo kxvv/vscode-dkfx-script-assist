@@ -7,6 +7,7 @@ import { ParamType } from "./model/ParamType";
 export class ConfigProvider {
     private static conf: ExtConfig = {
         diagEnabled: true,
+        diagReactionTime: 512,
         customTraps: [],
         customDoors: [],
         customCreatures: [],

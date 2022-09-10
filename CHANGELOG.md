@@ -4,6 +4,15 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.5] - 2022-09-10
+### Added
+- SET_HAND_RULE
+- configurable diagnostics reaction time
+- increased maximum action points
+
+### Fixed
+- sign changes are no longer case sensitive
+
 ## [0.4.4] - 2022-07-29
 ### Fixed
 - suggestions while typing comments

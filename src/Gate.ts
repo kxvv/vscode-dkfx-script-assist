@@ -62,7 +62,7 @@ export class Gate {
         clearTimeout(this.timeoutDiags[uri]);
         this.timeoutDiags[uri] = setTimeout(() => {
             this.diag.set(document.uri, this.instances[uri].collectDiagnostics().map(MappersVs.diag));
-        }, 1024);
+        }, ConfigProvider.getConfig().diagReactionTime);
     }
 
     rebuild(document: vscode.TextDocument) {

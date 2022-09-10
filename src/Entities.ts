@@ -802,6 +802,24 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "CorpseVanishEffect" },
     ],
     [ParamType.Rule]: [
+        { val: "ALWAYS", doc: "all creatures match this rule until it is disabled or overridden", },
+        { val: "AGE_LOWER", doc: "only creatures whose time in dungeon (age) is lower than [param] match this rule", },
+        { val: "AGE_HIGHER", doc: "only creatures whose time in dungeon (age) is higher than [param] match this rule", },
+        { val: "LEVEL_LOWER", doc: "only creatures of level lower than [param] match this rule", },
+        { val: "LEVEL_HIGHER", doc: "only creatures of level higher than [param] match this rule", },
+        { val: "AT_ACTION_POINT", doc: "only creatures within action point [param] radius match this rule", },
+        { val: "AFFECTED_BY", doc: "only creatures affected by the spell in [param] match this rule" },
+        { val: "WANDERING", doc: "only wandering creatures match this rule", },
+        { val: "WORKING", doc: "only working creatures match this rule", },
+        { val: "FIGHTING", doc: "only fighting creatures match this rule", },
+    ],
+    [ParamType.RuleAction]: [
+        { val: "ALLOW" },
+        { val: "DENY" },
+        { val: "ENABLE" },
+        { val: "DISABLE" },
+    ],
+    [ParamType.RuleSlot]: [
         { val: "RULE0" },
         { val: "RULE1" },
         { val: "RULE2" },
@@ -1547,5 +1565,5 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "EFFECT_BLOOD_7", },
         { val: "EFFECT_SPANGLE_MULTICOLOURED", },
         { val: "EFFECT_BOULDER_BREAK_WATER", },
-    ]
+    ],
 };

@@ -51,7 +51,7 @@ export class SignChange implements ISignChange {
 
             if (inValue instanceof Word) {
 
-                if (this.check === "EQ" && inValue.val === this.arg?.toUpperCase()) {
+                if (this.check === "EQ" && inValue.val.toUpperCase() === this.arg?.toUpperCase()) {
                     willPerformChange = true;
                 } else if (this.check === "IN" && this.typeArgs) {
                     willPerformChange = this.typeArgs.some(t => true === TypeTools.toolFor(t).check({

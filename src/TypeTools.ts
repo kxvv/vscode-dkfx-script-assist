@@ -23,8 +23,8 @@ export const CONSTRAINTS: Readonly<{ [key: string]: number }> = {
     maxMsgNumber: 50,
     maxByte: 255,
     minAp: 0, // action point
-    maxAp: 48,
-    minHg: -48, // hero gate
+    maxAp: 255,
+    minHg: -255, // hero gate
     maxHg: -1,
     minSlab: 0,
     maxSlab: 85,

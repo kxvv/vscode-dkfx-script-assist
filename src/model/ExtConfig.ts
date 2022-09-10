@@ -1,5 +1,6 @@
 export interface ExtConfig {
     diagEnabled: boolean;
+    diagReactionTime: number;
     customTraps: string[];
     customDoors: string[];
     customCreatures: string[];

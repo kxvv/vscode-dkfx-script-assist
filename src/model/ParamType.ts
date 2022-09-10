@@ -59,6 +59,8 @@ export enum ParamType {
     Room = "ROOM",
     RoomAvailability = "ROOM_AVAILABILITY",
     Rule = "RULE",
+    RuleAction = "RULE_ACTION",
+    RuleSlot = "RULE_SLOT",
     SacrificeCmd = "SACRIFICE_CMD",
     SetVar = "SETTABLE_VAR",
     Slab = "SLAB",
@@ -84,7 +86,8 @@ export const FINAL_PARAM_TYPES: Readonly<ParamType[]> = [
     ParamType.CreatureTendency, ParamType.DisplayVarTargetType,
     ParamType.DoorConfig, ParamType.FillType, ParamType.GameRule, ParamType.Global,
     ParamType.HeadFor, ParamType.MsgNumber, ParamType.NewParty, ParamType.Operation,
-    ParamType.ObjectConfig, ParamType.Range, ParamType.ResearchType, ParamType.Rule,
+    ParamType.ObjectConfig, ParamType.Range, ParamType.ResearchType,
+    ParamType.Rule, ParamType.RuleAction, ParamType.RuleSlot,
     ParamType.SacrificeCmd, ParamType.Text, ParamType.TrapActivationType, ParamType.TrapConfig,
-    ParamType.TrapTriggerType, ParamType.Version, ParamType.Void
+    ParamType.TrapTriggerType, ParamType.Version, ParamType.Void,
 ];

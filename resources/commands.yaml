@@ -503,3 +503,42 @@
 
 - cmd: SWAP_CREATURE([new creature config:UNKNOWN],[creature:CREATURE])
   doc: Replaces the creature with a new creature in the "new creature config".cfg file.
+
+- cmd: SET_HAND_RULE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[rule slot:RULE_SLOT],[rule action:RULE_ACTION],[rule:RULE],[param:VOID])
+  signChanges: [
+    IF 4 EQ AGE_LOWER SET 5 NUMBER,
+    IF 4 EQ AGE_HIGHER SET 5 NUMBER,
+    IF 4 EQ LEVEL_LOWER SET 5 1-10,
+    IF 4 EQ LEVEL_HIGHER SET 5 1-10,
+    IF 4 EQ AT_ACTION_POINT SET 5 ACTION_POINT,
+    IF 4 EQ AFFECTED_BY SET 5 CREATURE_SPELL,
+    IF 3 EQ ENABLE SET 4 VOID,
+    IF 3 EQ DISABLE SET 4 VOID,
+    IF 4 EQ AGE_LOWER SET 5 REQUIRED,
+    IF 4 EQ AGE_HIGHER SET 5 REQUIRED,
+    IF 4 EQ LEVEL_LOWER SET 5 REQUIRED,
+    IF 4 EQ LEVEL_HIGHER SET 5 REQUIRED,
+    IF 4 EQ AT_ACTION_POINT SET 5 REQUIRED,
+    IF 4 EQ AFFECTED_BY SET 5 REQUIRED,
+    IF 3 EQ ALLOW SET 4 REQUIRED,
+    IF 3 EQ DENY SET 4 REQUIRED,
+    IF 3 EQ ENABLE SET 4 VOID,
+    IF 3 EQ DISABLE SET 4 VOID,
+  ]
+  opts: 2
+  doc: |
+    Makes some creatures (un)pickable or only (un)pickable under certain conditions:
+
+    [player] - The player's name, e.g. PLAYER1.
+
+    [creature] - The creature name, e.g. BILE_DEMON. Includes ANY_CREATURE.
+
+    [rule_slot] - Rule slot a rule will be assigned to. There are 8 available slots per player's creature type: RULE0, RULE1, ..., RULE7
+
+    [rule_action] - ALLOW or DENY. Whether creatures that match the rule should be allowed/denied from being picked up. If you just want to disable or re-enable rule already stored in a slot, use DISABLE or ENABLE and leave the last two params (rule, param) empty.
+
+    [rule*] - rule condition. Only specify if rule_action is ALLOW/DENY.
+
+    [param*] - rule parameter. See rules' docs for usage info. Leave blank if rule does not use any param.
+
+    Rule checks are evaluated from the highest rule index (RULE7) to lowest (RULE0) and lower rules are ignored once a match is found.
