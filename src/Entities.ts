@@ -1392,6 +1392,13 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "SPELLBOOK_ARMG" },
         { val: "SPELLBOOK_POSS" },
         { val: "GOLD_BAG" },
+        { val: "FERN" },
+        { val: "FERN_BROWN" },
+        { val: "FERN_SMALL" },
+        { val: "FERN_SMALL_BROWN" },
+        { val: "MUSHROOM_YELLOW" },
+        { val: "MUSHROOM_GREEN" },
+        { val: "MUSHROOM_RED" },
     ],
     [ParamType.SacrificeCmd]: [
         { val: "MkCreature" },

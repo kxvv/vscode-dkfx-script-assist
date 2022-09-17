@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.6] - 2022-09-17
+### Added
+- new objects like ferns, mushrooms
+
+### Fixed
+- DISPLAY_INFORMATION_WITH_POS incorrect param types
+
 ## [0.4.5] - 2022-09-10
 ### Added
 - SET_HAND_RULE

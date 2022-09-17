@@ -150,7 +150,7 @@
   opts: 1
   doc: Creates a text box with Information Pop-up Icon. Works identical (except of the icon) as DISPLAY_OBJECTIVE.
 
-- cmd: DISPLAY_INFORMATION_WITH_POS([message number:NUMBER+],[zoom target:LOCATION/ALL_PLAYERS])
+- cmd: DISPLAY_INFORMATION_WITH_POS([message number:NUMBER+],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE])
   doc: Creates a text box with Information Pop-up Icon. Works identical (except of the icon) as DISPLAY_OBJECTIVE_WITH_POS.
 
 - cmd: QUICK_OBJECTIVE([message number:MSG_NUMBER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS])
