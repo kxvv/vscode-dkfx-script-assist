@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.7] - 2022-09-24
+### Fixed
+- SET_HAND_RULE's affected_by not correctly recognizing spells
+
 ## [0.4.6] - 2022-09-17
 ### Added
 - new objects like ferns, mushrooms
