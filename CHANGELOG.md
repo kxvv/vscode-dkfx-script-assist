@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.8] - 2022-10-21
+### Added
+- MOVE_CREATURE, COUNT_CREATURES_AT_ACTION_POINT
+
+### Fixed
+- DISPLAY_VARIABLE not counting as a flag read
+
 ## [0.4.7] - 2022-09-24
 ### Fixed
 - SET_HAND_RULE's affected_by not correctly recognizing spells

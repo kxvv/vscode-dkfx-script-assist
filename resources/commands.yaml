@@ -235,7 +235,7 @@
 - cmd: DISPLAY_VARIABLE([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[show difference target:NUMBER],[target type:DISPLAY_VAR_TARGET_TYPE])
   opts: 2
   doc: Displays a script variable on screen.
-  todo: true
+  flagReadAt: [1]
 
 - cmd: EXPORT_VARIABLE([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[campaign flag:CAMPAIGN_FLAG])
   flagReadAt: [1]
@@ -542,3 +542,11 @@
     [param*] - rule parameter. See rules' docs for usage info. Leave blank if rule does not use any param.
 
     Rule checks are evaluated from the highest rule index (RULE7) to lowest (RULE0) and lower rules are ignored once a match is found.
+
+- cmd: MOVE_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE],[destination:LOCATION],[effect:NUMBER/EFFECT])
+  opts: 1
+  doc: Moves creatures instantly to the specified destination.
+
+- cmd: COUNT_CREATURES_AT_ACTION_POINT([action point:ACTION_POINT],[player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[write flag player:PLAYER],[write flag:SETTABLE_VAR])
+  flagWriteAt: [4]
+  doc: Counts creatures within action point and stores the value in flag.
