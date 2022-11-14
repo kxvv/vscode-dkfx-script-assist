@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.9] - 2022-11-14
+### Added
+- IF_ALLIED
+
+### Changed
+- ALLY_PLAYERS
+
 ## [0.4.8] - 2022-10-21
 ### Added
 - MOVE_CREATURE, COUNT_CREATURES_AT_ACTION_POINT

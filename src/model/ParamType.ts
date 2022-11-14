@@ -1,6 +1,7 @@
 export enum ParamType {
     ActionPoint = "ACTION_POINT",
     AllPlayers = "ALL_PLAYERS",
+    AllianceType = "ALLIANCE_TYPE",
     AnyCreature = "ANY_CREATURE",
     AudioType = "AUDIO_TYPE",
     Auto = "AUTO",

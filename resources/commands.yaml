@@ -71,8 +71,8 @@
 - cmd: MAX_CREATURES([player:PLAYER/ALL_PLAYERS],[max amount:BYTE])
   doc: The maximum number of creatures a player can have. The player can still gain creatures through Scavenging and Torturing but no more will come through the portal until the number of creatures drops below the maximum again.
 
-- cmd: ALLY_PLAYERS([player A:KEEPER/PLAYER_GOOD],[player B:KEEPER/PLAYER_GOOD],[allied:BINARY])
-  doc: Marks two players as allied, or ends the alliance.
+- cmd: ALLY_PLAYERS([player A:KEEPER/PLAYER_GOOD],[player B:KEEPER/PLAYER_GOOD],[alliance type:ALLIANCE_TYPE])
+  doc: Sets up an alliance between two players.
 
 - cmd: ADD_CREATURE_TO_POOL([creature type:CREATURE],[amount:BYTE])
   doc: Sets the number of creatures that are placed in this pool.
@@ -550,3 +550,7 @@
 - cmd: COUNT_CREATURES_AT_ACTION_POINT([action point:ACTION_POINT],[player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[write flag player:PLAYER],[write flag:SETTABLE_VAR])
   flagWriteAt: [4]
   doc: Counts creatures within action point and stores the value in flag.
+
+- cmd: IF_ALLIED([player:PLAYER],[target player:PLAYER][operator:COMPARE_OPERATOR][allied:BINARY])
+  condition: PUSH
+  doc: Checks if a player is allied to another player, or tries to be. Note that if the Red player clicks the Ally-button of Blue, comparing PLAYER0 to PLAYER1 already evaluates as true, even when blue has not done the same yet. Comparing PLAYER1 to PLAYER0 would still be false. For multiplayer games, check both sides.

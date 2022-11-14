@@ -934,6 +934,18 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             val: "GameTurnsPerTortureHealthLoss",
             doc: "How often health is lost from torture",
         },
+        {
+            val: "AlliesShareCta",
+            doc: "Players can cast Call to Arms for free on their allies land",
+        },
+        {
+            val: "AlliesShareDrop",
+            doc: "Players can drop creatures on land belonging to their allies",
+        },
+        {
+            val: "AlliesShareVision",
+            doc: "Players gain the vision of their allies",
+        },
     ],
     [ParamType.TrapTriggerType]: [
         {
@@ -1572,5 +1584,23 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "EFFECT_BLOOD_7", },
         { val: "EFFECT_SPANGLE_MULTICOLOURED", },
         { val: "EFFECT_BOULDER_BREAK_WATER", },
+    ],
+    [ParamType.AllianceType]: [
+        {
+            val: "0",
+            doc: "Players are enemies, but may change that. Computer Players never will.",
+        },
+        {
+            val: "1",
+            doc: "Players are allied, but may change that. Computer Players never will.",
+        },
+        {
+            val: "2",
+            doc: "Players are enemies, and cannot change this.",
+        },
+        {
+            val: "3",
+            doc: "Players are allied, and cannot change this.",
+        },
     ],
 };

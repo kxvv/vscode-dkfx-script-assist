@@ -3,7 +3,7 @@ import { Tokenizer } from "../../interpreter/Tokenizer";
 import { Token } from "../../model/Token";
 import { TokenType } from "../../model/TokenType";
 
-suite("Suite for XTokenizer::" + Tokenizer.tokenize.name, () => {
+suite("Suite for Tokenizer::" + Tokenizer.tokenize.name, () => {
 
     test(`fun(-32)`, () => {
         const res = Tokenizer.tokenize(`fun(-32)`);
@@ -16,7 +16,7 @@ suite("Suite for XTokenizer::" + Tokenizer.tokenize.name, () => {
         assert.deepStrictEqual(res, expected);
     });
 
-    test(` fun(  rem -32)`, () => {
+    test(`fun(  rem -32)`, () => {
         const res = Tokenizer.tokenize(` fun(  rem -32)`);
         const expected: Token[] = [
             new Token("fun", 1, TokenType.Word),

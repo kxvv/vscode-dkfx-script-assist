@@ -110,7 +110,7 @@
       "patterns": [
         {
           "name": "keyword.control",
-          "match": "^\\s*\\b(?i)(ENDIF|IF|IF_AVAILABLE|IF_CONTROLS|IF_ACTION_POINT|IF_SLAB_OWNER|IF_SLAB_TYPE)\\b"
+          "match": "^\\s*\\b(?i)(ENDIF|IF|IF_AVAILABLE|IF_CONTROLS|IF_ACTION_POINT|IF_SLAB_OWNER|IF_SLAB_TYPE|IF_ALLIED)\\b"
         }
       ]
     },
