@@ -92,3 +92,15 @@ export const FINAL_PARAM_TYPES: Readonly<ParamType[]> = [
     ParamType.SacrificeCmd, ParamType.Text, ParamType.TrapActivationType, ParamType.TrapConfig,
     ParamType.TrapTriggerType, ParamType.Version, ParamType.Void,
 ];
+
+export const CONSECUTIVE_TYPES: Readonly<ParamType[]> = [
+    ParamType.Number,
+    ParamType.Byte,
+    ParamType.Slab,
+    ParamType.Subtile,
+    ParamType.Time,
+    ParamType.PowerLvl,
+    ParamType.OneToTen,
+    ParamType.NonNegNumber,
+    ParamType.Gold,
+];

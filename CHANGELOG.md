@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.4.10] - 2022-11-22
+### Fixed
+- BONUS_LEVEL_TIME, DISPLAY_COUNTDOWN command params
+- consecutive types
+
 ## [0.4.9] - 2022-11-14
 ### Added
 - IF_ALLIED

@@ -164,7 +164,8 @@
 - cmd: TUTORIAL_FLASH_BUTTON([button:BUTTON],[time:NUMBER])
   doc: Flashes a button on the toolbar. Use '-1' for time to flash the area until player selects it.
 
-- cmd: BONUS_LEVEL_TIME([countdown:TIME])
+- cmd: BONUS_LEVEL_TIME([countdown:TIME],[use clocktime:BINARY])
+  opts: 1
   doc: Sets the time a player has to complete an objective. A timer appears in the top right corner of the screen. The value shown on timer is amount of game turns left divided by 2. This command does not create the counter, it only sets the bonus level time shown on it.
 
 - cmd: SET_MUSIC([track:NUMBER])
@@ -230,6 +231,7 @@
   opts: 1
 
 - cmd: DISPLAY_COUNTDOWN([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[show difference:BINARY],[use clocktime:BINARY])
+  opts: 1
   doc: Displays on screen how long a specific script timer reaches the target turn.
 
 - cmd: DISPLAY_VARIABLE([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[show difference target:NUMBER],[target type:DISPLAY_VAR_TARGET_TYPE])

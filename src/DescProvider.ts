@@ -3,7 +3,7 @@ import { CommandEffectFactory } from "./model/CommandEffect";
 import { DescParam } from "./model/DescParam";
 import { Exp } from "./model/Exp";
 import { LoadedCommand, LoadedCommands } from "./model/LoadedCommand";
-import { FINAL_PARAM_TYPES, ParamType } from "./model/ParamType";
+import { CONSECUTIVE_TYPES, FINAL_PARAM_TYPES, ParamType } from "./model/ParamType";
 import { RootLvl } from "./model/RootLvl";
 import { SignChange, SignOptChange } from "./model/SignChange";
 import { SyntaxToken } from "./model/Token";
@@ -173,7 +173,7 @@ export class DescProvider {
     }
 
     private static replaceAutoTypes(descCopy: CommandDesc, exp: Exp, parentParam: DescParam): CommandDesc {
-        let isConsecutive = parentParam.allowedTypes.includes(ParamType.Number) || parentParam.allowedTypes.includes(ParamType.Byte);
+        let isConsecutive = parentParam.allowedTypes.some(type => CONSECUTIVE_TYPES.includes(type));
         if (String(descCopy.returns) === String([ParamType.Auto])) {
             descCopy.returns = parentParam.allowedTypes;
         }
