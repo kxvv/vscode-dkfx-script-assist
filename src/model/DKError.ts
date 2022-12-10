@@ -209,6 +209,7 @@ export class ErrorMsgOutOfRange extends DKError {
 export class ErrorPartyEmpty extends DKError {
     constructor(name: string, party: Range) {
         super(`Party '${name}' is empty`, party.start, party.end);
+        this.severity = ErrSeverity.Warning;
     }
 }
 

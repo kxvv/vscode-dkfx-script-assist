@@ -73,14 +73,16 @@ export class VariableStorage {
         return value;
     }
 
-    pushParty(partyName: string, action: "add" | "read" | "del", line: number, exp: Exp) {
+    pushParty(partyName: string, action: "create" | "add" | "read" | "del", line: number, exp: Exp) {
         if (!this.parties[partyName]) {
             this.parties[partyName] = {
                 adds: [],
-                declareExp: [],
+                declareExp: [{ line, exp }],
                 dels: 0,
                 reads: 0,
             };
+        } else {
+            this.parties[partyName].declareExp.push({ line, exp });
         }
         if (action === "add") { // add_to_party
             this.parties[partyName].adds.push({ exp, line });

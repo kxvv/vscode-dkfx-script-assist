@@ -89,6 +89,31 @@ export class Exp {
         return null;
     }
 
+    public getChildsWordNested(index: number): Word[] {
+        const child: ExpChild | undefined = this.children[index];
+        // for cases like SET(PLAYER0,FLAG0,1)
+        if (child && child.val instanceof Word) {
+            const result = this.getChildsWord(index);
+            if (result) {
+                return [result];
+            }
+        }
+        // for cases like SET(PLAYER0,DRAWFROM(FLAG0,FLAG1),1)
+        if (child && child.val instanceof Exp && child.val.getDesc()?.returns) {
+            // only 1 level nesting allowed, i.e. NOT SET(PLAYER0,DRAWFROM(DRAWFROM(...),FLAG1),1)
+            const nestedWords: Word[] = [];
+            const nestedExp: Exp = child.val;
+            let cw;
+            for (let i = 0; i < nestedExp.getChildren().length; i++) {
+                if (cw = nestedExp.getChildsWord(i)) {
+                    nestedWords.push(cw);
+                }
+            }
+            return nestedWords;
+        }
+        return [];
+    }
+
     public getDesc(): CommandDesc | undefined {
         return this.desc || (this.desc = DescProvider.getCommandDescForExp(this));
     }

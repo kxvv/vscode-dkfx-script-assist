@@ -13,6 +13,7 @@ export interface CommandEffect {
     flagRead?: number[];
     apWrite?: number;
     apRead?: number;
+    partyCreate?: number;
     partyAdd?: number;
     partyRead?: number;
     partyDelete?: number;

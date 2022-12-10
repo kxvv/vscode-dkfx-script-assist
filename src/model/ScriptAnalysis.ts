@@ -62,6 +62,7 @@ export class ScriptAnalysis {
 
         let player: Word | null;
         let variable: Word | null;
+        let variableMulti: Word[];
 
         if (exp instanceof Exp) {
 
@@ -73,15 +74,15 @@ export class ScriptAnalysis {
             effects.flagRead && this.evalFlags(line, exp, false, effects.flagRead);
 
             if (effects.apRead != null) {
-                variable = exp.getChildsWord(effects.apRead);
-                if (variable) {
-                    this.variableStorage.pushApAlter(false, line, variable);
+                variableMulti = exp.getChildsWordNested(effects.apRead);
+                for (const v of variableMulti) {
+                    this.variableStorage.pushApAlter(false, line, v);
                 }
             }
             if (effects.apWrite != null) {
-                variable = exp.getChildsWord(effects.apWrite);
-                if (variable) {
-                    this.variableStorage.pushApAlter(true, line, variable);
+                variableMulti = exp.getChildsWordNested(effects.apWrite);
+                for (const v of variableMulti) {
+                    this.variableStorage.pushApAlter(true, line, v);
                 }
             }
 
@@ -94,22 +95,28 @@ export class ScriptAnalysis {
 
             // eval parties
 
-            if (effects.partyAdd != null) {
-                variable = exp.getChildsWord(effects.partyAdd);
+            if (effects.partyCreate != null) {
+                variable = exp.getChildsWord(effects.partyCreate);
                 if (variable) {
-                    this.variableStorage.pushParty(variable.val, "add", line, exp);
+                    this.variableStorage.pushParty(variable.val, "create", line, exp);
+                }
+            }
+            if (effects.partyAdd != null) {
+                variableMulti = exp.getChildsWordNested(effects.partyAdd);
+                for (const v of variableMulti) {
+                    this.variableStorage.pushParty(v.val, "add", line, exp);
                 }
             }
             if (effects.partyRead != null) {
-                variable = exp.getChildsWord(effects.partyRead);
-                if (variable) {
-                    this.variableStorage.pushParty(variable.val, "read", line, exp);
+                variableMulti = exp.getChildsWordNested(effects.partyRead);
+                for (const v of variableMulti) {
+                    this.variableStorage.pushParty(v.val, "read", line, exp);
                 }
             }
             if (effects.partyDelete != null) {
-                variable = exp.getChildsWord(effects.partyDelete);
-                if (variable) {
-                    this.variableStorage.pushParty(variable.val, "del", line, exp);
+                variableMulti = exp.getChildsWordNested(effects.partyDelete);
+                for (const v of variableMulti) {
+                    this.variableStorage.pushParty(v.val, "del", line, exp);
                 }
             }
         }
@@ -125,15 +132,18 @@ export class ScriptAnalysis {
     private evalTimers(line: number, exp: Exp, write: boolean, indices: number[]) {
         for (const idx of indices) {
             const player: Word | null = exp.getChildsWord(idx - 1);
-            const variable: Word | null = exp.getChildsWord(idx);
-            if (player && variable) {
-                this.variableStorage.pushTimerAlter(
-                    player.val.toUpperCase(),
-                    variable.val.toUpperCase(),
-                    write,
-                    line,
-                    variable
-                );
+            if (player) {
+                const variableMulti: Word[] = exp.getChildsWordNested(idx);
+                for (const v of variableMulti) {
+                    this.variableStorage.pushTimerAlter(
+                        player.val.toUpperCase(),
+                        v.val.toUpperCase(),
+                        write,
+                        line,
+                        v
+                    );
+
+                }
             }
         }
     }
@@ -141,15 +151,17 @@ export class ScriptAnalysis {
     private evalFlags(line: number, exp: Exp, write: boolean, indices: number[]) {
         for (const idx of indices) {
             const player: Word | null = exp.getChildsWord(idx - 1);
-            const variable: Word | null = exp.getChildsWord(idx);
-            if (player && variable) {
-                this.variableStorage.pushFlagAlter(
-                    player.val.toUpperCase(),
-                    variable.val.toUpperCase(),
-                    write,
-                    line,
-                    variable
-                );
+            if (player) {
+                const variableMulti: Word[] = exp.getChildsWordNested(idx);
+                for (const v of variableMulti) {
+                    this.variableStorage.pushFlagAlter(
+                        player.val.toUpperCase(),
+                        v.val.toUpperCase(),
+                        write,
+                        line,
+                        v
+                    );
+                }
             }
         }
     }

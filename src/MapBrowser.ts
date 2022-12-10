@@ -41,6 +41,25 @@ export class MapBrowser {
         };
     }
 
+    private getTitleFromLifContent(content: string): string {
+        /*
+            Detect lif format:
+            453, #207
+            ;Desperation
+         */
+        if (content.includes("\n;")) {
+            return content.split("\n;")[1].trim();
+        }
+        /*
+            Else fallback to lif format:
+            453, Desperation
+        */
+        else if (content.includes(",")) {
+            return content.split(",")[1].trim();
+        }
+        return "";
+    }
+
     private loadMaps(): MBMMap[] {
         this.lastActiveEditorPath = vscode.window.activeTextEditor?.document?.fileName || this.lastActiveEditorPath;
         if (!this.lastActiveEditorPath) {
@@ -55,10 +74,7 @@ export class MapBrowser {
             let title = "";
             if (lifFilename) {
                 const lifPath = path.join(dirPath, lifFilename);
-                const lifContent = ResourcesLoader.loadFileContents(lifPath);
-                if (lifContent && lifContent.split(",").length === 2) {
-                    title = lifContent.split(",")[1].trim();
-                }
+                title = this.getTitleFromLifContent(ResourcesLoader.loadFileContents(lifPath));
             }
             return {
                 name: f,

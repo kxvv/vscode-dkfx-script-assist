@@ -127,7 +127,7 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
         const msgSlotPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.MsgNumber));
         if (msgSlotPos > -1) { result.effects!.msgSlot = msgSlotPos; }
         const newPartyPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.NewParty));
-        if (newPartyPos > -1) { result.effects!.partyAdd = newPartyPos; }
+        if (newPartyPos > -1) { result.effects!.partyCreate = newPartyPos; }
         const versionPos = result.params.findIndex(p => p.allowedTypes.includes(ParamType.Version));
         if (versionPos > -1) { result.effects!.versions = true; }
     }

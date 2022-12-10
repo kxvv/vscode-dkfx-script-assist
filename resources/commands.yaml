@@ -183,7 +183,7 @@
   opts: 5
   rootLvl: ENFORCE
 
-- cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[global:COMP_GLOBAL],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN])
+- cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[global:COMP_GLOBAL/UNKNOWN],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN])
   opts: 6
   rootLvl: ENFORCE
 
@@ -230,7 +230,7 @@
   doc: Changes a slab on the map to the specified new one. It will not change an entire room, just a single slab.
   opts: 1
 
-- cmd: DISPLAY_COUNTDOWN([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[show difference:BINARY],[use clocktime:BINARY])
+- cmd: DISPLAY_COUNTDOWN([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[target time:NUMBER],[use clocktime:BINARY])
   opts: 1
   doc: Displays on screen how long a specific script timer reaches the target turn.
 
@@ -307,7 +307,7 @@
 - cmd: ADD_OBJECT_TO_LEVEL([object:OBJECT],[location:LOCATION],[property:NUMBER])
   doc: Place any object at a specific place on the map.
 
-- cmd: ADD_TO_TIMER([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[turns:TIME])
+- cmd: ADD_TO_TIMER([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[turns:NUMBER])
   doc: Add or remove turns to the Script timer. Allows negative values.
 
 - cmd: CHANGE_CREATURES_ANNOYANCE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[operation:OPERATION],[annoyance:NUMBER+])

@@ -4,6 +4,16 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.0] - 2022-12-10
+### Added
+- effects evaluation works for nested commands like DRAWFROM
+- support for new lif structure
+
+### Fixed
+- a couple of commands params
+- creature spell instance not including time bomb spell
+- extension not warning user over empty and unused parties
+
 ## [0.4.10] - 2022-11-22
 ### Fixed
 - BONUS_LEVEL_TIME, DISPLAY_COUNTDOWN command params
