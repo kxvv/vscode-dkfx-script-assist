@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.5.1] - 2022-12-30
+### Added
+- BarrackMaxPartySize rule, new maximum party members count
+- cosmetic changes
+
 ## [0.5.0] - 2022-12-10
 ### Added
 - effects evaluation works for nested commands like DRAWFROM

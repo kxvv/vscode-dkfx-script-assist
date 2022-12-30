@@ -946,6 +946,10 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
             val: "AlliesShareVision",
             doc: "Players gain the vision of their allies",
         },
+        {
+            val: "BarrackMaxPartySize",
+            doc: "Change this value to allow up to 30 units in a barracks party",
+        },
     ],
     [ParamType.TrapTriggerType]: [
         {

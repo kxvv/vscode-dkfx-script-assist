@@ -4,10 +4,10 @@ import { DkSuggestion } from "./model/DkSuggestion";
 import { SuggestionKind } from "./model/SuggestionKind";
 
 export class MappersDk {
-    static entityToDkSuggestion(e: DkEntity, preselect = false, kind: SuggestionKind = 0): DkSuggestion {
+    static entityToDkSuggestion(e: DkEntity, preselect = false, kind = SuggestionKind.EnumMember): DkSuggestion {
         const result: DkSuggestion = {
             label: e.val,
-            kind: kind || SuggestionKind.EnumMember,
+            kind,
             preselect: preselect,
         };
         if (e.doc) {

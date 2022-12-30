@@ -4,6 +4,7 @@ import { DKError, ErrorMsgOutOfRange, ErrorPartyNameNotUnique, ErrorPartyUnknown
 import { DkSuggestion } from "./model/DkSuggestion";
 import { ParamType } from "./model/ParamType";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
+import { SuggestionKind } from "./model/SuggestionKind";
 import { Word } from "./model/Word";
 import { Utils } from "./Utils";
 
@@ -31,7 +32,7 @@ export const CONSTRAINTS: Readonly<{ [key: string]: number }> = {
     minSubtile: 0,
     maxSubtile: 255,
     maxTextLen: 1024,
-    maxPartyMembers: 7,
+    maxPartyMembers: 30,
 };
 
 const check = {
@@ -131,7 +132,13 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             const msgNum = analysis.getNextFreeMsgNumber();
             if (msgNum != null) {
-                return [MappersDk.entityToDkSuggestion({ val: String(msgNum) })];
+                return [
+                    MappersDk.entityToDkSuggestion(
+                        { val: String(msgNum) },
+                        undefined,
+                        SuggestionKind.Constant,
+                    )
+                ];
             }
             return [];
         }
@@ -172,7 +179,9 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return analysis.getDeclaredPartyNames().map(name => MappersDk.entityToDkSuggestion(
-                { val: name }
+                { val: name },
+                undefined,
+                SuggestionKind.Variable,
             ));
         }
     },
@@ -223,7 +232,13 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return /^".*"$/i.test(ttc.word.val) && (ttc.word.val.length - 2) <= CONSTRAINTS.maxTextLen;
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return [MappersDk.entityToDkSuggestion({ val: `""`})];
+            return [
+                MappersDk.entityToDkSuggestion(
+                    { val: `""`},
+                    undefined,
+                    SuggestionKind.Text,
+                )
+            ];
         }
     },
     [ParamType.Time]: {
