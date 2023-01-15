@@ -2,7 +2,7 @@
     "name": "vscode-dk-scripting-assist",
     "displayName": "Dungeon Keeper's Scripting Assistant",
     "description": "Provides code completion, formatting, map browser and more.",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "publisher": "kxvv",
     "scripts": {
         "vscode:prepublish": "npm run compile",

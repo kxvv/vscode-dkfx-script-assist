@@ -120,8 +120,11 @@ const DK_TYPES: { [key: string]: TypeTool } = {
                 || TypeTools.toolFor(ParamType.HeroGate).check(ttc);
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
+            const locationEntities = DK_ENTITIES[ParamType.Location]
+                .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
             return TypeTools.toolFor(ParamType.Keeper).suggest(analysis)
-                .concat(TypeTools.toolFor(ParamType.PlayerGood).suggest(analysis));
+                .concat(TypeTools.toolFor(ParamType.PlayerGood).suggest(analysis))
+                .concat(locationEntities);
         }
     },
     [ParamType.MsgNumber]: {
@@ -234,7 +237,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
             return [
                 MappersDk.entityToDkSuggestion(
-                    { val: `""`},
+                    { val: `""` },
                     undefined,
                     SuggestionKind.Text,
                 )

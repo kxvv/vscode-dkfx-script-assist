@@ -175,7 +175,7 @@ export class ScriptAnalysis {
             if (desc) {
                 if (desc.rootLvl === RootLvl.Enforce) { error = true; }
                 else if (eff = desc.effects) {
-                    error = [eff.conditionPop, eff.conditionPush, eff.reuses, eff.versions, eff.partyAdd]
+                    error = [eff.conditionPop, eff.conditionPush, eff.reuses, eff.versions]
                         .some(e => e != null);
                 }
             }
