@@ -61,8 +61,6 @@ export class GateUtils {
             ) {
                 const uri = document.uri.toString();
                 const hint = resolver.instances[uri].hint(position.line, position.character);
-                // console.log("hint for " + resolver.instance.printLine(position.line));
-                // console.log(hint);
                 return hint ? MappersVs.signatureHelp(hint) : hint;
             }
         }, ",", "(", " ", "[");
@@ -77,7 +75,12 @@ export class GateUtils {
                 const uri = document.uri.toString();
                 const hover = resolver.instances[uri]?.hover(position.line, position.character);
                 if (hover) {
-                    return new vscode.Hover(hover);
+                    const mds = hover.map(h => {
+                        const md = new vscode.MarkdownString(h);
+                        md.supportHtml = true;
+                        return md;
+                    });
+                    return new vscode.Hover(mds);
                 }
                 return null;
             }

@@ -66,11 +66,11 @@ export class ScriptInstance {
     }
 
     suggest(line: number, pos: number): DkSuggestion[] {
-        const pl: ParsedLine | undefined = this.statementAt(line);
+        const parsedLine: ParsedLine | undefined = this.statementAt(line);
 
-        if (pl) {
-            if (pl.exp instanceof Exp && pl.exp.getChildren().length && pos < pl.exp.end) {
-                const { child, index, leaf, ahead } = pl.exp.getChildAtCursorPosition(pos);
+        if (parsedLine) {
+            if (parsedLine.exp instanceof Exp && parsedLine.exp.getChildren().length && pos < parsedLine.exp.end) {
+                const { child, index, leaf, ahead } = parsedLine.exp.getChildAtCursorPosition(pos);
                 const leafDesc = leaf?.getDesc();
                 // if cursor is within child && leaf command is recognized
                 if (child && leafDesc) {
@@ -78,13 +78,15 @@ export class ScriptInstance {
                     if (!(ahead && !leafDesc.params[index + 1])) {
                         return SuggestionHelper.suggestParams(
                             this.analysis,
-                            ahead ? leafDesc.params[index + 1] : leafDesc.params[index]
+                            ahead ? leafDesc.params[index + 1] : leafDesc.params[index],
+                            leaf,
+                            ahead ? index + 1 : index
                         );
                     }
                 }
                 return [];
             }
-            if (!pl.comment || (pl.comment && pos < pl.comment.start)) {
+            if (!parsedLine.comment || (parsedLine.comment && pos < parsedLine.comment.start)) {
                 return SuggestionHelper.suggestCommand(this.lineMap, line);
             }
         }
@@ -96,9 +98,9 @@ export class ScriptInstance {
         return statement?.exp instanceof Exp ? SignatureHelper.getSignHelpForExp(statement.exp, pos) : null;
     }
 
-    hover(line: number, pos: number): string | null {
+    hover(line: number, pos: number): string[] | null {
         const statement = this.statementAt(line);
-        return statement ? HoverHelper.getHoverForExp(statement.exp, pos) : null;
+        return statement ? HoverHelper.getHoverForExp(this.analysis, statement.exp, pos) : null;
     }
 
     print() {

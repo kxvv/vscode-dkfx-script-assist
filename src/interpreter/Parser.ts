@@ -11,11 +11,10 @@ import { PreparsedStatement } from "./Preparser";
 export class Parser {
 
     static parse(st: PreparsedStatement): ParsedLine {
+        const result: ParsedLine = new ParsedLine;
+        result.comment = st.comment;
         if (st.tokens.length) {
             const tokens: (Token | TokenGroup)[] = [...st.tokens]; // expects tokens to be comment-free
-            const result: ParsedLine = new ParsedLine;
-            if (st.comment) { result.comment = st.comment; }
-
             for (let i = 2; i < tokens.length; i++) {
                 result.pushError(new ErrorInvalidStatement(tokens[i]));
             }
@@ -34,7 +33,7 @@ export class Parser {
 
             return result;
         }
-        return new ParsedLine;
+        return result;
     }
 
     private static parseGroup(group: TokenGroup, caller: Token, futureLine: ParsedLine): Exp {

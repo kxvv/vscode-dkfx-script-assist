@@ -1,11 +1,10 @@
-import { DK_ENTITIES } from "./Entities";
+import { Entities } from "./Entities";
 import { ErrorApNeverTriggered, ErrorFlagNeverRead, ErrorFlagNeverSet, ErrorMsgSlotUsed, ErrorNeverAddedToLevel, ErrorNoVersionCommand, ErrorNoWinCommand, ErrorPartyEmpty, ErrorPartyTooManyMembers, ErrorTimerNeverRead, ErrorTimerNeverSet, ErrorVersionAlreadySet } from "./model/DKError";
 import { Exp } from "./model/Exp";
-import { ParamType } from "./model/ParamType";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { Token } from "./model/Token";
 import { Word } from "./model/Word";
-import { CONSTRAINTS } from "./TypeTools";
+import { CONSTRAINTS, TypeTools } from "./TypeTools";
 
 interface FlagTimerAlter {
     varIndex: number;
@@ -57,22 +56,6 @@ export class VariableStorage {
         [name: string]: Party;
     } = {};
 
-    private playerColorToIndexedPlayer(value: string): string {
-        switch (value) {
-            case "RED":
-                return "PLAYER0";
-            case "BLUE":
-                return "PLAYER1";
-            case "GREEN":
-                return "PLAYER2";
-            case "YELLOW":
-                return "PLAYER3";
-            case "WHITE":
-                return "PLAYER_GOOD";
-        }
-        return value;
-    }
-
     pushParty(partyName: string, action: "create" | "add" | "read" | "del", line: number, exp: Exp) {
         if (!this.parties[partyName]) {
             this.parties[partyName] = {
@@ -94,8 +77,8 @@ export class VariableStorage {
     }
 
     pushFlagAlter(player: string, flag: string, write: boolean, line: number, word: Token | Word) {
-        const varIndex = DK_ENTITIES[ParamType.Flag].findIndex(e => e.val === flag);
-        const id = this.playerColorToIndexedPlayer(player);
+        const varIndex = Entities.findFlagIndex(flag);
+        const id = TypeTools.playerColorToIndexedPlayer(player);
         if (varIndex !== -1) {
             this.flagAlters[id] = this.flagAlters[id] || [];
             this.flagAlters[id].push({
@@ -109,8 +92,8 @@ export class VariableStorage {
     }
 
     pushTimerAlter(player: string, timer: string, write: boolean, line: number, word: Token | Word) {
-        const varIndex = DK_ENTITIES[ParamType.Timer].findIndex(e => e.val === timer);
-        const id = this.playerColorToIndexedPlayer(player);
+        const varIndex = Entities.findTimerIndex(timer);
+        const id = TypeTools.playerColorToIndexedPlayer(player);
         if (varIndex !== -1) {
             this.timerAlters[id] = this.timerAlters[id] || [];
             this.timerAlters[id].push({

@@ -1,8 +1,6 @@
-import { DK_ENTITIES } from "./Entities";
-import { DkEntity } from "./model/DkEntity";
+import { Entities } from "./Entities";
 import { ExtConfig } from "./model/ExtConfig";
 import { Indentations } from "./model/Indentations";
-import { ParamType } from "./model/ParamType";
 
 export class ConfigProvider {
     private static conf: ExtConfig = {
@@ -18,10 +16,6 @@ export class ConfigProvider {
             indentationString: Indentations.Tab,
         }
     };
-    private static origTraps: DkEntity[] = DK_ENTITIES[ParamType.Trap];
-    private static origDoors: DkEntity[] = DK_ENTITIES[ParamType.Door];
-    private static origCreatures: DkEntity[] = DK_ENTITIES[ParamType.Creature];
-    private static origObjects: DkEntity[] = DK_ENTITIES[ParamType.Object];
 
     private static toIndentationChars(setting: string): string {
         if (/2\s+space/i.test(setting)) {
@@ -55,10 +49,7 @@ export class ConfigProvider {
             val: custom.toUpperCase(),
             doc: "Custom object"
         }));
-        DK_ENTITIES[ParamType.Trap] = this.origTraps.concat(customTraps);
-        DK_ENTITIES[ParamType.Door] = this.origDoors.concat(customDoors);
-        DK_ENTITIES[ParamType.Creature] = this.origCreatures.concat(customCreatures);
-        DK_ENTITIES[ParamType.Object] = this.origObjects.concat(customObjects);
+        Entities.setCustomEntities(customTraps, customDoors, customCreatures, customObjects);
     }
 
     static getConfig(): ExtConfig {

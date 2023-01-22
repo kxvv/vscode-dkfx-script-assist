@@ -1,9 +1,12 @@
 import { VariableStorage } from "../VariableStorage";
 import { CommandDesc } from "./CommandDesc";
 import { CommandEffect } from "./CommandEffect";
+import { CustomDoc, CustomDocResult } from "./CustomDoc";
 import { DkDiag } from "./DkDiag";
 import { DKError, ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen } from "./DKError";
+import { DkSuggestion } from "./DkSuggestion";
 import { Exp } from "./Exp";
+import { ParamType } from "./ParamType";
 import { RootLvl } from "./RootLvl";
 import { Word } from "./Word";
 
@@ -21,6 +24,7 @@ export class ScriptAnalysis {
 
     diagIgnoreLines: number[] = [];
     private variableStorage = new VariableStorage;
+    private customDoc = new CustomDoc;
 
     pushError(line: number, err: DKError) {
         this.diags.push({
@@ -166,6 +170,10 @@ export class ScriptAnalysis {
         }
     }
 
+    evalComment(comment: string | undefined, row: number): void {
+        comment && this.customDoc.processComment(comment, row);
+    }
+
     tryReuse(line: number, exp: Exp | Word, desc?: CommandDesc) {
         if (exp === this.lastReuse) { return; }
         let error = false;
@@ -195,6 +203,29 @@ export class ScriptAnalysis {
 
     getDeclaredPartyNames(): string[] {
         return this.variableStorage.getDeclaredPartyNames();
+    }
+
+    getCustomDoc(type: ParamType, varName: string, playerName?: string): CustomDocResult | null {
+        return this.customDoc.getCustomDoc(type, varName, playerName);
+    }
+
+    suggestLocationsFromCustomDoc(type: ParamType) {
+        return this.customDoc.suggestCustomDoc(type);
+    }
+
+    suggestFromCustomDoc(type: ParamType, entitySuggestions: DkSuggestion[], leafExp?: Exp | null, index?: number): DkSuggestion[] {
+        let custom: DkSuggestion[] = [];
+        if (leafExp != null && index != null) {
+            const playerNameExpChild = leafExp.getChild(index - 1);
+            if (playerNameExpChild?.val instanceof Word) {
+                custom = this.customDoc.suggestCustomDoc(type, playerNameExpChild.val.val);
+            }
+        }
+        if (custom.length) {
+            const labelsOfSuggested = custom.map(c => c.label);
+            return entitySuggestions.filter(es => !labelsOfSuggested.includes(es.label)).concat(custom);
+        }
+        return entitySuggestions;
     }
 
     finalize() {

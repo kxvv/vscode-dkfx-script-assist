@@ -159,6 +159,7 @@ export class Analyzer {
         for (let i = 0; i < (lineCount || lineMap.length); i++) {
             if (line = lineMap[i]) {
                 analysis.pushParseErrors(i, line.parseErrs);
+                !line.exp && analysis.evalComment(line.comment?.val, i);
                 if (line.comment?.val.includes(DIAG_IGNORE_FLAG)) { analysis.pushDiagLineIgnore(i); }
                 if (exp = line.exp) {
                     if (desc = exp.getDesc()) {

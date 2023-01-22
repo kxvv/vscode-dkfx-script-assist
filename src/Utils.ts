@@ -20,4 +20,8 @@ export class Utils {
     static getParens(bracketed?: boolean): [SyntaxToken, SyntaxToken] {
         return bracketed ? [SyntaxToken.BOpen, SyntaxToken.BClose] : [SyntaxToken.POpen, SyntaxToken.PClose];
     }
+
+    static compare(str1?: string, str2?: string): boolean {
+        return str1 == null || str2 == null ? false : str1.toUpperCase() === str2.toUpperCase();
+    }
 }

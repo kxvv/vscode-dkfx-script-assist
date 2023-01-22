@@ -1,7 +1,11 @@
+import { MappersDk } from "./MappersDk";
 import { DkEntity } from "./model/DkEntity";
 import { ParamType } from "./model/ParamType";
+import { Word } from "./model/Word";
+import { VAR_COMPOSITES } from "./TypeTools";
+import { Utils } from "./Utils";
 
-export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
+const DK_ENTITIES: { [key: string]: DkEntity[] } = {
     [ParamType.Version]: [
         { val: "1" },
     ],
@@ -1609,3 +1613,78 @@ export const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         },
     ],
 };
+
+(function insertCompositeTypes() {
+    const readVars: ParamType[] = VAR_COMPOSITES[ParamType.ReadVar];
+    const setVars: ParamType[] = VAR_COMPOSITES[ParamType.SetVar];
+    const readSetVars: ParamType[] = VAR_COMPOSITES[ParamType.ReadSetVar];;
+
+    DK_ENTITIES[ParamType.ReadVar] = [];
+    readVars.forEach(rv => DK_ENTITIES[ParamType.ReadVar].push(...DK_ENTITIES[rv]));
+
+    DK_ENTITIES[ParamType.SetVar] = [];
+    setVars.forEach(rv => DK_ENTITIES[ParamType.SetVar].push(...DK_ENTITIES[rv]));
+
+    DK_ENTITIES[ParamType.ReadSetVar] = [];
+    readSetVars.forEach(rv => DK_ENTITIES[ParamType.ReadSetVar].push(...DK_ENTITIES[rv]));
+})();
+
+export class Entities {
+
+    private static origTraps: DkEntity[] = [...DK_ENTITIES[ParamType.Trap]];
+    private static origDoors: DkEntity[] = [...DK_ENTITIES[ParamType.Door]];
+    private static origCreatures: DkEntity[] = [...DK_ENTITIES[ParamType.Creature]];
+    private static origObjects: DkEntity[] = [...DK_ENTITIES[ParamType.Object]];
+
+    public static findEntity(type: ParamType | undefined, val?: string): DkEntity | undefined {
+        return type ?
+            DK_ENTITIES[type]?.find(e => Utils.compare(e.val, val))
+            : undefined;
+    }
+
+    public static findFlagIndex(flag: string): number {
+        return DK_ENTITIES[ParamType.Flag].findIndex(e => Utils.compare(e.val, flag));
+    }
+
+    public static findTimerIndex(timer: string): number {
+        return DK_ENTITIES[ParamType.Timer].findIndex(e => Utils.compare(e.val, timer));
+    }
+
+    public static isEntity(word: Word, paramType: ParamType): boolean {
+        const upperCased = word.val.toUpperCase();
+        return !!(DK_ENTITIES[paramType]?.some(e => e.val.toUpperCase() === upperCased));
+    }
+
+    public static suggestForType(type: ParamType, sliceEnd?: number) {
+        return DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
+    }
+
+    public static suggestCustomBoxes() {
+        return DK_ENTITIES[ParamType.CustomBox]
+            .slice(0, 5)
+            .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
+    }
+
+    public static setCustomEntities(traps: DkEntity[], doors: DkEntity[], crtrs: DkEntity[], objects: DkEntity[]): void {
+        DK_ENTITIES[ParamType.Trap] = Entities.origTraps.concat(traps);
+        DK_ENTITIES[ParamType.Door] = Entities.origDoors.concat(doors);
+        DK_ENTITIES[ParamType.Creature] = Entities.origCreatures.concat(crtrs);
+        DK_ENTITIES[ParamType.Object] = Entities.origObjects.concat(objects);
+    }
+
+    public static findPlayersForVars(): DkEntity[] {
+        return DK_ENTITIES[ParamType.Keeper].concat(DK_ENTITIES[ParamType.PlayerGood]).concat(DK_ENTITIES[ParamType.AllPlayers]);
+    }
+
+    public static findAllFlags(): DkEntity[] {
+        return DK_ENTITIES[ParamType.Flag];
+    }
+
+    public static findAllCampaignFlags(): DkEntity[] {
+        return DK_ENTITIES[ParamType.CampaignFlag];
+    }
+
+    public static findAllTimers(): DkEntity[] {
+        return DK_ENTITIES[ParamType.Timer];
+    }
+}

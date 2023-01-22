@@ -1,7 +1,8 @@
-import { DK_ENTITIES } from "./Entities";
+import { Entities } from "./Entities";
 import { MappersDk } from "./MappersDk";
 import { DKError, ErrorMsgOutOfRange, ErrorPartyNameNotUnique, ErrorPartyUnknown } from "./model/DKError";
 import { DkSuggestion } from "./model/DkSuggestion";
+import { Exp } from "./model/Exp";
 import { ParamType } from "./model/ParamType";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { SuggestionKind } from "./model/SuggestionKind";
@@ -16,7 +17,7 @@ interface TypeToolCheck {
 
 export interface TypeTool {
     check(args: TypeToolCheck): boolean | DKError;
-    suggest(analysis: ScriptAnalysis): DkSuggestion[];
+    suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[];
 }
 
 export const CONSTRAINTS: Readonly<{ [key: string]: number }> = {
@@ -33,6 +34,22 @@ export const CONSTRAINTS: Readonly<{ [key: string]: number }> = {
     maxSubtile: 255,
     maxTextLen: 1024,
     maxPartyMembers: 30,
+};
+
+export const VAR_COMPOSITES = {
+    [ParamType.ReadVar]: [
+        ParamType.CampaignFlag, ParamType.Creature, ParamType.CustomBox,
+        ParamType.Door, ParamType.Flag, ParamType.Global,
+        ParamType.Room, ParamType.Timer, ParamType.Trap,
+    ],
+    [ParamType.SetVar]: [
+        ParamType.Flag, ParamType.CampaignFlag, ParamType.CustomBox
+    ],
+    [ParamType.ReadSetVar]: [
+        ParamType.CampaignFlag, ParamType.Creature, ParamType.CustomBox,
+        ParamType.Door, ParamType.Flag, ParamType.Global,
+        ParamType.Room, ParamType.Timer, ParamType.Trap,
+    ]
 };
 
 const check = {
@@ -52,20 +69,9 @@ const check = {
         return /^-\d+$/.test(val);
     },
     isEntity(word: Word, paramType: ParamType): boolean {
-        const upperCased = word.val.toUpperCase();
-        return !!(DK_ENTITIES[paramType]?.some(e => e.val.toUpperCase() === upperCased));
+        return Entities.isEntity(word, paramType);
     },
 };
-
-const readVars: ParamType[] = [
-    ParamType.CampaignFlag, ParamType.Creature, ParamType.CustomBox,
-    ParamType.Door, ParamType.Flag, ParamType.Global,
-    ParamType.Room, ParamType.Timer, ParamType.Trap,
-];
-const setVars: ParamType[] = [
-    ParamType.Flag, ParamType.CampaignFlag, ParamType.CustomBox
-];
-const readSetVars: ParamType[] = [...new Set(readVars.concat(setVars))];
 
 const DK_TYPES: { [key: string]: TypeTool } = {
     [ParamType.ActionPoint]: {
@@ -73,8 +79,8 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             const val = ttc.word.val;
             return check.numberPositive(val) && Utils.isParsedBetween(val, CONSTRAINTS.minAp, CONSTRAINTS.maxAp);
         },
-        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return [];
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            return analysis.suggestLocationsFromCustomDoc(ParamType.ActionPoint);
         }
     },
     [ParamType.Byte]: {
@@ -86,12 +92,28 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return [];
         }
     },
+    [ParamType.CampaignFlag]: {
+        check(ttc: TypeToolCheck): boolean {
+            return check.isEntity(ttc.word, ParamType.CampaignFlag);
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            return analysis.suggestFromCustomDoc(ParamType.CampaignFlag, Entities.suggestForType(ParamType.CampaignFlag), leafExp, index);
+        }
+    },
     [ParamType.CustomBox]: {
         check(ttc: TypeToolCheck): boolean {
             return check.isEntity(ttc.word, ParamType.CustomBox);
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return DK_ENTITIES[ParamType.CustomBox].slice(0, 5).map(e => MappersDk.entityToDkSuggestion(e));
+            return Entities.suggestCustomBoxes();
+        }
+    },
+    [ParamType.Flag]: {
+        check(ttc: TypeToolCheck): boolean {
+            return check.isEntity(ttc.word, ParamType.Flag);
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            return analysis.suggestFromCustomDoc(ParamType.Flag, Entities.suggestForType(ParamType.Flag), leafExp, index);
         }
     },
     [ParamType.Gold]: {
@@ -108,7 +130,7 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return check.numberNegative(val) && Utils.isParsedBetween(val, CONSTRAINTS.minHg, CONSTRAINTS.maxHg);
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return [];
+            return analysis.suggestLocationsFromCustomDoc(ParamType.HeroGate);
         }
     },
     [ParamType.Location]: {
@@ -120,11 +142,11 @@ const DK_TYPES: { [key: string]: TypeTool } = {
                 || TypeTools.toolFor(ParamType.HeroGate).check(ttc);
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            const locationEntities = DK_ENTITIES[ParamType.Location]
-                .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
             return TypeTools.toolFor(ParamType.Keeper).suggest(analysis)
+                .concat(TypeTools.toolFor(ParamType.ActionPoint).suggest(analysis))
+                .concat(TypeTools.toolFor(ParamType.HeroGate).suggest(analysis))
                 .concat(TypeTools.toolFor(ParamType.PlayerGood).suggest(analysis))
-                .concat(locationEntities);
+                .concat(Entities.suggestForType(ParamType.Location));
         }
     },
     [ParamType.MsgNumber]: {
@@ -190,26 +212,26 @@ const DK_TYPES: { [key: string]: TypeTool } = {
     },
     [ParamType.ReadVar]: {
         check(ttc: TypeToolCheck): boolean {
-            return readVars.some(t => check.isEntity(ttc.word, t));
+            return VAR_COMPOSITES[ParamType.ReadVar].some(t => check.isEntity(ttc.word, t));
         },
-        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return readVars.map(t => TypeTools.toolFor(t).suggest(analysis)).flat();
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            return VAR_COMPOSITES[ParamType.ReadVar].map(t => TypeTools.toolFor(t).suggest(analysis, leafExp, index)).flat();
         }
     },
     [ParamType.ReadSetVar]: {
         check(ttc: TypeToolCheck): boolean {
-            return readSetVars.some(t => check.isEntity(ttc.word, t));
+            return VAR_COMPOSITES[ParamType.ReadSetVar].some(t => check.isEntity(ttc.word, t));
         },
-        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return readSetVars.map(t => TypeTools.toolFor(t).suggest(analysis)).flat();
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            return VAR_COMPOSITES[ParamType.ReadSetVar].map(t => TypeTools.toolFor(t).suggest(analysis, leafExp, index)).flat();
         }
     },
     [ParamType.SetVar]: {
         check(ttc: TypeToolCheck): boolean {
-            return setVars.some(t => check.isEntity(ttc.word, t));
+            return VAR_COMPOSITES[ParamType.SetVar].some(t => check.isEntity(ttc.word, t));
         },
-        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-            return setVars.map(t => TypeTools.toolFor(t).suggest(analysis)).flat();
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            return VAR_COMPOSITES[ParamType.SetVar].map(t => TypeTools.toolFor(t).suggest(analysis, leafExp, index)).flat();
         }
     },
     [ParamType.Slab]: {
@@ -252,6 +274,14 @@ const DK_TYPES: { [key: string]: TypeTool } = {
             return [];
         }
     },
+    [ParamType.Timer]: {
+        check(ttc: TypeToolCheck): boolean {
+            return check.isEntity(ttc.word, ParamType.Timer);
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            return analysis.suggestFromCustomDoc(ParamType.Timer, Entities.suggestForType(ParamType.Timer), leafExp, index);
+        }
+    },
     [ParamType.Unknown]: {
         check(ttc: TypeToolCheck): boolean {
             return true;
@@ -278,8 +308,54 @@ export class TypeTools {
                 return check.isEntity(ttc.word, type);
             },
             suggest(analysis: ScriptAnalysis): DkSuggestion[] {
-                return DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
+                return Entities.suggestForType(type);
             }
         };
+    }
+
+    public static isTypeCustomDocumentable(type?: ParamType): boolean {
+        return type ? [
+            ParamType.Flag,
+            ParamType.CampaignFlag,
+            ParamType.ActionPoint,
+            ParamType.HeroGate,
+            ParamType.Timer,
+            ParamType.ReadVar,
+            ParamType.SetVar,
+            ParamType.ReadSetVar,
+            ParamType.Location,
+        ].includes(type) : false;
+    }
+
+    public static playerColorToIndexedPlayer(value: string): string {
+        if (value[0] === "P" || value[0] === "p") { return value; }
+        value = value.toUpperCase();
+        switch (value) {
+            case "RED":
+                return "PLAYER0";
+            case "BLUE":
+                return "PLAYER1";
+            case "GREEN":
+                return "PLAYER2";
+            case "YELLOW":
+                return "PLAYER3";
+            case "WHITE":
+                return "PLAYER_GOOD";
+        }
+        return value;
+    }
+
+    public static playerAbbrevToPlayerName(abbrev: string): string {
+        if (abbrev.length === 2) {
+            return {
+                "P0": "PLAYER0",
+                "P1": "PLAYER1",
+                "P2": "PLAYER2",
+                "P3": "PLAYER3",
+                "PG": "PLAYER_GOOD",
+                "PA": "ALL_PLAYERS",
+            }[abbrev.toUpperCase()] || abbrev;
+        }
+        return abbrev;
     }
 }

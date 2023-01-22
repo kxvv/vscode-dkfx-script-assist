@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.0] - 2023-01-23
+### Added
+- custom docs
+
 ## [0.5.2] - 2023-01-15
 ### Fixed
 - ADD_TO_PARTY command being marked as non-reusable
