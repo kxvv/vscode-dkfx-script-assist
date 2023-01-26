@@ -39,6 +39,23 @@ const DK_ENTITIES: { [key: string]: DkEntity[] } = {
     [ParamType.AllPlayers]: [
         { val: "ALL_PLAYERS" },
     ],
+    [ParamType.Texture]: [
+        { val: "NONE" },
+        { val: "STANDARD" },
+        { val: "ANCIENT" },
+        { val: "WINTER" },
+        { val: "SNAKE_KEY" },
+        { val: "STONE_FACE" },
+        { val: "VOLUPTUOUS" },
+        { val: "BIG_BREASTS" },
+        { val: "ROUGH_ANCIENT" },
+        { val: "SKULL_RELIEF" },
+        { val: "DESERT_TOMB" },
+        { val: "GYPSUM" },
+        { val: "LILAC_STONE" },
+        { val: "SWAMP_SERPENT" },
+        { val: "LAVA_CAVERN" },
+    ],
     [ParamType.Timer]: new Array(8).fill(0).map((e, i) => ({
         val: "TIMER" + i,
         doc: `The timer number ${i}. Each player has their own timer sets.`
@@ -1107,6 +1124,16 @@ const DK_ENTITIES: { [key: string]: DkEntity[] } = {
         { val: "TriggerAlarm" },
         { val: "Slappable" },
         { val: "Unanimated" },
+        { val: "Health" },
+        { val: "Unshaded" },
+        { val: "RandomStartFrame" },
+        { val: "ThingSize" },
+        { val: "HitType" },
+        { val: "LightRadius" },
+        { val: "LightIntensity" },
+        { val: "LightFlags" },
+        { val: "TransparencyFlags" },
+        { val: "ShotVector" },
     ],
     [ParamType.PowerLvl]: new Array(9).fill(0).map((e, i) => ({
         val: `${i + 1}`

@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.1] - 2023-01-26
+### Added
+- more trap stats
+- SET_TEXTURE command
+
 ## [0.6.0] - 2023-01-23
 ### Added
 - custom docs

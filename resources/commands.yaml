@@ -437,8 +437,8 @@
   doc: Allows you to make changes to object values set in objects.cfg.
   opts: 1
 
-- cmd: SET_TRAP_CONFIGURATION([trap name:TRAP],[property:TRAP_CONFIG],[value:UNKNOWN],[second value:UNKNOWN])
-  opts: 1
+- cmd: SET_TRAP_CONFIGURATION([trap name:TRAP],[property:TRAP_CONFIG],[value:UNKNOWN],[value2:UNKNOWN],[value3:UNKNOWN])
+  opts: 2
   signChanges: [
     IF 1 EQ TriggerType SET 2 TRAP_TRIGGER_TYPE,
     IF 1 EQ ActivationType SET 2 TRAP_ACTIVATION_TYPE,
@@ -556,3 +556,6 @@
 - cmd: IF_ALLIED([player:PLAYER],[target player:PLAYER][operator:COMPARE_OPERATOR][allied:BINARY])
   condition: PUSH
   doc: Checks if a player is allied to another player, or tries to be. Note that if the Red player clicks the Ally-button of Blue, comparing PLAYER0 to PLAYER1 already evaluates as true, even when blue has not done the same yet. Comparing PLAYER1 to PLAYER0 would still be false. For multiplayer games, check both sides.
+
+- cmd: SET_TEXTURE([player:PLAYER/ALL_PLAYERS],[texture:TEXTURE])
+  doc: Changes the texturepack together with the ownership of a tile

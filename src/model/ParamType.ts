@@ -69,6 +69,7 @@ export enum ParamType {
     Spell = "SPELL",
     Subtile = "SUBTILE",
     Text = "TEXT",
+    Texture = "TEXTURE",
     Time = "TIME",
     Timer = "TIMER",
     Trap = "TRAP",
