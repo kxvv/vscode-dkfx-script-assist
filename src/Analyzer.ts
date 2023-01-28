@@ -18,12 +18,16 @@ const DIAG_IGNORE_FLAG = "@ignore";
 
 export class Analyzer {
 
-    private static isWordCorrectType(
+    private static typeCheckWord(
         line: number, word: Word, allowed: ParamType[], analysis: ScriptAnalysis
     ): boolean | DKError {
         let checkResult;
         for (const type of allowed) {
-            if (checkResult = TypeTools.toolFor(type).check({ analysis, word, line })) {
+            checkResult = TypeTools.toolFor(type).check({ analysis, word, line });
+            if (typeof checkResult === "string") {
+                analysis.checkForMissingCustomDoc(line, word, checkResult);
+                return true;
+            } else if (checkResult) {
                 return checkResult;
             }
         }
@@ -72,7 +76,7 @@ export class Analyzer {
 
                     if (childVal instanceof Word) {
                         if (
-                            (check = Analyzer.isWordCorrectType(line, childVal, allowed, analysis)) !== true
+                            (check = Analyzer.typeCheckWord(line, childVal, allowed, analysis)) !== true
                         ) {
                             if (!(tempDesc = childVal.getDesc()) || !Analyzer.isCorrectReturnType(childVal, allowed)) {
                                 analysis.pushError(

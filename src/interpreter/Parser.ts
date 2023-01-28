@@ -12,7 +12,7 @@ export class Parser {
 
     static parse(st: PreparsedStatement): ParsedLine {
         const result: ParsedLine = new ParsedLine;
-        result.comment = st.comment;
+        if (st.comment) { result.comment = st.comment; }
         if (st.tokens.length) {
             const tokens: (Token | TokenGroup)[] = [...st.tokens]; // expects tokens to be comment-free
             for (let i = 2; i < tokens.length; i++) {

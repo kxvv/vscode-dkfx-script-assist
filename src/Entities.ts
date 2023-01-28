@@ -5,7 +5,7 @@ import { Word } from "./model/Word";
 import { VAR_COMPOSITES } from "./TypeTools";
 import { Utils } from "./Utils";
 
-const DK_ENTITIES: { [key: string]: DkEntity[] } = {
+const DK_ENTITIES: Record<string, DkEntity[]> = {
     [ParamType.Version]: [
         { val: "1" },
     ],
@@ -1641,21 +1641,6 @@ const DK_ENTITIES: { [key: string]: DkEntity[] } = {
     ],
 };
 
-(function insertCompositeTypes() {
-    const readVars: ParamType[] = VAR_COMPOSITES[ParamType.ReadVar];
-    const setVars: ParamType[] = VAR_COMPOSITES[ParamType.SetVar];
-    const readSetVars: ParamType[] = VAR_COMPOSITES[ParamType.ReadSetVar];;
-
-    DK_ENTITIES[ParamType.ReadVar] = [];
-    readVars.forEach(rv => DK_ENTITIES[ParamType.ReadVar].push(...DK_ENTITIES[rv]));
-
-    DK_ENTITIES[ParamType.SetVar] = [];
-    setVars.forEach(rv => DK_ENTITIES[ParamType.SetVar].push(...DK_ENTITIES[rv]));
-
-    DK_ENTITIES[ParamType.ReadSetVar] = [];
-    readSetVars.forEach(rv => DK_ENTITIES[ParamType.ReadSetVar].push(...DK_ENTITIES[rv]));
-})();
-
 export class Entities {
 
     private static origTraps: DkEntity[] = [...DK_ENTITIES[ParamType.Trap]];
@@ -1713,5 +1698,23 @@ export class Entities {
 
     public static findAllTimers(): DkEntity[] {
         return DK_ENTITIES[ParamType.Timer];
+    }
+
+    public static insertCompositeTypes() {
+        if (DK_ENTITIES[ParamType.ReadVar]) {
+            return;
+        }
+        const readVars: ParamType[] = VAR_COMPOSITES[ParamType.ReadVar];
+        const setVars: ParamType[] = VAR_COMPOSITES[ParamType.SetVar];
+        const readSetVars: ParamType[] = VAR_COMPOSITES[ParamType.ReadSetVar];;
+
+        DK_ENTITIES[ParamType.ReadVar] = [];
+        readVars.forEach(rv => DK_ENTITIES[ParamType.ReadVar].push(...DK_ENTITIES[rv]));
+
+        DK_ENTITIES[ParamType.SetVar] = [];
+        setVars.forEach(rv => DK_ENTITIES[ParamType.SetVar].push(...DK_ENTITIES[rv]));
+
+        DK_ENTITIES[ParamType.ReadSetVar] = [];
+        readSetVars.forEach(rv => DK_ENTITIES[ParamType.ReadSetVar].push(...DK_ENTITIES[rv]));
     }
 }

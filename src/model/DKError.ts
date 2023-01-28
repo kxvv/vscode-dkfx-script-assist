@@ -63,7 +63,7 @@ export class ErrorCannotReuse extends DKError {
     }
 }
 
-export class ErrorUnexpectedConditionOpen extends DKError {
+export class ErrorUnterminatedCondition extends DKError {
     constructor(exp: Range) {
         super(`Unterminated condition`, exp.start, exp.end);
     }
@@ -141,14 +141,14 @@ export class ErrorIncorrectOpeningToken extends DKError {
 
 export class ErrorTimerNeverRead extends DKError {
     constructor(timer: Range) {
-        super(`Timer possibly never read`, timer.start, timer.end);
+        super(`The timer is never read`, timer.start, timer.end);
         this.severity = ErrSeverity.Warning;
     }
 }
 
 export class ErrorTimerNeverSet extends DKError {
     constructor(timer: Range) {
-        super(`The timer might not have been set off`, timer.start, timer.end);
+        super(`The timer has not been set off`, timer.start, timer.end);
         this.severity = ErrSeverity.Warning;
     }
 }
@@ -190,7 +190,7 @@ export class ErrorNoVersionCommand extends DKError {
 
 export class ErrorVersionAlreadySet extends DKError {
     constructor(exp: Range) {
-        super(`Level version has already been set`, exp.start, exp.end);
+        super(`Duplicate level version command`, exp.start, exp.end);
     }
 }
 
@@ -259,5 +259,90 @@ export class ErrorCommandNotAtRootLvl extends DKError {
 export class ErrorExpectedFinal extends DKError {
     constructor(exp: Range) {
         super(`Expected final value, not a command`, exp.start, exp.end);
+    }
+}
+
+export class ErrorUndocumentedActionPoint extends DKError {
+    private static msg = [
+        "Consider documenting this action point before its use by introducing a comment in format:",
+        "REM Action points:",
+        "REM 1  south corridor hatchery",
+        "REM 2  blue keeper's workshop",
+        "or:",
+        "REM Action points:",
+        "REM Action point 1  south corridor hatchery",
+        "REM Action point 2  blue keeper's workshop",
+        "This aids type hinting and makes the script more readable."
+    ].join("\n");
+
+    constructor(word: Range) {
+        super(ErrorUndocumentedActionPoint.msg, word.start, word.end);
+        this.severity = ErrSeverity.Hint;
+    }
+}
+
+export class ErrorUndocumentedHeroGate extends DKError {
+    private static msg = [
+        "Consider documenting this hero gate before its use by introducing a comment in format:",
+        "REM Hero gates:",
+        "REM 1  south corridor hatchery",
+        "REM 2  blue keeper's workshop",
+        "or:",
+        "REM Hero gates:",
+        "REM Hero gate 1  south corridor hatchery",
+        "REM Hero gate 2  blue keeper's workshop",
+        "This aids type hinting and makes the script more readable."
+    ].join("\n");
+
+    constructor(word: Range) {
+        super(ErrorUndocumentedHeroGate.msg, word.start, word.end);
+        this.severity = ErrSeverity.Hint;
+    }
+}
+
+export class ErrorUndocumentedVariable extends DKError {
+    private static msgFlag = [
+        "Consider documenting this flag before its use by introducing a comment in format:",
+        "REM Flags:",
+        "REM PLAYER0,FLAG0 player0 has reached south passage",
+        "REM PLAYER_GOOD,FLAG0 fairies spawned count",
+        "or:",
+        "REM Flags used:",
+        "REM p0.0 player0 has reached south passage",
+        "REM pg.0 fairies spawned count",
+        "This aids type hinting and makes the script more readable."
+    ].join("\n");
+    private static msgCampaignFlag = [
+        "Consider documenting this campaign flag before its use by introducing a comment in format:",
+        "REM Campaign flags:",
+        "REM PLAYER0,CAMPAIGN_FLAG0 player0 has reached south passage",
+        "REM PLAYER_GOOD,CAMPAIGN_FLAG0 fairies spawned count",
+        "or:",
+        "REM Campaign flags used:",
+        "REM p0.0 player0 has reached south passage",
+        "REM pg.0 fairies spawned count",
+        "This aids type hinting and makes the script more readable."
+    ].join("\n");
+    private static msgTimer = [
+        "Consider documenting this timer before its use by introducing a comment in format:",
+        "REM Timers:",
+        "REM PLAYER0,TIMER0 time since player0 has reached south passage",
+        "REM PLAYER_GOOD,TIMER0 time since fairies spawned",
+        "or:",
+        "REM Timers used:",
+        "REM p0.0 time since player0 has reached south passage",
+        "REM pg.0 time since fairies spawned",
+        "This aids type hinting and makes the script more readable."
+    ].join("\n");
+
+    constructor(word: Range, type: ParamType) {
+        super(
+            type === ParamType.CampaignFlag ? ErrorUndocumentedVariable.msgCampaignFlag : (
+                type === ParamType.Timer ? ErrorUndocumentedVariable.msgTimer : ErrorUndocumentedVariable.msgFlag
+            ),
+            word.start,
+            word.end
+        );
+        this.severity = ErrSeverity.Hint;
     }
 }

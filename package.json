@@ -2,17 +2,21 @@
     "name": "vscode-dk-scripting-assist",
     "displayName": "Dungeon Keeper's Scripting Assistant",
     "description": "Provides code completion, formatting, map browser and more.",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "publisher": "kxvv",
     "scripts": {
-        "vscode:prepublish": "npm run compile",
+        "vscode:prepublish": "npm run bundle",
+        "prebundle": "npm run clean",
+        "bundle": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --minify",
         "clean": "rimraf ./out",
         "precompile": "npm run clean",
         "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "pretest": "npm run compile && npm run lint",
+        "watch-tsc": "tsc -watch -p ./",
+        "watch": "npm run bundle -- --sourcemap --watch",
         "lint": "eslint src --ext ts",
-        "test": "node ./out/test/runTest.js"
+        "pretest": "npm run compile && npm run lint",
+        "test": "node ./out/test/runTest.js",
+        "posttest": "npm run clean"
     },
     "devDependencies": {
         "@types/glob": "^7.1.4",
@@ -21,6 +25,7 @@
         "@types/vscode": "^1.63.0",
         "@typescript-eslint/eslint-plugin": "^5.1.0",
         "@typescript-eslint/parser": "^5.1.0",
+        "esbuild": "^0.17.5",
         "eslint": "^8.1.0",
         "glob": "^7.1.7",
         "mocha": "^9.1.3",
@@ -135,6 +140,7 @@
         ]
     },
     "dependencies": {
+        "js-deep-equals": "^2.1.1",
         "yaml": "^1.10.2"
     },
     "icon": "icon.png",

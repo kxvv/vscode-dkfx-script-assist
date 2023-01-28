@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.2] - 2023-01-29
+### Added
+- minified output bundle
+- the extension will hint undocumented flags/action points
+
 ## [0.6.1] - 2023-01-26
 ### Added
 - more trap stats

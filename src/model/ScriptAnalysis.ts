@@ -1,9 +1,10 @@
+import { TypeTools } from "../TypeTools";
 import { VariableStorage } from "../VariableStorage";
 import { CommandDesc } from "./CommandDesc";
 import { CommandEffect } from "./CommandEffect";
 import { CustomDoc, CustomDocResult } from "./CustomDoc";
 import { DkDiag } from "./DkDiag";
-import { DKError, ErrorCannotReuse, ErrorNothingToReuse, ErrorUnexpectedConditionEnd, ErrorUnexpectedConditionOpen } from "./DKError";
+import { DKError, ErrorCannotReuse, ErrorNothingToReuse, ErrorUndocumentedActionPoint, ErrorUndocumentedHeroGate, ErrorUndocumentedVariable, ErrorUnexpectedConditionEnd, ErrorUnterminatedCondition } from "./DKError";
 import { DkSuggestion } from "./DkSuggestion";
 import { Exp } from "./Exp";
 import { ParamType } from "./ParamType";
@@ -228,9 +229,32 @@ export class ScriptAnalysis {
         return entitySuggestions;
     }
 
+    checkForMissingCustomDoc(line: number, word: Word, type: ParamType) {
+        // TODO: and if hinting is disabled in config
+        if (!TypeTools.isTypeCustomDocumentable(type)) {
+            return;
+        }
+        if (type === ParamType.ActionPoint) {
+            if (!this.getCustomDoc(type, word.val)) {
+                this.pushError(line, new ErrorUndocumentedActionPoint(word));
+            }
+        } else if (type === ParamType.HeroGate) {
+            if (!this.getCustomDoc(type, word.val)) {
+                this.pushError(line, new ErrorUndocumentedHeroGate(word));
+            }
+        } else {
+            const sibling = word.parent?.getPreceedingSibling()?.val;
+            if (sibling instanceof Word && word.parent?.parent.getDesc()?.returns == null) {
+                if (!this.getCustomDoc(type, word.val, sibling.val)) {
+                    this.pushError(line, new ErrorUndocumentedVariable(word, type));
+                }
+            }
+        }
+    }
+
     finalize() {
         for (const opn of this.conditionOpenings) {
-            this.pushError(opn.line, new ErrorUnexpectedConditionOpen(opn.exp));
+            this.pushError(opn.line, new ErrorUnterminatedCondition(opn.exp));
         }
         for (const reuse of this.reuses) {
             this.pushError(reuse.line, new ErrorNothingToReuse(reuse.exp));

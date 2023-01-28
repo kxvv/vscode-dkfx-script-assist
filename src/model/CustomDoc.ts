@@ -14,8 +14,17 @@ export enum CustomDocType {
     HERO_GATE = "HG"
 }
 
+const PLAYER_ABBREVS: Record<string, string> = {
+    "P0": "PLAYER0",
+    "P1": "PLAYER1",
+    "P2": "PLAYER2",
+    "P3": "PLAYER3",
+    "PG": "PLAYER_GOOD",
+    "PA": "ALL_PLAYERS",
+};
+
 const REGEXP_PARTS = {
-    players: Entities.findPlayersForVars().map(e => e.val).concat("p0,p1,p2,p3,pg,pa".split(",")).join("|"),
+    players: Entities.findPlayersForVars().map(e => e.val).concat(Object.keys(PLAYER_ABBREVS)).join("|"),
     flags: Entities.findAllFlags().map(e => e.val).join("|"),
     campaignFlags: Entities.findAllCampaignFlags().map(e => e.val).join("|"),
     timers: Entities.findAllTimers().map(e => e.val).join("|"),
@@ -136,6 +145,13 @@ export class CustomDoc {
         return [];
     }
 
+    private static playerAbbrevToPlayerName(abbrev: string): string {
+        if (abbrev.length === 2) {
+            return PLAYER_ABBREVS[abbrev.toUpperCase()] || abbrev;
+        }
+        return abbrev;
+    }
+
     private tryDocPush(comment: string, row: number) {
         if (this.context == null || this.context.last !== row - 1) {
             return;
@@ -144,7 +160,7 @@ export class CustomDoc {
         if ([CustomDocType.FLAG, CustomDocType.CAMPAIGN_FLAG, CustomDocType.TIMER].includes(this.context.type)) {
             const regCheck = DOC_CONTEXT_REGEXPS[this.context.type].exec(comment);
             if (regCheck?.length === 6) {
-                const unabbrevPlayer = TypeTools.playerAbbrevToPlayerName(regCheck[1]);
+                const unabbrevPlayer = CustomDoc.playerAbbrevToPlayerName(regCheck[1]);
                 const playerVar = TypeTools.playerColorToIndexedPlayer(unabbrevPlayer);
                 const flagVar = /^\d+/.test(regCheck[3])
                     ? (INDEXED_VAR_NAMES[this.context.type] + regCheck[3])

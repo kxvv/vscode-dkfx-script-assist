@@ -38,7 +38,7 @@ export class HoverHelper {
                     entityDoc = foundEntity?.doc || "";
 
                     if (foundType && leaf && index >= 0 && TypeTools.isTypeCustomDocumentable(foundType)) {
-                        result.customDoc = HoverHelper.getCustomDocForVar(analysis, leaf, childWord, index, foundType);
+                        result.customDoc = HoverHelper.getCustomDocForVar(analysis, childWord, foundType);
                     }
                 }
 
@@ -57,28 +57,28 @@ export class HoverHelper {
         return null;
     }
 
-    private static getCustomDocForVar(analysis: ScriptAnalysis, leaf: Exp, childWord: Word, paramIndex: number, type: ParamType): string {
+    private static getCustomDocForVar(analysis: ScriptAnalysis, childWord: Word, type: ParamType): string {
         // find exact type for composite types
         if ([ParamType.ReadVar, ParamType.SetVar, ParamType.ReadSetVar].includes(type)) {
-            for (const exactType of [ParamType.Flag, ParamType.CampaignFlag, ParamType.Timer]) {
-                const foundEntity = Entities.findEntity(exactType, childWord.val);
-                if (foundEntity) {
-                    return this.getCustomDocForVar(analysis, leaf, childWord, paramIndex, exactType);
-                }
+            const typeCheckResult = TypeTools.toolFor(type).check({
+                word: childWord,
+            });
+            if (typeof typeCheckResult === "string") {
+                // careful not to return another composite here (like location) -> infinite loop
+                return this.getCustomDocForVar(analysis, childWord, typeCheckResult);
             }
-            return "";
         }
         if (ParamType.Location === type) {
             if (TypeTools.toolFor(ParamType.ActionPoint).check({ word: childWord, })) {
-                return this.getCustomDocForVar(analysis, leaf, childWord, paramIndex, ParamType.ActionPoint);
+                return this.getCustomDocForVar(analysis, childWord, ParamType.ActionPoint);
             } else if (TypeTools.toolFor(ParamType.HeroGate).check({ word: childWord, })) {
-                return this.getCustomDocForVar(analysis, leaf, childWord, paramIndex, ParamType.HeroGate);
+                return this.getCustomDocForVar(analysis, childWord, ParamType.HeroGate);
             }
             return "";
         }
 
         if ([ParamType.Flag, ParamType.CampaignFlag, ParamType.Timer].includes(type)) {
-            const playerChild: ExpChild | undefined = leaf.getChild(paramIndex - 1);
+            const playerChild: ExpChild | undefined = childWord.parent?.getPreceedingSibling();
             if (playerChild?.val instanceof Word) {
                 const playerName = playerChild.val.val;
                 const customDoc = analysis.getCustomDoc(type, childWord.val, playerName);

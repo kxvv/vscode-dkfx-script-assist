@@ -25,4 +25,14 @@ export class ExpChild {
         }
         return null;
     }
+
+    getPreceedingSibling(): ExpChild | undefined {
+        const siblings = this.parent.getChildren();
+        for (let i = 0; i < (this.parent.getChildren().length || 0); i++) {
+            if (siblings[i] === this) {
+                return siblings[i-1];
+            }
+        }
+        return undefined;
+    }
 }

@@ -557,5 +557,5 @@
   condition: PUSH
   doc: Checks if a player is allied to another player, or tries to be. Note that if the Red player clicks the Ally-button of Blue, comparing PLAYER0 to PLAYER1 already evaluates as true, even when blue has not done the same yet. Comparing PLAYER1 to PLAYER0 would still be false. For multiplayer games, check both sides.
 
-- cmd: SET_TEXTURE([player:PLAYER/ALL_PLAYERS],[texture:TEXTURE])
+- cmd: SET_TEXTURE([player:PLAYER/ALL_PLAYERS],[texture:TEXTURE/NUMBER])
   doc: Changes the texturepack together with the ownership of a tile
