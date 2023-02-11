@@ -243,10 +243,16 @@ export class ScriptAnalysis {
                 this.pushError(line, new ErrorUndocumentedHeroGate(word));
             }
         } else {
-            const sibling = word.parent?.getPreceedingSibling()?.val;
-            if (sibling instanceof Word && word.parent?.parent.getDesc()?.returns == null) {
-                if (!this.getCustomDoc(type, word.val, sibling.val)) {
-                    this.pushError(line, new ErrorUndocumentedVariable(word, type));
+            const refinedType = TypeTools.toolFor(type).check({ word });
+            if (refinedType === ParamType.Flag
+                || refinedType === ParamType.CampaignFlag
+                || refinedType === ParamType.Timer
+            ) {
+                const sibling = word.parent?.getPreceedingSibling()?.val;
+                if (sibling instanceof Word && word.parent?.parent.getDesc()?.returns == null) {
+                    if (!this.getCustomDoc(type, word.val, sibling.val)) {
+                        this.pushError(line, new ErrorUndocumentedVariable(word, type));
+                    }
                 }
             }
         }

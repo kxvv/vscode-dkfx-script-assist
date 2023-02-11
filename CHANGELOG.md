@@ -4,6 +4,12 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.3] - 2023-02-12
+### Added
+- HIDE_HERO_GATE command
+- new creature objectives
+- objects and traps properties updated
+
 ## [0.6.2] - 2023-01-29
 ### Added
 - minified output bundle

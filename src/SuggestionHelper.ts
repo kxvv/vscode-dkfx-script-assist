@@ -1,19 +1,20 @@
+import { DescProvider } from "./DescProvider";
 import { MappersDk } from "./MappersDk";
-import { DkSuggestion } from "./model/DkSuggestion";
 import { DescParam } from "./model/DescParam";
+import { DkSuggestion } from "./model/DkSuggestion";
+import { Exp } from "./model/Exp";
 import { ScriptAnalysis } from "./model/ScriptAnalysis";
 import { LineMap } from "./ScriptInstance";
 import { TypeTools } from "./TypeTools";
-import { DescProvider } from "./DescProvider";
-import { Exp } from "./model/Exp";
 
 export class SuggestionHelper {
     private static cachedCommands: DkSuggestion[] = [];
 
     public static suggestParams(analysis: ScriptAnalysis, paramDesc: DescParam | null, leafExp?: Exp | null, index?: number): DkSuggestion[] {
-        return paramDesc ? paramDesc.allowedTypes
+        const result = paramDesc ? paramDesc.allowedTypes
             .map(t => TypeTools.toolFor(t).suggest(analysis, leafExp, index))
             .flat() : [];
+        return result;
     }
 
     static suggestCommand(LineMap: LineMap, lineNumber: number): DkSuggestion[] {

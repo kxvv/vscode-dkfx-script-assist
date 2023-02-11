@@ -559,3 +559,6 @@
 
 - cmd: SET_TEXTURE([player:PLAYER/ALL_PLAYERS],[texture:TEXTURE/NUMBER])
   doc: Changes the texturepack together with the ownership of a tile
+
+- cmd: HIDE_HERO_GATE([gate:HERO_GATE/NUMBER+],[is hidden:BINARY])
+  doc: Hides or reveals hero gates. Heroes will not use hidden gates.
