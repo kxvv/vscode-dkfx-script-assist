@@ -304,8 +304,9 @@
   doc: Restores or drains health from a players Dungeon Heart. Can't exceed the standard max health value. Full heart has 30000 hitpoints.
   opts: 1
 
-- cmd: ADD_OBJECT_TO_LEVEL([object:OBJECT],[location:LOCATION],[property:NUMBER])
+- cmd: ADD_OBJECT_TO_LEVEL([object:OBJECT],[location:LOCATION],[property:NUMBER],[owner player:PLAYER])
   doc: Place any object at a specific place on the map.
+  opts: 1
 
 - cmd: ADD_TO_TIMER([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[turns:NUMBER])
   doc: Add or remove turns to the Script timer. Allows negative values.
