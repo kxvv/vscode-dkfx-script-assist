@@ -55,6 +55,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "LILAC_STONE" },
         { val: "SWAMP_SERPENT" },
         { val: "LAVA_CAVERN" },
+        { val: "LATERITE_CAVERN" },
     ],
     [ParamType.Timer]: new Array(8).fill(0).map((e, i) => ({
         val: "TIMER" + i,
@@ -141,7 +142,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
     ],
     [ParamType.Creature]: [
-        ..."WIZARD,TUNNELLER,BARBARIAN,ARCHER,MONK,KNIGHT,AVATAR,GIANT,FAIRY,THIEF,SAMURAI,IMP,HORNY,SKELETON,TROLL,DRAGON,DEMONSPAWN,FLY,DARK_MISTRESS,BILE_DEMON,VAMPIRE,SPIDER,HELL_HOUND,GHOST,TENTACLE,ORC"
+        ..."WIZARD,TUNNELLER,BARBARIAN,ARCHER,MONK,KNIGHT,AVATAR,GIANT,FAIRY,THIEF,SAMURAI,IMP,HORNY,SKELETON,TROLL,DRAGON,DEMONSPAWN,FLY,DARK_MISTRESS,BILE_DEMON,VAMPIRE,SPIDER,HELL_HOUND,GHOST,TENTACLE,ORC,TIME_MAGE"
             .split(",").sort().map(v => ({ val: v })),
         {
             val: "DWARFA",
