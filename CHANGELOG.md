@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.6] - 2023-05-01
+### Added
+- druid
+- USE_SPELL_ON_PLAYERS_CREATURES command
+
 ## [0.6.5] - 2023-03-04
 ### Added
 - texture, time_mage

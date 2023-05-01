@@ -476,6 +476,7 @@
 
 - cmd: USE_SPELL_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[spell:SPELL],[spell lvl:1-10/ZERO])
   doc: Casts a unit spell on a specific creature. Only abilities with actual spell effects can be used.
+  opts: 1
 
 - cmd: SACRIFICED[[creature:CREATURE]]
   returns: GLOBAL/FLAG/READSET_VAR/READABLE_VAR/SETTABLE_VAR
@@ -563,3 +564,7 @@
 
 - cmd: HIDE_HERO_GATE([gate:HERO_GATE/NUMBER+],[is hidden:BINARY])
   doc: Hides or reveals hero gates. Heroes will not use hidden gates.
+
+- cmd: USE_SPELL_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[spell:SPELL],[spell lvl:1-10/ZERO])
+  doc: Casts a unit spell on all of a players creatures of a type.
+  opts: 1
