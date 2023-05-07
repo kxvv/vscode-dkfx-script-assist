@@ -34,6 +34,7 @@ export enum ParamType {
     Gold = "GOLD",
     HeadFor = "HEAD_FOR",
     HeroGate = "HERO_GATE",
+    Job = "JOB",
     Keeper = "KEEPER",
     KeeperIndex = "KEEPER_INDEX",
     Location = "LOCATION",
