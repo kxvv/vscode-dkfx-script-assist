@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.8] - 2023-05-19
+### Added
+- druid
+- MaxThingsInHand game rule
+
 ## [0.6.7] - 2023-05-07
 ### Added
 - jobs for SET_CREATURE_CONFIGURATION

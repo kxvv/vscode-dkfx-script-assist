@@ -142,7 +142,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
     ],
     [ParamType.Creature]: [
-        ..."WIZARD,TUNNELLER,BARBARIAN,ARCHER,MONK,KNIGHT,AVATAR,GIANT,FAIRY,THIEF,SAMURAI,IMP,HORNY,SKELETON,TROLL,DRAGON,DEMONSPAWN,FLY,DARK_MISTRESS,BILE_DEMON,VAMPIRE,SPIDER,HELL_HOUND,GHOST,TENTACLE,ORC,TIME_MAGE"
+        ..."WIZARD,TUNNELLER,BARBARIAN,ARCHER,MONK,KNIGHT,AVATAR,GIANT,FAIRY,THIEF,SAMURAI,IMP,HORNY,SKELETON,TROLL,DRAGON,DEMONSPAWN,FLY,DARK_MISTRESS,BILE_DEMON,VAMPIRE,SPIDER,HELL_HOUND,GHOST,TENTACLE,ORC,TIME_MAGE,DRUID"
             .split(",").sort().map(v => ({ val: v })),
         {
             val: "DWARFA",
@@ -991,6 +991,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         {
             val: "BarrackMaxPartySize",
             doc: "Change this value to allow up to 30 units in a barracks party",
+        },
+        {
+            val: "MaxThingsInHand",
+            doc: "Change this value to allow up to 64 units in keeper's hand",
         },
     ],
     [ParamType.TrapTriggerType]: [
