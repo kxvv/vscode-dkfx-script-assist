@@ -172,6 +172,11 @@ export class DescProvider {
         return desc;
     }
 
+    static getCommandsOfReturnType(type: ParamType): CommandDesc[] {
+        // TODO
+        return [];
+    }
+
     private static replaceAutoTypes(descCopy: CommandDesc, exp: Exp, parentParam: DescParam): CommandDesc {
         let isConsecutive = parentParam.allowedTypes.some(type => CONSECUTIVE_TYPES.includes(type));
         if (String(descCopy.returns) === String([ParamType.Auto])) {

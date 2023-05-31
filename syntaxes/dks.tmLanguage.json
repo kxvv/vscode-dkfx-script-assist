@@ -102,7 +102,7 @@
       "patterns": [
         {
           "name": "entity.name.type",
-          "match": "\\b(?i)(BOULDER|ALARM|POISON_GAS|LIGHTNING|WORD_OF_POWER|LAVA)\\b"
+          "match": "\\b(?i)(BOULDER|ALARM|POISON_GAS|LIGHTNING|WORD_OF_POWER|LAVA|TNT)\\b"
         }
       ]
     },

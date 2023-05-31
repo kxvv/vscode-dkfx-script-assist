@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.9] - 2023-05-31
+### Added
+- TNT trap
+- PlaceOnBridge trap prop
+
 ## [0.6.8] - 2023-05-19
 ### Added
 - druid

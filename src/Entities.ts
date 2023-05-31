@@ -206,7 +206,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             .split(",").sort().map(v => ({ val: v })),
     ],
     [ParamType.Trap]: [
-        ..."BOULDER,ALARM,POISON_GAS,LIGHTNING,WORD_OF_POWER,LAVA"
+        ..."BOULDER,ALARM,POISON_GAS,LIGHTNING,WORD_OF_POWER,LAVA,TNT"
             .split(",").sort().map(v => ({ val: v })),
     ],
     [ParamType.Global]: [
@@ -1143,6 +1143,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "LightFlags", },
         { val: "TransparencyFlags", },
         { val: "ShotVector", },
+        { val: "PlaceOnBridge", },
     ],
     [ParamType.PowerLvl]: new Array(9).fill(0).map((e, i) => ({
         val: `${i + 1}`
