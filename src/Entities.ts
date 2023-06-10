@@ -181,6 +181,39 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             doc: "A hatchery."
         },
     ],
+    [ParamType.RoomAll]: [
+        ..."TREASURE,PRISON,TORTURE,TRAINING,WORKSHOP,SCAVENGER,TEMPLE,GRAVEYARD,BARRACKS,LAIR,BRIDGE,GUARD_POST,DUNGEON_HEART"
+            .split(",").sort().map(v => ({ val: v })),
+        {
+            val: "ENTRANCE",
+            doc: "A portal."
+        },
+        {
+            val: "RESEARCH",
+            doc: "A library."
+        },
+        {
+            val: "GARDEN",
+            doc: "A hatchery."
+        },
+    ],
+    [ParamType.RoomProperty]: [
+        { val: "NameTextID", },
+        { val: "TooltipTextID", },
+        { val: "Cost", },
+        { val: "Health", },
+        { val: "SlabAssign", },
+        { val: "Roles", },
+        { val: "Properties", },
+        { val: "Messages", doc: "Speech messages related to the room, in order: Needed,TooSmall,NoRoute.", },
+        { val: "AmbientSndSample", doc: "Sound sample playing in a loop when the room is visible", },
+        { val: "TotalCapacity", doc: "Algorithm used to compute room capacity", },
+        { val: "UsedCapacity", doc: "Algorithm used to used storage space and used worker space", },
+        { val: "SymbolSprites", doc: "Sprite with big size and medium size icon of the room", },
+        { val: "PointerSprites", doc: "Sprite for mouse, used when placing the room", },
+        { val: "PanelTabIndex", doc: "Position of the item in room building panel; 0 - not there, 1-15 - place in 4x4 grid", },
+        { val: "CreatureCreation", },
+    ],
     [ParamType.Power]: [
         ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON"
             .split(",").sort().map(v => ({ val: v })),

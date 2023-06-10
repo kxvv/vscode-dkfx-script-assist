@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.10] - 2023-06-10
+### Added
+- SET_ROOM_CONFIGURATION command
+
 ## [0.6.9] - 2023-05-31
 ### Added
 - TNT trap

@@ -582,3 +582,21 @@
 - cmd: USE_SPELL_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[spell:SPELL],[spell lvl:1-10/ZERO])
   doc: Casts a unit spell on all of a players creatures of a type.
   opts: 1
+
+- cmd: SET_ROOM_CONFIGURATION([room name:ROOM_ALL],[property:ROOM_PROPERTY],[value:UNKNOWN],[second value:UNKNOWN],[third value:UNKNOWN])
+  doc: Allows you to make changes to room values set in terrain.cfg. Look in that file for explanations on the values.
+  signChanges: [
+    IF 1 EQ NameTextID SET 2 NUMBER,
+    IF 1 EQ TooltipTextID SET 2 NUMBER,
+    IF 1 EQ Cost SET 2 NUMBER,
+    IF 1 EQ Health SET 2 NUMBER,
+    IF 1 EQ Messages SET 2 NUMBER,
+    IF 1 EQ AmbientSndSample SET 2 NUMBER,
+    IF 1 EQ SymbolSprites SET 2 NUMBER,
+    IF 1 EQ PointerSprites SET 2 NUMBER,
+    IF 1 EQ PanelTabIndex SET 2 NUMBER,
+    IF 1 EQ Properties SET 2 NUMBER,
+    IF 1 EQ CreatureCreation SET 2 CREATURE,
+    IF 1 EQ SlabAssign SET 2 SLAB_TYPE,
+  ]
+  opts: 2

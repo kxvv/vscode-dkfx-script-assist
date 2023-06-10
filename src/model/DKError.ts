@@ -29,7 +29,7 @@ export class DKError {
 
 export class ErrorInvalidStatement extends DKError {
     constructor(token: Range) {
-        super(`Invalid commant syntax: script line must consist of a comment or a single command followed by a comment`, token.start, token.end);
+        super(`Invalid command syntax: script line must consist of a comment or a single command followed by a comment`, token.start, token.end);
     }
 }
 
