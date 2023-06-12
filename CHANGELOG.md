@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.11] - 2023-06-12
+### Added
+- NEW_TRAP_TYPE command
+
 ## [0.6.10] - 2023-06-10
 ### Added
 - SET_ROOM_CONFIGURATION command

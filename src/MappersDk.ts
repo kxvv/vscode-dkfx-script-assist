@@ -16,6 +16,15 @@ export class MappersDk {
         return result;
     }
 
+    static textToDkSuggestion(text: string, preselect = false, kind = SuggestionKind.EnumMember): DkSuggestion {
+        const result: DkSuggestion = {
+            label: text,
+            kind,
+            preselect: preselect,
+        };
+        return result;
+    }
+
     static commandToDkSuggestion(name: string, desc: CommandDesc): DkSuggestion {
         const result: DkSuggestion = {
             label: name,

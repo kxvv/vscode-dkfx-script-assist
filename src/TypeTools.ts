@@ -296,6 +296,20 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
             return analysis.suggestFromCustomDoc(ParamType.Timer, Entities.suggestForType(ParamType.Timer), leafExp, index);
         }
     },
+    [ParamType.Trap]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            if (ttc.analysis?.getTempTrapNames().some(tempTrap => tempTrap.toLowerCase() === ttc.word.val.toLowerCase())) {
+                return ParamType.Trap;
+            }
+            return check.isEntity(ttc.word, ParamType.Trap) ? ParamType.Trap : false;
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            const tempSuggestions = analysis.getTempTrapNames().map(tt => MappersDk.textToDkSuggestion(tt));
+            return tempSuggestions.concat(
+                analysis.suggestFromCustomDoc(ParamType.Trap, Entities.suggestForType(ParamType.Trap), leafExp, index)
+            );
+        }
+    },
     [ParamType.Unknown]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
             return ParamType.Unknown;

@@ -124,6 +124,15 @@ export class ScriptAnalysis {
                     this.variableStorage.pushParty(v.val, "del", line, exp);
                 }
             }
+
+            // eval temp traps
+
+            if (effects.tempTrap != null) {
+                variable = exp.getChildsWord(effects.tempTrap);
+                if (variable) {
+                    this.variableStorage.pushTempTrap(variable.val);
+                }
+            }
         }
 
         if (effects.wins) {
@@ -227,6 +236,10 @@ export class ScriptAnalysis {
             return entitySuggestions.filter(es => !labelsOfSuggested.includes(es.label)).concat(custom);
         }
         return entitySuggestions;
+    }
+
+    getTempTrapNames(): string[] {
+        return this.variableStorage.getTempTraps();
     }
 
     checkForMissingCustomDoc(line: number, word: Word, type: ParamType) {

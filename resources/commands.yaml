@@ -600,3 +600,7 @@
     IF 1 EQ SlabAssign SET 2 SLAB_TYPE,
   ]
   opts: 2
+
+- cmd: NEW_TRAP_TYPE([trap name:UNKNOWN])
+  doc: Increases the trapcount by 1, by adding a trap with [trap name]. Done so before loading the rest of the script, configure the rest of the trap with SET_TRAP_CONFIGURATION.
+  tempTrapAt: 0
