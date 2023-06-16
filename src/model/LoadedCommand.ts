@@ -18,6 +18,8 @@ export interface LoadedCommand {
     partyReadAt?: number;
     partyDeleteAt?: number;
     tempTrapAt?: number;
+    tempObjectAt?: number;
+    tempRoomAt?: number;
 }
 
 export interface LoadedCommands {

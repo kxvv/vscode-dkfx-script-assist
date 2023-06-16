@@ -125,12 +125,26 @@ export class ScriptAnalysis {
                 }
             }
 
-            // eval temp traps
+            // eval temps
 
             if (effects.tempTrap != null) {
                 variable = exp.getChildsWord(effects.tempTrap);
                 if (variable) {
                     this.variableStorage.pushTempTrap(variable.val);
+                }
+            }
+
+            if (effects.tempObject != null) {
+                variable = exp.getChildsWord(effects.tempObject);
+                if (variable) {
+                    this.variableStorage.pushTempObject(variable.val);
+                }
+            }
+
+            if (effects.tempRoom != null) {
+                variable = exp.getChildsWord(effects.tempRoom);
+                if (variable) {
+                    this.variableStorage.pushTempRoom(variable.val);
                 }
             }
         }
@@ -240,6 +254,14 @@ export class ScriptAnalysis {
 
     getTempTrapNames(): string[] {
         return this.variableStorage.getTempTraps();
+    }
+
+    getTempObjectNames(): string[] {
+        return this.variableStorage.getTempObjects();
+    }
+
+    getTempRoomNames(): string[] {
+        return this.variableStorage.getTempRooms();
     }
 
     checkForMissingCustomDoc(line: number, word: Word, type: ParamType) {

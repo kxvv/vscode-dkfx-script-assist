@@ -20,6 +20,8 @@ export interface CommandEffect {
     msgSlot?: number;
     versions?: boolean;
     tempTrap?: number;
+    tempObject?: number;
+    tempRoom?: number;
 }
 
 export class CommandEffectFactory {
@@ -39,6 +41,8 @@ export class CommandEffectFactory {
         (loadCmd.wins != null && (eff.wins = loadCmd.wins));
         (loadCmd.reuses && (eff.reuses = true));
         (loadCmd.tempTrapAt != null && (eff.tempTrap = loadCmd.tempTrapAt));
+        (loadCmd.tempObjectAt != null && (eff.tempObject = loadCmd.tempObjectAt));
+        (loadCmd.tempRoomAt != null && (eff.tempRoom = loadCmd.tempRoomAt));
         return eff;
     }
 }

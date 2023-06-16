@@ -56,6 +56,8 @@ export class VariableStorage {
         [name: string]: Party;
     } = {};
     private tempTraps: string[] = [];
+    private tempObjects: string[] = [];
+    private tempRooms: string[] = [];
 
     pushParty(partyName: string, action: "create" | "add" | "read" | "del", line: number, exp: Exp) {
         if (!this.parties[partyName]) {
@@ -167,6 +169,22 @@ export class VariableStorage {
 
     getTempTraps() {
         return this.tempTraps;
+    }
+
+    pushTempObject(objName: string) {
+        this.tempObjects.push(objName);
+    }
+
+    getTempObjects() {
+        return this.tempObjects;
+    }
+
+    pushTempRoom(roomName: string) {
+        this.tempRooms.push(roomName);
+    }
+
+    getTempRooms() {
+        return this.tempRooms;
     }
 
     finalize(analysis: ScriptAnalysis) {

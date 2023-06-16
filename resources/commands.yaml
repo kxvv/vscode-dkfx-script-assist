@@ -291,9 +291,6 @@
 - cmd: SET_CREATURE_PROPERTY([creature:CREATURE],[property:CREATURE_PROPERTY],[enabled:BINARY])
   doc: Allows to enable/disable a creature property.
 
-- cmd: SET_DOOR_CONFIGURATION([door name:DOOR],[manufacture level:NUMBER+],[manufacture points:NUMBER+],[selling value:NUMBER+],[health:NUMBER+])
-  doc: Allows you to make changes to door values set in trapdoor.cfg
-
 - cmd: SET_GAME_RULE([rule name:GAME_RULE],[value:NUMBER])
   doc: Allows you to make changes to door values set in rules.cfg. You can make them conditional with IF statements.
 
@@ -446,6 +443,9 @@
 
 - cmd: SET_DOOR_CONFIGURATION([door name:DOOR],[property:DOOR_CONFIG],[value:UNKNOWN],[second value:UNKNOWN])
   opts: 1
+  signChanges: [
+    IF 1 EQ Crate SET 2 OBJECT
+  ]
   doc: Allows you to make changes to door values set in trapdoor.cfg.
 
 - cmd: SET_OBJECT_CONFIGURATION([object name:OBJECT],[property:OBJECT_CONFIG],[value:UNKNOWN],[second value:UNKNOWN])
@@ -460,7 +460,8 @@
     IF 1 EQ Hidden SET 2 BINARY,
     IF 1 EQ Slappable SET 2 BINARY,
     IF 1 EQ TriggerAlarm SET 2 BINARY,
-    IF 1 EQ Unanimated SET 2 BINARY
+    IF 1 EQ Unanimated SET 2 BINARY,
+    IF 1 EQ Crate SET 2 OBJECT
   ]
   doc: Allows you to make changes to trap values set in trapdoor.cfg.
 
@@ -604,3 +605,11 @@
 - cmd: NEW_TRAP_TYPE([trap name:UNKNOWN])
   doc: Increases the trapcount by 1, by adding a trap with [trap name]. Done so before loading the rest of the script, configure the rest of the trap with SET_TRAP_CONFIGURATION.
   tempTrapAt: 0
+
+- cmd: NEW_OBJECT_TYPE([object name:UNKNOWN])
+  doc: Adds a new object type to the end of the list with this name. Use SET_OBJECT_CONFIGURATION to further configure the new object type.
+  tempObjectAt: 0
+
+- cmd: NEW_ROOM_TYPE([room name:UNKNOWN])
+  doc: Adds a new room type to the end of the list with this name. Use SET_ROOM_CONFIGURATION to further configure the new room type.
+  tempRoomAt: 0

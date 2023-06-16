@@ -206,6 +206,20 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
             return [];
         }
     },
+    [ParamType.Object]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            if (ttc.analysis?.getTempObjectNames().some(tempObj => tempObj.toLowerCase() === ttc.word.val.toLowerCase())) {
+                return ParamType.Object;
+            }
+            return check.isEntity(ttc.word, ParamType.Object) ? ParamType.Object : false;
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            const tempSuggestions = analysis.getTempObjectNames().map(tt => MappersDk.textToDkSuggestion(tt));
+            return tempSuggestions.concat(
+                Entities.suggestForType(ParamType.Object)
+            );
+        }
+    },
     [ParamType.Party]: {
         check(ttc: TypeToolCheck): TypeCheckResult | DKError {
             if (!ttc.analysis?.isPartyDeclared(ttc.word.val)) {
@@ -223,7 +237,7 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
     },
     [ParamType.ReadVar]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
-            return VAR_COMPOSITES[ParamType.ReadVar].find(t => check.isEntity(ttc.word, t)) || false;
+            return VAR_COMPOSITES[ParamType.ReadVar].find(t => TypeTools.toolFor(t).check(ttc)) || false;
         },
         suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
             return VAR_COMPOSITES[ParamType.ReadVar].map(t => TypeTools.toolFor(t).suggest(analysis, leafExp, index)).flat();
@@ -231,15 +245,43 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
     },
     [ParamType.ReadSetVar]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
-            return VAR_COMPOSITES[ParamType.ReadSetVar].find(t => check.isEntity(ttc.word, t)) || false;
+            return VAR_COMPOSITES[ParamType.ReadSetVar].find(t => TypeTools.toolFor(t).check(ttc)) || false;
         },
         suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
             return VAR_COMPOSITES[ParamType.ReadSetVar].map(t => TypeTools.toolFor(t).suggest(analysis, leafExp, index)).flat();
         }
     },
+    [ParamType.Room]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            if (ttc.analysis?.getTempRoomNames().some(tempRoom => tempRoom.toLowerCase() === ttc.word.val.toLowerCase())) {
+                return ParamType.Room;
+            }
+            return check.isEntity(ttc.word, ParamType.Room) ? ParamType.Room : false;
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            const tempSuggestions = analysis.getTempRoomNames().map(tt => MappersDk.textToDkSuggestion(tt));
+            return tempSuggestions.concat(
+                Entities.suggestForType(ParamType.Room)
+            );
+        }
+    },
+    [ParamType.RoomAll]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            if (ttc.analysis?.getTempRoomNames().some(tempRoom => tempRoom.toLowerCase() === ttc.word.val.toLowerCase())) {
+                return ParamType.RoomAll;
+            }
+            return check.isEntity(ttc.word, ParamType.RoomAll) ? ParamType.RoomAll : false;
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            const tempSuggestions = analysis.getTempRoomNames().map(tt => MappersDk.textToDkSuggestion(tt));
+            return tempSuggestions.concat(
+                Entities.suggestForType(ParamType.RoomAll)
+            );
+        }
+    },
     [ParamType.SetVar]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
-            return VAR_COMPOSITES[ParamType.SetVar].find(t => check.isEntity(ttc.word, t)) || false;
+            return VAR_COMPOSITES[ParamType.SetVar].find(t => TypeTools.toolFor(t).check(ttc)) || false;
         },
         suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
             return VAR_COMPOSITES[ParamType.SetVar].map(t => TypeTools.toolFor(t).suggest(analysis, leafExp, index)).flat();
@@ -306,7 +348,7 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
         suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
             const tempSuggestions = analysis.getTempTrapNames().map(tt => MappersDk.textToDkSuggestion(tt));
             return tempSuggestions.concat(
-                analysis.suggestFromCustomDoc(ParamType.Trap, Entities.suggestForType(ParamType.Trap), leafExp, index)
+                Entities.suggestForType(ParamType.Trap)
             );
         }
     },
