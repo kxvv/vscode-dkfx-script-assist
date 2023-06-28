@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.12] - 2023-06-28
+### Added
+- ROOM_PROPERTY entities
+
+### Fixed
+- Size_XY
+
 ## [0.6.12] - 2023-06-16
 ### Added
 - NEW_OBJECT_TYPE, NEW_ROOM_TYPE command

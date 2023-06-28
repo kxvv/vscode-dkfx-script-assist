@@ -584,7 +584,7 @@
   doc: Casts a unit spell on all of a players creatures of a type.
   opts: 1
 
-- cmd: SET_ROOM_CONFIGURATION([room name:ROOM_ALL],[property:ROOM_PROPERTY],[value:UNKNOWN],[second value:UNKNOWN],[third value:UNKNOWN])
+- cmd: SET_ROOM_CONFIGURATION([room name:ROOM_ALL],[property:ROOM_CONFIG],[value:UNKNOWN],[second value:UNKNOWN],[third value:UNKNOWN])
   doc: Allows you to make changes to room values set in terrain.cfg. Look in that file for explanations on the values.
   signChanges: [
     IF 1 EQ NameTextID SET 2 NUMBER,
@@ -596,7 +596,9 @@
     IF 1 EQ SymbolSprites SET 2 NUMBER,
     IF 1 EQ PointerSprites SET 2 NUMBER,
     IF 1 EQ PanelTabIndex SET 2 NUMBER,
-    IF 1 EQ Properties SET 2 NUMBER,
+    IF 1 EQ Properties SET 2 ROOM_PROPERTY,
+    IF 1 EQ Properties SET 3 ROOM_PROPERTY,
+    IF 1 EQ Properties SET 4 ROOM_PROPERTY,
     IF 1 EQ CreatureCreation SET 2 CREATURE,
     IF 1 EQ SlabAssign SET 2 SLAB_TYPE,
   ]

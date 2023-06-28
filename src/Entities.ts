@@ -197,7 +197,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             doc: "A hatchery."
         },
     ],
-    [ParamType.RoomProperty]: [
+    [ParamType.RoomConfig]: [
         { val: "NameTextID", },
         { val: "TooltipTextID", },
         { val: "Cost", },
@@ -213,6 +213,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "PointerSprites", doc: "Sprite for mouse, used when placing the room", },
         { val: "PanelTabIndex", doc: "Position of the item in room building panel; 0 - not there, 1-15 - place in 4x4 grid", },
         { val: "CreatureCreation", },
+    ],
+    [ParamType.RoomProperty]: [
+        ..."CANNOT_VANDALIZE,HAS_NO_ENSIGN,CANNOT_BE_SOLD,BUILD_TILL_BROKE"
+            .split(",").sort().map(v => ({ val: v })),
     ],
     [ParamType.Power]: [
         ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON"
@@ -1124,7 +1128,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "Genre", },
         { val: "AnimationID", },
         { val: "AnimationSpeed", },
-        { val: "Size_XY ", },
+        { val: "Size_XY", },
         { val: "Size_YZ", },
         { val: "MaximumSize", },
         { val: "DestroyOnLava", },

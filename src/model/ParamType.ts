@@ -61,6 +61,7 @@ export enum ParamType {
     Room = "ROOM",
     RoomAll = "ROOM_ALL",
     RoomAvailability = "ROOM_AVAILABILITY",
+    RoomConfig = "ROOM_CONFIG",
     RoomProperty = "ROOM_PROPERTY",
     Rule = "RULE",
     RuleAction = "RULE_ACTION",
