@@ -24,7 +24,7 @@ export interface TypeTool {
 
 export const CONSTRAINTS: Readonly<Record<string, number>> = {
     minMsgNumber: 0,
-    maxMsgNumber: 50,
+    maxMsgNumber: 256,
     maxByte: 255,
     minAp: 0, // action point
     maxAp: 255,

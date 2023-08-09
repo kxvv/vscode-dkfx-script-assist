@@ -260,8 +260,8 @@
 - cmd: KILL_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[amount:NUMBER+])
   doc: Kills given amount of creatures based on given criterion.
 
-- cmd: LEVEL_UP_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[levels:1-10])
-  doc: Levels up given creature based on given criterion.
+- cmd: LEVEL_UP_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[levels:1-10/NUMBER])
+  doc: Levels up given creature based on given criterion. Use negative values to level a creature down.
 
 - cmd: PLAY_MESSAGE([player:KEEPER],[audio type:AUDIO_TYPE],[sound number:NUMBER+])
   doc: Allows to play any SOUND or SPEECH from the game. Messages can be found here. To hear which sounds are available use the DKSound utility from the DKtools pack.

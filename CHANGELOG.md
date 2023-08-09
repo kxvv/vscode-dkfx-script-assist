@@ -4,7 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.6.12] - 2023-06-28
+## [0.6.14] - 2023-08-08
+### Changed
+- LEVEL_UP_CREATURE, message slots count
+
+## [0.6.13] - 2023-06-28
 ### Added
 - ROOM_PROPERTY entities
 
