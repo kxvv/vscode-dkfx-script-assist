@@ -168,7 +168,7 @@
   opts: 1
   doc: Sets the time a player has to complete an objective. A timer appears in the top right corner of the screen. The value shown on timer is amount of game turns left divided by 2. This command does not create the counter, it only sets the bonus level time shown on it.
 
-- cmd: SET_MUSIC([track:NUMBER])
+- cmd: SET_MUSIC([track:NUMBER/TEXT])
   doc: Chooses the music track to play.
 
 - cmd: SET_COMPUTER_PROCESS([player:PLAYER/ALL_PLAYERS],[process:COMP_PROCESS],[priority:UNKNOWN],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN])
