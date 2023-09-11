@@ -263,8 +263,8 @@
 - cmd: LEVEL_UP_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[levels:1-10/NUMBER])
   doc: Levels up given creature based on given criterion. Use negative values to level a creature down.
 
-- cmd: PLAY_MESSAGE([player:KEEPER],[audio type:AUDIO_TYPE],[sound number:NUMBER+])
-  doc: Allows to play any SOUND or SPEECH from the game. Messages can be found here. To hear which sounds are available use the DKSound utility from the DKtools pack.
+- cmd: PLAY_MESSAGE([player:KEEPER],[audio type:AUDIO_TYPE],[sound ID:TEXT/NUMBER+])
+  doc: Plays a sound message or sound effect. To hear which sounds are available use the DKSound utility from the DKtools pack.
 
 - cmd: RESEARCH_ORDER([player:PLAYER/ALL_PLAYERS],[research type:RESEARCH_TYPE],[room or spell:ROOM/POWER],[research value:NUMBER+])
   doc: When this command is first called, the research list for specified players is cleared. Using it you may create a research list from beginning. Note that if you won't place an item on the list, it will not be possible to research it. So if you're using this command, you must add all items available on the level to the research list.

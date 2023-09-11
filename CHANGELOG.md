@@ -4,7 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.6.14] - 2023-08-11
+## [0.6.16] - 2023-09-11
+### Added
+- misc stuff
+
+## [0.6.15] - 2023-08-11
 ### Added
 - SET_MUSIC custom tracks support
 

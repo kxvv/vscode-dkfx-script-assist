@@ -451,6 +451,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "CREATURES_TRANSFERRED",
             doc: "How many creatures have been send to the next realm",
         },
+        {
+            val: "ACTIVE_BATTLES",
+            doc: "The amount of battles going on for the player. Multiple creatures can be part of a single battle.",
+        },
     ],
     [ParamType.Objective]: [
         {
@@ -1032,6 +1036,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         {
             val: "MaxThingsInHand",
             doc: "Change this value to allow up to 64 units in keeper's hand",
+        },
+        {
+            val: "TrainingRoomMaxLevel",
+            doc: "To which level the training room can train creatures",
         },
     ],
     [ParamType.TrapTriggerType]: [
