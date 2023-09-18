@@ -22,6 +22,7 @@ export interface CommandEffect {
     tempTrap?: number;
     tempObject?: number;
     tempRoom?: number;
+    tempCreature?: number;
 }
 
 export class CommandEffectFactory {
@@ -43,6 +44,7 @@ export class CommandEffectFactory {
         (loadCmd.tempTrapAt != null && (eff.tempTrap = loadCmd.tempTrapAt));
         (loadCmd.tempObjectAt != null && (eff.tempObject = loadCmd.tempObjectAt));
         (loadCmd.tempRoomAt != null && (eff.tempRoom = loadCmd.tempRoomAt));
+        (loadCmd.tempCreatureAt != null && (eff.tempCreature = loadCmd.tempCreatureAt));
         return eff;
     }
 }

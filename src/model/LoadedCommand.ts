@@ -20,6 +20,7 @@ export interface LoadedCommand {
     tempTrapAt?: number;
     tempObjectAt?: number;
     tempRoomAt?: number;
+    tempCreatureAt?: number;
 }
 
 export interface LoadedCommands {

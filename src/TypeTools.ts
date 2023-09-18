@@ -111,6 +111,20 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
             return analysis.suggestFromCustomDoc(ParamType.CampaignFlag, Entities.suggestForType(ParamType.CampaignFlag), leafExp, index);
         }
     },
+    [ParamType.Creature]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            if (ttc.analysis?.getTempCreatureNames().some(tempCr => tempCr.toLowerCase() === ttc.word.val.toLowerCase())) {
+                return ParamType.Creature;
+            }
+            return check.isEntity(ttc.word, ParamType.Creature) ? ParamType.Creature : false;
+        },
+        suggest(analysis: ScriptAnalysis, leafExp?: Exp | null, index?: number): DkSuggestion[] {
+            const tempSuggestions = analysis.getTempCreatureNames().map(tt => MappersDk.textToDkSuggestion(tt));
+            return tempSuggestions.concat(
+                Entities.suggestForType(ParamType.Creature)
+            );
+        }
+    },
     [ParamType.CustomBox]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
             return check.isEntity(ttc.word, ParamType.CustomBox) ? ParamType.CustomBox : false;

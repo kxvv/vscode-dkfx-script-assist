@@ -147,6 +147,13 @@ export class ScriptAnalysis {
                     this.variableStorage.pushTempRoom(variable.val);
                 }
             }
+
+            if (effects.tempCreature != null) {
+                variable = exp.getChildsWord(effects.tempCreature);
+                if (variable) {
+                    this.variableStorage.pushTempCreature(variable.val);
+                }
+            }
         }
 
         if (effects.wins) {
@@ -262,6 +269,10 @@ export class ScriptAnalysis {
 
     getTempRoomNames(): string[] {
         return this.variableStorage.getTempRooms();
+    }
+
+    getTempCreatureNames(): string[] {
+        return this.variableStorage.getTempCreatures();
     }
 
     checkForMissingCustomDoc(line: number, word: Word, type: ParamType) {

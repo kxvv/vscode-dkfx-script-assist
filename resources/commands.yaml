@@ -200,7 +200,7 @@
   doc: |
     Is not a command itself but may replace a parameter of most other commands. Replaces the old RANDOM() command. It draws at random one value or number from up to eight parameters.
 
-    The command shouldn't be used in multiplayer maps, as it will lead to synchronization problems. Value represented by DRAWFROM is selected at start of a map, and never changes during the gameplay.
+    Value represented by DRAWFROM is selected at start of a map, and never changes during the gameplay.
 
 - cmd: IMPORT([player:PLAYER/ALL_PLAYERS],[campaign flag:CAMPAIGN_FLAG])
   returns: NUMBER/NUMBER+/BYTE/GOLD/BINARY/TIME/ACTION_POINT/HERO_GATE/POWER_LVL/SLAB/SUBTILE/LVL/ROOM_AVAILABILITY/1-10
@@ -615,3 +615,7 @@
 - cmd: NEW_ROOM_TYPE([room name:UNKNOWN])
   doc: Adds a new room type to the end of the list with this name. Use SET_ROOM_CONFIGURATION to further configure the new room type.
   tempRoomAt: 0
+
+- cmd: NEW_CREATURE_TYPE([creature name:UNKNOWN])
+  doc: Adds a new creature type to the creature list, and loads the related config for it. So a creature that is not yet in creatures.cfg. Will load creature name.cfg from the (campaign) creatures folder.
+  tempCreatureAt: 0

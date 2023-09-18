@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.17] - 2023-09-18
+### Added
+- NEW_CREATURE_TYPE
+
 ## [0.6.16] - 2023-09-11
 ### Added
 - misc stuff
