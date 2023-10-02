@@ -95,7 +95,7 @@
 - cmd: DEAD_CREATURES_RETURN_TO_POOL([return:BINARY])
   doc: Normally, when a creature dies, and its body vanishes, it is added to the creature pool again. This command allows you to ensure that all dead creatures are dead forever.
 
-- cmd: SET_CREATURE_MAX_LEVEL([player:PLAYER/ALL_PLAYERS],[creature type:CREATURE],[creature level:1-10])
+- cmd: SET_CREATURE_MAX_LEVEL([player:PLAYER/ALL_PLAYERS],[creature type:CREATURE],[creature level:1-10/ZERO])
   doc: This command sets the maximum experience level the creature can train to. You can use this to stop certain creatures from becoming too powerful.
 
 - cmd: SET_CREATURE_STRENGTH([creature:CREATURE],[strength:BYTE])
@@ -384,9 +384,11 @@
 
 - cmd: HIDE_TIMER()
   doc: Hides the timer that has been made visible with DISPLAY_TIMER
+  rootLvl: FORBID
 
 - cmd: HIDE_VARIABLE()
   doc: Hides the variable that has been made visible with DISPLAY_VARIABLE
+  rootLvl: FORBID
 
 - cmd: QUICK_MESSAGE([message number:MSG_NUMBER],[message:TEXT],[icon:PLAYER/ALL_PLAYERS/CREATURE/UNKNOWN])
   doc: Works like DISPLAY_MESSAGE, but instead of using a string from translations, allows to type it directly.
@@ -522,6 +524,7 @@
 
 - cmd: SWAP_CREATURE([new creature config:UNKNOWN],[creature:CREATURE])
   doc: Replaces the creature with a new creature in the "new creature config".cfg file.
+  rootLvl: ENFORCE
 
 - cmd: SET_HAND_RULE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[rule slot:RULE_SLOT],[rule action:RULE_ACTION],[rule:RULE],[param:VOID])
   signChanges: [
@@ -565,10 +568,12 @@
 - cmd: MOVE_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE],[destination:LOCATION],[effect:NUMBER/EFFECT])
   opts: 1
   doc: Moves creatures instantly to the specified destination.
+  rootLvl: FORBID
 
 - cmd: COUNT_CREATURES_AT_ACTION_POINT([action point:ACTION_POINT],[player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[write flag player:PLAYER],[write flag:SETTABLE_VAR])
   flagWriteAt: [4]
   doc: Counts creatures within action point and stores the value in flag.
+  rootLvl: FORBID
 
 - cmd: IF_ALLIED([player:PLAYER],[target player:PLAYER][operator:COMPARE_OPERATOR][allied:BINARY])
   condition: PUSH
@@ -607,15 +612,19 @@
 - cmd: NEW_TRAP_TYPE([trap name:UNKNOWN])
   doc: Increases the trapcount by 1, by adding a trap with [trap name]. Done so before loading the rest of the script, configure the rest of the trap with SET_TRAP_CONFIGURATION.
   tempTrapAt: 0
+  rootLvl: ENFORCE
 
 - cmd: NEW_OBJECT_TYPE([object name:UNKNOWN])
   doc: Adds a new object type to the end of the list with this name. Use SET_OBJECT_CONFIGURATION to further configure the new object type.
   tempObjectAt: 0
+  rootLvl: ENFORCE
 
 - cmd: NEW_ROOM_TYPE([room name:UNKNOWN])
   doc: Adds a new room type to the end of the list with this name. Use SET_ROOM_CONFIGURATION to further configure the new room type.
   tempRoomAt: 0
+  rootLvl: ENFORCE
 
 - cmd: NEW_CREATURE_TYPE([creature name:UNKNOWN])
   doc: Adds a new creature type to the creature list, and loads the related config for it. So a creature that is not yet in creatures.cfg. Will load creature name.cfg from the (campaign) creatures folder.
   tempCreatureAt: 0
+  rootLvl: ENFORCE
