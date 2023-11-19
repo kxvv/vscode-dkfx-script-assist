@@ -239,8 +239,22 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
     ],
     [ParamType.Door]: [
-        ..."WOOD,BRACED,STEEL,MAGIC"
-            .split(",").sort().map(v => ({ val: v })),
+        {
+            val: "WOOD",
+        },
+        {
+            val: "BRACED",
+        },
+        {
+            val: "STEEL",
+        },
+        {
+            val: "MAGIC",
+        },
+        {
+            val: "SECRET",
+            doc: "This door remains hidden to enemies unless they observe it closely or see it opening.",
+        },
     ],
     [ParamType.Trap]: [
         ..."BOULDER,ALARM,POISON_GAS,LIGHTNING,WORD_OF_POWER,LAVA,TNT"
@@ -1130,6 +1144,15 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             doc: "Amount of hit points the item have",
             val: "Health",
         },
+        {
+            val: "SlabKind",
+        },
+        {
+            val: "OpenSpeed",
+        },
+        {
+            val: "Properties",
+        },
     ],
     [ParamType.ObjectConfig]: [
         { val: "Name", },
@@ -1353,6 +1376,8 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "GEMS", },
         { val: "GUARD_AREA", },
         { val: "PURPLE_PATH", },
+        { val: "SECRET_DOOR", },
+        { val: "SECRET_DOOR2", },
     ],
     [ParamType.CustomBox]: new Array(256).fill(0).map((e, i) => ({
         val: `BOX${i}_ACTIVATED`
@@ -1467,6 +1492,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "WRKBOX_BRACE" },
         { val: "WRKBOX_STEEL" },
         { val: "WRKBOX_MAGIC" },
+        { val: "WRKBOX_SECRET" },
         { val: "WRKBOX_ITEM" },
         { val: "HEARTFLAME_RED" },
         { val: "DISEASE" },

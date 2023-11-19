@@ -57,7 +57,6 @@
     You will need to place this in front of every command in the loop to make it work (it does not need to be placed in front of IF commands)
 
 - cmd: SET_GENERATE_SPEED([time:TIME])
-  rootLvl: ENFORCE
   doc: This command tells the game how long to wait before generating a new creature for each player. The type of creatures that appear cannot be scripted and will depend on the rooms the player has built. This is a global setting and will apply to all Portals.
 
 - cmd: COMPUTER_PLAYER([keeper:KEEPER],[behavior:COMPUTER])
@@ -183,8 +182,8 @@
   opts: 5
   rootLvl: ENFORCE
 
-- cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[global:COMP_GLOBAL/UNKNOWN],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN])
-  opts: 6
+- cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[global:COMP_GLOBAL/UNKNOWN],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN],[data6:UNKNOWN])
+  opts: 7
   rootLvl: ENFORCE
 
 - cmd: LEVEL_VERSION([version:VERSION])

@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.19] - 2023-11-19
+### Added
+- secret door
+
 ## [0.6.18] - 2023-10-02
 ### Changed
 - rootLvl for some commands, max creature lvl also accepts 0
