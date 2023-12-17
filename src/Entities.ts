@@ -237,6 +237,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "POWER_TIME_BOMB",
             doc: "Unreleased dungeon keeper spell."
         },
+        {
+            val: "NOPOWER",
+            doc: "Empty power. Use when configuring existing power's properties."
+        },
     ],
     [ParamType.Door]: [
         {
@@ -1153,6 +1157,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         {
             val: "Properties",
         },
+        {
+            val: "PlaceSound",
+        },
     ],
     [ParamType.ObjectConfig]: [
         { val: "Name", },
@@ -1212,6 +1219,182 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "TransparencyFlags", },
         { val: "ShotVector", },
         { val: "PlaceOnBridge", },
+    ],
+    [ParamType.PowerConfig]: [
+        {
+            val: "Name",
+            doc: "Internal name of the power, used in script and config files",
+        },
+        {
+            val: "NameTextID",
+            doc: "Language-specific name of the item, as index in translation strings file",
+        },
+        {
+            val: "TooltipTextID",
+            doc: "Language-specific description of the item, shown as tooltip",
+        },
+        {
+            val: "SymbolSprites",
+            doc: "Sprite with big size and medium size icon of the item",
+        },
+        {
+            val: "PointerSprite",
+            doc: "Sprite for mouse, used when placing the item",
+        },
+        {
+            val: "PanelTabIndex",
+            doc: "Position of the item in manufacture panel; 0 - not there, 1-15 - place in 4x4 grid",
+        },
+        {
+            val: "SoundSamples",
+            doc: "Sound sample played when selecting the power",
+        },
+        {
+            val: "SoundPlayed",
+            doc: "Sound sample played when casting the power",
+        },
+        {
+            val: "Power",
+            doc: "Power strength at each overload level",
+        },
+        {
+            val: "Cost",
+            doc: "Power cost at each overload level",
+        },
+        {
+            val: "Duration",
+            doc: "How long the power remains in effect in game turns",
+        },
+        {
+            val: "Duration",
+            doc: "How long the power remains in effect in game turns",
+        },
+        {
+            val: "Cooldown",
+            doc: "How long after the power is used the player has to wait to cast again. Only for powers that need a delay",
+        },
+        {
+            val: "Castability",
+            doc: "Where the power can be casted.",
+        },
+        {
+            val: "Artifact",
+            doc: "Artifact object which represents the power - usually spellbook",
+        },
+        {
+            val: "Properties",
+            doc: "Property flags of the power",
+        },
+        {
+            val: "PlayerState",
+            doc: "Player state change when power icon is clicked",
+        },
+        {
+            val: "ParentPower",
+            doc: "Power which aggregates the current power; if set to existing power, makes current power part of a cast",
+        },
+        {
+            val: "Functions",
+            doc: "Functions used to implement the power",
+        },
+    ],
+    [ParamType.PowerConfigCastability]: [ // this is unused. text is used instead because it supports multiple entities inside text. type checking and hinting inside texts are not supported yet
+        {
+            val: "UNREVEALED",
+            doc: "normally powers can be casted only on terrain revealed by player; this overrides that restriction",
+        },
+        {
+            val: "REVEALED_TEMP",
+            doc: "allow casting on temporarily-revealed tiles (ie. by sight of evil)",
+        },
+        {
+            val: "CLAIMABLE",
+            doc: "don't allow to cast on tiles which can't be claimed (ie. water, lava, rock)",
+        },
+        {
+            val: "ALL_TALL",
+            doc: "allow casting the spell on all tall terrain types (ie. wall, gold, rock)",
+        },
+        {
+            val: "NEUTRL_TALL",
+            doc: "allow casting the spell on tall terrain types owned by neutral player, including unowned",
+        },
+        {
+            val: "OWNED_TALL",
+            doc: "allow casting the spell on tall terrain types owned by casting player",
+        },
+        {
+            val: "ALLIED_TALL",
+            doc: "allow casting the spell on tall terrain types owned by allied players",
+        },
+        {
+            val: "ENEMY_TALL",
+            doc: "allow casting the spell on tall terrain types owned by enemy players",
+        },
+        {
+            val: "ALL_GROUND",
+            doc: "allow casting the spell on all ground-level terrain types (ie. path, water, lava, claimed ground)",
+        },
+        {
+            val: "UNCLMD_GROUND",
+            doc: "allow casting the spell on natural ground-level terrain types (path, water, lava)",
+        },
+        {
+            val: "NEUTRL_GROUND",
+            doc: "allow casting the spell on constructed ground-level terrain types owned by neutral player (claimed ground, rooms)",
+        },
+        {
+            val: "OWNED_GROUND",
+            doc: "allow casting the spell on constructed ground-level terrain types owned by casting player",
+        },
+        {
+            val: "ALLIED_GROUND",
+            doc: "allow casting the spell on constructed ground-level terrain types owned by allied players",
+        },
+        {
+            val: "ENEMY_GROUND",
+            doc: "allow casting the spell on constructed ground-level terrain types owned by enemy players",
+        },
+        {
+            val: "ANYWHERE",
+            doc: "allow casting the spell on any revealed area; this overrides all map-related options other than UNREVEALED and REVEALED_TEMP",
+        },
+        {
+            val: "THING_OR_MAP",
+            doc: "makes it that only one of map-related and thing-related condition groups has to be met",
+        },
+        {
+            val: "CUSTODY_CRTRS",
+            doc: "allow casting on creatures being held in custody",
+        },
+        {
+            val: "OWNED_CRTRS",
+            doc: "allow casting on players own creatures",
+        },
+        {
+            val: "ALLIED_CRTRS",
+            doc: "allow casting on creatures belonging to allied players",
+        },
+        {
+            val: "ENEMY_CRTRS",
+            doc: "allow casting on creatures owned by enemy players",
+        },
+        {
+            val: "BOUND_CRTRS",
+            doc: "allow casting on creatures being affected by Armageddon and Teleport; but also those who are dragging, leaving or being sacrificed; allowing this may have bad side effects",
+        },
+        {
+            val: "ONLY_DIGGERS",
+            doc: "can only be cast on special diggers",
+        },
+        {
+            val: "NO_DIGGERS",
+            doc: "can only be cast on creatures that are not special diggers",
+        },
+        {
+            val: "NEEDS_DELAY",
+            doc: "can't be cast while casting powers is on cooldown.",
+        },
     ],
     [ParamType.PowerLvl]: new Array(9).fill(0).map((e, i) => ({
         val: `${i + 1}`

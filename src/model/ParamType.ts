@@ -53,6 +53,8 @@ export enum ParamType {
     Player = "PLAYER",
     PlayerGood = "PLAYER_GOOD",
     Power = "POWER",
+    PowerConfig = "POWER_CONFIG",
+    PowerConfigCastability = "POWER_CONFIG_CASTABILITY",
     PowerLvl = "POWER_LVL",
     Range = "RANGE",
     ReadVar = "READABLE_VAR",

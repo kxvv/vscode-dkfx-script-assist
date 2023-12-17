@@ -627,3 +627,50 @@
   doc: Adds a new creature type to the creature list, and loads the related config for it. So a creature that is not yet in creatures.cfg. Will load creature name.cfg from the (campaign) creatures folder.
   tempCreatureAt: 0
   rootLvl: ENFORCE
+
+- cmd: SET_HAND_GRAPHIC([player:KEEPER],[hand graphic:UNKNOWN])
+  doc: |
+    Changes the sprite of the power hand to a different one.
+    Where:
+    [player] - The name of the player who gets the different graphic, e.g. PLAYER1.
+
+    [hand] - The name of the hand, as defined in powerhands.toml.
+
+- cmd: ADD_EFFECT_GENERATOR_TO_LEVEL([effect generator:NUMBER/EFFECT],[location:LOCATION],[range:NUMBER])
+  doc: |
+    Place any Effect Generator at a specific place on the map.
+    Where:
+
+    [effect generator] - The effect generator name from effects.toml.
+
+    [location] - The location you want the generator to spawn.
+
+    [range] - The range within which the generator will spawn effects.
+
+- cmd: SET_POWER_CONFIGURATION([power:POWER],[property:POWER_CONFIG],[value 1:UNKNOWN],[value 2/slot/toggle:UNKNOWN])
+  doc: |
+    Makes changes to keeper powers, as originally set in magic.cfg.
+    Where:
+    [power] - Power model to be modified.
+
+    [property] - The name of the power property you want to change, as found in magic.cfg. E.g. 'Castability'.
+
+    [value] - The new value you want to set it to. It accepts the values as used in the config files. For 'Properties' and 'Castability' put the value between "quotation marks" if you want to set multiple values at once.
+
+    [value 2/slot/toggle]*
+
+    If there are two values to the property, use this value.
+    For Power and Cost, there are 9 slots to edit. Enter a value between 1~9 here.
+    For Properties and Castability, leave this empty to set [value] as the only value, set to 0 to remove the value from the list of values, set to 1 to add it to the list of values.
+  opts: 1
+  signChanges: [
+    IF 1 EQ Power SET 2 NUMBER+,
+    IF 1 EQ Cost SET 2 NUMBER+,
+    IF 1 EQ Power SET 3 POWER_LVL,
+    IF 1 EQ Cost SET 3 POWER_LVL,
+    IF 1 EQ Power SET 3 REQUIRED,
+    IF 1 EQ Cost SET 3 REQUIRED,
+    IF 1 EQ Castability SET 2 TEXT,
+    IF 1 EQ Artifact SET 2 OBJECT,
+    IF 1 EQ ParentPower SET 2 POWER
+  ]
