@@ -674,3 +674,51 @@
     IF 1 EQ Artifact SET 2 OBJECT,
     IF 1 EQ ParentPower SET 2 POWER
   ]
+
+- cmd: SET_EFFECT_GENERATOR_CONFIGURATION([generator:EFFECT_GENERATOR],[property:EFFECT_GENERATOR_PROPERTY],[value:UNKNOWN],[second value:VOID],[third value:VOID])
+  opts: 2
+  doc: |
+    Allows you to make changes to effect generator values set in effects.toml.
+    Where:
+    [generator] - The name of the effect generator as defined in effects.toml.
+
+    [property] - The name of the trap property you want to change, as found in effects.toml. E.g. SpawnHeight.
+
+    [value] - The new value you want to set it to. If you want to set the 'EffectModel' property, negative numbers are effect elements, positive effects. It accepts names too.
+
+    [second value]* - Some properties have 2 or more values to set. For other properties, do not add this parameter.
+
+    [third value]* - Some properties have 3 values to set. For other properties, do not add this parameter.
+
+    Use it to effect generators on a per map basis, changed within IF-statements.
+  signChanges: [
+    IF 1 EQ GenerationDelayMin SET 2 NUMBER+,
+    IF 1 EQ GenerationDelayMax SET 2 NUMBER+,
+    IF 1 EQ GenerationAmount SET 2 NUMBER+,
+    IF 1 EQ EffectModel SET 2 NUMBER/EFFECT,
+    IF 1 EQ IgnoreTerrain SET 2 BINARY,
+    IF 1 EQ SpawnHeight SET 2 NUMBER+,
+    IF 1 EQ AccelerationMin SET 2 NUMBER+,
+    IF 1 EQ AccelerationMin SET 3 REQUIRED,
+    IF 1 EQ AccelerationMin SET 4 REQUIRED,
+    IF 1 EQ AccelerationMin SET 3 NUMBER,
+    IF 1 EQ AccelerationMin SET 4 NUMBER,
+    IF 1 EQ AccelerationMax SET 2 NUMBER+,
+    IF 1 EQ AccelerationMax SET 3 REQUIRED,
+    IF 1 EQ AccelerationMax SET 4 REQUIRED,
+    IF 1 EQ AccelerationMax SET 3 NUMBER,
+    IF 1 EQ AccelerationMax SET 4 NUMBER,
+    IF 1 EQ Sound SET 2 NUMBER+,
+    IF 1 EQ Sound SET 3 REQUIRED,
+    IF 1 EQ Sound SET 3 NUMBER
+  ]
+
+- cmd: SET_PLAYER_COLOR([player:KEEPER/PLAYER_GOOD],[color:PLAYER_COLOR])
+  doc: |
+    Does a color swap for a player.
+    Where:
+    [player] - The name of the player who gets the different color, e.g. PLAYER1.
+
+    [color] - The color it will become. Accepts: 'RED, BLUE, YELLOW, GREEN, WHITE'
+
+    Note: The change is only visual, and swapping PLAYER0 to Blue without Swapping PLAYER1 to another color will have 2 indistinguishable players.

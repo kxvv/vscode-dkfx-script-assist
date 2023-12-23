@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.6.21] - 2023-12-23
+### Added
+- SET_EFFECT_GENERATOR_CONFIGURATION, SET_PLAYER_COLOR
+
 ## [0.6.20] - 2023-12-17
 ### Added
 - SET_POWER_CONFIGURATION, ADD_EFFECT_GENERATOR_TO_LEVEL, SET_HAND_GRAPHIC
