@@ -4,6 +4,14 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.0] - 2023-12-30
+### Added
+- custom rooms extension setting
+- orange, black and purple player colors
+
+### Changed
+- max slab and subtile values
+
 ## [0.6.21] - 2023-12-23
 ### Added
 - SET_EFFECT_GENERATOR_CONFIGURATION, SET_PLAYER_COLOR

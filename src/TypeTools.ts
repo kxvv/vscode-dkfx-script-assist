@@ -31,9 +31,9 @@ export const CONSTRAINTS: Readonly<Record<string, number>> = {
     minHg: -255, // hero gate
     maxHg: -1,
     minSlab: 0,
-    maxSlab: 85,
+    maxSlab: 170,
     minSubtile: 0,
-    maxSubtile: 255,
+    maxSubtile: 510,
     maxTextLen: 1024,
     maxPartyMembers: 30,
 };

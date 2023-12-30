@@ -5,6 +5,7 @@
     "customDoors": [],
     "customCreatures": [],
     "customObjects": [],
+    "customRooms": [],
     "formatter": {
         "spaceAfterSeparator": false,
         "spacesAroundOperator": false,

@@ -10,6 +10,7 @@ export class ConfigProvider {
         customDoors: [],
         customCreatures: [],
         customObjects: [],
+        customRooms: [],
         formatter: {
             spaceAfterSeparator: false,
             spacesAroundOperator: false,
@@ -49,7 +50,11 @@ export class ConfigProvider {
             val: custom.toUpperCase(),
             doc: "Custom object"
         }));
-        Entities.setCustomEntities(customTraps, customDoors, customCreatures, customObjects);
+        const customRooms = config.customRooms.map(custom => ({
+            val: custom.toUpperCase(),
+            doc: "Custom room"
+        }));
+        Entities.setCustomEntities(customTraps, customDoors, customCreatures, customObjects, customRooms);
     }
 
     static getConfig(): ExtConfig {

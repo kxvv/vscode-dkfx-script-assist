@@ -5,6 +5,7 @@ export interface ExtConfig {
     customDoors: string[];
     customCreatures: string[];
     customObjects: string[];
+    customRooms: string[];
     formatter: ExtConfigFormatter;
 }
 

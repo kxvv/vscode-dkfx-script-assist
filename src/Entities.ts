@@ -28,6 +28,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "GREEN", },
         { val: "YELLOW", },
         { val: "WHITE", },
+        { val: "PURPLE", },
+        { val: "ORANGE", },
+        { val: "BLACK", },
     ],
     [ParamType.Keeper]: [
         { val: "PLAYER0", doc: "The RED player", preselect: true },
@@ -2055,6 +2058,7 @@ export class Entities {
     private static origDoors: DkEntity[] = [...DK_ENTITIES[ParamType.Door]];
     private static origCreatures: DkEntity[] = [...DK_ENTITIES[ParamType.Creature]];
     private static origObjects: DkEntity[] = [...DK_ENTITIES[ParamType.Object]];
+    private static origRooms: DkEntity[] = [...DK_ENTITIES[ParamType.Room]];
 
     public static findEntity(type: ParamType | undefined, val?: string): DkEntity | undefined {
         return type ?
@@ -2085,11 +2089,12 @@ export class Entities {
             .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
     }
 
-    public static setCustomEntities(traps: DkEntity[], doors: DkEntity[], crtrs: DkEntity[], objects: DkEntity[]): void {
+    public static setCustomEntities(traps: DkEntity[], doors: DkEntity[], crtrs: DkEntity[], objects: DkEntity[], rooms: DkEntity[]): void {
         DK_ENTITIES[ParamType.Trap] = Entities.origTraps.concat(traps);
         DK_ENTITIES[ParamType.Door] = Entities.origDoors.concat(doors);
         DK_ENTITIES[ParamType.Creature] = Entities.origCreatures.concat(crtrs);
         DK_ENTITIES[ParamType.Object] = Entities.origObjects.concat(objects);
+        DK_ENTITIES[ParamType.Room] = Entities.origRooms.concat(rooms);
     }
 
     public static findPlayersForVars(): DkEntity[] {
