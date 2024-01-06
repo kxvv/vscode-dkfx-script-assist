@@ -478,7 +478,7 @@
 - cmd: USE_POWER_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:BINARY])
   doc: Casts a keeper power on a specific creature. It also accepts non-targeted powers like POWER_SIGHT, which will simply use the location of the unit.
 
-- cmd: USE_SPECIAL_INCREASE_LEVEL([player:PLAYER/ALL_PLAYERS],[count:BYTE])
+- cmd: USE_SPECIAL_INCREASE_LEVEL([player:PLAYER/ALL_PLAYERS],[count:NUMBER])
   doc: Actives the effect of an 'Increase Level' dungeon special.
 
 - cmd: USE_SPECIAL_MULTIPLY_CREATURES([player:PLAYER/ALL_PLAYERS],[count:BYTE])
@@ -722,3 +722,6 @@
     [color] - The color it will become. Accepts: 'RED, BLUE, YELLOW, GREEN, WHITE'
 
     Note: The change is only visual, and swapping PLAYER0 to Blue without Swapping PLAYER1 to another color will have 2 indistinguishable players.
+
+- cmd: MAKE_UNSAFE([player:KEEPER/ALL_PLAYERS/PLAYER_GOOD])
+  doc: Defortifies player's dungeon.

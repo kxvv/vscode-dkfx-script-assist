@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.1] - 2024-01-06
+### Added
+- added MAKE_UNSAFE command
+
 ## [0.7.0] - 2023-12-30
 ### Added
 - custom rooms extension setting

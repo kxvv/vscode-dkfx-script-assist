@@ -229,7 +229,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             .split(",").sort().map(v => ({ val: v })),
     ],
     [ParamType.Power]: [
-        ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON"
+        ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON,POWER_REBOUND,POWER_FREEZE,POWER_TIME_BOMB"
             .split(",").sort().map(v => ({ val: v })),
         {
             val: "POWER_POSSESS",
@@ -242,10 +242,6 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         {
             val: "POWER_SLAP",
             doc: "Available to every keeper automatically."
-        },
-        {
-            val: "POWER_TIME_BOMB",
-            doc: "Unreleased dungeon keeper spell."
         },
         {
             val: "NOPOWER",
@@ -1229,6 +1225,8 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "TransparencyFlags", },
         { val: "ShotVector", },
         { val: "PlaceOnBridge", },
+        { val: "PlaceSound", },
+        { val: "TriggerSound", },
     ],
     [ParamType.PowerConfig]: [
         {
@@ -1457,6 +1455,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: `"SIGHT OF EVIL SCARE"`, },
         { val: `"SIGHT OF EVIL"`, },
         { val: `"DIG TO AN ENTRANCE"`, },
+        { val: `"BUILD A TREASURE ROOM 4x4"`, },
     ],
     [ParamType.CompEvent]: [
         { val: `"EVENT DUNGEON BREACH"` },
@@ -1576,6 +1575,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         val: `BOX${i}_ACTIVATED`
     })),
     [ParamType.Object]: [
+        { val: "NULL" },
         { val: "BARREL" },
         { val: "TORCH" },
         { val: "GOLD_CHEST" },
@@ -1675,7 +1675,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "WRKBOX_LIGHTNG" },
         { val: "WRKBOX_WRDOFPW" },
         { val: "WRKBOX_LAVA" },
-        { val: "WRKBOX_DUMMY2" },
+        { val: "WRKBOX_DEMOLTN" },
         { val: "WRKBOX_DUMMY3" },
         { val: "WRKBOX_DUMMY4" },
         { val: "WRKBOX_DUMMY5" },
@@ -1685,7 +1685,6 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "WRKBOX_BRACE" },
         { val: "WRKBOX_STEEL" },
         { val: "WRKBOX_MAGIC" },
-        { val: "WRKBOX_SECRET" },
         { val: "WRKBOX_ITEM" },
         { val: "HEARTFLAME_RED" },
         { val: "DISEASE" },
@@ -1720,6 +1719,37 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "MUSHROOM_YELLOW" },
         { val: "MUSHROOM_GREEN" },
         { val: "MUSHROOM_RED" },
+        { val: "LAIR_TMAGE" },
+        { val: "LAIR_DRUID" },
+        { val: "LILYPAD" },
+        { val: "CATTAILS" },
+        { val: "BANNER" },
+        { val: "LANTERN_PST" },
+        { val: "POTION_RED" },
+        { val: "POTION_BROWN" },
+        { val: "POTION_WHITE" },
+        { val: "POTION_YELLOW" },
+        { val: "ROCK_PILLAR" },
+        { val: "ROCK" },
+        { val: "LAVA_PILLAR" },
+        { val: "LAVA_ROCK" },
+        { val: "ICE_PILLAR" },
+        { val: "ICE_ROCK" },
+        { val: "WRKBOX_SECRET" },
+        { val: "GUARDFLAG_WHITE" },
+        { val: "HEARTFLAME_WHITE" },
+        { val: "SPELLBOOK_RBND" },
+        { val: "GUARDFLAG_PURPLE" },
+        { val: "HEARTFLAME_PURPLE" },
+        { val: "GUARDFLAG_BLACK" },
+        { val: "HEARTFLAME_BLACK" },
+        { val: "GUARDFLAG_ORANGE" },
+        { val: "HEARTFLAME_ORANGE" },
+        { val: "SPECBOX_HEALALL" },
+        { val: "SPECBOX_GETGOLD" },
+        { val: "SPECBOX_MKANGRY" },
+        { val: "SPECBOX_MKUNSAFE" },
+        { val: "SPELLBOOK_FRZ" },
     ],
     [ParamType.SacrificeCmd]: [
         { val: "MkCreature" },
