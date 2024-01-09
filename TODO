@@ -1,1 +1,2 @@
-- vsce publish
+s.split('\n').filter(x=>x.startsWith('Name')).map(x=>x.replace('Name =','').trim()).map(x=>`{ val: "${x}" },`).join('\n')
+ 

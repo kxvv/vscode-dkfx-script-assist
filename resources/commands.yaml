@@ -485,10 +485,18 @@
   doc: Actives the effect of an 'Multiply Creatures' dungeon special.
 
 - cmd: USE_SPECIAL_MAKE_SAFE([player:PLAYER/ALL_PLAYERS])
-  doc: Actives the effect of an 'Make Safe' dungeon special.
+  doc: |
+    *Command replaced by MAKE_SAFE*
+    
+    Actives the effect of an 'Make Safe' dungeon special.
+  deprecated: true
 
 - cmd: USE_SPECIAL_LOCATE_HIDDEN_WORLD()
-  doc: Actives the effect of an 'Locate Hidden World' dungeon special.
+  doc: |
+    *Command replaced by LOCATE_HIDDEN_WORLD*
+    
+    Actives the effect of an 'Locate Hidden World' dungeon special.
+  deprecated: true
 
 - cmd: USE_SPELL_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[spell:SPELL],[spell lvl:1-10/ZERO])
   doc: Casts a unit spell on a specific creature. Only abilities with actual spell effects can be used.
@@ -724,4 +732,22 @@
     Note: The change is only visual, and swapping PLAYER0 to Blue without Swapping PLAYER1 to another color will have 2 indistinguishable players.
 
 - cmd: MAKE_UNSAFE([player:KEEPER/ALL_PLAYERS/PLAYER_GOOD])
-  doc: Defortifies player's dungeon.
+  doc: Removes all the fortifications of the Dungeon Wall of target player.
+
+- cmd: MAKE_SAFE([player:PLAYER/ALL_PLAYERS])
+  doc: Has the same effect as a 'Make Safe' dungeon special for the player.
+
+- cmd: LOCATE_HIDDEN_WORLD()
+  doc: Actives the effect of an 'Locate Hidden World' dungeon special.
+
+- cmd: LEVEL_UP_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[count:NUMBER])
+  doc: |
+    Levels up all creatures of a specific kind for the player.
+
+    Where:
+
+    [player] - The name of the player who gets leveled up creatures.
+
+    [creature] - Creature model that will level up.
+
+    [count] - The amount of times the creature levels up. Accepts negative values to level down.

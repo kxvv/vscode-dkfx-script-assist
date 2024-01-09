@@ -21,7 +21,7 @@ export class SuggestionHelper {
         if (!this.cachedCommands.length) {
             this.cachedCommands = [...DescProvider.getCommandDescMap().entries()]
                 .filter(([name, desc]) => {
-                    return !desc.returns;
+                    return !desc.returns && !desc.deprecated;
                 })
                 .map(([name, desc]) => MappersDk.commandToDkSuggestion(name, desc));
         }

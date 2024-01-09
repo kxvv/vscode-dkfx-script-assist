@@ -134,6 +134,7 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
     loadCmd.signChanges && (result.signChanges = loadCmd.signChanges.map(interpretSignChangeString));
     loadCmd.returns && (result.returns = interpretParamTypes(loadCmd.returns));
     loadCmd.rootLvl && (result.rootLvl = loadCmd.rootLvl as RootLvl);
+    loadCmd.deprecated && (result.deprecated = true);
     if (!Object.keys(result.effects || {}).length) { delete result.effects; }
     return result;
 }

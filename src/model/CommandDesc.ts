@@ -13,4 +13,5 @@ export interface CommandDesc {
     effects?: CommandEffect;
     rootLvl?: RootLvl;
     returns?: ParamType[];
+    deprecated?: boolean;
 }

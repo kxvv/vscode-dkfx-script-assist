@@ -21,6 +21,7 @@ export interface LoadedCommand {
     tempObjectAt?: number;
     tempRoomAt?: number;
     tempCreatureAt?: number;
+    deprecated?: boolean;
 }
 
 export interface LoadedCommands {

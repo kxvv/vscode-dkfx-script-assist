@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.2] - 2024-01-09
+### Added
+- added LEVEL_UP_PLAYERS_CREATURES command
+
 ## [0.7.1] - 2024-01-06
 ### Added
 - added MAKE_UNSAFE command
