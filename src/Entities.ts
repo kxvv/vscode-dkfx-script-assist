@@ -229,7 +229,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             .split(",").sort().map(v => ({ val: v })),
     ],
     [ParamType.Power]: [
-        ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON,POWER_REBOUND,POWER_FREEZE,POWER_TIME_BOMB"
+        ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON,POWER_REBOUND,POWER_FREEZE,POWER_TIME_BOMB,POWER_SLOW,POWER_FLIGHT,POWER_VISION"
             .split(",").sort().map(v => ({ val: v })),
         {
             val: "POWER_POSSESS",
@@ -1064,6 +1064,18 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         {
             val: "TrainingRoomMaxLevel",
             doc: "To which level the training room can train creatures",
+        },
+        {
+            val: "TorturePayday",
+            doc: "Torturing a creature changes the salary for its kind, value is a percentage, 100 for no change.",
+        },
+        {
+            val: "TortureTrainingCost",
+            doc: "Torturing a creature changes the cost of training for its kind, value is a percentage, 100 for no change.",
+        },
+        {
+            val: "TortureScavengingCost",
+            doc: "Torturing a creature changes the cost of scavenging for its kind, value is a percentage, 100 for no change.",
         },
     ],
     [ParamType.TrapTriggerType]: [
@@ -2087,6 +2099,60 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "TEMPLE_PRAY", doc: "Pray in temple", },
         { val: "FREEZE_PRISONERS", doc: "Freeze any enemy creatures starving in prison", },
         { val: "EXPLORE", doc: "Go into unexplored but accessible areas of the map", },
+    ],
+    [ParamType.IncreaseConfig]: [
+        {
+            doc: "Percentage of creature size increase for every experience level.",
+            val: "SizeIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature pay increase for every experience level.",
+            val: "PayIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature damage increase for every experience level.",
+            val: "SpellDamageIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of spell range/area of effect increase for every experience level.",
+            val: "RangeIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature job value increase for every experience level.",
+            val: "JobValueIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature health increase for every experience level.",
+            val: "HealthIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature strength increase for every experience level.",
+            val: "StrengthIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature dexterity increase for every experience level.",
+            val: "DexterityIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature defense increase for every experience level.",
+            val: "DefenseIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature loyalty increase for every experience level.",
+            val: "LoyaltyIncreaseOnExp"
+        },
+        {
+            doc: "Percentage ExperienceForHitting increase for every experience level.",
+            val: "ExpForHittingIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature training cost increase for every experience level. Set to 0 by default.",
+            val: "TrainingCostIncreaseOnExp"
+        },
+        {
+            doc: "Percentage of creature scavenging cost increase for every experience level. Set to 0 by default.",
+            val: "ScavengingCostIncreaseOnExp"
+        },
     ],
 };
 

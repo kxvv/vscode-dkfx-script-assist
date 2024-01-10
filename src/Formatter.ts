@@ -3,7 +3,7 @@ import { DescProvider } from "./DescProvider";
 import { Tokenizer } from "./interpreter/Tokenizer";
 import { CommandDesc } from "./model/CommandDesc";
 import { ExtConfig, ExtConfigFormatter } from "./model/ExtConfig";
-import { Token } from "./model/Token";
+import { SyntaxToken, Token } from "./model/Token";
 import { TokenType } from "./model/TokenType";
 
 export class Formatter {
@@ -33,6 +33,7 @@ export class Formatter {
 
     static lineTokensToString(line: Token[], indentCount: number, formatter: ExtConfigFormatter): string {
         const result: string[] = new Array(indentCount).fill(formatter.indentationString);
+        const spacedSep = SyntaxToken.ArgSep + " ";
         let t: Token;
         for (let i = 0; i < line.length; i++) {
             t = line[i];
@@ -40,8 +41,8 @@ export class Formatter {
                 if (t.val === "\u200b") {
                     continue;
                 }
-                if (formatter.spaceAfterSeparator && t.val === ",") {
-                    result.push(", ");
+                if (formatter.spaceAfterSeparator && t.val === SyntaxToken.ArgSep) {
+                    result.push(spacedSep);
                     continue;
                 }
             }

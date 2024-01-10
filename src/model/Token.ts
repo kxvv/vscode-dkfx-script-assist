@@ -27,7 +27,7 @@ export class Token {
     }
 
     isSeparating() {
-        return this.val === ",";
+        return this.val === SyntaxToken.ArgSep;
     }
 
     isOperator(): boolean {

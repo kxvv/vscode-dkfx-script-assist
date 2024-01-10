@@ -3,6 +3,7 @@ import * as path from "path";
 import * as vscode from "vscode";
 import { MBMInitial, MBMMap, MBMType } from "./model/MapBrowserMessages";
 import { ResourcesLoader } from "./ResourcesLoader";
+import { SyntaxToken } from "./model/Token";
 
 export class MapBrowser {
     private lastActiveEditorPath = "";
@@ -54,8 +55,8 @@ export class MapBrowser {
             Else fallback to lif format:
             453, Desperation
         */
-        else if (content.includes(",")) {
-            return content.split(",")[1].trim();
+        else if (content.includes(SyntaxToken.ArgSep)) {
+            return content.split(SyntaxToken.ArgSep)[1].trim();
         }
         return "";
     }

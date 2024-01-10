@@ -479,23 +479,23 @@
   doc: Casts a keeper power on a specific creature. It also accepts non-targeted powers like POWER_SIGHT, which will simply use the location of the unit.
 
 - cmd: USE_SPECIAL_INCREASE_LEVEL([player:PLAYER/ALL_PLAYERS],[count:NUMBER])
-  doc: Actives the effect of an 'Increase Level' dungeon special.
+  doc: Activates the effect of an 'Increase Level' dungeon special.
 
 - cmd: USE_SPECIAL_MULTIPLY_CREATURES([player:PLAYER/ALL_PLAYERS],[count:BYTE])
-  doc: Actives the effect of an 'Multiply Creatures' dungeon special.
+  doc: Activates the effect of an 'Multiply Creatures' dungeon special.
 
 - cmd: USE_SPECIAL_MAKE_SAFE([player:PLAYER/ALL_PLAYERS])
   doc: |
     *Command replaced by MAKE_SAFE*
     
-    Actives the effect of an 'Make Safe' dungeon special.
+    Activates the effect of an 'Make Safe' dungeon special.
   deprecated: true
 
 - cmd: USE_SPECIAL_LOCATE_HIDDEN_WORLD()
   doc: |
     *Command replaced by LOCATE_HIDDEN_WORLD*
     
-    Actives the effect of an 'Locate Hidden World' dungeon special.
+    Activates the effect of an 'Locate Hidden World' dungeon special.
   deprecated: true
 
 - cmd: USE_SPELL_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[spell:SPELL],[spell lvl:1-10/ZERO])
@@ -524,7 +524,7 @@
   doc: Allows you to change which spell instances creatures learn at which levels.
 
 - cmd: USE_SPECIAL_TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS])
-  doc: Actives the effect of an 'Transfer Creature' dungeon special.
+  doc: Activates the effect of an 'Transfer Creature' dungeon special.
 
 - cmd: TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE])
   doc: Transfers creatures as dungeon special would.
@@ -738,7 +738,7 @@
   doc: Has the same effect as a 'Make Safe' dungeon special for the player.
 
 - cmd: LOCATE_HIDDEN_WORLD()
-  doc: Actives the effect of an 'Locate Hidden World' dungeon special.
+  doc: Activates the effect of an 'Locate Hidden World' dungeon special.
 
 - cmd: LEVEL_UP_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[count:NUMBER])
   doc: |
@@ -751,3 +751,6 @@
     [creature] - Creature model that will level up.
 
     [count] - The amount of times the creature levels up. Accepts negative values to level down.
+
+- cmd: SET_INCREASE_ON_EXPERIENCE([increase config property:INCREASE_CONFIG],[value:NUMBER])
+  doc: Allows to specify certain property values that increase for every experience level.

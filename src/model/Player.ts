@@ -1,5 +1,5 @@
 import { DkEntity } from "./DkEntity";
-// TODO
+
 const COLOR_NAMES: Record<string, string> = {
     "RED": "PLAYER0",
     "BLUE": "PLAYER1",

@@ -5,6 +5,7 @@ import { Utils } from "../Utils";
 import { DkEntity } from "./DkEntity";
 import { DkSuggestion } from "./DkSuggestion";
 import { ParamType } from "./ParamType";
+import { SyntaxToken } from "./Token";
 
 export enum CustomDocType {
     FLAG = "F",
@@ -68,7 +69,7 @@ const DOC_START_DETECTION = {
     },
 };
 
-const PAIR_VAR_SEP = ",";
+const PAIR_VAR_SEP = SyntaxToken.ArgSep;
 
 interface DocContext {
     start: number;
