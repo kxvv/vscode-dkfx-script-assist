@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.4] - 2024-01-16
+### Added
+- added AnimationID to trapconfig
+
 ## [0.7.3] - 2024-01-11
 ### Added
 - added SET_INCREASE_ON_EXPERIENCE command
