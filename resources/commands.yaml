@@ -754,3 +754,6 @@
 
 - cmd: SET_INCREASE_ON_EXPERIENCE([increase config property:INCREASE_CONFIG],[value:NUMBER])
   doc: Allows to specify certain property values that increase for every experience level.
+
+- cmd: SET_PLAYER_MODIFIER([player:KEEPER/PLAYER_GOOD/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
+  doc: Assigns various modifiers to specific players. Allows for multiple possibilities, such as giving a handicap to a specific player, creating upgrades that solely benefits one player.

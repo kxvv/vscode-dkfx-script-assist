@@ -1,2 +1,20 @@
+
+
+// js snippets
 s.split('\n').filter(x=>x.startsWith('Name')).map(x=>x.replace('Name =','').trim()).map(x=>`{ val: "${x}" },`).join('\n')
- 
+
+const fs = require('fs')
+s = s.split('\n')
+    .filter(t => t.trim())
+    .filter(t => !t.startsWith('['));
+const result = [];
+for (let i = 0; i < s.length; i++) {
+    let line = s[i];
+    if (line.startsWith(';')) { continue; }
+    line = line.split("=")[0].trim();
+    let doc = ""
+    if (i > 0 && s[i - 1].startsWith(';')) doc = s[i - 1].replace(/;\s*/, "");
+    result.push(`{ val: "${line}", doc: "${doc}" },`);
+}
+
+fs.writeFileSync("aa.txt", result.join('\n'))

@@ -56,6 +56,7 @@ export enum ParamType {
     Player = "PLAYER",
     PlayerColor = "PLAYER_COLOR",
     PlayerGood = "PLAYER_GOOD",
+    PlayerModifier = "PLAYER_MODIFIER",
     Power = "POWER",
     PowerConfig = "POWER_CONFIG",
     PowerConfigCastability = "POWER_CONFIG_CASTABILITY",
