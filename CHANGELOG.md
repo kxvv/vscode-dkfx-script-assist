@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.6] - 2024-01-21
+### Changed
+- SET_PLAYER_MODIFIER refactors
+
 ## [0.7.5] - 2024-01-19
 ### Added
 - added more game rules

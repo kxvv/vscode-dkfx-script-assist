@@ -2123,9 +2123,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
     ],
     [ParamType.PlayerModifier]: [
-        { val: "MeleeDamage", },
+        { val: "Health", },
+        { val: "Strength", },
         { val: "SpellDamage", },
-        { val: "DamageReduction", },
+        { val: "Armour", },
         { val: "Speed", },
         { val: "Salary", },
         { val: "TrainingCost", },
