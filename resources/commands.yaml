@@ -315,6 +315,7 @@
   flagReadAt: [4]
   timerWriteAt: [1]
   timerReadAt: [4]
+  opts: 1
   doc: |
     Modifies flag's value based on variables or other flags and values.
 
@@ -394,7 +395,8 @@
 
 - cmd: RANDOMISE_FLAG([player:PLAYER/ALL_PLAYERS],[flag:FLAG/CAMPAIGN_FLAG],[max value:NUMBER])
   flagWriteAt: [1]
-  doc: Gives a flag a true random value. Can be used to get truly random level scripts.
+  opts: 1
+  doc: Gives a flag a true random value. Can be used to get truly random level scripts. If final value is not given or set to 0, it uses the current value as the max.
 
 - cmd: REMOVE_SACRIFICE_RECIPE([CREATURE],[CREATURE],[CREATURE],[CREATURE],[CREATURE])  
   opts: 4
