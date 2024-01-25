@@ -94,7 +94,7 @@
 - cmd: DEAD_CREATURES_RETURN_TO_POOL([return:BINARY])
   doc: Normally, when a creature dies, and its body vanishes, it is added to the creature pool again. This command allows you to ensure that all dead creatures are dead forever.
 
-- cmd: SET_CREATURE_MAX_LEVEL([player:PLAYER/ALL_PLAYERS],[creature type:CREATURE],[creature level:1-10/ZERO])
+- cmd: SET_CREATURE_MAX_LEVEL([player:PLAYER/ALL_PLAYERS],[creature type:CREATURE/ANY_CREATURE],[creature level:1-10/ZERO])
   doc: This command sets the maximum experience level the creature can train to. You can use this to stop certain creatures from becoming too powerful.
 
 - cmd: SET_CREATURE_STRENGTH([creature:CREATURE],[strength:BYTE])

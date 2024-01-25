@@ -1164,6 +1164,17 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "AmbienceSound", },
         { val: "Properties", },
         { val: "UpdateFunction", },
+        { val: "RandomStartFrame", },
+        { val: "DrawClass", },
+        { val: "Persistence", },
+        { val: "Immobile", },
+        { doc: "Beam effect during destruction.", val: "EffectBeam" },
+        { doc: "Particle effect during destruction.", val: "EffectParticle" },
+        { doc: "Explosion effect after destruction.", val: "EffectExplosion1" },
+        { val: "EffectExplosion2" },
+        { doc: "Used to calculate the spacing to draw the beam effect.", val: "EffectSpacing" },
+        { doc: "Sound played along the beam effect during destruction.", val: "EffectSound" },
+
     ],
     [ParamType.TrapConfig]: [
         { val: "Name", },
