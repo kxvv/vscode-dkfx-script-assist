@@ -856,6 +856,14 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "ALLURING_SCVNGR",
             doc: "When scavenging will give the keeper a portal boost compared to rival keepers.",
         },
+        {
+            val: "NO_RESURRECT",
+            doc: "Creature cannot be resurrected with a resurrect creature special.",
+        },
+        {
+            val: "NO_TRANSFER",
+            doc: "Creature cannot be transferred with a transfer creature special.",
+        },
     ],
     [ParamType.CreatureTendency]: [
         {

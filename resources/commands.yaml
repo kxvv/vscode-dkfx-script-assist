@@ -393,7 +393,7 @@
 - cmd: QUICK_MESSAGE([message number:MSG_NUMBER],[message:TEXT],[icon:PLAYER/ALL_PLAYERS/CREATURE/UNKNOWN])
   doc: Works like DISPLAY_MESSAGE, but instead of using a string from translations, allows to type it directly.
 
-- cmd: RANDOMISE_FLAG([player:PLAYER/ALL_PLAYERS],[flag:FLAG/CAMPAIGN_FLAG],[max value:NUMBER])
+- cmd: RANDOMISE_FLAG([player:PLAYER/ALL_PLAYERS],[flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX],[max value:NUMBER])
   flagWriteAt: [1]
   opts: 1
   doc: Gives a flag a true random value. Can be used to get truly random level scripts. If final value is not given or set to 0, it uses the current value as the max.

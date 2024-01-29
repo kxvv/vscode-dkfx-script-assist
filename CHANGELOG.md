@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.9] - 2024-01-25
+### Added
+- some creature props
+
+### Changed
+- randomise_flag params
+
 ## [0.7.8] - 2024-01-25
 ### Added
 - some properties for object config
