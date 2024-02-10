@@ -6,6 +6,8 @@ export interface ExtConfig {
     customCreatures: string[];
     customObjects: string[];
     customRooms: string[];
+    customSpells: string[];
+    customCreatureSpells: string[];
     formatter: ExtConfigFormatter;
 }
 

@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.10] - 2024-02-10
+### Added
+- custom config: creature spells and spells
+- ADD_TO_PLAYER_MODIFIER
+
 ## [0.7.9] - 2024-01-25
 ### Added
 - some creature props

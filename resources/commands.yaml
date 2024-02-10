@@ -759,3 +759,6 @@
 
 - cmd: SET_PLAYER_MODIFIER([player:KEEPER/PLAYER_GOOD/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
   doc: Assigns various modifiers to specific players. Allows for multiple possibilities, such as giving a handicap to a specific player, creating upgrades that solely benefits one player.
+
+- cmd: ADD_TO_PLAYER_MODIFIER([player:KEEPER/PLAYER_GOOD/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
+  doc: Allows you to increase or decrease the current value of choosen modifier for a specific player.

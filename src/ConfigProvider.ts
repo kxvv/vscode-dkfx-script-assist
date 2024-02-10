@@ -11,6 +11,8 @@ export class ConfigProvider {
         customCreatures: [],
         customObjects: [],
         customRooms: [],
+        customSpells: [],
+        customCreatureSpells: [],
         formatter: {
             spaceAfterSeparator: false,
             spacesAroundOperator: false,
@@ -54,7 +56,23 @@ export class ConfigProvider {
             val: custom.toUpperCase(),
             doc: "Custom room"
         }));
-        Entities.setCustomEntities(customTraps, customDoors, customCreatures, customObjects, customRooms);
+        const customSpells = config.customSpells.map(custom => ({
+            val: custom.toUpperCase(),
+            doc: "Custom spell"
+        }));
+        const customCreatureSpells = config.customCreatureSpells.map(custom => ({
+            val: custom.toUpperCase(),
+            doc: "Custom creature spell"
+        }));
+        Entities.setCustomEntities({
+            traps: customTraps,
+            crtrs: customCreatures,
+            doors: customDoors,
+            objects: customObjects,
+            rooms: customRooms,
+            spells: customSpells,
+            creatureSpells: customCreatureSpells,
+        });
     }
 
     static getConfig(): ExtConfig {

@@ -2154,6 +2154,16 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
     ],
 };
 
+interface CustomEntities {
+    traps: DkEntity[];
+    doors: DkEntity[];
+    crtrs: DkEntity[];
+    objects: DkEntity[];
+    rooms: DkEntity[];
+    spells: DkEntity[];
+    creatureSpells: DkEntity[];
+}
+
 export class Entities {
 
     private static origTraps: DkEntity[] = [...DK_ENTITIES[ParamType.Trap]];
@@ -2161,6 +2171,8 @@ export class Entities {
     private static origCreatures: DkEntity[] = [...DK_ENTITIES[ParamType.Creature]];
     private static origObjects: DkEntity[] = [...DK_ENTITIES[ParamType.Object]];
     private static origRooms: DkEntity[] = [...DK_ENTITIES[ParamType.Room]];
+    private static origSpells: DkEntity[] = [...DK_ENTITIES[ParamType.Spell]];
+    private static origCreatureSpells: DkEntity[] = [...DK_ENTITIES[ParamType.CreatureSpell]];
 
     public static findEntity(type: ParamType | undefined, val?: string): DkEntity | undefined {
         return type ?
@@ -2191,12 +2203,14 @@ export class Entities {
             .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
     }
 
-    public static setCustomEntities(traps: DkEntity[], doors: DkEntity[], crtrs: DkEntity[], objects: DkEntity[], rooms: DkEntity[]): void {
-        DK_ENTITIES[ParamType.Trap] = Entities.origTraps.concat(traps);
-        DK_ENTITIES[ParamType.Door] = Entities.origDoors.concat(doors);
-        DK_ENTITIES[ParamType.Creature] = Entities.origCreatures.concat(crtrs);
-        DK_ENTITIES[ParamType.Object] = Entities.origObjects.concat(objects);
-        DK_ENTITIES[ParamType.Room] = Entities.origRooms.concat(rooms);
+    public static setCustomEntities(ce: CustomEntities): void {
+        DK_ENTITIES[ParamType.Trap] = Entities.origTraps.concat(ce.traps);
+        DK_ENTITIES[ParamType.Door] = Entities.origDoors.concat(ce.doors);
+        DK_ENTITIES[ParamType.Creature] = Entities.origCreatures.concat(ce.crtrs);
+        DK_ENTITIES[ParamType.Object] = Entities.origObjects.concat(ce.objects);
+        DK_ENTITIES[ParamType.Room] = Entities.origRooms.concat(ce.rooms);
+        DK_ENTITIES[ParamType.Spell] = Entities.origSpells.concat(ce.spells);
+        DK_ENTITIES[ParamType.CreatureSpell] = Entities.origCreatureSpells.concat(ce.creatureSpells);
     }
 
     public static findPlayersForVars(): DkEntity[] {

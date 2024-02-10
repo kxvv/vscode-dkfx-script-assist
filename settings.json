@@ -6,6 +6,8 @@
     "customCreatures": [],
     "customObjects": [],
     "customRooms": [],
+    "customSpells": [],
+    "customCreatureSpells": [],
     "formatter": {
         "spaceAfterSeparator": false,
         "spacesAroundOperator": false,
