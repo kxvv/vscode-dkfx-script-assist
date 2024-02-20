@@ -762,3 +762,6 @@
 
 - cmd: ADD_TO_PLAYER_MODIFIER([player:KEEPER/PLAYER_GOOD/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
   doc: Allows you to increase or decrease the current value of choosen modifier for a specific player.
+
+- cmd: USE_POWER_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:BINARY])
+  doc: Casts a keeper power on all creatures of a specific type. It also accepts non-targeted powers which will simply use the location of the units.
