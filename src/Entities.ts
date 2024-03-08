@@ -1226,6 +1226,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "PlaceOnBridge", },
         { val: "PlaceSound", },
         { val: "TriggerSound", },
+        { val: "DestroyedEffect", },
     ],
     [ParamType.PowerConfig]: [
         {

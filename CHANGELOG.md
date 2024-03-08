@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.12] - 2024-03-08
+### Added
+- DestroyedEffect trap config param
+
 ## [0.7.11] - 2024-02-20
 ### Added
 - USE_POWER_ON_PLAYERS_CREATURES command
