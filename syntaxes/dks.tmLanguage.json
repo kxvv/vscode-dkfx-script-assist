@@ -62,7 +62,7 @@
       "patterns": [
         {
           "name": "constant.language",
-          "match": "\\b(?i)(PLAYER[0-3]|ALL_PLAYERS|RED|BLUE|GREEN|YELLOW|WHITE|PLAYER_NEUTRAL|PLAYER_GOOD)\\b"
+          "match": "\\b(?i)(PLAYER[0-6]|ALL_PLAYERS|RED|BLUE|GREEN|YELLOW|WHITE|ORANGE|PURPLE|BLACK|PLAYER_NEUTRAL|PLAYER_GOOD)\\b"
         }
       ]
     },

@@ -45,9 +45,10 @@
   condition: POP
   doc: This command must be placed at the end of all IF statements. This tells the IF command where to jump to when the comparisons in the statement are not met.
 
-- cmd: RESET_ACTION_POINT([action point:ACTION_POINT])
+- cmd: RESET_ACTION_POINT([action point:ACTION_POINT],[player:KEEPER/PLAYER_GOOD/ALL_PLAYERS])
   apWriteAt: 0
   doc: Once an Action Point has been triggered, it cannot be triggered again unless it has been reset by this command.
+  opts: 1
 
 - cmd: NEXT_COMMAND_REUSABLE()
   reuses: true
@@ -578,7 +579,6 @@
 - cmd: MOVE_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE],[destination:LOCATION],[effect:NUMBER/EFFECT])
   opts: 1
   doc: Moves creatures instantly to the specified destination.
-  rootLvl: FORBID
 
 - cmd: COUNT_CREATURES_AT_ACTION_POINT([action point:ACTION_POINT],[player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[write flag player:PLAYER],[write flag:SETTABLE_VAR])
   flagWriteAt: [4]
