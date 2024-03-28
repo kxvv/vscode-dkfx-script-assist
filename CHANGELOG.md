@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.14] - 2024-03-28
+### Fixed
+- new players' variables not working properly
+
 ## [0.7.13] - 2024-03-27
 ### Added
 - 3 new players

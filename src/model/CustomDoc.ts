@@ -20,6 +20,9 @@ const PLAYER_ABBREVS: Record<string, string> = {
     "P1": "PLAYER1",
     "P2": "PLAYER2",
     "P3": "PLAYER3",
+    "P4": "PLAYER4",
+    "P5": "PLAYER5",
+    "P6": "PLAYER6",
     "PG": "PLAYER_GOOD",
     "PA": "ALL_PLAYERS",
 };
