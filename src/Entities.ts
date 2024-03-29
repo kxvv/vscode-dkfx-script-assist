@@ -1088,6 +1088,14 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "3",
             doc: "Line of sight"
         },
+        {
+            val: "4",
+            doc: "Pressure activated (subtile)"
+        },
+        {
+            val: "5",
+            doc: "Whenever after reloading"
+        },
     ],
     [ParamType.Operation]: [
         { val: "SET" },
@@ -1140,7 +1148,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "PointerSprites",
         },
         {
-            doc: "Position of the item in manufacture panel; 0 - not there, 1-15 - place in 4x4 grid",
+            doc: "Position of the item in the panel, 0 is hidden, 1-16 first page, 17-32 second page. Place in 4x4 grid.",
             val: "PanelTabIndex",
         },
         {
@@ -1220,6 +1228,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "ManufactureRequired", },
         { val: "Shots", },
         { val: "TimeBetweenShots", },
+        { val: "InitialDelay", doc: "If set the trap is on 'reloading phase' at placement, value defines how long in game turns before it can start shooting." },
         { val: "SellingValue", },
         { val: "Model", doc: "Deprecated. Use AnimationID instead." },
         { val: "AnimationID", },

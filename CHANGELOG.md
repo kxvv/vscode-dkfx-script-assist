@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.15] - 2024-03-29
+### Added
+- SET_TRAP_CONFIGURATION new fields
+
 ## [0.7.14] - 2024-03-28
 ### Fixed
 - new players' variables not working properly
