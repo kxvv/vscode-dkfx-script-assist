@@ -951,6 +951,8 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "WANDERING", doc: "only wandering creatures match this rule", },
         { val: "WORKING", doc: "only working creatures match this rule", },
         { val: "FIGHTING", doc: "only fighting creatures match this rule", },
+        { val: "DROPPED_TIME_HIGHER", doc: "only creatures picked up and dropped more turns ago match this rule", },
+        { val: "DROPPED_TIME_LOWER", doc: "only creatures picked up and dropped less turns ago match this rule", },
     ],
     [ParamType.RuleAction]: [
         { val: "ALLOW" },
