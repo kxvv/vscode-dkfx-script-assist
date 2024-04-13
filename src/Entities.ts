@@ -1827,6 +1827,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "COMBAT",
             doc: "Location of the last battle"
         },
+        {
+            val: "CTA",
+            doc: "Location of active Call to Arms spell"
+        },
     ],
     [ParamType.OneToTen]: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(String).map(val => ({ val })),
     [ParamType.CreatureSpell]: [

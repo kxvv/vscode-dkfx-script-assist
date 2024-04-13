@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.17] - 2024-04-14
+### Changed
+- location params: CTA and COMBAT
+
 ## [0.7.16] - 2024-04-05
 ### Added
 - new hand rules: DROPPED_TIME_LOWER/DROPPED_TIME_HIGHER
