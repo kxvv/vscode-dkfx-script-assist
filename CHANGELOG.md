@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.18] - 2024-04-16
+### Added
+- creature spell param for message commands, easter egg game rules
+
 ## [0.7.17] - 2024-04-14
 ### Changed
 - location params: CTA and COMBAT
