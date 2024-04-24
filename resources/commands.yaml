@@ -293,6 +293,10 @@
 
 - cmd: SET_GAME_RULE([rule name:GAME_RULE],[value:NUMBER])
   doc: Allows you to make changes to door values set in rules.cfg. You can make them conditional with IF statements.
+  signChanges: [
+    IF 0 EQ DisplayPortalLimit SET 1 BINARY,
+    IF 0 EQ LightEnabled SET 1 BINARY
+  ]
 
 - cmd: ADD_BONUS_TIME([turns:NUMBER])
   doc: Add or remove turns to the Bonus Level timer. Allows negative values.

@@ -1078,6 +1078,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "GameTurnsPerPrisonHealthGain" },
         { val: "EasterEggSpeechChance", doc: "Easter Egg Game Speech Frequency. Chance is 1 in <x>. Interval is turns between rolls." },
         { val: "EasterEggSpeechInterval" },
+        { val: "DisplayPortalLimit", doc: "Whether to show the portal limit in the query screen" },
+        { val: "LightEnabled" },
+        { val: "GlobalAmbientLight" },
     ],
     [ParamType.TrapTriggerType]: [
         {
