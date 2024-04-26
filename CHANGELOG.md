@@ -4,6 +4,14 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.20] - 2024-04-26
+
+### Added
+- CHANGE_SLAB_TEXTURE command
+
+### Changed
+- game rules update
+
 ## [0.7.19] - 2024-04-24
 ### Added
 - some new game rules

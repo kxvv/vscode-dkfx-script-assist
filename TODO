@@ -1,12 +1,10 @@
-
-
 // js snippets
-s.split('\n').filter(x=>x.startsWith('Name')).map(x=>x.replace('Name =','').trim()).map(x=>`{ val: "${x}" },`).join('\n')
+// s.split('\n').filter(x=>x.startsWith('Name')).map(x=>x.replace('Name =','').trim()).map(x=>`{ val: "${x}" },`).join('\n')
 
 const fs = require('fs')
 s = s.split('\n')
-    .filter(t => t.trim())
-    .filter(t => !t.startsWith('['));
+    .map(t => t.trim())
+    .filter(t => t && !t.startsWith('['));
 const result = [];
 for (let i = 0; i < s.length; i++) {
     let line = s[i];
