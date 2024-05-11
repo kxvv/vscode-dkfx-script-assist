@@ -45,7 +45,7 @@
   condition: POP
   doc: This command must be placed at the end of all IF statements. This tells the IF command where to jump to when the comparisons in the statement are not met.
 
-- cmd: RESET_ACTION_POINT([action point:ACTION_POINT],[player:KEEPER/PLAYER_GOOD/ALL_PLAYERS])
+- cmd: RESET_ACTION_POINT([action point:ACTION_POINT],[player:KEEPER/ALL_PLAYERS])
   apWriteAt: 0
   doc: Once an Action Point has been triggered, it cannot be triggered again unless it has been reset by this command.
   opts: 1
@@ -71,7 +71,7 @@
 - cmd: MAX_CREATURES([player:PLAYER/ALL_PLAYERS],[max amount:BYTE])
   doc: The maximum number of creatures a player can have. The player can still gain creatures through Scavenging and Torturing but no more will come through the portal until the number of creatures drops below the maximum again.
 
-- cmd: ALLY_PLAYERS([player A:KEEPER/PLAYER_GOOD],[player B:KEEPER/PLAYER_GOOD],[alliance type:ALLIANCE_TYPE])
+- cmd: ALLY_PLAYERS([player A:KEEPER],[player B:KEEPER],[alliance type:ALLIANCE_TYPE])
   doc: Sets up an alliance between two players.
 
 - cmd: ADD_CREATURE_TO_POOL([creature type:CREATURE],[amount:BYTE])
@@ -732,7 +732,7 @@
     IF 1 EQ Sound SET 3 NUMBER
   ]
 
-- cmd: SET_PLAYER_COLOR([player:KEEPER/PLAYER_GOOD],[color:PLAYER_COLOR])
+- cmd: SET_PLAYER_COLOR([player:KEEPER],[color:PLAYER_COLOR])
   doc: |
     Does a color swap for a player.
     Where:
@@ -742,7 +742,7 @@
 
     Note: The change is only visual, and swapping PLAYER0 to Blue without Swapping PLAYER1 to another color will have 2 indistinguishable players.
 
-- cmd: MAKE_UNSAFE([player:KEEPER/ALL_PLAYERS/PLAYER_GOOD])
+- cmd: MAKE_UNSAFE([player:KEEPER/ALL_PLAYERS])
   doc: Removes all the fortifications of the Dungeon Wall of target player.
 
 - cmd: MAKE_SAFE([player:PLAYER/ALL_PLAYERS])
@@ -766,21 +766,21 @@
 - cmd: SET_INCREASE_ON_EXPERIENCE([increase config property:INCREASE_CONFIG],[value:NUMBER])
   doc: Allows to specify certain property values that increase for every experience level.
 
-- cmd: SET_PLAYER_MODIFIER([player:KEEPER/PLAYER_GOOD/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
+- cmd: SET_PLAYER_MODIFIER([player:KEEPER/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
   doc: Assigns various modifiers to specific players. Allows for multiple possibilities, such as giving a handicap to a specific player, creating upgrades that solely benefits one player.
 
-- cmd: ADD_TO_PLAYER_MODIFIER([player:KEEPER/PLAYER_GOOD/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
+- cmd: ADD_TO_PLAYER_MODIFIER([player:KEEPER/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
   doc: Allows you to increase or decrease the current value of choosen modifier for a specific player.
 
 - cmd: USE_POWER_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:BINARY])
   doc: Casts a keeper power on all creatures of a specific type. It also accepts non-targeted powers which will simply use the location of the units.
 
-- cmd: COMBAT[[player:KEEPER/PLAYER_GOOD]]
+- cmd: COMBAT[[player:KEEPER]]
   opts: 1
   returns: LOCATION
   doc: Location of the last battle
 
-- cmd: CTA[[player:KEEPER/PLAYER_GOOD]]
+- cmd: CTA[[player:KEEPER]]
   opts: 1
   returns: LOCATION
   doc: Location of active Call to Arms spell

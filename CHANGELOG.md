@@ -4,8 +4,12 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.7.20] - 2024-04-26
+## [0.7.21] - 2024-05-11
+### Changed
+- PLAYER_GOOD now can be a player
+- trap subtile placement rule
 
+## [0.7.20] - 2024-04-26
 ### Added
 - CHANGE_SLAB_TEXTURE command
 
