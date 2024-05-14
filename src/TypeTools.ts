@@ -425,10 +425,10 @@ export class TypeTools {
                 return "PLAYER3";
             case "PURPLE":
                 return "PLAYER4";
-            case "ORANGE":
-                return "PLAYER5";
             case "BLACK":
                 return "PLAYER5";
+            case "ORANGE":
+                return "PLAYER6";
             case "WHITE":
                 return "PLAYER_GOOD";
         }
