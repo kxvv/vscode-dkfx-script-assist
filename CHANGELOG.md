@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.23] - 2024-06-02
+### Changed
+- SET_CREATURE_CONFIGURATION changes
+
 ## [0.7.22] - 2024-05-14
 ### Changed
 - player colors mislabeled

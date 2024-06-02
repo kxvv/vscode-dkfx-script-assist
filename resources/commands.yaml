@@ -431,22 +431,25 @@
   rootLvl: ENFORCE
   doc: Sets a Tooltip on a custom special box, with a text from the language files.
 
-- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER],[second value:NUMBER])
+- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER],[second value:NUMBER],[third value:NUMBER])
   doc: Allows you to make changes to attribute values set in the unit configuration files.
-  opts: 1
+  opts: 2
   signChanges: [
-    IF 1 EQ PrimaryJobs SET 2 JOB,
+    IF 1 EQ PrimaryJobs SET 2 JOB/NUMBER,
     IF 1 EQ PrimaryJobs SET 3 JOB,
-    IF 1 EQ SecondaryJobs SET 2 JOB,
+    IF 1 EQ SecondaryJobs SET 2 JOB/NUMBER,
     IF 1 EQ SecondaryJobs SET 3 JOB,
-    IF 1 EQ NotDoJobs SET 2 JOB,
+    IF 1 EQ NotDoJobs SET 2 JOB/NUMBER,
     IF 1 EQ NotDoJobs SET 3 JOB,
-    IF 1 EQ StressfulJobs SET 2 JOB,
+    IF 1 EQ StressfulJobs SET 2 JOB/NUMBER,
     IF 1 EQ StressfulJobs SET 3 JOB,
     IF 1 EQ AttackPreference SET 2 UNKNOWN,
     IF 1 EQ AttackPreference SET 3 UNKNOWN,
     IF 1 EQ Properties SET 2 UNKNOWN,
-    IF 1 EQ Properties SET 3 UNKNOWN
+    IF 1 EQ Properties SET 3 UNKNOWN,
+    IF 1 EQ EntranceRoom SET 2 ROOM,
+    IF 1 EQ EntranceRoom SET 3 ROOM,
+    IF 1 EQ EntranceRoom SET 4 ROOM
   ]
 
 - cmd: SET_DOOR_CONFIGURATION([door name:DOOR],[property:DOOR_CONFIG],[value:UNKNOWN],[second value:UNKNOWN])
