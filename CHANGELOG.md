@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.24] - 2024-06-14
+### Added
+- flabe object props
+
 ## [0.7.23] - 2024-06-02
 ### Changed
 - SET_CREATURE_CONFIGURATION changes
