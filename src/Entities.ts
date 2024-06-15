@@ -51,9 +51,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "BLUE", doc: "PLAYER1's equivalent", },
         { val: "GREEN", doc: "PLAYER2's equivalent", },
         { val: "YELLOW", doc: "PLAYER3's equivalent", },
+        { val: "PURPLE", doc: "PLAYER4's equivalent", },
         { val: "BLACK", doc: "PLAYER5's equivalent", },
         { val: "ORANGE", doc: "PLAYER6's equivalent", },
-        { val: "BLACK", doc: "PLAYER6's equivalent", },
         { val: "PLAYER_GOOD", doc: "PLAYER_GOOD's equivalent (if set to be a player)", },
     ],
     [ParamType.PlayerGood]: [
@@ -492,6 +492,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         {
             val: "ACTIVE_BATTLES",
             doc: "The amount of battles going on for the player. Multiple creatures can be part of a single battle.",
+        },
+        {
+            val: "VIEW_TYPE",
+            doc: "What the player is currently viewing. 1 for dungeon view, 2 for possession, 4 for map screen",
         },
     ],
     [ParamType.Objective]: [
@@ -2235,6 +2239,14 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "TrainingCost", },
         { val: "ScavengingCost", },
         { val: "Loyalty", },
+    ],
+    [ParamType.ViewType]: [
+        { val: "1", doc: "Keeping mode: normal dungeon view" },
+        { val: "2", doc: "First person/possession" },
+        { val: "3", doc: "Uncontrolled first person mode (like chicken possession)" },
+        { val: "4", doc: "Map view" },
+        { val: "5", doc: "Map fade in" },
+        { val: "6", doc: "Map fade out" },
     ],
 };
 

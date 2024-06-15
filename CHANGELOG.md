@@ -4,9 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.7.24] - 2024-06-14
+## [0.7.25] - 2024-06-15
 ### Added
-- flabe object props
+- zoom_to_location command
+- VIEW_TYPE global
 
 ## [0.7.23] - 2024-06-02
 ### Changed

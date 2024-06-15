@@ -24,7 +24,13 @@
 
 - cmd: IF([player:PLAYER/ALL_PLAYERS],[left B:READSET_VAR][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER/ALL_PLAYERS],[right B:READSET_VAR])
   opts: 1
-  signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED, IF 3 IS ALL_PLAYERS SET 4 REQUIRED]
+  signChanges: [
+      IF 3 IS NUMBER SET 4 VOID,
+      IF 3 IS PLAYER SET 4 REQUIRED,
+      IF 3 IS ALL_PLAYERS SET 4 REQUIRED,
+      IF 1 EQ VIEW_TYPE SET 3 NUMBER/PLAYER/ALL_PLAYERS/VIEW_TYPE,
+      IF 3 EQ VIEW_TYPE SET 4 VIEW_TYPE,
+    ]
   flagReadAt: [1, 4]
   timerReadAt: [1, 4]
   condition: PUSH
@@ -791,3 +797,6 @@
 - cmd: CHANGE_SLAB_TEXTURE([slab X coordinate:SLAB],[slab Y coordinate:SLAB],[texture:TEXTURE],[fill type:FILL_TYPE])
   opts: 1
   doc: Changes the texture (style) of a slab on the map to the specified one.
+
+- cmd: ZOOM_TO_LOCATION([player:KEEPER],[location:LOCATION])
+  doc: Moves the camera of a player to a specific location like an action point.
