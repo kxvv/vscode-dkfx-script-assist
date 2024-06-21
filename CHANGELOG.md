@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.26] - 2024-06-21
+### Changed
+- set trap config command added 4th param
+
 ## [0.7.25] - 2024-06-15
 ### Added
 - zoom_to_location command

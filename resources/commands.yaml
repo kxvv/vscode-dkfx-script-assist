@@ -469,8 +469,8 @@
   doc: Allows you to make changes to object values set in objects.cfg.
   opts: 1
 
-- cmd: SET_TRAP_CONFIGURATION([trap name:TRAP],[property:TRAP_CONFIG],[value:UNKNOWN],[value2:UNKNOWN],[value3:UNKNOWN])
-  opts: 2
+- cmd: SET_TRAP_CONFIGURATION([trap name:TRAP],[property:TRAP_CONFIG],[value:UNKNOWN],[value2:UNKNOWN],[value3:UNKNOWN],[value4:UNKNOWN])
+  opts: 3
   signChanges: [
     IF 1 EQ TriggerType SET 2 TRAP_TRIGGER_TYPE,
     IF 1 EQ ActivationType SET 2 TRAP_ACTIVATION_TYPE,
