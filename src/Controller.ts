@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { ConfigProvider } from "./ConfigProvider";
 import { LANGUAGE_ID } from "./extension";
-import { GateUtils } from "./GateUtils";
+import { ControllerUtils } from "./ControllerUtils";
 import { Parser } from "./interpreter/Parser";
 import { Preparser } from "./interpreter/Preparser";
 import { Tokenizer } from "./interpreter/Tokenizer";
@@ -10,7 +10,7 @@ import { ExtConfig } from "./model/ExtConfig";
 import { ParsedLine } from "./model/ParsedLine";
 import { IndexedStatements, ScriptChangeInfo, ScriptInstance } from "./ScriptInstance";
 
-export class Gate {
+export class Controller {
     readonly diag: vscode.DiagnosticCollection;
     instances: { [uri: string]: ScriptInstance } = {};
     timeoutDiags: { [uri: string]: any } = {};
@@ -85,12 +85,12 @@ export class Gate {
     }
 
     subscribe(context: vscode.ExtensionContext) {
-        GateUtils.registerOnTextChangeListener(context, this);
-        GateUtils.registerOnActiveEditorChangeListener(context, this);
-        GateUtils.registerCompletionProvider(this);
-        GateUtils.registerSignHelpProvider(this);
-        GateUtils.registerHoverProvider(this);
-        GateUtils.registerFormattingProvider(this);
+        ControllerUtils.registerOnTextChangeListener(context, this);
+        ControllerUtils.registerOnActiveEditorChangeListener(context, this);
+        ControllerUtils.registerCompletionProvider(this);
+        ControllerUtils.registerSignHelpProvider(this);
+        ControllerUtils.registerHoverProvider(this);
+        ControllerUtils.registerFormattingProvider(this);
         this.setConfig();
 
         vscode.window.onDidChangeActiveTextEditor(() => {

@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.27] - 2024-06-27
+### Added
+- DragUnconsciousToLair
+- command suggestions within commands
+
 ## [0.7.26] - 2024-06-21
 ### Changed
 - set trap config command added 4th param

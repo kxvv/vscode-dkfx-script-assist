@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
 import { MapBrowser } from './MapBrowser';
-import { Gate } from './Gate';
+import { Controller } from './Controller';
 
 export const LANGUAGE_ID = "dks";
 
 export function activate(context: vscode.ExtensionContext) {
-	new Gate().subscribe(context);
+	new Controller().subscribe(context);
 	new MapBrowser().registerCommand();
 }
 

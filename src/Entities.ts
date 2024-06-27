@@ -1,5 +1,7 @@
+import { DescProvider } from "./DescProvider";
 import { MappersDk } from "./MappersDk";
 import { DkEntity } from "./model/DkEntity";
+import { DkSuggestion } from "./model/DkSuggestion";
 import { ParamType } from "./model/ParamType";
 import { Word } from "./model/Word";
 import { VAR_COMPOSITES } from "./TypeTools";
@@ -1117,6 +1119,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "GameTurnsPerPrisonHealthGain" },
         { val: "TortureHealthLoss" },
         { val: "GameTurnsPerTortureHealthLoss" },
+        { val: "DragUnconsciousToLair", doc: "Imps will save fainted units by dragging them to lair." },
     ],
     [ParamType.TrapTriggerType]: [
         {
@@ -2289,8 +2292,10 @@ export class Entities {
         return !!(DK_ENTITIES[paramType]?.some(e => e.val.toUpperCase() === upperCased));
     }
 
-    public static suggestForType(type: ParamType, sliceEnd?: number) {
-        return DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
+    public static suggestForType(type: ParamType, sliceEnd?: number): DkSuggestion[] {
+        const cmdMap = DescProvider.getCommandsOfReturnType(type);
+        return (DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [])
+            .concat([...cmdMap.keys()].map(cmdName => MappersDk.commandToDkSuggestion(cmdName, cmdMap.get(cmdName)!)));
     }
 
     public static suggestCustomBoxes() {
@@ -2326,6 +2331,7 @@ export class Entities {
     }
 
     public static insertCompositeTypes() {
+        //  check if they were already inserted
         if (DK_ENTITIES[ParamType.ReadVar]) {
             return;
         }
@@ -2334,12 +2340,12 @@ export class Entities {
         const readSetVars: ParamType[] = VAR_COMPOSITES[ParamType.ReadSetVar];;
 
         DK_ENTITIES[ParamType.ReadVar] = [];
-        readVars.forEach(rv => DK_ENTITIES[ParamType.ReadVar].push(...DK_ENTITIES[rv]));
+        readVars.forEach(variable => DK_ENTITIES[ParamType.ReadVar].push(...DK_ENTITIES[variable]));
 
         DK_ENTITIES[ParamType.SetVar] = [];
-        setVars.forEach(rv => DK_ENTITIES[ParamType.SetVar].push(...DK_ENTITIES[rv]));
+        setVars.forEach(variable => DK_ENTITIES[ParamType.SetVar].push(...DK_ENTITIES[variable]));
 
         DK_ENTITIES[ParamType.ReadSetVar] = [];
-        readSetVars.forEach(rv => DK_ENTITIES[ParamType.ReadSetVar].push(...DK_ENTITIES[rv]));
+        readSetVars.forEach(variable => DK_ENTITIES[ParamType.ReadSetVar].push(...DK_ENTITIES[variable]));
     }
 }

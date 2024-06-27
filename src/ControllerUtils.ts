@@ -1,12 +1,12 @@
 import * as vscode from "vscode";
 import { LANGUAGE_ID } from "./extension";
 import { Formatter } from "./Formatter";
-import { Gate } from "./Gate";
+import { Controller } from "./Controller";
 import { MappersVs } from "./MappersVs";
 import { ScriptInstance } from "./ScriptInstance";
 
-export class GateUtils {
-    static registerOnTextChangeListener(context: vscode.ExtensionContext, resolver: Gate) {
+export class ControllerUtils {
+    static registerOnTextChangeListener(context: vscode.ExtensionContext, resolver: Controller) {
         vscode.workspace.onDidChangeTextDocument((event: vscode.TextDocumentChangeEvent) => {
             if (event.document.languageId !== LANGUAGE_ID) {
                 return;
@@ -23,7 +23,7 @@ export class GateUtils {
         });
     }
 
-    static registerOnActiveEditorChangeListener(context: vscode.ExtensionContext, resolver: Gate) {
+    static registerOnActiveEditorChangeListener(context: vscode.ExtensionContext, resolver: Controller) {
         const onActiveChange = vscode.window.onDidChangeActiveTextEditor(editor => {
             if (editor) {
                 if (editor.document.languageId !== LANGUAGE_ID) {
@@ -40,7 +40,7 @@ export class GateUtils {
         }
     }
 
-    static registerCompletionProvider(resolver: Gate) {
+    static registerCompletionProvider(resolver: Controller) {
         vscode.languages.registerCompletionItemProvider(LANGUAGE_ID, {
             provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
                 const txt = document.lineAt(position.line).text;
@@ -53,7 +53,7 @@ export class GateUtils {
         }, ",", "(", " ", "[");
     }
 
-    static registerSignHelpProvider(resolver: Gate) {
+    static registerSignHelpProvider(resolver: Controller) {
         vscode.languages.registerSignatureHelpProvider(LANGUAGE_ID, {
             provideSignatureHelp(
                 document: vscode.TextDocument,
@@ -66,7 +66,7 @@ export class GateUtils {
         }, ",", "(", " ", "[");
     }
 
-    static registerHoverProvider(resolver: Gate) {
+    static registerHoverProvider(resolver: Controller) {
         vscode.languages.registerHoverProvider(LANGUAGE_ID, {
             provideHover(
                 document: vscode.TextDocument,
@@ -87,7 +87,7 @@ export class GateUtils {
         });
     }
 
-    static registerFormattingProvider(resolver: Gate) {
+    static registerFormattingProvider(resolver: Controller) {
         vscode.languages.registerDocumentFormattingEditProvider(LANGUAGE_ID, {
             provideDocumentFormattingEdits(
                 document: vscode.TextDocument,

@@ -16,8 +16,6 @@ interface NonSepSignPart {
 
 let descMap: Map<string, CommandDesc> | undefined;
 
-const LOADED_COMMANDS: LoadedCommands = ResourcesLoader.loadCommands();
-
 function initCmdParamsMap(loaded: LoadedCommands): Map<string, CommandDesc> {
     const result: Map<string, CommandDesc> = new Map;
     loaded.values.forEach(lv => {
@@ -143,7 +141,7 @@ function loadedCommandToCommandDesc(loadCmd: LoadedCommand, name: string): Comma
 export class DescProvider {
     static getCommandDescMap(): Map<string, CommandDesc> {
         if (!descMap) {
-            descMap = initCmdParamsMap(LOADED_COMMANDS);
+            descMap = initCmdParamsMap(ResourcesLoader.loadCommands());
         }
         return descMap;
     }
@@ -173,9 +171,14 @@ export class DescProvider {
         return desc;
     }
 
-    static getCommandsOfReturnType(type: ParamType): CommandDesc[] {
-        // TODO
-        return [];
+    static getCommandsOfReturnType(type: ParamType): Map<string, CommandDesc> {
+        const result = new Map<string, CommandDesc>();
+        this.getCommandDescMap().forEach((val, key) => {
+            if (val.returns?.includes(type)) {
+                result.set(key, val);
+            }
+        });
+        return result;
     }
 
     private static replaceAutoTypes(descCopy: CommandDesc, exp: Exp, parentParam: DescParam): CommandDesc {
