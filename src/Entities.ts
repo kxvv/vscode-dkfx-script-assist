@@ -166,6 +166,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "16",
             doc: "Skirmish Rush",
         },
+        {
+            val: "ROAMING",
+            doc: "Roaming creatures that do not need a dungeon to function. PLAYER_GOOD is set to ROAMING by default.",
+        },
     ],
     [ParamType.Creature]: [
         ..."WIZARD,TUNNELLER,BARBARIAN,ARCHER,MONK,KNIGHT,AVATAR,GIANT,FAIRY,THIEF,SAMURAI,IMP,HORNY,SKELETON,TROLL,DRAGON,DEMONSPAWN,FLY,DARK_MISTRESS,BILE_DEMON,VAMPIRE,SPIDER,HELL_HOUND,GHOST,TENTACLE,ORC,TIME_MAGE,DRUID"

@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.28] - 2024-07-26
+### Added
+- ROAMING computer player behavior
+
 ## [0.7.27] - 2024-06-27
 ### Added
 - DragUnconsciousToLair
