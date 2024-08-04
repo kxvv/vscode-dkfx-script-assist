@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.29] - 2024-08-04
+### Fixed
+- ADD_EFFECT_GENERATOR_TO_LEVEL params
+
 ## [0.7.28] - 2024-07-26
 ### Added
 - ROAMING computer player behavior

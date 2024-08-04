@@ -664,7 +664,7 @@
 
     [hand] - The name of the hand, as defined in powerhands.toml.
 
-- cmd: ADD_EFFECT_GENERATOR_TO_LEVEL([effect generator:NUMBER/EFFECT],[location:LOCATION],[range:NUMBER])
+- cmd: ADD_EFFECT_GENERATOR_TO_LEVEL([effect generator:NUMBER/EFFECT_GENERATOR],[location:LOCATION],[range:NUMBER])
   doc: |
     Place any Effect Generator at a specific place on the map.
     Where:
