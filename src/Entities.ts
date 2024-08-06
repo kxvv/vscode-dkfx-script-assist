@@ -344,6 +344,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             doc: "The amount of traps the player placed on the map",
         },
         {
+            val: "TOTAL_TRAPS",
+            doc: "The amount of traps the player placed on the map",
+        },
+        {
             val: "TOTAL_MANUFACTURED",
             doc: "The amount of traps and doors the player created in the workshop",
         },
@@ -2254,6 +2258,11 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "4", doc: "Map view" },
         { val: "5", doc: "Map fade in" },
         { val: "6", doc: "Map fade out" },
+    ],
+    [ParamType.AvailVars]: [
+        { val: "TOTAL_CREATURES", },
+        { val: "TOTAL_TRAPS", },
+        { val: "TOTAL_DOORS", },
     ],
 };
 

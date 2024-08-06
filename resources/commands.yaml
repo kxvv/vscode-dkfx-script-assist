@@ -36,7 +36,7 @@
   condition: PUSH
   doc: This is used to test the differences between two values. If those two values agree with the comparison, the script will continue. If the two values do not agree with the comparison, the script will find the next ENDIF and continue from there.
 
-- cmd: IF_AVAILABLE([player:PLAYER/ALL_PLAYERS],[left B:ROOM/POWER/TRAP/DOOR/CREATURE][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER/ALL_PLAYERS],[right B:ROOM/POWER/TRAP/DOOR/CREATURE])
+- cmd: IF_AVAILABLE([player:PLAYER/ALL_PLAYERS],[left B:ROOM/POWER/TRAP/DOOR/CREATURE/AVAIL_VARS][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER/ALL_PLAYERS],[right B:ROOM/POWER/TRAP/DOOR/CREATURE/AVAIL_VARS])
   opts: 1
   signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED, IF 3 IS ALL_PLAYERS SET 4 REQUIRED]
   condition: PUSH

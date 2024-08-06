@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.30] - 2024-08-06
+### Fixed
+- TOTAL-like variables for IF_AVAILABLE
+
 ## [0.7.29] - 2024-08-04
 ### Fixed
 - ADD_EFFECT_GENERATOR_TO_LEVEL params

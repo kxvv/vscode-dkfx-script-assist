@@ -5,6 +5,7 @@ export enum ParamType {
     AnyCreature = "ANY_CREATURE",
     AudioType = "AUDIO_TYPE",
     Auto = "AUTO",
+    AvailVars = "AVAIL_VARS",
     Binary = "BINARY",
     Button = "BUTTON",
     Byte = "BYTE",
