@@ -134,7 +134,7 @@
 
 - cmd: ADD_TO_PARTY([party:PARTY],[creature:CREATURE],[level:1-10],[gold carried:GOLD],[objective:OBJECTIVE],[delay:TIME])
   partyAddAt: 0
-  doc: This command adds a number of creatures to a party (maximum seven).
+  doc: This command adds a number of creatures to a party.
 
 - cmd: ADD_TUNNELLER_PARTY_TO_LEVEL([owner player:PLAYER],[party:PARTY],[spawn location:LOCATION],[head for:HEAD_FOR],[target:ACTION_POINT/HERO_GATE/BYTE],[tunneler level:1-10],[gold carried:GOLD])
   signChanges: [IF 3 EQ ACTION_POINT SET 4 ACTION_POINT/HERO_GATE, IF 3 EQ DUNGEON SET 4 KEEPER_INDEX, IF 3 EQ DUNGEON_HEART SET 4 KEEPER_INDEX, IF 3 EQ APPROPIATE_DUNGEON SET 4 NUMBER]
@@ -800,3 +800,7 @@
 
 - cmd: ZOOM_TO_LOCATION([player:KEEPER],[location:LOCATION])
   doc: Moves the camera of a player to a specific location like an action point.
+
+- cmd: ADD_OBJECT_TO_LEVEL_AT_POS([object:OBJECT],[X coordinate:SUBTILE],[Y coordinate:SUBTILE],[property:NUMBER],[owner player:PLAYER])
+  doc: Place any object at a subtile.
+  opts: 1
