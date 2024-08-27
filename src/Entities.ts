@@ -1926,6 +1926,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "LIGHT", },
         { val: "CAST_SPELL_TIME_BOMB", },
         { val: "CAST_SPELL_CHICKEN", },
+        { val: "CAST_SPELL_DISEASE", },
     ],
     [ParamType.CompareOperator]: [
         { val: ">" },

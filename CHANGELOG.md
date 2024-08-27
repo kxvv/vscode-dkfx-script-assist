@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.32] - 2024-08-27
+### Added
+- CAST_SPELL_DISEASE creature spell
+
+### Changed
+- computer_player command if-able
+
 ## [0.7.31] - 2024-08-20
 ### Added
 - ADD_OBJECT_TO_LEVEL_AT_POS command

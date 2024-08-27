@@ -67,7 +67,6 @@
   doc: This command tells the game how long to wait before generating a new creature for each player. The type of creatures that appear cannot be scripted and will depend on the rooms the player has built. This is a global setting and will apply to all Portals.
 
 - cmd: COMPUTER_PLAYER([keeper:KEEPER],[behavior:COMPUTER])
-  rootLvl: ENFORCE
   doc: If you have placed down an enemy dungeon heart (not a hero dungeon heart), this command tells Dungeon Keeper that a computer player needs to be assigned.
 
 - cmd: START_MONEY([player:PLAYER/ALL_PLAYERS],[gold:GOLD])
