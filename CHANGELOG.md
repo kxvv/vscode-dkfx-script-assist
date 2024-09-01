@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.33] - 2024-09-01
+### Changed
+- SET_COMPUTER_GLOBALS
+- computer commands allowed in ifs
+
 ## [0.7.32] - 2024-08-27
 ### Added
 - CAST_SPELL_DISEASE creature spell

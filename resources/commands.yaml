@@ -178,19 +178,14 @@
 
 - cmd: SET_COMPUTER_PROCESS([player:PLAYER/ALL_PLAYERS],[process:COMP_PROCESS],[priority:UNKNOWN],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN])
   opts: 4
-  rootLvl: ENFORCE
 
 - cmd: SET_COMPUTER_CHECKS([player:PLAYER/ALL_PLAYERS],[check:COMP_CHECK],[period:TIME],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN])
   opts: 4
-  rootLvl: ENFORCE
 
 - cmd: SET_COMPUTER_EVENT([player:PLAYER/ALL_PLAYERS],[event:COMP_EVENT],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN])
   opts: 5
-  rootLvl: ENFORCE
 
-- cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[global:COMP_GLOBAL/UNKNOWN],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN],[data6:UNKNOWN])
-  opts: 7
-  rootLvl: ENFORCE
+- cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[dig stack size:NUMBER],[processes time:NUMBER],[click rate:NUMBER],[max room build tasks:NUMBER],[turn begin:NUMBER],[sim before dig:NUMBER],[min drop delay:NUMBER])
 
 - cmd: LEVEL_VERSION([version:VERSION])
   rootLvl: ENFORCE
