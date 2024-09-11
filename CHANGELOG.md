@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.7.34] - 2024-09-11
+### Changed
+- docs for some commands
+
 ## [0.7.33] - 2024-09-01
 ### Changed
 - SET_COMPUTER_GLOBALS

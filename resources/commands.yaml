@@ -186,6 +186,24 @@
   opts: 5
 
 - cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[dig stack size:NUMBER],[processes time:NUMBER],[click rate:NUMBER],[max room build tasks:NUMBER],[turn begin:NUMBER],[sim before dig:NUMBER],[min drop delay:NUMBER])
+  doc: |
+    Allows the player to configure the behavior of an AI for specific criteria.
+
+    [player] - The computer player’s name, e.g. PLAYER1. See Players section for more information.
+
+    [dig stack size] - how much digging a computer starts, as a percentage of the current dungeon area
+
+    [processes time] - game turns between performing processes
+
+    [click rate] - game turns between actions: each room tile placed, each dirt highlighted, each unit dropped
+
+    [max room build tasks] - how many rooms can be built at once
+
+    [turn begin] - game turns until AI initializes
+
+    [sim before dig] - simulate outcome before starting action
+
+    [min drop delay] - when the click rate is faster, take this as a minimum delay between dropping units
 
 - cmd: LEVEL_VERSION([version:VERSION])
   rootLvl: ENFORCE
@@ -295,7 +313,8 @@
   doc: Allows you to make changes to door values set in rules.cfg. You can make them conditional with IF statements.
   signChanges: [
     IF 0 EQ DisplayPortalLimit SET 1 BINARY,
-    IF 0 EQ LightEnabled SET 1 BINARY
+    IF 0 EQ LightEnabled SET 1 BINARY,
+    IF 0 EQ PreserveClassicBugs SET 1 NUMBER/CLASSIC_BUG
   ]
 
 - cmd: ADD_BONUS_TIME([turns:NUMBER])
@@ -452,16 +471,47 @@
     IF 1 EQ EntranceRoom SET 4 ROOM
   ]
 
-- cmd: SET_DOOR_CONFIGURATION([door name:DOOR],[property:DOOR_CONFIG],[value:UNKNOWN],[second value:UNKNOWN])
+- cmd: SET_DOOR_CONFIGURATION([door name:DOOR],[property:DOOR_CONFIG],[value:NUMBER],[second value:VOID])
   opts: 1
   signChanges: [
-    IF 1 EQ Crate SET 2 OBJECT
+    IF 1 EQ Name SET 2 UNKNOWN,
+    IF 1 EQ Crate SET 2 OBJECT,
+    IF 1 EQ SymbolSprites SET 3 NUMBER,
+    IF 1 EQ SlabKind SET 2 SLAB_TYPE,
+    IF 1 EQ SlabKind SET 3 SLAB_TYPE,
+    IF 1 EQ Properties SET 2 DOOR_PROPERTY/NUMBER
   ]
-  doc: Allows you to make changes to door values set in trapdoor.cfg.
+  doc: |
+    Allows you to make changes to door values set in trapdoor.cfg.
+    [doorname] - The name of the door as defined in trapdoor.cfg
 
-- cmd: SET_OBJECT_CONFIGURATION([object name:OBJECT],[property:OBJECT_CONFIG],[value:UNKNOWN],[second value:UNKNOWN])
-  doc: Allows you to make changes to object values set in objects.cfg.
+    [property] - The name of the door property you want to change, as found in trapdoor.cfg. E.g. ManufactureRequired.
+
+    [value] - The new value you want to set it to. If you want to set the 'Crate' property, you can use both the number or the name from objects.cfg. If you want to set the value of the property named 'Properties', use a number you get by adding up their values.
+
+    [second value]* - The SymbolSprites property has 2 values to set. For other properties, do not add this parameter.
+
+
+- cmd: SET_OBJECT_CONFIGURATION([object name:OBJECT],[property:OBJECT_CONFIG],[value:NUMBER],[second value:VOID])
+  doc: |
+    Allows you to make changes to object values set in objects.cfg.
+
+    [objectname] - The name of the object as defined in objects.cfg .
+
+    [property] - The name of the object property you want to change, as found in objects.cfg. E.g. DestroyOnLava.
+
+    [value] - The new value you want to set it to. If you want to set the value of the property named 'Properties', use a number you get by adding up these values:
+
+    [second value] - Some properties have 2 or more values to set. For other properties, do not add this parameter.
   opts: 1
+  signChanges: [
+    IF 1 EQ EffectBeam SET 2 EFFECT/NUMBER,
+    IF 1 EQ EffectParticle SET 2 EFFECT/NUMBER,
+    IF 1 EQ EffectExplosion1 SET 2 EFFECT/NUMBER,
+    IF 1 EQ EffectExplosion2 SET 2 EFFECT/NUMBER,
+    IF 1 EQ EffectSound SET 3 NUMBER,
+    IF 1 EQ Properties SET 2 OBJECT_PROPERTY/NUMBER
+  ]
 
 - cmd: SET_TRAP_CONFIGURATION([trap name:TRAP],[property:TRAP_CONFIG],[value:UNKNOWN],[value2:UNKNOWN],[value3:UNKNOWN],[value4:UNKNOWN])
   opts: 3
@@ -610,23 +660,37 @@
   doc: Casts a unit spell on all of a players creatures of a type.
   opts: 1
 
-- cmd: SET_ROOM_CONFIGURATION([room name:ROOM_ALL],[property:ROOM_CONFIG],[value:UNKNOWN],[second value:UNKNOWN],[third value:UNKNOWN])
-  doc: Allows you to make changes to room values set in terrain.cfg. Look in that file for explanations on the values.
+- cmd: SET_ROOM_CONFIGURATION([room name:ROOM_ALL],[property:ROOM_CONFIG],[value:NUMBER],[second value:VOID],[third value:VOID])
+  doc: |
+    Allows you to make changes to room values set in terrain.cfg. Look in that file for explanations on the values.
+    [roomname] - The name of the room as defined in terrain.cfg
+
+    [property] - The name of the room property you want to change, as found in terrain.cfg. E.g. CreatureCreation.
+
+    [value] - The new value you want to set it to. If you want to set roles, you can use numbers instead of names too.
+
+    [second value]* - Some properties have 2 or more values to set. For other properties, do not add this parameter.
+
+    [third value]* - Some properties have 3 values to set. For other properties, do not add this parameter.
+
+    Use it to tweak rooms on a per map basis. To set Properties with numbers, add up the numbers of the properties you want to enable. To set Roles with numbers, add up the numbers of the roles you want to enable.
   signChanges: [
     IF 1 EQ NameTextID SET 2 NUMBER,
     IF 1 EQ TooltipTextID SET 2 NUMBER,
     IF 1 EQ Cost SET 2 NUMBER,
     IF 1 EQ Health SET 2 NUMBER,
     IF 1 EQ Messages SET 2 NUMBER,
+    IF 1 EQ Messages SET 3 NUMBER,
+    IF 1 EQ Messages SET 4 NUMBER,
     IF 1 EQ AmbientSndSample SET 2 NUMBER,
     IF 1 EQ SymbolSprites SET 2 NUMBER,
+    IF 1 EQ SymbolSprites SET 3 NUMBER,
     IF 1 EQ PointerSprites SET 2 NUMBER,
     IF 1 EQ PanelTabIndex SET 2 NUMBER,
-    IF 1 EQ Properties SET 2 ROOM_PROPERTY,
-    IF 1 EQ Properties SET 3 ROOM_PROPERTY,
-    IF 1 EQ Properties SET 4 ROOM_PROPERTY,
+    IF 1 EQ Properties SET 2 ROOM_PROPERTY/NUMBER,
+    IF 1 EQ Roles SET 2 NUMBER/ROOM_ROLE,
     IF 1 EQ CreatureCreation SET 2 CREATURE,
-    IF 1 EQ SlabAssign SET 2 SLAB_TYPE,
+    IF 1 EQ SlabAssign SET 2 SLAB_TYPE
   ]
   opts: 2
 
