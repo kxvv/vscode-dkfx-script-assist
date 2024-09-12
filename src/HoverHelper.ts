@@ -1,4 +1,6 @@
 import { Entities } from "./Entities";
+import { CommandDesc } from "./model/CommandDesc";
+import { DkEntity } from "./model/DkEntity";
 import { Exp } from "./model/Exp";
 import { ExpChild } from "./model/ExpChild";
 import { ParamType } from "./model/ParamType";
@@ -39,6 +41,9 @@ export class HoverHelper {
 
                     if (foundType && leaf && index >= 0 && TypeTools.isTypeCustomDocumentable(foundType)) {
                         result.customDoc = HoverHelper.getCustomDocForVar(analysis, childWord, foundType);
+                    }
+                    if (foundType === ParamType.NumberCompound) {
+                        result.entityDoc = HoverHelper.getDocForCompoundNumbers(childWord, leafDesc, index);
                     }
                 }
 
@@ -96,7 +101,31 @@ export class HoverHelper {
         return "";
     }
 
+    private static getDocForCompoundNumbers(word: Word, cmdDesc: CommandDesc, paramIndex: number): string {
+        const compoundNumber = parseInt(word.val);
+        const paramDetails = cmdDesc.params[paramIndex];
+        if (!isNaN(compoundNumber) && paramDetails?.allowedTypes.includes(ParamType.NumberCompound)) {
+            const entityType = paramDetails.allowedTypes.filter(t => ![ParamType.NumberCompound, ParamType.Unknown].includes(t))[0];
+            if (entityType && Entities.listEntitiesOfType(entityType).length) {
+                const entities: DkEntity[] = Entities.listEntitiesOfType(entityType).filter((e) => {
+                    if (e.doc) {
+                        const numString = /^[0-9]+/.exec(e.doc)?.[0];
+                        let num;
+                        if (numString && (num = parseInt(numString)) && !isNaN(num) && (compoundNumber & num)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+                if (entities.length) {
+                    return `<ul>${entities.map(e => `<li>${HoverHelper.formatSuggestion(e.val, e.doc || "")}</li>`).join("")}</ul>`;
+                }
+            }
+        }
+        return "";
+    }
+
     private static formatSuggestion(key: string, val: string) {
-        return `<code>${key}:</code>${val}`;
+        return `<code>${key}:</code>&nbsp; ${val}`;
     }
 }

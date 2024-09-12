@@ -49,6 +49,7 @@ export enum ParamType {
     NewParty = "NEW_PARTY",
     NonNegNumber = "NUMBER+",
     Number = "NUMBER",
+    NumberCompound = "NUMBER_COMPOUND",
     Object = "OBJECT",
     ObjectConfig = "OBJECT_CONFIG",
     Objective = "OBJECTIVE",

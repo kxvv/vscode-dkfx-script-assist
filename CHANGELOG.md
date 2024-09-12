@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.0] - 2024-09-12
+### Added
+- number_compound type hinting
+- KEEPERS_DESTROYED
+
 ## [0.7.34] - 2024-09-11
 ### Changed
 - docs for some commands

@@ -220,6 +220,14 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
             return [];
         }
     },
+    [ParamType.NumberCompound]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            return check.numberPositiveOrZero(ttc.word.val) ? ParamType.NumberCompound : false;
+        },
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
+            return [];
+        }
+    },
     [ParamType.Object]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
             if (ttc.analysis?.getTempObjectNames().some(tempObj => tempObj.toLowerCase() === ttc.word.val.toLowerCase())) {

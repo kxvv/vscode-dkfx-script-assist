@@ -314,7 +314,7 @@
   signChanges: [
     IF 0 EQ DisplayPortalLimit SET 1 BINARY,
     IF 0 EQ LightEnabled SET 1 BINARY,
-    IF 0 EQ PreserveClassicBugs SET 1 NUMBER/CLASSIC_BUG
+    IF 0 EQ PreserveClassicBugs SET 1 CLASSIC_BUG/NUMBER_COMPOUND
   ]
 
 - cmd: ADD_BONUS_TIME([turns:NUMBER])
@@ -479,7 +479,7 @@
     IF 1 EQ SymbolSprites SET 3 NUMBER,
     IF 1 EQ SlabKind SET 2 SLAB_TYPE,
     IF 1 EQ SlabKind SET 3 SLAB_TYPE,
-    IF 1 EQ Properties SET 2 DOOR_PROPERTY/NUMBER
+    IF 1 EQ Properties SET 2 DOOR_PROPERTY/NUMBER_COMPOUND
   ]
   doc: |
     Allows you to make changes to door values set in trapdoor.cfg.
@@ -510,7 +510,7 @@
     IF 1 EQ EffectExplosion1 SET 2 EFFECT/NUMBER,
     IF 1 EQ EffectExplosion2 SET 2 EFFECT/NUMBER,
     IF 1 EQ EffectSound SET 3 NUMBER,
-    IF 1 EQ Properties SET 2 OBJECT_PROPERTY/NUMBER
+    IF 1 EQ Properties SET 2 OBJECT_PROPERTY/NUMBER_COMPOUND
   ]
 
 - cmd: SET_TRAP_CONFIGURATION([trap name:TRAP],[property:TRAP_CONFIG],[value:UNKNOWN],[value2:UNKNOWN],[value3:UNKNOWN],[value4:UNKNOWN])
@@ -687,7 +687,7 @@
     IF 1 EQ SymbolSprites SET 3 NUMBER,
     IF 1 EQ PointerSprites SET 2 NUMBER,
     IF 1 EQ PanelTabIndex SET 2 NUMBER,
-    IF 1 EQ Properties SET 2 ROOM_PROPERTY/NUMBER,
+    IF 1 EQ Properties SET 2 ROOM_PROPERTY/NUMBER_COMPOUND,
     IF 1 EQ Roles SET 2 NUMBER/ROOM_ROLE,
     IF 1 EQ CreatureCreation SET 2 CREATURE,
     IF 1 EQ SlabAssign SET 2 SLAB_TYPE
@@ -861,4 +861,9 @@
 
 - cmd: ADD_OBJECT_TO_LEVEL_AT_POS([object:OBJECT],[X coordinate:SUBTILE],[Y coordinate:SUBTILE],[property:NUMBER],[owner player:PLAYER])
   doc: Place any object at a subtile.
+  opts: 1
+
+- cmd: KEEPERS_DESTROYED[[player:KEEPER]]
+  doc: Counts destroyed hearts of the player.
+  returns: GLOBAL/FLAG/READSET_VAR/READABLE_VAR/SETTABLE_VAR
   opts: 1
