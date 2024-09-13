@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.1] - 2024-09-13
+### Changed
+- SWAP_CREATURE command
+
+### Fixed
+- duplicate PLAYER_GOOD suggestions
+
 ## [0.8.0] - 2024-09-12
 ### Added
 - number_compound type hinting

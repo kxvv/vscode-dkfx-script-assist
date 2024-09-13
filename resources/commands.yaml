@@ -590,9 +590,8 @@
 - cmd: TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE])
   doc: Transfers creatures as dungeon special would.
 
-- cmd: SWAP_CREATURE([new creature config:UNKNOWN],[creature:CREATURE])
-  doc: Replaces the creature with a new creature in the "new creature config".cfg file.
-  rootLvl: ENFORCE
+- cmd: SWAP_CREATURE([creature:CREATURE],[creature:CREATURE])
+  doc: Replaces the creature with a new creature.
 
 - cmd: SET_HAND_RULE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[rule slot:RULE_SLOT],[rule action:RULE_ACTION],[rule:RULE],[param:VOID])
   signChanges: [

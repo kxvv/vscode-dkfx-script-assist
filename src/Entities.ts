@@ -56,7 +56,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "PURPLE", doc: "PLAYER4's equivalent", },
         { val: "BLACK", doc: "PLAYER5's equivalent", },
         { val: "ORANGE", doc: "PLAYER6's equivalent", },
-        { val: "PLAYER_GOOD", doc: "PLAYER_GOOD's equivalent (if set to be a player)", },
+        { val: "WHITE", doc: "PLAYER_GOOD's equivalent (if set to be a player)", },
     ],
     [ParamType.PlayerGood]: [
         { val: "PLAYER_GOOD", doc: "The heroes" },
@@ -692,14 +692,18 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
         {
             val: "4",
-            doc: "The purple player - PLAYER4",
-        },
-        {
-            val: "5",
-            doc: "The black player - PLAYER5",
+            doc: "Hero dungeon - PLAYER_GOOD",
         },
         {
             val: "6",
+            doc: "The purple player - PLAYER4",
+        },
+        {
+            val: "7",
+            doc: "The black player - PLAYER5",
+        },
+        {
+            val: "8",
             doc: "The orange player - PLAYER6",
         },
     ],
@@ -2374,7 +2378,7 @@ export class Entities {
     }
 
     public static findPlayersForVars(): DkEntity[] {
-        return DK_ENTITIES[ParamType.Keeper].concat(DK_ENTITIES[ParamType.PlayerGood]).concat(DK_ENTITIES[ParamType.AllPlayers]);
+        return DK_ENTITIES[ParamType.Keeper].concat(DK_ENTITIES[ParamType.AllPlayers]);
     }
 
     public static findAllFlags(): DkEntity[] {

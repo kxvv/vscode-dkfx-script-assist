@@ -54,7 +54,6 @@ export const VAR_COMPOSITES: Record<ParamType | string, ParamType[]> = {
     ],
     [ParamType.Location]: [
         ParamType.Keeper,
-        ParamType.PlayerGood,
         ParamType.ActionPoint,
         ParamType.HeroGate,
     ]
@@ -170,7 +169,6 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
             return TypeTools.toolFor(ParamType.Keeper).suggest(analysis)
                 .concat(TypeTools.toolFor(ParamType.ActionPoint).suggest(analysis))
                 .concat(TypeTools.toolFor(ParamType.HeroGate).suggest(analysis))
-                .concat(TypeTools.toolFor(ParamType.PlayerGood).suggest(analysis))
                 .concat(Entities.suggestForType(ParamType.Location));
         }
     },
