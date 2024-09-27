@@ -245,10 +245,11 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "CreatureCreation", },
     ],
     [ParamType.RoomProperty]: [
-        { val: "CANNOT_VANDALIZE", doc: "1 - The room does not display a room flag with.", },
-        { val: "HAS_NO_ENSIGN", doc: "2 - The room slabs cannot be attacked by creatures.", },
-        { val: "CANNOT_BE_SOLD", doc: "4 - Computers will spend their last gold building this.", },
-        { val: "BUILD_TILL_BROKE", doc: "8 - The room slabs cannot be sold.", },
+        { val: "HAS_NO_ENSIGN", doc: "1 - The room does not display a room flag with.", },
+        { val: "CANNOT_VANDALIZE", doc: "2 - The room slabs cannot be attacked by creatures.", },
+        { val: "BUILD_TILL_BROKE", doc: "4 - Computers will spend their last gold building this.", },
+        { val: "CANNOT_BE_SOLD", doc: "8 - The room slabs cannot be sold.", },
+        { val: "CANNOT_BE_CLAIMED", doc: "16 - The room cannot be claimed.", },
     ],
     [ParamType.Power]: [
         ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON,POWER_REBOUND,POWER_FREEZE,POWER_TIME_BOMB,POWER_SLOW,POWER_FLIGHT,POWER_VISION"
@@ -286,6 +287,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         {
             val: "SECRET",
             doc: "This door remains hidden to enemies unless they observe it closely or see it opening.",
+        },
+        {
+            val: "MIDAS",
+            doc: "Drains gold from the owner when it would otherwise take damage.",
         },
     ],
     [ParamType.Trap]: [
@@ -1133,7 +1138,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "GameTurnsPerPrisonHealthGain" },
         { val: "TortureHealthLoss" },
         { val: "GameTurnsPerTortureHealthLoss" },
-        { val: "DragUnconsciousToLair", doc: "Imps will save fainted units by dragging them to lair." },
+        { val: "DragUnconsciousToLair", doc: "Imps will save fainted units by dragging them to lair: 0 = Cannot save own units, default. 1 = Imps save only own unconscious creatures with a lair. 2 = Imps save all of your own unconscious creatures with a lair and all who are capable of building one, and drag them to the correct position." },
         { val: "MapCreatureLimit", },
     ],
     [ParamType.TrapTriggerType]: [
@@ -1651,6 +1656,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "PURPLE_PATH", },
         { val: "SECRET_DOOR", },
         { val: "SECRET_DOOR2", },
+        { val: "HARD_FLOOR", },
+        { val: "DOOR_MIDAS", },
+        { val: "DOOR_MIDAS2", },
     ],
     [ParamType.CustomBox]: new Array(256).fill(0).map((e, i) => ({
         val: `BOX${i}_ACTIVATED`
@@ -1831,6 +1839,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "SPECBOX_MKANGRY" },
         { val: "SPECBOX_MKUNSAFE" },
         { val: "SPELLBOOK_FRZ" },
+        { val: "SPELLBOOK_SLOW" },
+        { val: "SPELLBOOK_FLGT" },
+        { val: "SPELLBOOK_VSN" },
+        { val: "WRKBOX_MIDAS" },
     ],
     [ParamType.SacrificeCmd]: [
         { val: "MkCreature" },
@@ -2109,6 +2121,20 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "EFFECTELEMENT_WHITE_TWINKLE2", },
         { val: "EFFECTELEMENT_WHITE_FLAME", },
         { val: "EFFECTELEMENT_WHITE_SMOKE_PUFF", },
+        { val: "EFFECTELEMENT_GOLD_COIN", },
+        { val: "EFFECTELEMENT_STEP_GYPSUM", },
+        { val: "EFFECTELEMENT_STEP_SAND", },
+        { val: "EFFECTELEMENT_TINY_FLASH3", },
+        { val: "EFFECTELEMENT_ORANGE_PUFF", },
+        { val: "EFFECTELEMENT_ORANGE_TWINKLE2", },
+        { val: "EFFECTELEMENT_ORANGE_TWINKLE", },
+        { val: "EFFECTELEMENT_ORANGE_SMOKE_PUFF", },
+        { val: "EFFECTELEMENT_ORANGE_FLAME", },
+        { val: "EFFECTELEMENT_BLACK_PUFF", },
+        { val: "EFFECTELEMENT_BLACK_TWINKLE2", },
+        { val: "EFFECTELEMENT_BLACK_TWINKLE", },
+        { val: "EFFECTELEMENT_BLACK_SMOKE_PUFF", },
+        { val: "EFFECTELEMENT_BLACK_FLAME", },
         { val: "EFFECT_SPANGLE_MULTICOLOURED", },
         { val: "EFFECT_BOULDER_BREAK_WATER", },
         { val: "EFFECT_SPANGLE_WHITE", },
@@ -2119,6 +2145,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "EFFECT_SPANGLE_ORANGE", },
         { val: "EFFECT_BALL_PUFF_ORANGE", },
         { val: "EFFECT_FALLING_ICE_BLOCKS", },
+        { val: "EFFECT_SLOW_KEEPER_POWER", },
+        { val: "EFFECT_TINY_SPARKS", },
+        { val: "EFFECT_COIN_FOUNTAIN", },
     ],
     [ParamType.EffectGenerator]: [
         { val: "EFFECTGENERATOR_LAVA", },
@@ -2278,7 +2307,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "ROOM_ROLE_GUARD", doc: "2097152 - The room makes its workers guard the room area for enemies.", },
         { val: "ROOM_ROLE_POOL_LEAVE", doc: "4194304 - The room is a gate which allows a creature to leave the players dungeon back to pool.", },
         { val: "ROOM_ROLE_PASS_WATER", doc: "8388608 - The room is a bridge for use over water.", },
-        { val: "ROOM_ROLE_PASS_LAVA", doc: "16777216: The room is a bridge for use over lava.", },
+        { val: "ROOM_ROLE_PASS_LAVA", doc: "16777216 - The room is a bridge for use over lava.", },
     ],
     [ParamType.ClassicBug]: [
         { val: "RESURRECT_FOREVER", doc: "1 - Dead units can be resurrected multiple times with specials", },
@@ -2300,6 +2329,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "RESIST_NON_MAGIC", doc: "1 - doors are more durable against non magic attacks", },
         { val: "SECRET", doc: "2 - is a secret door", },
         { val: "THICK", doc: "4 - thick doors will take a whole slab", },
+        { val: "MIDAS", doc: "8 - drains gold from the owner when it would otherwise take damage", },
     ],
     [ParamType.ObjectProperty]: [
         { val: "EXISTS_ONLY_IN_ROOM", doc: "1", },

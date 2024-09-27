@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.2] - 2024-09-27
+### Changed
+- MIDAS door
+
 ## [0.8.1] - 2024-09-13
 ### Changed
 - SWAP_CREATURE command
