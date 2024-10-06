@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.3] - 2024-10-06
+### Changed
+- param types of some commands
+
 ## [0.8.2] - 2024-09-27
 ### Changed
 - MIDAS door

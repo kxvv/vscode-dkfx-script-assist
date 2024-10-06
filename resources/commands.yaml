@@ -73,16 +73,16 @@
   rootLvl: ENFORCE
   doc: Sets how much gold a player has at the start of the level.
 
-- cmd: MAX_CREATURES([player:PLAYER/ALL_PLAYERS],[max amount:BYTE])
+- cmd: MAX_CREATURES([player:PLAYER/ALL_PLAYERS],[max amount:NUMBER+])
   doc: The maximum number of creatures a player can have. The player can still gain creatures through Scavenging and Torturing but no more will come through the portal until the number of creatures drops below the maximum again.
 
 - cmd: ALLY_PLAYERS([player A:KEEPER],[player B:KEEPER],[alliance type:ALLIANCE_TYPE])
   doc: Sets up an alliance between two players.
 
-- cmd: ADD_CREATURE_TO_POOL([creature type:CREATURE],[amount:BYTE])
+- cmd: ADD_CREATURE_TO_POOL([creature type:CREATURE],[amount:NUMBER])
   doc: Sets the number of creatures that are placed in this pool.
 
-- cmd: CREATURE_AVAILABLE([player:PLAYER/ALL_PLAYERS],[creature type:CREATURE],[can be available:BINARY],[amount forced:BYTE])
+- cmd: CREATURE_AVAILABLE([player:PLAYER/ALL_PLAYERS],[creature type:CREATURE],[can be available:BINARY],[amount forced:NUMBER+])
   doc: Tells the game that a specific creature can come through that player's portal.
 
 - cmd: ROOM_AVAILABLE([player:PLAYER/ALL_PLAYERS],[room:ROOM],[can be available:ROOM_AVAILABILITY],[is available:BINARY])
@@ -120,7 +120,7 @@
   doc: Adjusts the research value for individual rooms or spells and even for a specific player.
   rootLvl: ENFORCE
 
-- cmd: ADD_CREATURE_TO_LEVEL([owner player:PLAYER],[creature:CREATURE],[spawn location:LOCATION],[creatures amount:BYTE],[levels:1-10],[gold carried:GOLD])
+- cmd: ADD_CREATURE_TO_LEVEL([owner player:PLAYER],[creature:CREATURE],[spawn location:LOCATION],[creatures amount:NUMBER+],[levels:1-10],[gold carried:GOLD])
   doc: This command will add a number of new creatures to the level at the co-ordinates of a specifies Action Point. You cannot set where the creatures head for so you may need to use a party instead.
 
 - cmd: ADD_TUNNELLER_TO_LEVEL([owner player:PLAYER],[spawn location:LOCATION],[head for:HEAD_FOR],[target:BYTE],[tunneler level:1-10],[gold carried:GOLD])
@@ -140,7 +140,7 @@
   partyReadAt: 1
   doc: This adds a specified party of creatures to the level with a Tunneller Dwarf as it's leader. The Tunneller will immediately dig to it's target and the other creatures will follow.
 
-- cmd: ADD_PARTY_TO_LEVEL([owner player:PLAYER],[party:PARTY],[spawn location:LOCATION],[party copies:BYTE])
+- cmd: ADD_PARTY_TO_LEVEL([owner player:PLAYER],[party:PARTY],[spawn location:LOCATION],[party copies:NUMBER+])
   partyReadAt: 1
   doc: Adds a party to the level.
 
@@ -587,7 +587,7 @@
 - cmd: USE_SPECIAL_TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS])
   doc: Activates the effect of an 'Transfer Creature' dungeon special.
 
-- cmd: TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE])
+- cmd: TRANSFER_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:NUMBER+])
   doc: Transfers creatures as dungeon special would.
 
 - cmd: SWAP_CREATURE([creature:CREATURE],[creature:CREATURE])
@@ -636,7 +636,7 @@
 
     Rule checks are evaluated from the highest rule index (RULE7) to lowest (RULE0) and lower rules are ignored once a match is found.
 
-- cmd: MOVE_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:BYTE],[destination:LOCATION],[effect:NUMBER/EFFECT])
+- cmd: MOVE_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[count:NUMBER+],[destination:LOCATION],[effect:NUMBER/EFFECT])
   opts: 1
   doc: Moves creatures instantly to the specified destination.
 
