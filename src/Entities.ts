@@ -2340,6 +2340,20 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "BEATING", doc: "32", },
         { val: "HEART", doc: "64", },
     ],
+    [ParamType.ObjectGenre]: [
+        { val: "DECORATION", },
+        { val: "FURNITURE", },
+        { val: "VALUABLE", },
+        { val: "FOOD", },
+        { val: "SPELLBOOK", },
+        { val: "POWER", },
+        { val: "HEROGATE", },
+        { val: "EFFECT", },
+        { val: "TREASURE_HOARD", },
+        { val: "LAIR_TOTEM", },
+        { val: "SPECIALBOX", },
+        { val: "WORKSHOPBOX", },
+    ]
 };
 
 interface CustomEntities {

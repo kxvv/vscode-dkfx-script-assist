@@ -53,6 +53,7 @@ export enum ParamType {
     Object = "OBJECT",
     ObjectConfig = "OBJECT_CONFIG",
     Objective = "OBJECTIVE",
+    ObjectGenre = "OBJECT_GENRE",
     ObjectProperty = "OBJECT_PROPERTY",
     OneToTen = "1-10",
     Operation = "OPERATION",

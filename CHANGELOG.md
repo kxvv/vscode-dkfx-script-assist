@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.4] - 2024-10-17
+### Added
+- object_genre
+
 ## [0.8.3] - 2024-10-06
 ### Changed
 - param types of some commands

@@ -505,6 +505,7 @@
     [second value] - Some properties have 2 or more values to set. For other properties, do not add this parameter.
   opts: 1
   signChanges: [
+    IF 1 EQ Genre SET 2 OBJECT_GENRE,
     IF 1 EQ EffectBeam SET 2 EFFECT/NUMBER,
     IF 1 EQ EffectParticle SET 2 EFFECT/NUMBER,
     IF 1 EQ EffectExplosion1 SET 2 EFFECT/NUMBER,
