@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.5] - 2024-11-01
+### Added
+- CREATE_EFFECT_AT_POS height param
+
+### Fixed
+- slab not accepting 0s
+
 ## [0.8.4] - 2024-10-17
 ### Added
 - object_genre

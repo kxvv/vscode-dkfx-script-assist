@@ -367,7 +367,8 @@
 - cmd: CREATE_EFFECT([effect:NUMBER/EFFECT],[location:LOCATION])
   doc: Create an Effect at a location. Can be any effect or effect element that is in game, like the hearts that appear when healing, or the red smoke when claiming a room.
 
-- cmd: CREATE_EFFECT_AT_POS([effect:NUMBER/EFFECT],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE])
+- cmd: CREATE_EFFECT_AT_POS([effect:NUMBER/EFFECT],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[height:NUMBER])
+  opts: 1
   doc: Create an Effect at a subtile. Can be any effect or effect element that is in game, like the hearts that appear when healing, or the red smoke when claiming a room.
 
 - cmd: CREATE_EFFECTS_LINE([origin:LOCATION],[destination:LOCATION],[curvature:NUMBER],[distance:BYTE],[speed:BYTE],[effect:NUMBER/EFFECT])

@@ -310,7 +310,7 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
     [ParamType.Slab]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
             const val = ttc.word.val;
-            return check.numberPositive(val) && Utils.isParsedBetween(val, CONSTRAINTS.minSlab, CONSTRAINTS.maxSlab)
+            return check.numberPositiveOrZero(val) && Utils.isParsedBetween(val, CONSTRAINTS.minSlab, CONSTRAINTS.maxSlab)
                 ? ParamType.Slab : false;
         },
         suggest(analysis: ScriptAnalysis): DkSuggestion[] {
