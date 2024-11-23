@@ -451,7 +451,7 @@
   rootLvl: ENFORCE
   doc: Sets a Tooltip on a custom special box, with a text from the language files.
 
-- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER],[second value:NUMBER],[third value:NUMBER])
+- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER/UNKNOWN],[second value:NUMBER/UNKNOWN],[third value:NUMBER/UNKNOWN])
   doc: Allows you to make changes to attribute values set in the unit configuration files.
   opts: 2
   signChanges: [

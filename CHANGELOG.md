@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.7] - 2024-11-23
+### Added
+- new creature properties
+
 ## [0.8.6] - 2024-11-17
 ### Fixed
 - secret door slab type
