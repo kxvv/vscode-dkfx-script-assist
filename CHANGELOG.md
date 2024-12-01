@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.8] - 2024-12-01
+### Added
+- PLACE_DOOR
+
 ## [0.8.7] - 2024-11-23
 ### Added
 - new creature properties

@@ -58,6 +58,7 @@ export enum ParamType {
     OneToTen = "1-10",
     Operation = "OPERATION",
     Party = "PARTY",
+    PaidOrFree = "PAID_OR_FREE",
     Player = "PLAYER",
     PlayerColor = "PLAYER_COLOR",
     PlayerGood = "PLAYER_GOOD",

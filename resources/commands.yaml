@@ -529,16 +529,16 @@
   ]
   doc: Allows you to make changes to trap values set in trapdoor.cfg.
 
-- cmd: USE_POWER([player:PLAYER/ALL_PLAYERS],[power:POWER],[free:BINARY])
+- cmd: USE_POWER([player:PLAYER/ALL_PLAYERS],[power:POWER],[free:PAID_OR_FREE])
   doc: Casts an untargeted keeper power through the level script.
 
-- cmd: USE_POWER_AT_LOCATION([player:PLAYER/ALL_PLAYERS],[location:LOCATION],[power:POWER],[power lvl:POWER_LVL],[free:BINARY])
+- cmd: USE_POWER_AT_LOCATION([player:PLAYER/ALL_PLAYERS],[location:LOCATION],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
   doc: Casts a keeper power at specific map location through the level script.
 
-- cmd: USE_POWER_AT_POS([player:PLAYER/ALL_PLAYERS],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[power:POWER],[power lvl:POWER_LVL],[free:BINARY])
+- cmd: USE_POWER_AT_POS([player:PLAYER/ALL_PLAYERS],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
   doc: Casts a keeper power somewhere at the map through the level script.
 
-- cmd: USE_POWER_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:BINARY])
+- cmd: USE_POWER_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
   doc: Casts a keeper power on a specific creature. It also accepts non-targeted powers like POWER_SIGHT, which will simply use the location of the unit.
 
 - cmd: USE_SPECIAL_INCREASE_LEVEL([player:PLAYER/ALL_PLAYERS],[count:NUMBER])
@@ -840,7 +840,7 @@
 - cmd: ADD_TO_PLAYER_MODIFIER([player:KEEPER/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
   doc: Allows you to increase or decrease the current value of choosen modifier for a specific player.
 
-- cmd: USE_POWER_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:BINARY])
+- cmd: USE_POWER_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
   doc: Casts a keeper power on all creatures of a specific type. It also accepts non-targeted powers which will simply use the location of the units.
 
 - cmd: COMBAT[[player:KEEPER]]
@@ -868,3 +868,6 @@
   doc: Counts destroyed hearts of the player.
   returns: GLOBAL/FLAG/READSET_VAR/READABLE_VAR/SETTABLE_VAR
   opts: 1
+
+- cmd: PLACE_DOOR([player:PLAYER/ALL_PLAYERS],[door:DOOR],[slab X coordinate:SLAB],[slab Y coordinate:SLAB],[lock state:LOCK_STATE],[free:PAID_OR_FREE])
+  doc: Places a door through the script. It needs to be placed on a valid location. When using ALL_PLAYERS, it will place a door that matches the owner of the slab. Using another player will fail if the slab owner is different from the desired door owner.

@@ -2371,7 +2371,13 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "LAIR_TOTEM", },
         { val: "SPECIALBOX", },
         { val: "WORKSHOPBOX", },
-    ]
+    ],
+    [ParamType.PaidOrFree]: [
+        { val: "PAID", },
+        { val: "FREE", },
+        { val: "0", },
+        { val: "1", },
+    ],
 };
 
 interface CustomEntities {
