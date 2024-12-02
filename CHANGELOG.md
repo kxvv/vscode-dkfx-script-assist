@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.9] - 2024-12-02
+### Added
+- LAST_DEATH_EVENT
+
 ## [0.8.8] - 2024-12-01
 ### Added
 - PLACE_DOOR

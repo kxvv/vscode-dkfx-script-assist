@@ -915,6 +915,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "NO_TRANSFER",
             doc: "Creature cannot be transferred with a transfer creature special.",
         },
+        {
+            val: "EVENTFUL_DEATH",
+            doc: "Creature's death location will be stored in LAST_DEATH_EVENT.",
+        },
     ],
     [ParamType.CreatureTendency]: [
         {

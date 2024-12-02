@@ -853,6 +853,10 @@
   returns: LOCATION
   doc: Location of active Call to Arms spell
 
+- cmd: LAST_DEATH_EVENT[[player:KEEPER]]
+  returns: LOCATION
+  doc: The most recent location a creature with the EVENTFUL_DEATH property of the player died.
+
 - cmd: CHANGE_SLAB_TEXTURE([slab X coordinate:SLAB],[slab Y coordinate:SLAB],[texture:TEXTURE],[fill type:FILL_TYPE])
   opts: 1
   doc: Changes the texture (style) of a slab on the map to the specified one.
