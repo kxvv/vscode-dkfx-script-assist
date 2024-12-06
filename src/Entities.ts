@@ -1029,6 +1029,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "FieldOfView", },
         { val: "EyeEffect", },
         { val: "MaxAngleChange", },
+        // [lvls req]
+        { val: "LevelsTrainValues", doc: "Training values required to reach higher creature levels." },
+        { val: "PowersLevelRequired", doc: "Level at which creature spell is learned." },
+        { val: "Powers", doc: "Creature spells (instance names), and the creature level at which they're given (max 10)." },
     ],
     [ParamType.Rule]: [
         { val: "ALWAYS", doc: "all creatures match this rule until it is disabled or overridden", },
@@ -1355,6 +1359,8 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "PlaceSound", },
         { val: "TriggerSound", },
         { val: "DestroyedEffect", },
+        { val: "InstantPlacement", doc: "Place the trap immediately without needing imps to drag the crate to arm it." },
+        { val: "RemoveOnceDepleted", doc: "Destroy the trap once it runs out of Shots." },
     ],
     [ParamType.PowerConfig]: [
         {

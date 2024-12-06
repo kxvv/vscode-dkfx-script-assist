@@ -131,7 +131,7 @@
   rootLvl: ENFORCE
   doc: This command tells the game to expect a party with a specific name.
 
-- cmd: ADD_TO_PARTY([party:PARTY],[creature:CREATURE],[level:1-10],[gold carried:GOLD],[objective:OBJECTIVE],[delay:TIME])
+- cmd: ADD_TO_PARTY([party:PARTY],[creature:CREATURE],[level:1-10],[gold carried:GOLD],[objective:OBJECTIVE],[delay:NUMBER])
   partyAddAt: 0
   doc: This command adds a number of creatures to a party.
 
@@ -469,7 +469,16 @@
     IF 1 EQ Properties SET 3 UNKNOWN,
     IF 1 EQ EntranceRoom SET 2 ROOM,
     IF 1 EQ EntranceRoom SET 3 ROOM,
-    IF 1 EQ EntranceRoom SET 4 ROOM
+    IF 1 EQ EntranceRoom SET 4 ROOM,
+    IF 1 EQ LevelsTrainValues SET 2 1-10,
+    IF 1 EQ LevelsTrainValues SET 3 NUMBER,
+    IF 1 EQ LevelsTrainValues SET 4 VOID,
+    IF 1 EQ PowersLevelRequired SET 2 1-10,
+    IF 1 EQ PowersLevelRequired SET 3 NUMBER,
+    IF 1 EQ PowersLevelRequired SET 4 VOID,
+    IF 1 EQ Powers SET 2 1-10,
+    IF 1 EQ Powers SET 3 CREATURE_SPELL,
+    IF 1 EQ Powers SET 4 VOID
   ]
 
 - cmd: SET_DOOR_CONFIGURATION([door name:DOOR],[property:DOOR_CONFIG],[value:NUMBER],[second value:VOID])
