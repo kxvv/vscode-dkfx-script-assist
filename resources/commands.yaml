@@ -38,7 +38,11 @@
 
 - cmd: IF_AVAILABLE([player:PLAYER/ALL_PLAYERS],[left B:ROOM/POWER/TRAP/DOOR/CREATURE/AVAIL_VARS][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER/ALL_PLAYERS],[right B:ROOM/POWER/TRAP/DOOR/CREATURE/AVAIL_VARS])
   opts: 1
-  signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED, IF 3 IS ALL_PLAYERS SET 4 REQUIRED]
+  signChanges: [
+    IF 3 IS NUMBER SET 4 VOID,
+    IF 3 IS PLAYER SET 4 REQUIRED,
+    IF 3 IS ALL_PLAYERS SET 4 REQUIRED
+  ]
   condition: PUSH
   doc: Allows you to ask whether something is available to that player. If it is not, then the answer will be 0. If it is then the answer will be 1.
 
@@ -116,7 +120,10 @@
   doc: This command sets the fear of all the creatures of that type on the level. Each creature has a default fear which can be found in the creature.txt file, e.g. the FLY has a fear level of 30.
 
 - cmd: RESEARCH([player:PLAYER/ALL_PLAYERS],[research type:RESEARCH_TYPE],[room or power:ROOM/POWER],[research value:NUMBER+])
-  signChanges: [IF 1 EQ ROOM SET 2 ROOM, IF 1 EQ MAGIC SET 2 POWER]
+  signChanges: [
+    IF 1 EQ ROOM SET 2 ROOM,
+    IF 1 EQ MAGIC SET 2 POWER
+  ]
   doc: Adjusts the research value for individual rooms or spells and even for a specific player.
   rootLvl: ENFORCE
 
@@ -124,19 +131,29 @@
   doc: This command will add a number of new creatures to the level at the co-ordinates of a specifies Action Point. You cannot set where the creatures head for so you may need to use a party instead.
 
 - cmd: ADD_TUNNELLER_TO_LEVEL([owner player:PLAYER],[spawn location:LOCATION],[head for:HEAD_FOR],[target:BYTE],[tunneler level:1-10],[gold carried:GOLD])
-  signChanges: [IF 2 EQ ACTION_POINT SET 3 ACTION_POINT/HERO_GATE, IF 2 EQ DUNGEON SET 3 KEEPER_INDEX, IF 2 EQ DUNGEON_HEART SET 3 KEEPER_INDEX, IF 2 EQ APPROPIATE_DUNGEON SET 3 NUMBER]
+  signChanges: [
+    IF 2 EQ ACTION_POINT SET 3 ACTION_POINT/HERO_GATE,
+    IF 2 EQ DUNGEON SET 3 KEEPER_INDEX,
+    IF 2 EQ DUNGEON_HEART SET 3 KEEPER_INDEX,
+    IF 2 EQ APPROPIATE_DUNGEON SET 3 NUMBER
+  ]
   doc: This commands adds a number of Tunneller Dwarves to the level. They will immediately start digging towards their target. Tunneller Dwarves are the only creatures that can tunnel towards a target.
 
 - cmd: CREATE_PARTY([unique party name:NEW_PARTY])
   rootLvl: ENFORCE
   doc: This command tells the game to expect a party with a specific name.
 
-- cmd: ADD_TO_PARTY([party:PARTY],[creature:CREATURE],[level:1-10],[gold carried:GOLD],[objective:OBJECTIVE],[delay:NUMBER])
+- cmd: ADD_TO_PARTY([party:PARTY],[creature:CREATURE],[level:1-10],[gold carried:GOLD],[objective:OBJECTIVE],[delay:NUMBER_MIN_NEGATIVE_400])
   partyAddAt: 0
   doc: This command adds a number of creatures to a party.
 
 - cmd: ADD_TUNNELLER_PARTY_TO_LEVEL([owner player:PLAYER],[party:PARTY],[spawn location:LOCATION],[head for:HEAD_FOR],[target:ACTION_POINT/HERO_GATE/BYTE],[tunneler level:1-10],[gold carried:GOLD])
-  signChanges: [IF 3 EQ ACTION_POINT SET 4 ACTION_POINT/HERO_GATE, IF 3 EQ DUNGEON SET 4 KEEPER_INDEX, IF 3 EQ DUNGEON_HEART SET 4 KEEPER_INDEX, IF 3 EQ APPROPIATE_DUNGEON SET 4 NUMBER]
+  signChanges: [
+    IF 3 EQ ACTION_POINT SET 4 ACTION_POINT/HERO_GATE,
+    IF 3 EQ DUNGEON SET 4 KEEPER_INDEX,
+    IF 3 EQ DUNGEON_HEART SET 4 KEEPER_INDEX,
+    IF 3 EQ APPROPIATE_DUNGEON SET 4 NUMBER
+  ]
   partyReadAt: 1
   doc: This adds a specified party of creatures to the level with a Tunneller Dwarf as it's leader. The Tunneller will immediately dig to it's target and the other creatures will follow.
 
@@ -263,7 +280,10 @@
 
 - cmd: IF_CONTROLS([player:PLAYER/ALL_PLAYERS],[left B:CREATURE/CREATURE_GLOBAL][operator:COMPARE_OPERATOR][right A:NUMBER/PLAYER/ALL_PLAYERS],[right B:CREATURE/CREATURE_GLOBAL])
   opts: 1
-  signChanges: [IF 3 IS NUMBER SET 4 VOID, IF 3 IS PLAYER SET 4 REQUIRED]
+  signChanges: [
+    IF 3 IS NUMBER SET 4 VOID,
+    IF 3 IS PLAYER SET 4 REQUIRED
+  ]
   condition: PUSH
   doc: Allows to execute commands based on the items a player controls. Returns how many creatures of given kind the player owns, excluding these under enemy control (in custody). Also accepts TOTAL_CREATURES, TOTAL_DIGGERS, EVIL_CREATURES and GOOD_CREATURES.
 
@@ -521,7 +541,8 @@
     IF 1 EQ EffectExplosion1 SET 2 EFFECT/NUMBER,
     IF 1 EQ EffectExplosion2 SET 2 EFFECT/NUMBER,
     IF 1 EQ EffectSound SET 3 NUMBER,
-    IF 1 EQ Properties SET 2 OBJECT_PROPERTY/NUMBER_COMPOUND
+    IF 1 EQ Properties SET 2 OBJECT_PROPERTY/NUMBER_COMPOUND,
+    IF 1 EQ UpdateFunction SET 2 UPDATE_FUNCTION
   ]
 
 - cmd: SET_TRAP_CONFIGURATION([trap name:TRAP],[property:TRAP_CONFIG],[value:UNKNOWN],[value2:UNKNOWN],[value3:UNKNOWN],[value4:UNKNOWN])
@@ -700,7 +721,9 @@
     IF 1 EQ Properties SET 2 ROOM_PROPERTY/NUMBER_COMPOUND,
     IF 1 EQ Roles SET 2 NUMBER/ROOM_ROLE,
     IF 1 EQ CreatureCreation SET 2 CREATURE,
-    IF 1 EQ SlabAssign SET 2 SLAB_TYPE
+    IF 1 EQ SlabAssign SET 2 SLAB_TYPE,
+    IF 1 EQ UsedCapacity SET 2 ROOM_CONFIG_USED_CAPACITY,
+    IF 1 EQ TotalCapacity SET 2 ROOM_CONFIG_TOTAL_CAPACITY
   ]
   opts: 2
 

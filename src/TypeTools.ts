@@ -226,6 +226,16 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
             return [];
         }
     },
+    [ParamType.NumberMinNegative400]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            const intVal = parseInt(ttc.word.val);
+            if (isNaN(intVal) || intVal < -400) return false;
+            return ParamType.NumberMinNegative400;
+        },
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
+            return [];
+        }
+    },
     [ParamType.Object]: {
         check(ttc: TypeToolCheck): TypeCheckResult {
             if (ttc.analysis?.getTempObjectNames().some(tempObj => tempObj.toLowerCase() === ttc.word.val.toLowerCase())) {

@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.11] - 2024-12-07
+### Added
+- some missing properties
+
 ## [0.8.10] - 2024-12-06
 ### Added
 - more creature and trap properties
