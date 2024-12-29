@@ -1314,6 +1314,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "TriggerAlarm", doc: `Will there be an event message when the trap is triggered.` },
         { val: "PlaceOnBridge", doc: `If set to 1 allows the trap to be placed on bridges.` },
         { val: "PlaceOnSubtile", doc: `If set to 1 allows the trap to be placed anywhere on a slab. This results in up to 9 traps per tile.` },
+        { val: "FlagNumber", doc: `Set to a number between 0 and 255 and it will increment scriptflag TRAP#_ACTIVATED when triggered, with # being the value.` },
         { val: "InstantPlacement", doc: `Place the trap immediately without needing imps to drag the crate to arm it.` },
         { val: "RemoveOnceDepleted", doc: `Destroy the trap once it runs out of Shots.` },
         { val: "Health", doc: `Amount of hit points the trap have.` },
@@ -1615,6 +1616,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
     ],
     [ParamType.CustomBox]: new Array(256).fill(0).map((e, i) => ({
         val: `BOX${i}_ACTIVATED`
+    })),
+    [ParamType.TrapActivated]: new Array(256).fill(0).map((e, i) => ({
+        val: `TRAP${i}_ACTIVATED`
     })),
     [ParamType.Object]: [
         { val: "NULL" },
@@ -2394,6 +2398,12 @@ export class Entities {
 
     public static suggestCustomBoxes(): DkSuggestion[] {
         return DK_ENTITIES[ParamType.CustomBox]
+            .slice(0, 5)
+            .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
+    }
+
+    public static suggestTrapActivated(): DkSuggestion[] {
+        return DK_ENTITIES[ParamType.TrapActivated]
             .slice(0, 5)
             .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [];
     }

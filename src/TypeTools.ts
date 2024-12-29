@@ -43,14 +43,16 @@ export const VAR_COMPOSITES: Record<ParamType | string, ParamType[]> = {
         ParamType.CampaignFlag, ParamType.Creature, ParamType.CustomBox,
         ParamType.Door, ParamType.Flag, ParamType.Global,
         ParamType.Room, ParamType.Timer, ParamType.Trap,
+        ParamType.TrapActivated,
     ],
     [ParamType.SetVar]: [
-        ParamType.Flag, ParamType.CampaignFlag, ParamType.CustomBox
+        ParamType.Flag, ParamType.CampaignFlag, ParamType.CustomBox, ParamType.TrapActivated
     ],
     [ParamType.ReadSetVar]: [
         ParamType.CampaignFlag, ParamType.Creature, ParamType.CustomBox,
         ParamType.Door, ParamType.Flag, ParamType.Global,
         ParamType.Room, ParamType.Timer, ParamType.Trap,
+        ParamType.TrapActivated,
     ],
     [ParamType.Location]: [
         ParamType.Keeper,
@@ -380,6 +382,14 @@ const DK_TYPES: Record<ParamType | string, TypeTool> = {
             return tempSuggestions.concat(
                 Entities.suggestForType(ParamType.Trap)
             );
+        }
+    },
+    [ParamType.TrapActivated]: {
+        check(ttc: TypeToolCheck): TypeCheckResult {
+            return check.isEntity(ttc.word, ParamType.TrapActivated) ? ParamType.TrapActivated : false;
+        },
+        suggest(analysis: ScriptAnalysis): DkSuggestion[] {
+            return Entities.suggestTrapActivated();
         }
     },
     [ParamType.Unknown]: {

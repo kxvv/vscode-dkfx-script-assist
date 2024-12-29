@@ -555,7 +555,8 @@
     IF 1 EQ TriggerAlarm SET 2 BINARY,
     IF 1 EQ Unanimated SET 2 BINARY,
     IF 1 EQ Crate SET 2 OBJECT,
-    IF 1 EQ DestroyedEffect SET 2 NUMBER/EFFECT
+    IF 1 EQ DestroyedEffect SET 2 NUMBER/EFFECT,
+    IF 1 EQ FlagNumber SET 2 BYTE
   ]
   doc: Allows you to make changes to trap values set in trapdoor.cfg.
 

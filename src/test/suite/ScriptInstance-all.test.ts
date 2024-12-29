@@ -86,6 +86,7 @@ suite("ScriptInstance-all", () => {
         assert.deepStrictEqual(true, containsFlags);
         assert.deepStrictEqual(true, containsCampFlags);
         assert.deepStrictEqual(true, suggs.some(sugg => sugg.label.startsWith("BOX0_ACTIVATED")));
+        assert.deepStrictEqual(true, suggs.some(sugg => sugg.label.startsWith("TRAP0_ACTIVATED")));
     });
 
     test("hover", () => {

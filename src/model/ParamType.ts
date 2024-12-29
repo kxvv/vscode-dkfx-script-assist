@@ -94,6 +94,7 @@ export enum ParamType {
     Time = "TIME",
     Timer = "TIMER",
     Trap = "TRAP",
+    TrapActivated = "TRAP_ACIVATED",
     TrapActivationType = "TRAP_ACTIVATION_TYPE",
     TrapConfig = "TRAP_CONFIG",
     TrapTriggerType = "TRAP_TRIGGER_TYPE",
