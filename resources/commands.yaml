@@ -890,6 +890,10 @@
   returns: LOCATION
   doc: The most recent location a creature with the EVENTFUL_DEATH property of the player died.
 
+- cmd: LAST_TRAP_EVENT[[player:KEEPER]]
+  returns: LOCATION
+  doc: The most recent location where a trap with a FlagNumber (above zero) was triggered.
+
 - cmd: CHANGE_SLAB_TEXTURE([slab X coordinate:SLAB],[slab Y coordinate:SLAB],[texture:TEXTURE],[fill type:FILL_TYPE])
   opts: 1
   doc: Changes the texture (style) of a slab on the map to the specified one.
@@ -908,3 +912,6 @@
 
 - cmd: PLACE_DOOR([player:PLAYER/ALL_PLAYERS],[door:DOOR],[slab X coordinate:SLAB],[slab Y coordinate:SLAB],[lock state:LOCK_STATE],[free:PAID_OR_FREE])
   doc: Places a door through the script. It needs to be placed on a valid location. When using ALL_PLAYERS, it will place a door that matches the owner of the slab. Using another player will fail if the slab owner is different from the desired door owner.
+
+- cmd: PLACE_TRAP([player:PLAYER/ALL_PLAYERS],[trap:TRAP],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[free:PAID_OR_FREE])
+  doc: Places a trap through the script. It needs to be placed on a valid location. When using ALL_PLAYERS, it will place a trap that matches the owner of the slab. Using another player will fail if the slab owner is different from the desired trap owner.

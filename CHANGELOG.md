@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.13] - 2024-12-31
+### Added
+- PLACE_TRAP, LAST_TRAP_EVENT commands
+
 ## [0.8.12] - 2024-12-29
 ### Added
 - TRAP#_ACTIVATED
