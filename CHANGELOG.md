@@ -4,6 +4,13 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.15] - 2025-01-05
+### Added
+- SpellImmunity for creatures, ORIENTATION for add object commands
+
+### Changed
+- SET_CREATURE_CONFIGURATION
+
 ## [0.8.14] - 2025-01-01
 ### Fixed
 - OFF for COMPUTER_PLAYER command, number for AnimationID

@@ -255,6 +255,26 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "CANNOT_BE_SOLD", doc: "8 - The room slabs cannot be sold.", },
         { val: "CANNOT_BE_CLAIMED", doc: "16 - The room cannot be claimed.", },
     ],
+    [ParamType.SpellFlag]: [
+        { val: `SLOW`, doc: `1 - Halves movement speed and doubles instances cooldowns.` },
+        { val: `SPEED`, doc: `2 - Doubles movement speed and halves instances cooldowns. Also boosts job efficiency.` },
+        { val: `ARMOUR`, doc: `4 - Increases armour by 25% and prevents 'POWER_LIGHTNING' damage.` },
+        { val: `REBOUND`, doc: `8 - Bounces back projectiles (shots) that are not 'REBOUND_IMMUNE' to enemies.` },
+        { val: `FLYING`, doc: `16 - Allows movement over lava without taking damage. It affects pathfinding.` },
+        { val: `INVISIBILITY`, doc: `32 - Makes the target invisible unless attacking.` },
+        { val: `SIGHT`, doc: `64 - Allows the target to detect invisible creatures.` },
+        { val: `LIGHT`, doc: `128 - Creates a halo of light around the creature. Cosmetic.` },
+        { val: `DISEASE`, doc: `256 - Infects the target with a condition that spreads by contact.` },
+        { val: `CHICKEN`, doc: `512 - Transforms the target into a defenseless chicken, vulnerable to hungry creatures that cross its path.` },
+        { val: `POISON_CLOUD`, doc: `1024 - Not functional on spells, exists only for immunity.` },
+        { val: `FREEZE`, doc: `2048 - Stuns the target, making it unable to move.` },
+        { val: `MAD_KILLING`, doc: `4096 - Confuses the target, causing it to potentially attack its own allies.` },
+        { val: `FEAR`, doc: `8192 - Causes the target to become momentarily scared, causing it to flee and avoid combat.` },
+        { val: `HEAL`, doc: `16384 - Indicates that the spell heals the target. If linked, level-based 'Power' values are used for the amount of health restored.` },
+        { val: `TELEPORT`, doc: `32768 - If self-cast, jumps to its next objective or place to fulfill its needs. If cast on a target, jumps it to its lair or flee point.` },
+        { val: `TIMEBOMB`, doc: `65536 - Sets a countdown on the target, making it move toward enemies to explode on impact, dealing damage from the linked shot.` },
+        { val: `WIND`, doc: `131072 - Not functional on spells, exists only for immunity.` },
+    ],
     [ParamType.Power]: [
         ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON,POWER_REBOUND,POWER_FREEZE,POWER_TIME_BOMB,POWER_SLOW,POWER_FLIGHT,POWER_VISION"
             .split(",").sort().map(v => ({ val: v })),
@@ -962,6 +982,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "LairObject", doc: `The object the creature will create to use as a lair. Object needs to be configured correctly in objects.cfg too.` },
         { val: "PrisonKind", doc: `Defines the kind of creature it will become if it dies of starvation while imprisoned. Setting this to NULL will check if the creature has the 'HUMANOID_SKELETON' property and will default to the room creature creation specified in terrain.cfg.` },
         { val: "TortureKind", doc: `Defines the kind of creature it will become if it dies from torture. The same rule applies as for PrisonKind, except it does not consider the 'HUMANOID_SKELETON' property.` },
+        { val: "SpellImmunity", doc: `Creature immunities. Takes 'SpellFlags'.` },
         { val: "Properties", doc: `Creature properties: BLEEDS - the creature leaves blood when is hit, slapped, dying or being injured in any way. UNAFFECTED_BY_WIND - the creature isn't pushed back by Wind spell. IMMUNE_TO_GAS - the creature isn't injured by Gas Traps and Farts. HUMANOID_SKELETON - the creature leaves a skeleton if left in prison to die. PISS_ON_DEAD - creature feels urge to piss on nearby dead bodies. FLYING - creature normally isn't touching ground when moving and can move up and down. SEE_INVISIBLE - creature has natural ability which works like Sight spell. PASS_LOCKED_DOORS - creature can move through locked doors and won't fight with doors. SPECIAL_DIGGER - creature can dig and perform other dungeon tasks. ARACHNID - creature is kind of spider. DIPTERA - creature is kind of fly. LORD - creature is lord of the land, usually arrives to level as final boss, and at arrival you can hear "beware, the lord of the land approaches". EVENTFUL_DEATH - when the creature dies the LAST_DEATH_EVENT[] script variable is updated, so mapmaker can use the location. SPECTATOR - creature is just a spectator for multiplayer games. EVIL - creature has evil nature. NEVER_CHICKENS - creature isn't affected by Chicken spell. IMMUNE_TO_BOULDER - when boulder trap hits the creature, falls apart without dealing any damage. NO_CORPSE_ROTTING - Creature body can't be taken to rot on graveyard and will disappear quickly. NO_ENMHEART_ATTCK - Creature won't attack enemy dungeon heart on sight. TREMBLING - Creature is so heavy that ground trembles when it falls. FAT - Creature is so fat that he needs a brief rest during his movement animation. FEMALE - Creature is a female, does female sounds and has female name. INSECT - Creature is an insect (note that DIPTERA and ARACHNID creatures should also have INSECT set explicitly). ONE_OF_KIND - Creature name is set to kind name defined by 'NameTextID'. NO_IMPRISONMENT - Creature cannot be stunned for prison. NO_RESURRECT - Creature cannot be resurrected with a resurrect creature special. NO_TRANSFER - Creature cannot be transferred with a transfer creature special. NO_STEAL_HERO - Creature cannot be stolen from a steal hero special. PREFER_STEAL - Creature can be generated from steal hero special if there is nothing to steal from. IMMUNE_TO_DISEASE - Creature cannot get diseased. ILLUMINATED - A bright light will shine from the Creature. ALLURING_SCVNGR - When scavenging will give the keeper a portal boost compared to rival keepers.` },
         { val: "EntranceRoom", doc: `Rooms required to attract the creature from entrance, and number of slabs which is needed (max 3 rooms). Order of the rooms here affects chances of attraction - if the room in first slot is large, it greatly increases attraction chance. If 2nd slot room is large, it adds half the attraction points the first slot would. Third slot gives 1/3 points. Sometimes you may want to leave first slot empty to make attraction more stable.` },
         { val: "RoomSlabsRequired", doc: `Amount of slabs required of each room defined above, follow the same order.` },
@@ -2353,6 +2374,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "gold_slabs_div2", doc: "One capacity per slab, then multiplied by gold hoard types, then divided by two" },
         { val: "none", doc: "No capacity" },
     ],
+    [ParamType.Orientation]: "North,NorthEast,East,SouthEast,South,SouthWest,West,Northwest".split(",").map(t => ({ val: t }))
 };
 
 interface CustomEntities {

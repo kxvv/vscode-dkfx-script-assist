@@ -344,9 +344,9 @@
   doc: Restores or drains health from a players Dungeon Heart. Can't exceed the standard max health value. Full heart has 30000 hitpoints.
   opts: 1
 
-- cmd: ADD_OBJECT_TO_LEVEL([object:OBJECT],[location:LOCATION],[property:NUMBER],[owner player:PLAYER])
+- cmd: ADD_OBJECT_TO_LEVEL([object:OBJECT],[location:LOCATION],[property:NUMBER],[owner player:PLAYER],[orientation:ORIENTATION])
   doc: Place any object at a specific place on the map.
-  opts: 1
+  opts: 2
 
 - cmd: ADD_TO_TIMER([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[turns:NUMBER])
   doc: Add or remove turns to the Script timer. Allows negative values.
@@ -471,34 +471,32 @@
   rootLvl: ENFORCE
   doc: Sets a Tooltip on a custom special box, with a text from the language files.
 
-- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER/UNKNOWN],[second value:NUMBER/UNKNOWN],[third value:NUMBER/UNKNOWN])
+- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER/UNKNOWN],[second value:NUMBER/UNKNOWN])
   doc: Allows you to make changes to attribute values set in the unit configuration files.
-  opts: 2
+  opts: 1
   signChanges: [
-    IF 1 EQ PrimaryJobs SET 2 JOB/NUMBER,
-    IF 1 EQ PrimaryJobs SET 3 JOB,
-    IF 1 EQ SecondaryJobs SET 2 JOB/NUMBER,
-    IF 1 EQ SecondaryJobs SET 3 JOB,
-    IF 1 EQ NotDoJobs SET 2 JOB/NUMBER,
-    IF 1 EQ NotDoJobs SET 3 JOB,
-    IF 1 EQ StressfulJobs SET 2 JOB/NUMBER,
-    IF 1 EQ StressfulJobs SET 3 JOB,
+    IF 1 EQ PrimaryJobs SET 2 JOB,
+    IF 1 EQ PrimaryJobs SET 3 BINARY,
+    IF 1 EQ SecondaryJobs SET 2 JOB,
+    IF 1 EQ SecondaryJobs SET 3 BINARY,
+    IF 1 EQ NotDoJobs SET 2 JOB,
+    IF 1 EQ NotDoJobs SET 3 BINARY,
+    IF 1 EQ StressfulJobs SET 2 JOB,
+    IF 1 EQ StressfulJobs SET 3 BINARY,
     IF 1 EQ AttackPreference SET 2 UNKNOWN,
-    IF 1 EQ AttackPreference SET 3 UNKNOWN,
+    IF 1 EQ AttackPreference SET 3 BINARY,
     IF 1 EQ Properties SET 2 UNKNOWN,
     IF 1 EQ Properties SET 3 UNKNOWN,
     IF 1 EQ EntranceRoom SET 2 ROOM,
-    IF 1 EQ EntranceRoom SET 3 ROOM,
-    IF 1 EQ EntranceRoom SET 4 ROOM,
+    IF 1 EQ EntranceRoom SET 3 BINARY,
     IF 1 EQ LevelsTrainValues SET 2 1-10,
     IF 1 EQ LevelsTrainValues SET 3 NUMBER,
-    IF 1 EQ LevelsTrainValues SET 4 VOID,
     IF 1 EQ PowersLevelRequired SET 2 1-10,
     IF 1 EQ PowersLevelRequired SET 3 NUMBER,
-    IF 1 EQ PowersLevelRequired SET 4 VOID,
     IF 1 EQ Powers SET 2 1-10,
     IF 1 EQ Powers SET 3 CREATURE_SPELL,
-    IF 1 EQ Powers SET 4 VOID
+    IF 1 EQ SpellImmunity SET 2 SPELL_FLAG/NUMBER_COMPOUND,
+    IF 1 EQ SpellImmunity SET 3 BINARY
   ]
 
 - cmd: SET_DOOR_CONFIGURATION([door name:DOOR],[property:DOOR_CONFIG],[value:NUMBER],[second value:VOID])
@@ -902,9 +900,9 @@
 - cmd: ZOOM_TO_LOCATION([player:KEEPER],[location:LOCATION])
   doc: Moves the camera of a player to a specific location like an action point.
 
-- cmd: ADD_OBJECT_TO_LEVEL_AT_POS([object:OBJECT],[X coordinate:SUBTILE],[Y coordinate:SUBTILE],[property:NUMBER],[owner player:PLAYER])
+- cmd: ADD_OBJECT_TO_LEVEL_AT_POS([object:OBJECT],[X coordinate:SUBTILE],[Y coordinate:SUBTILE],[property:NUMBER],[owner player:PLAYER],[orientation:ORIENTATION])
   doc: Place any object at a subtile.
-  opts: 1
+  opts: 2
 
 - cmd: KEEPERS_DESTROYED[[player:KEEPER]]
   doc: Counts destroyed hearts of the player.
