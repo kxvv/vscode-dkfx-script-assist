@@ -1,5 +1,6 @@
 export enum ParamType {
     ActionPoint = "ACTION_POINT",
+    All = "ALL",
     AllPlayers = "ALL_PLAYERS",
     AllianceType = "ALLIANCE_TYPE",
     AnyCreature = "ANY_CREATURE",
@@ -7,6 +8,7 @@ export enum ParamType {
     Auto = "AUTO",
     AvailVars = "AVAIL_VARS",
     Binary = "BINARY",
+    Boolean = "BOOLEAN",
     Button = "BUTTON",
     Byte = "BYTE",
     CampaignFlag = "CAMPAIGN_FLAG",

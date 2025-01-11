@@ -101,7 +101,7 @@
 - cmd: MAGIC_AVAILABLE([player:PLAYER/ALL_PLAYERS],[power:POWER],[can be available:BINARY],[is available:BINARY])
   doc: This command tells the game that a specific spell is available for the player to cast.
 
-- cmd: DEAD_CREATURES_RETURN_TO_POOL([return:BINARY])
+- cmd: DEAD_CREATURES_RETURN_TO_POOL([return:BOOLEAN])
   doc: Normally, when a creature dies, and its body vanishes, it is added to the creature pool again. This command allows you to ensure that all dead creatures are dead forever.
 
 - cmd: SET_CREATURE_MAX_LEVEL([player:PLAYER/ALL_PLAYERS],[creature type:CREATURE/ANY_CREATURE],[creature level:1-10/ZERO])
@@ -186,7 +186,7 @@
 - cmd: TUTORIAL_FLASH_BUTTON([button:BUTTON],[time:NUMBER])
   doc: Flashes a button on the toolbar. Use '-1' for time to flash the area until player selects it.
 
-- cmd: BONUS_LEVEL_TIME([countdown:TIME],[use clocktime:BINARY])
+- cmd: BONUS_LEVEL_TIME([countdown:TIME],[use clocktime:BOOLEAN])
   opts: 1
   doc: Sets the time a player has to complete an objective. A timer appears in the top right corner of the screen. The value shown on timer is amount of game turns left divided by 2. This command does not create the counter, it only sets the bonus level time shown on it.
 
@@ -238,9 +238,9 @@
     Value represented by DRAWFROM is selected at start of a map, and never changes during the gameplay.
 
 - cmd: IMPORT([player:PLAYER/ALL_PLAYERS],[campaign flag:CAMPAIGN_FLAG])
-  returns: NUMBER/NUMBER+/BYTE/GOLD/BINARY/TIME/ACTION_POINT/HERO_GATE/POWER_LVL/SLAB/SUBTILE/LVL/ROOM_AVAILABILITY/1-10
+  returns: NUMBER/NUMBER+/BYTE/GOLD/BINARY/TIME/ACTION_POINT/HERO_GATE/POWER_LVL/SLAB/SUBTILE/LVL/ROOM_AVAILABILITY/1-10/BOOLEAN
 
-- cmd: DISPLAY_TIMER([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[use clocktime:BINARY])
+- cmd: DISPLAY_TIMER([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[use clocktime:BOOLEAN])
   timerReadAt: [1]
   doc: Displays a script timer on screen.
 
@@ -265,7 +265,7 @@
   doc: Changes a slab on the map to the specified new one. It will not change an entire room, just a single slab.
   opts: 1
 
-- cmd: DISPLAY_COUNTDOWN([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[target time:NUMBER],[use clocktime:BINARY])
+- cmd: DISPLAY_COUNTDOWN([player:PLAYER/ALL_PLAYERS],[timer:TIMER],[target time:NUMBER],[use clocktime:BOOLEAN])
   opts: 1
   doc: Displays on screen how long a specific script timer reaches the target turn.
 
@@ -313,7 +313,7 @@
 - cmd: REVEAL_MAP_RECT([player:PLAYER/ALL_PLAYERS],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[reveal width:SUBTILE],[reveal height:SUBTILE])
   doc: Reveals rectangular map area for given player.
 
-- cmd: RUN_AFTER_VICTORY([run:BINARY])
+- cmd: RUN_AFTER_VICTORY([run:BOOLEAN])
   rootLvl: ENFORCE
   doc: Lets the game know the script should continue to run after the game is won. Normally everything stops as soon as the a player wins the map, but include RUN_AFTER_VICTORY(1) in the script to have the game continue normally until the player presses the space bar. Useful if you want to give a player the chance to complete an optional objective you want to bring over to a next campaign level with SET_CAMPAIGN_FLAG or EXPORT_VARIABLE.
 
@@ -326,7 +326,7 @@
 - cmd: SET_CREATURE_FEARSOME_FACTOR([creature:CREATURE],[fearsome factor:NUMBER+])
   doc: Modifies this value from the creature config for a creature type. It determines how much more or less intimidating a unit is compared to what you would expect from looking at his Strength and Health values. Creatures with lots of spells tend to have a value above 100. Use this command when you've modified a unit type in the level script and need a fear response to match.
 
-- cmd: SET_CREATURE_PROPERTY([creature:CREATURE],[property:CREATURE_PROPERTY],[enabled:BINARY])
+- cmd: SET_CREATURE_PROPERTY([creature:CREATURE],[property:CREATURE_PROPERTY],[enabled:BOOLEAN])
   doc: Allows to enable/disable a creature property.
 
 - cmd: SET_GAME_RULE([rule name:GAME_RULE],[value:NUMBER])
@@ -340,7 +340,7 @@
 - cmd: ADD_BONUS_TIME([turns:NUMBER])
   doc: Add or remove turns to the Bonus Level timer. Allows negative values.
 
-- cmd: ADD_HEART_HEALTH([player:PLAYER/ALL_PLAYERS],[health:NUMBER],[mentor warn:BINARY])
+- cmd: ADD_HEART_HEALTH([player:PLAYER/ALL_PLAYERS],[health:NUMBER],[mentor warn:BOOLEAN])
   doc: Restores or drains health from a players Dungeon Heart. Can't exceed the standard max health value. Full heart has 30000 hitpoints.
   opts: 1
 
@@ -354,7 +354,7 @@
 - cmd: CHANGE_CREATURES_ANNOYANCE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[operation:OPERATION],[annoyance:NUMBER+])
   doc: Can set, increase or decrease the happiness level of units.
 
-- cmd: COMPUTE_FLAG([set player:PLAYER/ALL_PLAYERS],[set flag:SETTABLE_VAR],[operation:OPERATION],[src player:PLAYER/ALL_PLAYERS],[src flag:READABLE_VAR],[alt:BINARY])
+- cmd: COMPUTE_FLAG([set player:PLAYER/ALL_PLAYERS],[set flag:SETTABLE_VAR],[operation:OPERATION],[src player:PLAYER/ALL_PLAYERS],[src flag:READABLE_VAR],[alt:BOOLEAN])
   flagWriteAt: [1]
   flagReadAt: [4]
   timerWriteAt: [1]
@@ -559,16 +559,16 @@
   ]
   doc: Allows you to make changes to trap values set in trapdoor.cfg.
 
-- cmd: USE_POWER([player:PLAYER/ALL_PLAYERS],[power:POWER],[free:PAID_OR_FREE])
+- cmd: USE_POWER([player:PLAYER/ALL_PLAYERS],[power:POWER],[free:PAID_OR_FREE/BOOLEAN])
   doc: Casts an untargeted keeper power through the level script.
 
-- cmd: USE_POWER_AT_LOCATION([player:PLAYER/ALL_PLAYERS],[location:LOCATION],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
+- cmd: USE_POWER_AT_LOCATION([player:PLAYER/ALL_PLAYERS],[location:LOCATION],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE/BOOLEAN])
   doc: Casts a keeper power at specific map location through the level script.
 
-- cmd: USE_POWER_AT_POS([player:PLAYER/ALL_PLAYERS],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
+- cmd: USE_POWER_AT_POS([player:PLAYER/ALL_PLAYERS],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE/BOOLEAN])
   doc: Casts a keeper power somewhere at the map through the level script.
 
-- cmd: USE_POWER_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
+- cmd: USE_POWER_ON_CREATURE([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[criterion:CRITERION],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE/BOOLEAN])
   doc: Casts a keeper power on a specific creature. It also accepts non-targeted powers like POWER_SIGHT, which will simply use the location of the unit.
 
 - cmd: USE_SPECIAL_INCREASE_LEVEL([player:PLAYER/ALL_PLAYERS],[count:NUMBER])
@@ -607,7 +607,7 @@
   returns: CRITERION
   doc: Returns any creature at action point.
 
-- cmd: SET_CREATURE_TENDENCIES([player:KEEPER/ALL_PLAYERS],[tendency:CREATURE_TENDENCY],[enable:BINARY])
+- cmd: SET_CREATURE_TENDENCIES([player:KEEPER/ALL_PLAYERS],[tendency:CREATURE_TENDENCY],[enable:BOOLEAN])
   doc: Allows to set flee/imprison tendencies.
 
 - cmd: SET_DOOR([state:LOCK_STATE],[slab X coordinate:SLAB],[slab Y coordinate:SLAB])
@@ -684,7 +684,7 @@
 - cmd: SET_TEXTURE([player:PLAYER/ALL_PLAYERS],[texture:TEXTURE/NUMBER])
   doc: Changes the texturepack together with the ownership of a tile
 
-- cmd: HIDE_HERO_GATE([gate:HERO_GATE/NUMBER+],[is hidden:BINARY])
+- cmd: HIDE_HERO_GATE([gate:HERO_GATE/NUMBER+],[is hidden:BOOLEAN])
   doc: Hides or reveals hero gates. Heroes will not use hidden gates.
 
 - cmd: USE_SPELL_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[spell:SPELL],[spell lvl:1-10/ZERO])
@@ -872,7 +872,7 @@
 - cmd: ADD_TO_PLAYER_MODIFIER([player:KEEPER/ALL_PLAYERS],[modifier:PLAYER_MODIFIER],[value:NUMBER])
   doc: Allows you to increase or decrease the current value of choosen modifier for a specific player.
 
-- cmd: USE_POWER_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE])
+- cmd: USE_POWER_ON_PLAYERS_CREATURES([player:PLAYER/ALL_PLAYERS],[creature:CREATURE/ANY_CREATURE],[caster player:PLAYER],[power:POWER],[power lvl:POWER_LVL],[free:PAID_OR_FREE/BINARY])
   doc: Casts a keeper power on all creatures of a specific type. It also accepts non-targeted powers which will simply use the location of the units.
 
 - cmd: COMBAT[[player:KEEPER]]
@@ -909,8 +909,11 @@
   returns: GLOBAL/FLAG/READSET_VAR/READABLE_VAR/SETTABLE_VAR
   opts: 1
 
-- cmd: PLACE_DOOR([player:PLAYER/ALL_PLAYERS],[door:DOOR],[slab X coordinate:SLAB],[slab Y coordinate:SLAB],[lock state:LOCK_STATE],[free:PAID_OR_FREE])
+- cmd: PLACE_DOOR([player:PLAYER/ALL_PLAYERS],[door:DOOR],[slab X coordinate:SLAB],[slab Y coordinate:SLAB],[lock state:LOCK_STATE],[free:PAID_OR_FREE/BOOLEAN])
   doc: Places a door through the script. It needs to be placed on a valid location. When using ALL_PLAYERS, it will place a door that matches the owner of the slab. Using another player will fail if the slab owner is different from the desired door owner.
 
-- cmd: PLACE_TRAP([player:PLAYER/ALL_PLAYERS],[trap:TRAP],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[free:PAID_OR_FREE])
+- cmd: PLACE_TRAP([player:PLAYER/ALL_PLAYERS],[trap:TRAP],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[free:PAID_OR_FREE/BOOLEAN])
   doc: Places a trap through the script. It needs to be placed on a valid location. When using ALL_PLAYERS, it will place a trap that matches the owner of the slab. Using another player will fail if the slab owner is different from the desired trap owner.
+
+- cmd: LOCK_POSSESSION([player:PLAYER],[locked state:BOOLEAN])
+  doc: Makes a player unable to exit possession mode. Does not start possession.

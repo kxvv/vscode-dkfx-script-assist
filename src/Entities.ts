@@ -2339,8 +2339,6 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
     [ParamType.PaidOrFree]: [
         { val: "PAID", },
         { val: "FREE", },
-        { val: "0", },
-        { val: "1", },
     ],
     [ParamType.UpdateFunction]: [
         { val: "UPDATE_DUNGEON_HEART" },
@@ -2374,7 +2372,11 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "gold_slabs_div2", doc: "One capacity per slab, then multiplied by gold hoard types, then divided by two" },
         { val: "none", doc: "No capacity" },
     ],
-    [ParamType.Orientation]: "North,NorthEast,East,SouthEast,South,SouthWest,West,Northwest".split(",").map(t => ({ val: t }))
+    [ParamType.Orientation]: "North,NorthEast,East,SouthEast,South,SouthWest,West,Northwest".split(",").map(t => ({ val: t })),
+    [ParamType.Boolean]: "1,True,Yes,On,Enable,Enabled,0,False,No,Off,Disable,Disabled".split(",").map(t => ({ val: t })),
+    [ParamType.All]: [
+        { val: "ALL", },
+    ],
 };
 
 interface CustomEntities {
