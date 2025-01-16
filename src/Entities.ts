@@ -1908,6 +1908,12 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "CAST_SPELL_TIME_BOMB", },
         { val: "CAST_SPELL_CHICKEN", },
         { val: "CAST_SPELL_DISEASE", },
+        { val: "SUMMON_FAMILIAR", },
+        { val: "SUMMON_CREATURE", },
+        { val: "RANGED_HEAL", },
+        { val: "RANGED_SPEED", },
+        { val: "RANGED_ARMOUR", },
+        { val: "RANGED_REBOUND", },
     ],
     [ParamType.CompareOperator]: [
         { val: ">" },

@@ -380,7 +380,7 @@
 - cmd: COMPUTER_DIG_TO_LOCATION([player:PLAYER/ALL_PLAYERS],[origin:LOCATION],[destination:LOCATION])
   doc: Makes a computer player dig somewhere.
 
-- cmd: CONCEAL_MAP_RECT([player:PLAYER/ALL_PLAYERS],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[width:SUBTILE],[height:SUBTILE],[hide revealed:BINARY])
+- cmd: CONCEAL_MAP_RECT([player:PLAYER/ALL_PLAYERS],[subtile X coord:SUBTILE],[subtile Y coord:SUBTILE],[width:SUBTILE],[height:SUBTILE],[hide revealed:BINARY/ALL])
   opts: 1
   doc: Conceals part of the map with fog of war, opposite to REVEAL_MAP_RECT
 

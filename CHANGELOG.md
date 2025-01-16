@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.17] - 2025-01-16
+### Added
+- new creature spells/instances
+
 ## [0.8.16] - 2025-01-11
 ### Added
 - LOCK_POSSESSION, BOOLEAN type
