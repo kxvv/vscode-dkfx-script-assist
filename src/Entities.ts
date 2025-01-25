@@ -2383,6 +2383,14 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
     [ParamType.All]: [
         { val: "ALL", },
     ],
+    [ParamType.SpawnType]: [
+        { val: "DEFAULT", doc: "The behavior it has without the param. This means at action point heroes will fall from ceilings, and at hero gates they jump in.", },
+        { val: "NONE", doc: "The behaviors non-roaming creatures show when they enter at an action point: nothing", },
+        { val: "JUMP", doc: "The behavior units do at a hero gate, jumping in.", },
+        { val: "FALL", doc: "Falling from the ceiling with a short delay and rocks.", },
+        { val: "INIT", doc: "Looks like 'NONE', but acts like the unit is preplaced on the map. Can be used to assign units to rooms like guard post and prisons.", },
+        { val: "INITIALIZE", doc: "Looks like 'NONE', but acts like the unit is preplaced on the map. Can be used to assign units to rooms like guard post and prisons.", },
+    ],
 };
 
 interface CustomEntities {

@@ -93,6 +93,7 @@ export enum ParamType {
     Spell = "SPELL",
     SpellFlag = "SPELL_FLAG",
     Subtile = "SUBTILE",
+    SpawnType = "SPAWN_TYPE",
     Text = "TEXT",
     Texture = "TEXTURE",
     Time = "TIME",

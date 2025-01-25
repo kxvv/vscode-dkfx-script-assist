@@ -127,8 +127,9 @@
   doc: Adjusts the research value for individual rooms or spells and even for a specific player.
   rootLvl: ENFORCE
 
-- cmd: ADD_CREATURE_TO_LEVEL([owner player:PLAYER],[creature:CREATURE],[spawn location:LOCATION],[creatures amount:NUMBER+],[levels:1-10],[gold carried:GOLD])
+- cmd: ADD_CREATURE_TO_LEVEL([owner player:PLAYER],[creature:CREATURE],[spawn location:LOCATION],[creatures amount:NUMBER+],[levels:1-10],[gold carried:GOLD],[spawn type:SPAWN_TYPE])
   doc: This command will add a number of new creatures to the level at the co-ordinates of a specifies Action Point. You cannot set where the creatures head for so you may need to use a party instead.
+  opts: 1
 
 - cmd: ADD_TUNNELLER_TO_LEVEL([owner player:PLAYER],[spawn location:LOCATION],[head for:HEAD_FOR],[target:BYTE],[tunneler level:1-10],[gold carried:GOLD])
   signChanges: [
@@ -464,11 +465,9 @@
     [creature1] to [creature5] are creature names, like HORNY. Only the first one is mandatory.
 
 - cmd: SET_BOX_TOOLTIP([box number:BYTE],[tooltip:TEXT])
-  rootLvl: ENFORCE
   doc: Creates a custom tooltip for Custom special boxes.
 
 - cmd: SET_BOX_TOOLTIP_ID([box number:BYTE],[message number:NUMBER])
-  rootLvl: ENFORCE
   doc: Sets a Tooltip on a custom special box, with a text from the language files.
 
 - cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER/UNKNOWN],[second value:NUMBER/UNKNOWN])

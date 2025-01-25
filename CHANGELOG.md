@@ -4,6 +4,14 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.18] - 2025-01-25
+### Added
+- SPAWN_TYPE
+
+### Changed
+- SET_BOX_TOOLTIP root lvl
+- command names are always highlighted / even unknown ones
+
 ## [0.8.17] - 2025-01-16
 ### Added
 - new creature spells/instances
