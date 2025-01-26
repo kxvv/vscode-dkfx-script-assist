@@ -827,122 +827,35 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
     ],
     [ParamType.CreatureProperty]: [
-        {
-            val: "BLEEDS",
-            doc: "the creature leaves blood when is hit, slapped, dying or being injured in any way",
-        },
-        {
-            val: "UNAFFECTED_BY_WIND",
-            doc: "the creature isn't pushed back by Wind spell",
-        },
-        {
-            val: "IMMUNE_TO_GAS",
-            doc: "the creature isn't injured by Gas Traps and Farts",
-        },
-        {
-            val: "HUMANOID_SKELETON",
-            doc: "the creature leaves a skeleton if left in prison to die",
-        },
-        {
-            val: "PISS_ON_DEAD",
-            doc: "creature feels urge to piss on nearby dead bodies",
-        },
-        {
-            val: "FLYING",
-            doc: "creature normally isn't touching ground when moving and can move up and down",
-        },
-        {
-            val: "SEE_INVISIBLE",
-            doc: "creature has natural ability which works like Sight spell",
-        },
-        {
-            val: "PASS_LOCKED_DOORS",
-            doc: "creature can move through locked doors and won't fight with doors",
-        },
-        {
-            val: "SPECIAL_DIGGER",
-            doc: "creature can dig and perform other dungeon tasks",
-        },
-        {
-            val: "ARACHNID",
-            doc: "creature is kind of spider",
-        },
-        {
-            val: "DIPTERA",
-            doc: "creature is kind of fly",
-        },
-        {
-            val: "LORD",
-            doc: `creature is lord of the land, usually arrives to level as final boss, and at arrival you can hear "beware, the lord of the land approaches"`,
-        },
-        {
-            val: "SPECTATOR",
-            doc: "creature is just a spectator for multiplayer games",
-        },
-        {
-            val: "EVIL",
-            doc: "creature has evil nature",
-        },
-        {
-            val: "NEVER_CHICKENS",
-            doc: "creature isn't affected by Chicken spell",
-        },
-        {
-            val: "IMMUNE_TO_BOULDER",
-            doc: "when boulder trap hits the creature, falls apart without dealing any damage",
-        },
-        {
-            val: "NO_CORPSE_ROTTING",
-            doc: "Creature body can't be taken to rot on graveyard",
-        },
-        {
-            val: "NO_ENMHEART_ATTCK",
-            doc: "Creature won't attack enemy dungeon heart on sight",
-        },
-        {
-            val: "TREMBLING_FAT",
-            doc: "Creature is so fat that ground trembles when it falls",
-        },
-        {
-            val: "FEMALE",
-            doc: "Creature is a female, does female sounds and has female name",
-        },
-        {
-            val: "INSECT",
-            doc: "Creature is an insect (note that DIPTERA and ARACHNID creatures should also have INSECT set explicitly)",
-        },
-        {
-            val: "ONE_OF_KIND",
-            doc: "Only one creature of that kind may exist on a specific map. Creature name is set to kind name.",
-        },
-        {
-            val: "NO_IMPRISONMENT",
-            doc: "Creature cannot be stunned for prison.",
-        },
-        {
-            val: "IMMUNE_TO_DISEASE",
-            doc: "Creature cannot get diseased.",
-        },
-        {
-            val: "ILLUMINATED",
-            doc: "A bright light will shine from the Creature.",
-        },
-        {
-            val: "ALLURING_SCVNGR",
-            doc: "When scavenging will give the keeper a portal boost compared to rival keepers.",
-        },
-        {
-            val: "NO_RESURRECT",
-            doc: "Creature cannot be resurrected with a resurrect creature special.",
-        },
-        {
-            val: "NO_TRANSFER",
-            doc: "Creature cannot be transferred with a transfer creature special.",
-        },
-        {
-            val: "EVENTFUL_DEATH",
-            doc: "Creature's death location will be stored in LAST_DEATH_EVENT.",
-        },
+        { val: "BLEEDS", doc: "the creature leaves blood when is hit, slapped, dying or being injured in any way." },
+        { val: "HUMANOID_SKELETON", doc: "the creature leaves a skeleton if left in prison to die." },
+        { val: "PISS_ON_DEAD", doc: "creature feels urge to piss on nearby dead bodies." },
+        { val: "FLYING", doc: "creature normally isn't touching ground when moving and can move up and down." },
+        { val: "SEE_INVISIBLE", doc: "creature has natural ability which works like Sight spell." },
+        { val: "PASS_LOCKED_DOORS", doc: "creature can move through locked doors and won't fight with doors." },
+        { val: "SPECIAL_DIGGER", doc: "creature is different from 'real' creatures can dig and perform other dungeon tasks. Like an Imp." },
+        { val: "DIGGING_CREATURE", doc: "creature is a 'real' creature but can also dig and perform other dungeon task. Like a Tunneller." },
+        { val: "ARACHNID", doc: "creature is kind of spider." },
+        { val: "DIPTERA", doc: "creature is kind of fly." },
+        { val: "LORD", doc: `creature is lord of the land, usually arrives to level as final boss, and at arrival you can hear "beware, the lord of the land approaches".` },
+        { val: "EVENTFUL_DEATH", doc: "when the creature dies the LAST_DEATH_EVENT[] script variable is updated, so mapmaker can use the location." },
+        { val: "SPECTATOR", doc: "creature is just a spectator for multiplayer games." },
+        { val: "EVIL", doc: "creature has evil nature." },
+        { val: "IMMUNE_TO_BOULDER", doc: "when boulder trap hits the creature, falls apart without dealing any damage." },
+        { val: "NO_CORPSE_ROTTING", doc: "Creature body can't be taken to rot on graveyard and will disappear quickly." },
+        { val: "NO_ENMHEART_ATTCK", doc: "Creature won't attack enemy dungeon heart on sight." },
+        { val: "TREMBLING", doc: "Creature is so heavy that ground trembles when it falls." },
+        { val: "FAT", doc: "Creature is so fat that he needs a brief rest during his movement animation." },
+        { val: "FEMALE", doc: "Creature is a female, does female sounds and has female name." },
+        { val: "INSECT", doc: "Creature is an insect (note that DIPTERA and ARACHNID creatures should also have INSECT set explicitly)." },
+        { val: "ONE_OF_KIND", doc: "Creature name is set to kind name defined by 'NameTextID'." },
+        { val: "NO_IMPRISONMENT", doc: "Creature cannot be stunned for prison." },
+        { val: "NO_RESURRECT", doc: "Creature cannot be resurrected with a resurrect creature special." },
+        { val: "NO_TRANSFER", doc: "Creature cannot be transferred with a transfer creature special." },
+        { val: "NO_STEAL_HERO", doc: "Creature cannot be stolen from a steal hero special." },
+        { val: "PREFER_STEAL", doc: "Creature can be generated from steal hero special if there is nothing to steal from." },
+        { val: "ILLUMINATED", doc: "A bright light will shine from the Creature." },
+        { val: "ALLURING_SCVNGR", doc: "When scavenging will give the keeper a portal boost compared to rival keepers." },
     ],
     [ParamType.CreatureTendency]: [
         {

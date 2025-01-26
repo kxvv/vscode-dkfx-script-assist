@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.8.19] - 2025-01-26
+### Added
+- SET_DIGGER
+
 ## [0.8.18] - 2025-01-25
 ### Added
 - SPAWN_TYPE

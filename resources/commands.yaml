@@ -916,3 +916,6 @@
 
 - cmd: LOCK_POSSESSION([player:PLAYER],[locked state:BOOLEAN])
   doc: Makes a player unable to exit possession mode. Does not start possession.
+
+- cmd: SET_DIGGER([player:KEEPER/ALL_PLAYERS],[creature:CREATURE])
+  doc: Determines which digger creature takes the top spot in the creature menu.
