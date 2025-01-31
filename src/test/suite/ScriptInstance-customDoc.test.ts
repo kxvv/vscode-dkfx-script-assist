@@ -48,10 +48,10 @@ suite("ScriptInstance-customDoc", () => {
                 line: 18,
                 ...new ErrorEmptyParam({ start: 24, end: 24 })
             },
-            {
-                line: 20,
-                ...new ErrorUndocumentedVariable({ start: 11, end: 16 }, ParamType.Flag)
-            },
+            // { should not be visible - was already displayed
+            //     line: 20,
+            //     ...new ErrorUndocumentedVariable({ start: 11, end: 16 }, ParamType.Flag)
+            // },
         ];
 
         assert.deepStrictEqual(diags, expected);

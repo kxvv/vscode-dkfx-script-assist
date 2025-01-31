@@ -1,4 +1,5 @@
 import { Entities } from "./Entities";
+import { DkEntity } from "./model/DkEntity";
 import { ExtConfig } from "./model/ExtConfig";
 import { Indentations } from "./model/Indentations";
 
@@ -30,40 +31,30 @@ export class ConfigProvider {
         return Indentations.Tab;
     }
 
+    private static parseCustomEntity(doc: string, configStrings: string[]): DkEntity[] {
+        return configStrings.map(cs => {
+            return cs.replace(/[,;]/gi, '%').split('%').map(s => s.trim());
+        })
+            .flat()
+            .filter(Boolean)
+            .map(val => ({
+                doc, val
+            }));
+    }
+
     static setConfig(config: ExtConfig) {
         this.conf = { ...config };
         this.conf.formatter = {
             ...this.conf.formatter,
             indentationString: this.toIndentationChars(this.conf.formatter.indentationString)
         };
-        const customTraps = config.customTraps.map(custom => ({
-            val: custom.toUpperCase(),
-            doc: "Custom trap"
-        }));
-        const customDoors = config.customDoors.map(custom => ({
-            val: custom.toUpperCase(),
-            doc: "Custom door"
-        }));
-        const customCreatures = config.customCreatures.map(custom => ({
-            val: custom.toUpperCase(),
-            doc: "Custom creature"
-        }));
-        const customObjects = config.customObjects.map(custom => ({
-            val: custom.toUpperCase(),
-            doc: "Custom object"
-        }));
-        const customRooms = config.customRooms.map(custom => ({
-            val: custom.toUpperCase(),
-            doc: "Custom room"
-        }));
-        const customSpells = config.customSpells.map(custom => ({
-            val: custom.toUpperCase(),
-            doc: "Custom spell"
-        }));
-        const customCreatureSpells = config.customCreatureSpells.map(custom => ({
-            val: custom.toUpperCase(),
-            doc: "Custom creature spell"
-        }));
+        const customTraps = this.parseCustomEntity("Custom trap", config.customTraps);
+        const customDoors = this.parseCustomEntity("Custom door", config.customDoors);
+        const customCreatures = this.parseCustomEntity("Custom creature", config.customCreatures);
+        const customObjects = this.parseCustomEntity("Custom object", config.customObjects);
+        const customRooms = this.parseCustomEntity("Custom room", config.customRooms);
+        const customSpells = this.parseCustomEntity("Custom spell", config.customSpells);
+        const customCreatureSpells = this.parseCustomEntity("Custom creature spell", config.customCreatureSpells);
         Entities.setCustomEntities({
             traps: customTraps,
             crtrs: customCreatures,

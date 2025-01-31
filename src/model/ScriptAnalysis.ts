@@ -26,6 +26,11 @@ export class ScriptAnalysis {
     diagIgnoreLines: number[] = [];
     private variableStorage = new VariableStorage;
     private customDoc = new CustomDoc;
+    private pushedUndocumentedVarsHint = {
+        variables: false,
+        gates: false,
+        aps: false,
+    };
 
     pushError(line: number, err: DKError) {
         this.diags.push({
@@ -281,12 +286,14 @@ export class ScriptAnalysis {
             return;
         }
         if (type === ParamType.ActionPoint) {
-            if (!this.getCustomDoc(type, word.val)) {
+            if (!this.pushedUndocumentedVarsHint.aps && !this.getCustomDoc(type, word.val)) {
                 this.pushError(line, new ErrorUndocumentedActionPoint(word));
+                this.pushedUndocumentedVarsHint.aps = true;
             }
         } else if (type === ParamType.HeroGate) {
-            if (!this.getCustomDoc(type, word.val)) {
+            if (!this.pushedUndocumentedVarsHint.gates && !this.getCustomDoc(type, word.val)) {
                 this.pushError(line, new ErrorUndocumentedHeroGate(word));
+                this.pushedUndocumentedVarsHint.gates = true;
             }
         } else {
             const refinedType = TypeTools.toolFor(type).check({ word });
@@ -296,8 +303,9 @@ export class ScriptAnalysis {
             ) {
                 const sibling = word.parent?.getPreceedingSibling()?.val;
                 if (sibling instanceof Word && word.parent?.parent.getDesc()?.returns == null) {
-                    if (!this.getCustomDoc(type, word.val, sibling.val)) {
+                    if (!this.pushedUndocumentedVarsHint.variables && !this.getCustomDoc(type, word.val, sibling.val)) {
                         this.pushError(line, new ErrorUndocumentedVariable(word, type));
+                        this.pushedUndocumentedVarsHint.variables = true;
                     }
                 }
             }

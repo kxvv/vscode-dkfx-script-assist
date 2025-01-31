@@ -2,7 +2,7 @@
     "name": "vscode-dk-scripting-assist",
     "displayName": "Dungeon Keeper's Scripting Assistant",
     "description": "Provides code checking, hinting, formatting, map browser and more.",
-    "version": "0.8.19",
+    "version": "0.9.0",
     "publisher": "kxvv",
     "scripts": {
         "vscode:prepublish": "npm run bundle",
@@ -74,7 +74,7 @@
                 "customTraps": {
                     "type": "array",
                     "default": [],
-                    "description": "Enter custom trap names for type checking and completion hints",
+                    "description": "Enter custom trap names for type checking and completion hints (either 1 by 1 or in one line separated by ',')",
                     "items": {
                         "type": "string"
                     }
@@ -82,7 +82,7 @@
                 "customDoors": {
                     "type": "array",
                     "default": [],
-                    "description": "Enter custom door names for type checking and completion hints",
+                    "description": "Enter custom door names for type checking and completion hints (either 1 by 1 or in one line separated by ',')",
                     "items": {
                         "type": "string"
                     }
@@ -90,7 +90,7 @@
                 "customCreatures": {
                     "type": "array",
                     "default": [],
-                    "description": "Enter custom creature names for type checking and completion hints.",
+                    "description": "Enter custom creature names for type checking and completion hints (either 1 by 1 or in one line separated by ',')",
                     "items": {
                         "type": "string"
                     }
@@ -98,7 +98,7 @@
                 "customObjects": {
                     "type": "array",
                     "default": [],
-                    "description": "Enter custom object names for type checking and completion hints",
+                    "description": "Enter custom object names for type checking and completion hints (either 1 by 1 or in one line separated by ',')",
                     "items": {
                         "type": "string"
                     }
@@ -106,7 +106,7 @@
                 "customRooms": {
                     "type": "array",
                     "default": [],
-                    "description": "Enter custom room names for type checking and completion hints",
+                    "description": "Enter custom room names for type checking and completion hints (either 1 by 1 or in one line separated by ',')",
                     "items": {
                         "type": "string"
                     }
@@ -114,7 +114,7 @@
                 "customSpells": {
                     "type": "array",
                     "default": [],
-                    "description": "Enter custom state-spells (buffs/debuffs, not powers or creature spells).",
+                    "description": "Enter custom state-spells (buffs/debuffs, not powers or creature spells)  (either 1 by 1 or in one line separated by ',')",
                     "items": {
                         "type": "string"
                     }
