@@ -538,6 +538,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "VIEW_TYPE",
             doc: "What the player is currently viewing. 1 for dungeon view, 2 for possession, 4 for map screen",
         },
+        {
+            val: "TOTAL_SLAPS",
+        },
     ],
     [ParamType.Objective]: [
         {
