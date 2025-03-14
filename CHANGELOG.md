@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.2] - 2025-03-14
+### Added
+- POWER_TUNNELLER
+
 ## [0.9.1] - 2025-02-12
 ### Added
 - TOTAL_SLAPS
