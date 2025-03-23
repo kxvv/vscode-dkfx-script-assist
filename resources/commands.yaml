@@ -335,7 +335,7 @@
   signChanges: [
     IF 0 EQ DisplayPortalLimit SET 1 BINARY,
     IF 0 EQ LightEnabled SET 1 BINARY,
-    IF 0 EQ PreserveClassicBugs SET 1 CLASSIC_BUG/NUMBER_COMPOUND
+    IF 0 EQ PreserveClassicBugs SET 1 CLASSIC_BUG/NUMBER_COMPOUND/TEXT
   ]
 
 - cmd: ADD_BONUS_TIME([turns:NUMBER])
