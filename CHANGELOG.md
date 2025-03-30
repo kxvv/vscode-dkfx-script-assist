@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.4] - 2025-03-30
+### Added
+- ICON
+
 ## [0.9.3] - 2025-03-23
 ### Added
 - preserve classic bugs change, new creatures

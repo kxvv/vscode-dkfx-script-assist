@@ -46,6 +46,7 @@ export enum ParamType {
     Location = "LOCATION",
     LockState = "LOCK_STATE",
     Lvl = "LVL",
+    Icon = "ICON",
     IncreaseConfig = "INCREASE_CONFIG",
     MsgNumber = "MSG_NUMBER",
     NewParty = "NEW_PARTY",

@@ -419,7 +419,7 @@
   partyDeleteAt: 0
   doc: Removes a unit from a defined party. Use it before the party is added to the level. When two equal units are in the party, the one that was first added will be deleted.
 
-- cmd: DISPLAY_MESSAGE([message number:NUMBER],[icon:PLAYER/ALL_PLAYERS/CREATURE/SPELL/UNKNOWN])
+- cmd: DISPLAY_MESSAGE([message number:NUMBER],[icon:PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Displays one of the text messages from language-specific strings banks as a chat message, with a specific unit or player shown as the sender. It disappears automatically after some time.
 
 - cmd: HEART_LOST_OBJECTIVE([message number:NUMBER],[zoom location:LOCATION/ALL_PLAYERS])
@@ -436,7 +436,7 @@
   doc: Hides the variable that has been made visible with DISPLAY_VARIABLE
   rootLvl: FORBID
 
-- cmd: QUICK_MESSAGE([message number:MSG_NUMBER],[message:TEXT],[icon:PLAYER/ALL_PLAYERS/CREATURE/SPELL/UNKNOWN])
+- cmd: QUICK_MESSAGE([message number:MSG_NUMBER],[message:TEXT],[icon:PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Works like DISPLAY_MESSAGE, but instead of using a string from translations, allows to type it directly.
 
 - cmd: RANDOMISE_FLAG([player:PLAYER/ALL_PLAYERS],[flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX],[max value:NUMBER])

@@ -2307,6 +2307,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "INIT", doc: "Looks like 'NONE', but acts like the unit is preplaced on the map. Can be used to assign units to rooms like guard post and prisons.", },
         { val: "INITIALIZE", doc: "Looks like 'NONE', but acts like the unit is preplaced on the map. Can be used to assign units to rooms like guard post and prisons.", },
     ],
+    [ParamType.Icon]: [
+        ..."None;Kills;Strength;Gold;Wage;Armour;Time;Dexterity;Defence;Luck;Blood".split(";").map(e => ({ val: e }))
+    ],
 };
 
 interface CustomEntities {
