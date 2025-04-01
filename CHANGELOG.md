@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.5] - 2025-04-01
+### Changed
+- some compound types to also allow texts
+
 ## [0.9.4] - 2025-03-30
 ### Added
 - ICON
