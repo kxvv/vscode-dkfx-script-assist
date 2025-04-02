@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.6] - 2025-04-02
+### Added
+- toggleable flagfields for some commands
+
 ## [0.9.5] - 2025-04-01
 ### Changed
 - some compound types to also allow texts
