@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.7] - 2025-04-06
+### Added
+- trap config names
+
 ## [0.9.6] - 2025-04-02
 ### Added
 - toggleable flagfields for some commands

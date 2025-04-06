@@ -1155,6 +1155,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
             val: "5",
             doc: "Whenever after reloading"
         },
+        ..."LINE_OF_SIGHT_90;PRESSURE_SLAB;LINE_OF_SIGHT;PRESSURE_SUBTILE;ALWAYS".split(";").map(e => ({ val: e })),
     ],
     [ParamType.Operation]: [
         { val: "SET" },
@@ -1170,6 +1171,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "5", doc: "Shoot like a creature would", },
         { val: "6", doc: "Spawns a unit", },
         { val: "7", doc: "Keeper spell", },
+        ..."HEAD_FOR_TARGET_90;EFFECT_ON_TRAP;SHOT_ON_TRAP;SLAB_CHANGE;CREATURE_SHOT;CREATURE_SPAWN;POWER".split(";").map(e => ({ val: e })),
     ],
     [ParamType.DisplayVarTargetType]: [
         {
@@ -1232,7 +1234,8 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "Immobile", doc: `` },
         { val: "InitialState", doc: `Initial state, only used for chickens.` },
         { val: "Properties", doc: `Possible properties: EXISTS_ONLY_IN_ROOM, DESTROYED_ON_ROOM_CLAIM, CHOWNED_ON_ROOM_CLAIM, DESTROYED_ON_ROOM_PLACE, BUOYANT, BEATING, HEART.` },
-        { val: "UpdateFunction", doc: `Function that should be executed to update the object. UPDATE_DUNGEON_HEART, UPDATE_CALL_TO_ARMS, UPDATE_ARMOUR, UPDATE_OBJECT_SCALE, UPDATE_POWER_SIGHT, UPDATE_POWER_LIGHTNING, NULL.` }
+        { val: "UpdateFunction", doc: `Function that should be executed to update the object. UPDATE_DUNGEON_HEART, UPDATE_CALL_TO_ARMS, UPDATE_ARMOUR, UPDATE_OBJECT_SCALE, UPDATE_POWER_SIGHT, UPDATE_POWER_LIGHTNING, NULL.` },
+        { val: "TooltipTextID", },
     ],
     [ParamType.TrapConfig]: [
         { val: "TooltipTextID", doc: `Language-specific description of the trap, shown as tooltip.` },
