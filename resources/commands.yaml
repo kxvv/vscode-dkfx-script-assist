@@ -550,6 +550,7 @@
   signChanges: [
     IF 1 EQ TriggerType SET 2 TRAP_TRIGGER_TYPE,
     IF 1 EQ ActivationType SET 2 TRAP_ACTIVATION_TYPE,
+    IF 1 EQ ActivationLevel SET 2 1-10,
     IF 1 EQ Hidden SET 2 BINARY,
     IF 1 EQ Slappable SET 2 NUMBER,
     IF 1 EQ TriggerAlarm SET 2 BINARY,

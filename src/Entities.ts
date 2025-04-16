@@ -1250,6 +1250,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "InitialDelay", doc: `If set the trap is on 'reloading phase' at placement, value defines how long in game turns before it can start shooting.` },
         { val: "TriggerType", doc: `How to trigger the trap. 1: Line of sight 90 degrees. 2: Pressure activated (tile). 3: Line of sight. 4: Pressure activated (subtile). 5: Whenever after reloading.` },
         { val: "ActivationType", doc: `Type of effect on activation. 1: Trap shot head for target. 2: Trap effect. 3: Trap shot stay on trap. 4: Change the slab into another slab type. 5: Shoot like a creature would. 6: Spawns a creature, at level 1. 7: Keeper spell.` },
+        { val: "ActivationLevel", },
         { val: "EffectType", doc: `The shot/effect/slab/creature/keeper power, based on the Activation Type. Accepts both names and numbers.` },
         { val: "HitType", doc: `Controls which things will be affected by the AreaDamage of the spell (1~8), see magic.cfg.` },
         { val: "Hidden", doc: `If the trap is visible before getting triggered.` },
@@ -1557,6 +1558,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "HARD_FLOOR", },
         { val: "DOOR_MIDAS", },
         { val: "DOOR_MIDAS2", },
+        { val: "DENSE_GOLD", },
     ],
     [ParamType.CustomBox]: new Array(256).fill(0).map((e, i) => ({
         val: `BOX${i}_ACTIVATED`

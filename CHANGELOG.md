@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.8] - 2025-04-16
+### Added
+- DENSE_GOLD
+
 ## [0.9.7] - 2025-04-06
 ### Added
 - trap config names
