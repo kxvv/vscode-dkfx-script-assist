@@ -196,14 +196,45 @@
 
 - cmd: SET_COMPUTER_PROCESS([player:PLAYER/ALL_PLAYERS],[process:COMP_PROCESS],[priority:UNKNOWN],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN])
   opts: 4
+  doc: |
+    Changes conditions and parameters for one of the computer processes. A process is started if the computer player realizes that any action is needed. Some of the processes have more than one version, and specific one is selected by checking variables inside the processes.
+    
+    [player] - The computer player’s name, e.g. PLAYER1. See Players section for more information.
+
+    ["process name"] - Text name of the process which is being changed. See fxdata\keepcompp.cfg for more information.
+
+    [priority] - Priority of the process. This parameter controls which process to choose if more than one process has met the conditions to be conducted.
+
+    [data1],[data2],[data3],[data4] - These parameters can have different meaning for different values of ["process name"].
 
 - cmd: SET_COMPUTER_CHECKS([player:PLAYER/ALL_PLAYERS],[check:COMP_CHECK],[period:TIME],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN])
   opts: 4
+  doc: |
+    If no important event is occuring, the computer player searches for things that need to be done using checks. Checks are similar to IF commands which allows computer player to undertake a process under some circumstances determined by values of variables.
+    
+    [player] - The computer player's name, e.g. PLAYER1. See Players section for more information.
 
-- cmd: SET_COMPUTER_EVENT([player:PLAYER/ALL_PLAYERS],[event:COMP_EVENT],[data1:UNKNOWN],[data2:UNKNOWN],[data3:UNKNOWN],[data4:UNKNOWN],[data5:UNKNOWN])
+    ["checks name"] - Text name of the check which is being altered. See fxdata\keepcompp.cfg. for more information.
+
+    [check every] - Number of turns before repeating the test.
+
+    [data1],[data2],[data3],[data4] - These parameters can have different meaning for different values of ["checks name"].
+
+- cmd: SET_COMPUTER_EVENT([player:PLAYER/ALL_PLAYERS],[event:COMP_EVENT],[value3:UNKNOWN],[param1:UNKNOWN],[param2:UNKNOWN],[param3:UNKNOWN],[param4:UNKNOWN])
   opts: 5
+  doc: |
+    Event is a sudden situation that needs a process to be undertaken. Unlike checks, events are triggered by often complicated logic conditions. Both checks and events are used to test if a process should be started.
+
+    [player] - The computer player’s name, e.g. PLAYER1.
+
+    ["event name"] - Text name of the event which is being altered. See fxdata\keepcompp.cfg for more information.
+
+    [value3] - Updates the third number listed at Values. (test_interval)
+
+    [param#] - Updates the four numbers listed at Params. The first 3 have different meanings for different event types, the 4th one is the gameturn the event has last been used.
 
 - cmd: SET_COMPUTER_GLOBALS([players:PLAYER/ALL_PLAYERS],[dig stack size:NUMBER],[processes time:NUMBER],[click rate:NUMBER],[max room build tasks:NUMBER],[turn begin:NUMBER],[sim before dig:NUMBER],[min drop delay:NUMBER])
+  opts: 1
   doc: |
     Allows the player to configure the behavior of an AI for specific criteria.
 
@@ -470,9 +501,9 @@
 - cmd: SET_BOX_TOOLTIP_ID([box number:BYTE],[message number:NUMBER])
   doc: Sets a Tooltip on a custom special box, with a text from the language files.
 
-- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER/UNKNOWN],[second value:NUMBER/UNKNOWN])
+- cmd: SET_CREATURE_CONFIGURATION([creature:CREATURE],[property:CREATURE_CONFIG],[value:NUMBER/UNKNOWN],[second value:NUMBER/UNKNOWN],[third value:NUMBER/UNKNOWN])
   doc: Allows you to make changes to attribute values set in the unit configuration files.
-  opts: 1
+  opts: 2
   signChanges: [
     IF 1 EQ PrimaryJobs SET 2 JOB,
     IF 1 EQ PrimaryJobs SET 3 BINARY,
@@ -484,10 +515,11 @@
     IF 1 EQ StressfulJobs SET 3 BINARY,
     IF 1 EQ AttackPreference SET 2 UNKNOWN,
     IF 1 EQ AttackPreference SET 3 BINARY,
-    IF 1 EQ Properties SET 2 UNKNOWN,
+    IF 1 EQ Properties SET 2 UNKNOWN/CREATURE_PROPERTY,
     IF 1 EQ Properties SET 3 BINARY,
     IF 1 EQ EntranceRoom SET 2 ROOM,
-    IF 1 EQ EntranceRoom SET 3 BINARY,
+    IF 1 EQ EntranceRoom SET 3 ROOM,
+    IF 1 EQ EntranceRoom SET 4 ROOM,
     IF 1 EQ LevelsTrainValues SET 2 1-10,
     IF 1 EQ LevelsTrainValues SET 3 NUMBER,
     IF 1 EQ PowersLevelRequired SET 2 1-10,
