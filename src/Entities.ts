@@ -601,12 +601,17 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
         {
             val: "DUNGEON_HEART",
-            doc: "A Player's Dungeon Heart"
+            doc: "A Player's Dungeon Heart",
         },
         {
             val: "APPROPIATE_DUNGEON",
-            doc: "The dungeon of the player with the highest score"
-        }
+            doc: "The dungeon of the player with the highest score",
+            noSuggest: true,
+        },
+        {
+            val: "APPROPRIATE_DUNGEON",
+            doc: "The dungeon of the player with the highest score",
+        },
     ],
     [ParamType.Lvl]: new Array(10).fill(0).map((e, i) => ({ val: `${i + 1}` })),
     [ParamType.Button]: [
@@ -2358,7 +2363,9 @@ export class Entities {
 
     public static suggestForType(type: ParamType, sliceEnd?: number): DkSuggestion[] {
         const cmdMap = DescProvider.getCommandsOfReturnType(type);
-        return (DK_ENTITIES[type]?.map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect)) || [])
+        return (DK_ENTITIES[type] || [])
+            .filter(e => !e.noSuggest)
+            .map(e => MappersDk.entityToDkSuggestion(e, !!e.preselect))
             .concat([...cmdMap.keys()].map(cmdName => MappersDk.commandToDkSuggestion(cmdName, cmdMap.get(cmdName)!)));
     }
 

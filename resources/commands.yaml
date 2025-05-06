@@ -136,7 +136,8 @@
     IF 2 EQ ACTION_POINT SET 3 ACTION_POINT/HERO_GATE,
     IF 2 EQ DUNGEON SET 3 KEEPER_INDEX,
     IF 2 EQ DUNGEON_HEART SET 3 KEEPER_INDEX,
-    IF 2 EQ APPROPIATE_DUNGEON SET 3 NUMBER
+    IF 2 EQ APPROPIATE_DUNGEON SET 3 NUMBER,
+    IF 2 EQ APPROPRIATE_DUNGEON SET 3 NUMBER
   ]
   doc: This commands adds a number of Tunneller Dwarves to the level. They will immediately start digging towards their target. Tunneller Dwarves are the only creatures that can tunnel towards a target.
 
@@ -153,7 +154,8 @@
     IF 3 EQ ACTION_POINT SET 4 ACTION_POINT/HERO_GATE,
     IF 3 EQ DUNGEON SET 4 KEEPER_INDEX,
     IF 3 EQ DUNGEON_HEART SET 4 KEEPER_INDEX,
-    IF 3 EQ APPROPIATE_DUNGEON SET 4 NUMBER
+    IF 3 EQ APPROPIATE_DUNGEON SET 4 NUMBER,
+    IF 3 EQ APPROPRIATE_DUNGEON SET 4 NUMBER
   ]
   partyReadAt: 1
   doc: This adds a specified party of creatures to the level with a Tunneller Dwarf as it's leader. The Tunneller will immediately dig to it's target and the other creatures will follow.
@@ -955,3 +957,6 @@
 
 - cmd: SET_DIGGER([player:KEEPER/ALL_PLAYERS],[creature:CREATURE])
   doc: Determines which digger creature takes the top spot in the creature menu.
+
+- cmd: RUN_LUA_CODE([function:TEXT])
+  doc: Calls a lua function from a lua file.

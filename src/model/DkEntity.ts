@@ -3,4 +3,5 @@ export interface DkEntity {
     doc?: string;
     [prop: string]: any;
     preselect?: boolean;
+    noSuggest?: boolean;
 }
