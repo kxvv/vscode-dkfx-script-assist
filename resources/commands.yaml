@@ -960,3 +960,7 @@
 
 - cmd: RUN_LUA_CODE([function:TEXT])
   doc: Calls a lua function from a lua file.
+
+- cmd: TAG_MAP_RECT([player:KEEPER/ALL_PLAYERS],[slab X coordinate:SLAB],[slab Y coordinate:SLAB],[width:SLAB],[height:SLAB])
+  doc: Tags a rectangular map area to be dug out by imps for given player. It's immediate and works for human players too.
+  opts: 2

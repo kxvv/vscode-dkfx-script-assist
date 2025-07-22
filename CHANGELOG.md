@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.11] - 2025-07-23
+### Added
+- TAG_MAP_RECT
+
 ## [0.9.10] - 2025-05-01
 ### Added
 - RUN_LUA_CODE
