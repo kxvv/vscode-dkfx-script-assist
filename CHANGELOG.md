@@ -4,6 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.12] - 2025-07-23
+### Added
+- UNTAG_MAP_RECT
+- 4 new room rules
+
 ## [0.9.11] - 2025-07-23
 ### Added
 - TAG_MAP_RECT

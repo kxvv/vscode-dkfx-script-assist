@@ -1138,6 +1138,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "GameTurnsPerTortureHealthLoss" },
         { val: "DragUnconsciousToLair", doc: "Imps will save fainted units by dragging them to lair: 0 = Cannot save own units, default. 1 = Imps save only own unconscious creatures with a lair. 2 = Imps save all of your own unconscious creatures with a lair and all who are capable of building one, and drag them to the correct position." },
         { val: "MapCreatureLimit", },
+        { val: "TrainEfficiency", doc: "Default speed of Training", },
+        { val: "WorkEfficiency", doc: "Default speed of Workshop", },
+        { val: "ResearchEfficiency", doc: "Default speed of Research", },
+        { val: "ScavengeEfficiency", doc: "Default speed of Scavenging", },
     ],
     [ParamType.TrapTriggerType]: [
         {
