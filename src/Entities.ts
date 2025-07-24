@@ -276,7 +276,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: `WIND`, doc: `131072 - Not functional on spells, exists only for immunity.` },
     ],
     [ParamType.Power]: [
-        ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON,POWER_REBOUND,POWER_FREEZE,POWER_TIME_BOMB,POWER_SLOW,POWER_FLIGHT,POWER_VISION,POWER_TUNNELLER"
+        ..."POWER_IMP,POWER_OBEY,POWER_SIGHT,POWER_CALL_TO_ARMS,POWER_CAVE_IN,POWER_HEAL_CREATURE,POWER_HOLD_AUDIENCE,POWER_LIGHTNING,POWER_SPEED,POWER_PROTECT,POWER_CONCEAL,POWER_DISEASE,POWER_CHICKEN,POWER_DESTROY_WALLS,POWER_ARMAGEDDON,POWER_REBOUND,POWER_FREEZE,POWER_TIME_BOMB,POWER_SLOW,POWER_FLIGHT,POWER_VISION,POWER_TUNNELLER,POWER_PICKUP_OBJECT"
             .split(",").sort().map(v => ({ val: v })),
         {
             val: "POWER_POSSESS",
@@ -1229,7 +1229,10 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "LightRadius", doc: `The range of the light in subtiles. 0~255.` },
         { val: "LightFlags", doc: `Unknown light properties. Possible flag values 0~255, where powers of 2 are unique properties.` },
         { val: "LightIsDynamic", doc: `The type of light. 0: disabled, 1: enabled.` },
-        { val: "MapIcon", doc: `The icon that represents the icon on the map. -1 is used for custom.` },
+        { val: "MapIcon", doc: `The icon that represents the object on the map. -1 is used for custom.` },
+        { val: "HandIcon", doc: `The icon that represents the object in the hand.` },
+        { val: "HandAnimationID", doc: `The sprite number or custom sprite name that sets the looks for the object when in keeper hand. Defaults to AnimationID when 0.` },
+        { val: "PickUpOffset", doc: `Position of the 'PowerGrab' sprite relative to the hand sprite when picked up.` },
         { val: "AmbienceSound", doc: `Sound played when within hearing range in possession.` },
         { val: "RandomStartFrame", doc: `Randomizes the frame at wich each anim starts, so multiple objects don't all make the same movement at same time.` },
         { val: "DrawClass", doc: `How the object is rendered. Default is 2.` },
@@ -1242,7 +1245,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "FlameTransparencyFlags", doc: `Flame can have a different transparency from main object.` },
         { val: "Immobile", doc: `` },
         { val: "InitialState", doc: `Initial state, only used for chickens.` },
-        { val: "Properties", doc: `Possible properties: EXISTS_ONLY_IN_ROOM, DESTROYED_ON_ROOM_CLAIM, CHOWNED_ON_ROOM_CLAIM, DESTROYED_ON_ROOM_PLACE, BUOYANT, BEATING, HEART.` },
+        { val: "Properties", doc: `Possible properties: EXISTS_ONLY_IN_ROOM, DESTROYED_ON_ROOM_CLAIM, CHOWNED_ON_ROOM_CLAIM, DESTROYED_ON_ROOM_PLACE, BUOYANT, BEATING, HEART, HOLD_IN_HAND.` },
         { val: "UpdateFunction", doc: `Function that should be executed to update the object. UPDATE_DUNGEON_HEART, UPDATE_CALL_TO_ARMS, UPDATE_ARMOUR, UPDATE_OBJECT_SCALE, UPDATE_POWER_SIGHT, UPDATE_POWER_LIGHTNING, NULL.` },
         { val: "TooltipTextID", },
     ],
@@ -2257,6 +2260,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         { val: "BUOYANT", doc: "16", },
         { val: "BEATING", doc: "32", },
         { val: "HEART", doc: "64", },
+        { val: "HOLD_IN_HAND", doc: "128", },
     ],
     [ParamType.ObjectGenre]: [
         { val: "DECORATION", },
