@@ -4,6 +4,12 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.14] - 2025-07-30
+### Added
+- SET_NEXT_LEVEL
+- SHOW_BONUS_LEVEL
+- HIDE_BONUS_LEVEL
+
 ## [0.9.13] - 2025-07-24
 ### Added
 - some new properties for set_object_configuration
