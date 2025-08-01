@@ -67,8 +67,9 @@
     
     You will need to place this in front of every command in the loop to make it work (it does not need to be placed in front of IF commands)
 
-- cmd: SET_GENERATE_SPEED([time:TIME])
-  doc: This command tells the game how long to wait before generating a new creature for each player. The type of creatures that appear cannot be scripted and will depend on the rooms the player has built. This is a global setting and will apply to all Portals.
+- cmd: SET_GENERATE_SPEED([time:TIME],[keeper:KEEPER/ALL_PLAYERS])
+  doc: This command tells the game how long to wait before generating a new creature for each player. The type of creatures that appear cannot be scripted and will depend on the rooms the player has built. It will apply to all Portals on the map.
+  opts: 1
 
 - cmd: COMPUTER_PLAYER([keeper:KEEPER],[behavior:COMPUTER])
   doc: If you have placed down an enemy dungeon heart (not a hero dungeon heart), this command tells Dungeon Keeper that a computer player needs to be assigned.

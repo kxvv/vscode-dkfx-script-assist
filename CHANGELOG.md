@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.15] - 2025-08-01
+### Changed
+- SET_GENERATE_SPEED
+
 ## [0.9.14] - 2025-07-30
 ### Added
 - SET_NEXT_LEVEL
