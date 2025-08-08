@@ -187,7 +187,7 @@
   opts: 1
   doc: Works like DISPLAY_INFORMATION, but instead of using a string from translations, allows to type it directly.
 
-- cmd: TUTORIAL_FLASH_BUTTON([button:BUTTON],[time:NUMBER])
+- cmd: TUTORIAL_FLASH_BUTTON([button:BUTTON/ROOM/TRAP/DOOR/POWER],[time:NUMBER])
   doc: Flashes a button on the toolbar. Use '-1' for time to flash the area until player selects it.
 
 - cmd: BONUS_LEVEL_TIME([countdown:TIME],[use clocktime:BOOLEAN])

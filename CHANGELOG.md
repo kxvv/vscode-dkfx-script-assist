@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.16] - 2025-08-08
+### Changed
+- TUTORIAL_FLASH_BUTTON
+
 ## [0.9.15] - 2025-08-01
 ### Changed
 - SET_GENERATE_SPEED
