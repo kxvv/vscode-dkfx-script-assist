@@ -318,7 +318,7 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
         },
     ],
     [ParamType.Trap]: [
-        ..."BOULDER,ALARM,POISON_GAS,LIGHTNING,WORD_OF_POWER,LAVA,TNT"
+        ..."BOULDER,ALARM,POISON_GAS,LIGHTNING,WORD_OF_POWER,LAVA,TNT,BALLISTA,SENTRY"
             .split(",").sort().map(v => ({ val: v })),
     ],
     [ParamType.Global]: [
