@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.18] - 2025-10-24
+### Changed
+- SET_GAME_RULE
+
 ## [0.9.17] - 2025-09-30
 ### Added
 - BALLISTA,SENTRY
