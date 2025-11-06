@@ -980,3 +980,7 @@
 
 - cmd: HIDE_BONUS_LEVEL([level number:NUMBER])
   doc: On a campaign level, makes a bonus level unavailable on the landview. Level number is any number as found on BONUS_LEVELS in the currect campaign config.
+
+- cmd: CLEAR_MESSAGE([count:NUMBER+])
+  opts: 1
+  doc: Removes messages placed by chat or the QUICK_MESSAGE or DISPLAY_MESSAGE script commands. Leave out count param or set it to 0 to remove them all.
