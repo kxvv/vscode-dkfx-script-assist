@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.20] - 2025-12-13
+### Added
+- parametrized objectives
+
 ## [0.9.19] - 2025-11-06
 ### Added
 - CLEAR_MESSAGE

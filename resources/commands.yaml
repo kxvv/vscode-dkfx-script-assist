@@ -984,3 +984,58 @@
 - cmd: CLEAR_MESSAGE([count:NUMBER+])
   opts: 1
   doc: Removes messages placed by chat or the QUICK_MESSAGE or DISPLAY_MESSAGE script commands. Leave out count param or set it to 0 to remove them all.
+
+- cmd: STEAL_GOLD[[player:KEEPER]]
+  doc: Steal gold from the Treasure Room until unit carries 1000 gold.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: STEAL_SPELLS[[player:KEEPER]]
+  doc: Go to Library and steal one spell book.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: ATTACK_ENEMIES[[player:KEEPER]]
+  doc: Attack any enemies.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: ATTACK_ROOMS[[player:KEEPER]]
+  doc: Attack the nearest rooms.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: ATTACK_DUNGEON_HEART[[player:KEEPER]]
+  doc: Attack the nearest Dungeon Heart.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: DEFEND_HEART[[player:KEEPER]]
+  doc: Go to own heart and defend it until destroyed.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: DEFEND_LOCATION[[player:KEEPER]]
+  doc: Never do any objective.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: DEFEND_PARTY[[player:KEEPER]]
+  doc: Will not do any objective so will not assume party leadership.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: DEFEND_ROOMS[[player:KEEPER]]
+  doc: Defend nearest owned room, not counting portals, hearts or bridges.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: SABOTAGE_ROOMS[[player:KEEPER]]
+  doc: Creatures will attack rooms without initializing combat if it can be avoided.
+  opts: 1
+  returns: OBJECTIVE
+
+- cmd: SNIPE_DUNGEON_HEART[[player:KEEPER]]
+  doc: Creatures will ignore any non heart combat.
+  opts: 1
+  returns: OBJECTIVE
