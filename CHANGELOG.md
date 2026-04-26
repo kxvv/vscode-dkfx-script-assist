@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.21] - 2026-04-26
+### Added
+- QUICK_INFORMATION_WITH_POS
+
 ## [0.9.20] - 2025-12-13
 ### Added
 - parametrized objectives
