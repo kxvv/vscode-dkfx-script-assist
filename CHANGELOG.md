@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.22] - 2026-04-26
+### Added
+-8 new QUICK_/DISPLAY_ PLAYER_INFORMATION... commands
+
 ## [0.9.21] - 2026-04-26
 ### Added
 - QUICK_INFORMATION_WITH_POS

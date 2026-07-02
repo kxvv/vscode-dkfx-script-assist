@@ -1045,3 +1045,32 @@
   doc: Creatures will ignore any non heart combat.
   opts: 1
   returns: OBJECTIVE
+
+- cmd: DISPLAY_PLAYER_OBJECTIVE([message number:NUMBER+],[player:KEEPER],[zoom target:LOCATION/ALL_PLAYERS])
+  doc: Same as DISPLAY_OBJECTIVE, but is only displayed for one player. Useful for multiplayer maps.
+  opts: 1
+
+- cmd: DISPLAY_PLAYER_OBJECTIVE_WITH_POS([message number:NUMBER+],[player:KEEPER],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE])
+  doc: Same as DISPLAY_OBJECTIVE_WITH_POS(#display_objective_with_pos), but is only displayed for one player. Useful for multiplayer maps.
+  opts: 1
+
+- cmd: DISPLAY_PLAYER_INFORMATION([message number:NUMBER+],[player:KEEPER],[zoom target:LOCATION/ALL_PLAYERS])
+  opts: 1
+  doc: Same as DISPLAY_INFORMATION, but is only displayed for one player. Useful for multiplayer maps.
+
+- cmd: DISPLAY_PLAYER_INFORMATION_WITH_POS([message number:NUMBER+],[player:KEEPER],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE])
+  doc: Same as DISPLAY_INFORMATION_WITH_POS, but is only displayed for one player. Useful for multiplayer maps.
+
+- cmd: QUICK_PLAYER_OBJECTIVE([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS])
+  opts: 1
+  doc: Same as QUICK_OBJECTIVE, but is only displayed for one player. Useful for multiplayer maps.
+
+- cmd: QUICK_PLAYER_OBJECTIVE_WITH_POS([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[x:SUBTILE],[y:SUBTILE])
+  doc: Same as QUICK_OBJECTIVE_WITH_POS, but is only displayed for one player. Useful for multiplayer maps.
+
+- cmd: QUICK_PLAYER_INFORMATION([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS])
+  opts: 1
+  doc: Same as QUICK_INFORMATION, but is only displayed for one player. Useful for multiplayer maps.
+
+- cmd: QUICK_PLAYER_INFORMATION_WITH_POS([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[x:SUBTILE],[y:SUBTILE])
+  doc: Works like QUICK_INFORMATION_WITH_POS, but is only displayed for one player. Useful for multiplayer maps.
