@@ -4,7 +4,11 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.9.22] - 2026-04-26
+## [0.9.23] - 2026-08-02
+### Added
+-COPY_CREATURE_TYPE
+
+## [0.9.22] - 2026-07-03
 ### Added
 -8 new QUICK_/DISPLAY_ PLAYER_INFORMATION... commands
 

@@ -1074,3 +1074,8 @@
 
 - cmd: QUICK_PLAYER_INFORMATION_WITH_POS([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[x:SUBTILE],[y:SUBTILE])
   doc: Works like QUICK_INFORMATION_WITH_POS, but is only displayed for one player. Useful for multiplayer maps.
+
+- cmd: COPY_CREATURE_TYPE([src creature name:CREATURE],[new creature name:UNKNOWN])
+  doc: Copies an existing creature type, then adds it as a new creature type to the creature list.
+  tempCreatureAt: 1
+  rootLvl: ENFORCE
