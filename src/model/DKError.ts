@@ -169,7 +169,7 @@ export class ErrorFlagNeverSet extends DKError {
 
 export class ErrorApNeverTriggered extends DKError {
     constructor(flag: Range) {
-        super(`Action point is never triggered`, flag.start, flag.end);
+        super(`Action point is never read`, flag.start, flag.end);
         this.severity = ErrSeverity.Warning;
     }
 }

@@ -43,6 +43,7 @@ export enum ParamType {
     Job = "JOB",
     Keeper = "KEEPER",
     KeeperIndex = "KEEPER_INDEX",
+    LevelEnsign = "LEVEL_ENSIGN",
     Location = "LOCATION",
     LockState = "LOCK_STATE",
     Lvl = "LVL",

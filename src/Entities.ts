@@ -2338,6 +2338,9 @@ const DK_ENTITIES: Record<string, DkEntity[]> = {
     [ParamType.Icon]: [
         ..."None;Kills;Strength;Gold;Wage;Armour;Time;Dexterity;Defence;Luck;Blood".split(";").map(e => ({ val: e }))
     ],
+    [ParamType.LevelEnsign]: [
+        ..."DEFAULT;TUTORIAL;SINGLE;BONUS;FULL_MOON;NEW_MOON".split(";").map(e => ({ val: e }))
+    ],
 };
 
 interface CustomEntities {

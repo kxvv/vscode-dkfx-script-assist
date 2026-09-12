@@ -315,6 +315,11 @@
   doc: Displays a script variable on screen.
   flagReadAt: [1]
 
+- cmd: DISPLAY_VARIABLE_WITH_LABEL([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[icon:ICON])
+  opts: 1
+  doc: Displays a script variable on screen with an icon as a label.
+  flagReadAt: [1]
+
 - cmd: EXPORT_VARIABLE([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[campaign flag:CAMPAIGN_FLAG])
   flagReadAt: [1]
   doc: Exports a variable to a campaign flag to use in a future campaign level. To be used together with the IMPORT command.
@@ -474,8 +479,9 @@
   doc: Hides the timer that has been made visible with DISPLAY_TIMER
   rootLvl: FORBID
 
-- cmd: HIDE_VARIABLE()
-  doc: Hides the variable that has been made visible with DISPLAY_VARIABLE
+- cmd: HIDE_VARIABLE([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR])
+  doc: Hides the variables that has been made visible with DISPLAY_VARIABLE and DISPLAY_VARIABLE_WITH_LABEL. Without the optional parameters it will hide everything.
+  opts: 2
   rootLvl: FORBID
 
 - cmd: QUICK_MESSAGE([message number:MSG_NUMBER],[message:TEXT],[icon:PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
@@ -1079,3 +1085,11 @@
   doc: Copies an existing creature type, then adds it as a new creature type to the creature list.
   tempCreatureAt: 1
   rootLvl: ENFORCE
+
+- cmd: TRIGGER_ACTION_POINT([action point:ACTION_POINT],[player:KEEPER/ALL_PLAYERS])
+  apWriteAt: 0
+  doc: Set an action point as triggered for a player.
+  opts: 1
+
+- cmd: SET_LEVEL_ENSIGN([level number:NUMBER],[ensign:LEVEL_ENSIGN/UNKNOWN])
+  doc: Modifies the ensign (the flag you click to start a level) on the campaign landview. For level number provide any number as found on SINGLE_LEVELS, BONUS_LEVELS or EXTRA_LEVELS in the currect campaign config.

@@ -4,6 +4,12 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.24] - 2026-09-12
+### Added
+-TRIGGER_ACTION_POINT
+-SET_LEVEL_ENSIGN
+-DISPLAY_VARIABLE_WITH_LABEL
+
 ## [0.9.23] - 2026-08-02
 ### Added
 -COPY_CREATURE_TYPE
