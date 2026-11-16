@@ -165,33 +165,37 @@
   partyReadAt: 1
   doc: Adds a party to the level.
 
-- cmd: DISPLAY_OBJECTIVE([message number:NUMBER+],[zoom target:LOCATION/ALL_PLAYERS])
+- cmd: DISPLAY_OBJECTIVE([message number:NUMBER+],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Displays one of the text messages stored in TEXT.DAT file (if used in Dungeon Keeper) or DD1TEXT.DAT (if used in Deeper Dungeons) in an Objective Box. This file comes in various language version, so messages from it are always in the language selected during installation of Dungeon Keeper.
-  opts: 1
+  opts: 2
 
-- cmd: DISPLAY_OBJECTIVE_WITH_POS([message number:NUMBER+],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE])
+- cmd: DISPLAY_OBJECTIVE_WITH_POS([message number:NUMBER+],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Displays one of the text messages stored in TEXT.DAT file (if used in Dungeon Keeper) or DD1TEXT.DAT (if used in Deeper Dungeons) in an Objective Box. Allows to enter map coordinates of an area which is shown when the eye icon is clicked on the message.
-
-- cmd: DISPLAY_INFORMATION([message number:NUMBER+],[zoom target:LOCATION/ALL_PLAYERS])
   opts: 1
+
+- cmd: DISPLAY_INFORMATION([message number:NUMBER+],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+  opts: 2
   doc: Creates a text box with Information Pop-up Icon. Works identical (except of the icon) as DISPLAY_OBJECTIVE.
 
-- cmd: DISPLAY_INFORMATION_WITH_POS([message number:NUMBER+],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE])
+- cmd: DISPLAY_INFORMATION_WITH_POS([message number:NUMBER+],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Creates a text box with Information Pop-up Icon. Works identical (except of the icon) as DISPLAY_OBJECTIVE_WITH_POS.
-
-- cmd: QUICK_OBJECTIVE([message number:MSG_NUMBER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS])
   opts: 1
+
+- cmd: QUICK_OBJECTIVE([message number:MSG_NUMBER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+  opts: 2
   doc: Works like DISPLAY_OBJECTIVE, but instead of using a string from translations, allows to type it directly.
 
-- cmd: QUICK_OBJECTIVE_WITH_POS([message number:MSG_NUMBER],[message:TEXT],[x:SUBTILE],[y:SUBTILE])
+- cmd: QUICK_OBJECTIVE_WITH_POS([message number:MSG_NUMBER],[message:TEXT],[x:SUBTILE],[y:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Works like QUICK_OBJECTIVE, but accepts [x,y] coordinates as the position.
-
-- cmd: QUICK_INFORMATION([message number:MSG_NUMBER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS])
   opts: 1
+
+- cmd: QUICK_INFORMATION([message number:MSG_NUMBER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+  opts: 2
   doc: Works like DISPLAY_INFORMATION, but instead of using a string from translations, allows to type it directly.
 
-- cmd: QUICK_INFORMATION_WITH_POS([message number:MSG_NUMBER],[message:TEXT],[x:SUBTILE],[y:SUBTILE])
+- cmd: QUICK_INFORMATION_WITH_POS([message number:MSG_NUMBER],[message:TEXT],[x:SUBTILE],[y:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Works like QUICK_INFORMATION, but accepts [x,y] coordinates as the position.
+  opts: 1
 
 - cmd: TUTORIAL_FLASH_BUTTON([button:BUTTON/ROOM/TRAP/DOOR/POWER],[time:NUMBER])
   doc: Flashes a button on the toolbar. Use '-1' for time to flash the area until player selects it.
@@ -315,7 +319,7 @@
   doc: Displays a script variable on screen.
   flagReadAt: [1]
 
-- cmd: DISPLAY_VARIABLE_WITH_LABEL([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[icon:ICON])
+- cmd: DISPLAY_VARIABLE_WITH_LABEL([player:PLAYER/ALL_PLAYERS],[variable:READABLE_VAR],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   opts: 1
   doc: Displays a script variable on screen with an icon as a label.
   flagReadAt: [1]
@@ -466,7 +470,7 @@
   partyDeleteAt: 0
   doc: Removes a unit from a defined party. Use it before the party is added to the level. When two equal units are in the party, the one that was first added will be deleted.
 
-- cmd: DISPLAY_MESSAGE([message number:NUMBER],[icon:PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+- cmd: DISPLAY_MESSAGE([message number:NUMBER],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Displays one of the text messages from language-specific strings banks as a chat message, with a specific unit or player shown as the sender. It disappears automatically after some time.
 
 - cmd: HEART_LOST_OBJECTIVE([message number:NUMBER],[zoom location:LOCATION/ALL_PLAYERS])
@@ -484,7 +488,7 @@
   opts: 2
   rootLvl: FORBID
 
-- cmd: QUICK_MESSAGE([message number:MSG_NUMBER],[message:TEXT],[icon:PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+- cmd: QUICK_MESSAGE([message number:MSG_NUMBER],[message:TEXT],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Works like DISPLAY_MESSAGE, but instead of using a string from translations, allows to type it directly.
 
 - cmd: RANDOMISE_FLAG([player:PLAYER/ALL_PLAYERS],[flag:FLAG/CAMPAIGN_FLAG/CUSTOM_BOX],[max value:NUMBER])
@@ -1052,34 +1056,37 @@
   opts: 1
   returns: OBJECTIVE
 
-- cmd: DISPLAY_PLAYER_OBJECTIVE([message number:NUMBER+],[player:KEEPER],[zoom target:LOCATION/ALL_PLAYERS])
+- cmd: DISPLAY_PLAYER_OBJECTIVE([message number:NUMBER+],[player:KEEPER],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Same as DISPLAY_OBJECTIVE, but is only displayed for one player. Useful for multiplayer maps.
-  opts: 1
+  opts: 2
 
-- cmd: DISPLAY_PLAYER_OBJECTIVE_WITH_POS([message number:NUMBER+],[player:KEEPER],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE])
+- cmd: DISPLAY_PLAYER_OBJECTIVE_WITH_POS([message number:NUMBER+],[player:KEEPER],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Same as DISPLAY_OBJECTIVE_WITH_POS(#display_objective_with_pos), but is only displayed for one player. Useful for multiplayer maps.
-  opts: 1
+  opts: 2
 
-- cmd: DISPLAY_PLAYER_INFORMATION([message number:NUMBER+],[player:KEEPER],[zoom target:LOCATION/ALL_PLAYERS])
-  opts: 1
+- cmd: DISPLAY_PLAYER_INFORMATION([message number:NUMBER+],[player:KEEPER],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+  opts: 2
   doc: Same as DISPLAY_INFORMATION, but is only displayed for one player. Useful for multiplayer maps.
 
-- cmd: DISPLAY_PLAYER_INFORMATION_WITH_POS([message number:NUMBER+],[player:KEEPER],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE])
+- cmd: DISPLAY_PLAYER_INFORMATION_WITH_POS([message number:NUMBER+],[player:KEEPER],[zoom X coordinate:SUBTILE],[zoom Y coordinate:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Same as DISPLAY_INFORMATION_WITH_POS, but is only displayed for one player. Useful for multiplayer maps.
-
-- cmd: QUICK_PLAYER_OBJECTIVE([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS])
   opts: 1
+
+- cmd: QUICK_PLAYER_OBJECTIVE([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+  opts: 2
   doc: Same as QUICK_OBJECTIVE, but is only displayed for one player. Useful for multiplayer maps.
 
-- cmd: QUICK_PLAYER_OBJECTIVE_WITH_POS([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[x:SUBTILE],[y:SUBTILE])
+- cmd: QUICK_PLAYER_OBJECTIVE_WITH_POS([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[x:SUBTILE],[y:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Same as QUICK_OBJECTIVE_WITH_POS, but is only displayed for one player. Useful for multiplayer maps.
-
-- cmd: QUICK_PLAYER_INFORMATION([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS])
   opts: 1
+
+- cmd: QUICK_PLAYER_INFORMATION([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[zoom target:LOCATION/ALL_PLAYERS],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
+  opts: 2
   doc: Same as QUICK_INFORMATION, but is only displayed for one player. Useful for multiplayer maps.
 
-- cmd: QUICK_PLAYER_INFORMATION_WITH_POS([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[x:SUBTILE],[y:SUBTILE])
+- cmd: QUICK_PLAYER_INFORMATION_WITH_POS([message number:MSG_NUMBER],[player:KEEPER],[message:TEXT],[x:SUBTILE],[y:SUBTILE],[icon:NUMBER/PLAYER/ALL_PLAYERS/CREATURE/SPELL/CREATURE_SPELL/ROOM/POWER/ICON])
   doc: Works like QUICK_INFORMATION_WITH_POS, but is only displayed for one player. Useful for multiplayer maps.
+  opts: 1
 
 - cmd: COPY_CREATURE_TYPE([src creature name:CREATURE],[new creature name:UNKNOWN])
   doc: Copies an existing creature type, then adds it as a new creature type to the creature list.

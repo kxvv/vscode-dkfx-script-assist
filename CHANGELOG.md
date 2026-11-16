@@ -4,6 +4,10 @@ All notable changes to this extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.9.25] - 2026-11-16
+### Added
+-some ICON optional params
+
 ## [0.9.24] - 2026-09-12
 ### Added
 -TRIGGER_ACTION_POINT
